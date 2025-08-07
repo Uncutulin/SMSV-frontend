@@ -12,6 +12,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es">
+      <head>
+        <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+      </head>
       <body className={inter.className}>
         <div className="min-h-screen bg-gray-100">
           {children}
