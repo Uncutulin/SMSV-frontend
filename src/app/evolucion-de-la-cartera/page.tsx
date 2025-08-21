@@ -2,7 +2,7 @@
 import HighchartsChart from '@/components/dashboard/HighchartsChart';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 export default function EvolucionCartera() {
   const router = useRouter();
@@ -13,19 +13,255 @@ export default function EvolucionCartera() {
   const [showFilialesPasTable, setShowFilialesPasTable] = useState(false);
   const [rankingFilter, setRankingFilter] = useState<'con-art' | 'sin-art'>('con-art');
 
-  const handleVerClick = (compania: string) => {
-    console.log(`Ver detalles de ${compania}`);
-    if (compania === 'CAS') {
-      router.push('/cas-indicator');
-    } else if (compania === 'ASSA') {
-      router.push('/assa-indicator');
-    } else {
-      alert(`Ver detalles de ${compania}`);
-    }
+  // Estados para el filtro
+  const [selectedYear1, setSelectedYear1] = useState('2023');
+  const [selectedYear2, setSelectedYear2] = useState('2023');
+  const [selectedMonth1, setSelectedMonth1] = useState('06');
+  const [selectedMonth2, setSelectedMonth2] = useState('07');
+  const [filterApplied, setFilterApplied] = useState(false);
+
+  // useEffect para aplicar el filtro automáticamente
+  useEffect(() => {
+    setFilterApplied(true);
+  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+
+  // Función para obtener el nombre del mes
+  const getMonthName = (month: string) => {
+    const months = {
+      '01': 'Enero', '02': 'Febrero', '03': 'Marzo', '04': 'Abril',
+      '05': 'Mayo', '06': 'Junio', '07': 'Julio', '08': 'Agosto',
+      '09': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
+    };
+    return months[month as keyof typeof months] || month;
   };
 
-  // Datos de los indicadores
-  const indicadoresData = {
+  // Función para generar datos dinámicos basados en los filtros
+  const generateDynamicData = (year1: string, month1: string, year2: string, month2: string) => {
+    const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
+    const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
+    
+    return {
+      CAS: {
+        R12: {
+          [month1 + year1]: Math.round(1250000 * (1 + baseMultiplier)),
+          [month2 + year2]: Math.round(1320000 * (1 + comparisonMultiplier)),
+          crecimiento: Math.round(70000 * (1 + comparisonMultiplier - baseMultiplier)),
+          porcentaje: Math.round((5.6 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+        },
+        Q_POL: {
+          [month1 + year1]: Math.round(850 * (1 + baseMultiplier)),
+          [month2 + year2]: Math.round(920 * (1 + comparisonMultiplier)),
+          crecimiento: Math.round(70 * (1 + comparisonMultiplier - baseMultiplier)),
+          porcentaje: Math.round((8.2 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+        }
+      },
+      ASSA: {
+        R12: {
+          [month1 + year1]: Math.round(980000 * (1 + baseMultiplier)),
+          [month2 + year2]: Math.round(1050000 * (1 + comparisonMultiplier)),
+          crecimiento: Math.round(70000 * (1 + comparisonMultiplier - baseMultiplier)),
+          porcentaje: Math.round((7.1 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+        },
+        Q_POL: {
+          [month1 + year1]: Math.round(650 * (1 + baseMultiplier)),
+          [month2 + year2]: Math.round(720 * (1 + comparisonMultiplier)),
+          crecimiento: Math.round(70 * (1 + comparisonMultiplier - baseMultiplier)),
+          porcentaje: Math.round((10.8 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+        }
+      },
+      ART: {
+        R12: {
+          [month1 + year1]: Math.round(750000 * (1 + baseMultiplier)),
+          [month2 + year2]: Math.round(820000 * (1 + comparisonMultiplier)),
+          crecimiento: Math.round(70000 * (1 + comparisonMultiplier - baseMultiplier)),
+          porcentaje: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+        },
+        Q_POL: {
+          [month1 + year1]: Math.round(480 * (1 + baseMultiplier)),
+          [month2 + year2]: Math.round(550 * (1 + comparisonMultiplier)),
+          crecimiento: Math.round(70 * (1 + comparisonMultiplier - baseMultiplier)),
+          porcentaje: Math.round((14.6 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+        }
+      }
+    };
+  };
+
+  // Función para generar datos dinámicos para la tabla ASSA POR RIESGO
+  const generateAssaPorRiesgoData = (year1: string, month1: string, year2: string, month2: string) => {
+    const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
+    const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
+    
+    return [
+      {
+        riesgo: 'AP',
+        qPolizas1: Math.round(1245 * (1 + baseMultiplier)),
+        r12_1: Math.round(498000 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(1380 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(552000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(135 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(54000 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((10.8 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((10.8 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'AUTOMOTORES',
+        qPolizas1: Math.round(2156 * (1 + baseMultiplier)),
+        r12_1: Math.round(862400 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(2340 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(936000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(184 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(73600 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((8.5 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((8.5 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'RC',
+        qPolizas1: Math.round(890 * (1 + baseMultiplier)),
+        r12_1: Math.round(356000 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(945 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(378000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(55 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(22000 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((6.2 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((6.2 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'ROBO',
+        qPolizas1: Math.round(567 * (1 + baseMultiplier)),
+        r12_1: Math.round(226800 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(620 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(248000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(53 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(21200 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'INCENDIO',
+        qPolizas1: Math.round(1234 * (1 + baseMultiplier)),
+        r12_1: Math.round(493600 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(1350 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(540000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(116 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(46400 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((9.4 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((9.4 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      }
+    ];
+  };
+
+  // Función para generar datos dinámicos para la tabla CANAL FILIALES POR FILIAL
+  const generateFilialesData = (year1: string, month1: string, year2: string, month2: string) => {
+    const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
+    const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
+    
+    return [
+      {
+        filial: 'FILIAL NORTE',
+        qPolizas1: Math.round(456 * (1 + baseMultiplier)),
+        r12_1: Math.round(182400 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(520 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(208000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(64 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(25600 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((14.0 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((14.0 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        filial: 'FILIAL SUR',
+        qPolizas1: Math.round(789 * (1 + baseMultiplier)),
+        r12_1: Math.round(315600 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(850 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(340000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(61 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(24400 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((7.7 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((7.7 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        filial: 'FILIAL ESTE',
+        qPolizas1: Math.round(567 * (1 + baseMultiplier)),
+        r12_1: Math.round(226800 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(620 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(248000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(53 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(21200 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        filial: 'FILIAL OESTE',
+        qPolizas1: Math.round(890 * (1 + baseMultiplier)),
+        r12_1: Math.round(356000 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(945 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(378000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(55 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(22000 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((6.2 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((6.2 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      }
+    ];
+  };
+
+  // Función para generar datos dinámicos para la tabla CANAL PAS POR RIESGO
+  const generatePasData = (year1: string, month1: string, year2: string, month2: string) => {
+    const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
+    const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
+    
+    return [
+      {
+        riesgo: 'AP',
+        qPolizas1: Math.round(234 * (1 + baseMultiplier)),
+        r12_1: Math.round(93600 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(280 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(112000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(46 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(18400 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((19.7 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((19.7 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'AUTOMOTORES',
+        qPolizas1: Math.round(567 * (1 + baseMultiplier)),
+        r12_1: Math.round(226800 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(620 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(248000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(53 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(21200 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((9.3 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'RC',
+        qPolizas1: Math.round(345 * (1 + baseMultiplier)),
+        r12_1: Math.round(138000 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(380 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(152000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(35 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(14000 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((10.1 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((10.1 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      },
+      {
+        riesgo: 'ROBO',
+        qPolizas1: Math.round(123 * (1 + baseMultiplier)),
+        r12_1: Math.round(49200 * (1 + baseMultiplier)),
+        qPolizas2: Math.round(145 * (1 + comparisonMultiplier)),
+        r12_2: Math.round(58000 * (1 + comparisonMultiplier)),
+        crecimientoQPol: Math.round(22 * (1 + comparisonMultiplier - baseMultiplier)),
+        crecimientoR12: Math.round(8800 * (1 + comparisonMultiplier - baseMultiplier)),
+        porcentajeQPol: Math.round((17.9 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10,
+        porcentajeR12: Math.round((17.9 + (comparisonMultiplier - baseMultiplier) * 10) * 10) / 10
+      }
+    ];
+  };
+
+  // Datos dinámicos basados en el filtro
+  const indicadoresData = useMemo(() => {
+    if (filterApplied) {
+      return generateDynamicData(selectedYear1, selectedMonth1, selectedYear2, selectedMonth2);
+    } else {
+      return {
     CAS: {
       R12: {
         junio23: 1250000,
@@ -69,15 +305,71 @@ export default function EvolucionCartera() {
       }
     }
   };
+    }
+  }, [filterApplied, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+
+  // Datos dinámicos para la tabla ASSA POR RIESGO
+  const assaPorRiesgoData = useMemo(() => {
+    if (filterApplied) {
+      return generateAssaPorRiesgoData(selectedYear1, selectedMonth1, selectedYear2, selectedMonth2);
+    } else {
+      return generateAssaPorRiesgoData('2023', '06', '2023', '07');
+    }
+  }, [filterApplied, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+
+  // Datos dinámicos para la tabla CANAL FILIALES POR FILIAL
+  const filialesData = useMemo(() => {
+    if (filterApplied) {
+      return generateFilialesData(selectedYear1, selectedMonth1, selectedYear2, selectedMonth2);
+    } else {
+      return generateFilialesData('2023', '06', '2023', '07');
+    }
+  }, [filterApplied, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+
+  // Datos dinámicos para la tabla CANAL PAS POR RIESGO
+  const pasData = useMemo(() => {
+    if (filterApplied) {
+      return generatePasData(selectedYear1, selectedMonth1, selectedYear2, selectedMonth2);
+    } else {
+      return generatePasData('2023', '06', '2023', '07');
+    }
+  }, [filterApplied, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+
+
+
+  const handleVerClick = (compania: string) => {
+    console.log(`Ver detalles de ${compania}`);
+    if (compania === 'CAS') {
+      router.push('/cas-indicator');
+    } else if (compania === 'ASSA') {
+      router.push('/assa-indicator');
+    } else {
+      alert(`Ver detalles de ${compania}`);
+    }
+  };
 
   // Calcular total de prima
-  const totalPrima = 
-    indicadoresData.CAS.R12.julio23 + 
+  const totalPrima = useMemo(() => {
+    if (filterApplied) {
+      const period2Key = selectedMonth2 + selectedYear2;
+      return indicadoresData.CAS.R12[period2Key] + 
+             indicadoresData.ASSA.R12[period2Key] + 
+             indicadoresData.ART.R12[period2Key];
+    } else {
+      return indicadoresData.CAS.R12.julio23 + 
     indicadoresData.ASSA.R12.julio23 + 
     indicadoresData.ART.R12.julio23;
+    }
+  }, [indicadoresData, filterApplied, selectedMonth2, selectedYear2]);
 
   // Gráfico comparativo de R12 por compañía
-  const r12ChartData = {
+  const r12ChartData = useMemo(() => {
+    const period1Key = filterApplied ? selectedMonth1 + selectedYear1 : 'junio23';
+    const period2Key = filterApplied ? selectedMonth2 + selectedYear2 : 'julio23';
+    const period1Label = filterApplied ? `${getMonthName(selectedMonth1)} ${selectedYear1}` : 'Junio 23';
+    const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
+
+    return {
     chart: { type: 'column', height: 320 },
     xAxis: {
       categories: ['CAS', 'ASSA', 'ART'],
@@ -103,49 +395,61 @@ export default function EvolucionCartera() {
     },
     series: [
       { 
-        name: 'Julio 23', 
+          name: period2Label, 
         data: [
-          indicadoresData.CAS.R12.julio23,
-          indicadoresData.ASSA.R12.julio23,
-          indicadoresData.ART.R12.julio23
+            indicadoresData.CAS.R12[period2Key],
+            indicadoresData.ASSA.R12[period2Key],
+            indicadoresData.ART.R12[period2Key]
         ], 
-        color: '#567caa' 
+        color: '#004376' 
       },
       { 
-        name: 'Junio 23', 
+          name: period1Label, 
         data: [
-          indicadoresData.CAS.R12.junio23,
-          indicadoresData.ASSA.R12.junio23,
-          indicadoresData.ART.R12.junio23
+            indicadoresData.CAS.R12[period1Key],
+            indicadoresData.ASSA.R12[period1Key],
+            indicadoresData.ART.R12[period1Key]
         ], 
-        color: '#4ebeb0' 
+        color: '#007cc5' 
       },
     ],
     credits: { enabled: false },
   };
+  }, [indicadoresData, filterApplied, selectedMonth1, selectedYear1, selectedMonth2, selectedYear2]);
 
   // Gráfico de torta de Q PÓL por compañía
-  const qPolPieData = {
+  const qPolPieData = useMemo(() => {
+    const period2Key = filterApplied ? selectedMonth2 + selectedYear2 : 'julio23';
+    const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
+
+    return {
     chart: { type: 'pie', height: 320 },
     series: [
       {
-        name: 'Q PÓL Julio 23',
+          name: `Q PÓL ${period2Label}`,
         data: [
-          { name: 'CAS', y: indicadoresData.CAS.Q_POL.julio23, color: '#567caa' },
-          { name: 'ASSA', y: indicadoresData.ASSA.Q_POL.julio23, color: '#4ebeb0' },
-          { name: 'ART', y: indicadoresData.ART.Q_POL.julio23, color: '#fa9426' },
+            { name: 'CAS', y: indicadoresData.CAS.Q_POL[period2Key], color: '#004376' },
+            { name: 'ASSA', y: indicadoresData.ASSA.Q_POL[period2Key], color: '#007cc5' },
+            { name: 'ART', y: indicadoresData.ART.Q_POL[period2Key], color: '#74671f' },
         ],
       },
     ],
     credits: { enabled: false },
     legend: { enabled: true },
   };
+  }, [indicadoresData, filterApplied, selectedMonth2, selectedYear2]);
 
-  // Gráfico de evolución de R12 (Junio vs Julio)
-  const r12EvolutionData = {
+  // Gráfico de evolución de R12
+  const r12EvolutionData = useMemo(() => {
+    const period1Key = filterApplied ? selectedMonth1 + selectedYear1 : 'junio23';
+    const period2Key = filterApplied ? selectedMonth2 + selectedYear2 : 'julio23';
+    const period1Label = filterApplied ? `${getMonthName(selectedMonth1)} ${selectedYear1}` : 'Junio 23';
+    const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
+
+    return {
     chart: { type: 'line', height: 320 },
     xAxis: {
-      categories: ['Junio 23', 'Julio 23'],
+        categories: [period1Label, period2Label],
       title: { text: 'Período' },
     },
     yAxis: {
@@ -169,29 +473,145 @@ export default function EvolucionCartera() {
     series: [
       { 
         name: 'CAS', 
-        data: [indicadoresData.CAS.R12.junio23, indicadoresData.CAS.R12.julio23], 
-        color: '#567caa' 
+          data: [indicadoresData.CAS.R12[period1Key], indicadoresData.CAS.R12[period2Key]], 
+        color: '#004376' 
       },
       { 
         name: 'ASSA', 
-        data: [indicadoresData.ASSA.R12.junio23, indicadoresData.ASSA.R12.julio23], 
-        color: '#4ebeb0' 
+          data: [indicadoresData.ASSA.R12[period1Key], indicadoresData.ASSA.R12[period2Key]], 
+        color: '#007cc5' 
       },
       { 
         name: 'ART', 
-        data: [indicadoresData.ART.R12.junio23, indicadoresData.ART.R12.julio23], 
-        color: '#fa9426' 
+          data: [indicadoresData.ART.R12[period1Key], indicadoresData.ART.R12[period2Key]], 
+        color: '#74671f' 
       },
     ],
     credits: { enabled: false },
   };
+  }, [indicadoresData, filterApplied, selectedMonth1, selectedYear1, selectedMonth2, selectedYear2]);
+
+  // Obtener etiquetas de períodos para las tablas
+  const getPeriodLabels = () => {
+    if (filterApplied) {
+      return {
+        period1: `${getMonthName(selectedMonth1)} ${selectedYear1}`,
+        period2: `${getMonthName(selectedMonth2)} ${selectedYear2}`
+      };
+    } else {
+      return {
+        period1: 'Junio 23',
+        period2: 'Julio 23'
+      };
+    }
+  };
+
+  const periodLabels = getPeriodLabels();
+  const period1Key = filterApplied ? selectedMonth1 + selectedYear1 : 'junio23';
+  const period2Key = filterApplied ? selectedMonth2 + selectedYear2 : 'julio23';
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div className="text-center mt-10">
           <h1 className="text-3xl font-bold text-gray-900">EVOLUCIÓN DE CARTERA ASSA + CAS</h1>
-          <p className="text-gray-600 mt-2">Indicadores R12 y Q PÓL - Junio vs Julio 2023</p>
+          <p className="text-gray-600 mt-2">
+            Indicadores R12 y Q PÓL - {periodLabels.period1} vs {periodLabels.period2}
+          </p>
+        </div>
+
+        {/* Bloque de filtro */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro de Comparación</h3>
+          
+          <div className="flex flex-col md:flex-row gap-6 mb-6">
+            {/* Primera comparación */}
+            <div className="flex-1 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <h4 className="text-md font-medium text-blue-800 mb-3">Primera Fecha</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
+                  <select 
+                    value={selectedYear1}
+                    onChange={(e) => setSelectedYear1(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Mes</label>
+                  <select 
+                    value={selectedMonth1}
+                    onChange={(e) => setSelectedMonth1(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Separador visual */}
+            <div className="flex items-center justify-center">
+              <div className="hidden md:flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full">
+                <span className="text-sm font-bold text-gray-500">VS</span>
+              </div>
+            </div>
+
+            {/* Segunda comparación */}
+            <div className="flex-1 p-4 bg-green-50 rounded-lg border border-green-200">
+              <h4 className="text-md font-medium text-green-800 mb-3">Segunda Fecha</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
+                  <select 
+                    value={selectedYear2}
+                    onChange={(e) => setSelectedYear2(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Mes</label>
+                  <select 
+                    value={selectedMonth2}
+                    onChange={(e) => setSelectedMonth2(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+                     </div>
         </div>
 
         {/* Indicadores por compañía */}
@@ -202,7 +622,7 @@ export default function EvolucionCartera() {
               <h3 className="text-lg font-bold">CAS</h3>
               <button
                 onClick={() => handleVerClick('CAS')}
-                className="px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 bg-white text-blue-700 hover:bg-blue-50 flex items-center gap-2 border border-blue-300"
+                className="px-2 py-1 text-xs font-medium rounded-md transition-colors duration-200 bg-white text-blue-700 hover:bg-blue-50 flex items-center gap-1 border border-blue-300"
               >
                 <i className="fa-solid fa-eye"></i>
                 Ver
@@ -213,8 +633,8 @@ export default function EvolucionCartera() {
                 <thead>
                   <tr className="bg-blue-50">
                     <th className="px-2 py-2 text-left font-semibold text-blue-800 text-xs">Indicadores</th>
-                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">Junio 23</th>
-                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">Julio 23</th>
+                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">{periodLabels.period1}</th>
+                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">{periodLabels.period2}</th>
                     <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">Crec.</th>
                     <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">%</th>
                   </tr>
@@ -222,15 +642,15 @@ export default function EvolucionCartera() {
                 <tbody>
                   <tr className="bg-blue-100 border-b border-blue-200">
                     <td className="px-2 py-2 font-semibold text-blue-800 text-xs">R12</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12.junio23.toLocaleString('es-AR')}</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12.julio23.toLocaleString('es-AR')}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12[period1Key].toLocaleString('es-AR')}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12[period2Key].toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12.crecimiento.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.CAS.R12.porcentaje}%</td>
                   </tr>
                   <tr className="bg-blue-100 border-b border-blue-200">
                     <td className="px-2 py-2 font-semibold text-blue-800 text-xs">Q PÓL</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.CAS.Q_POL.junio23}</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.CAS.Q_POL.julio23}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.CAS.Q_POL[period1Key]}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.CAS.Q_POL[period2Key]}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">+{indicadoresData.CAS.Q_POL.crecimiento}</td>
                     <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.CAS.Q_POL.porcentaje}%</td>
                   </tr>
@@ -245,7 +665,7 @@ export default function EvolucionCartera() {
               <h3 className="text-lg font-bold">ASSA</h3>
               <button
                 onClick={() => handleVerClick('ASSA')}
-                className="px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 bg-white text-blue-700 hover:bg-blue-50 flex items-center gap-2 border border-blue-300"
+                className="px-2 py-1 text-xs font-medium rounded-md transition-colors duration-200 bg-white text-blue-700 hover:bg-blue-50 flex items-center gap-1 border border-blue-300"
               >
                 <i className="fa-solid fa-eye"></i>
                 Ver
@@ -256,8 +676,8 @@ export default function EvolucionCartera() {
                 <thead>
                   <tr className="bg-blue-50">
                     <th className="px-2 py-2 text-left font-semibold text-blue-800 text-xs">Indicadores</th>
-                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">Junio 23</th>
-                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">Julio 23</th>
+                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">{periodLabels.period1}</th>
+                    <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">{periodLabels.period2}</th>
                     <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">Crec.</th>
                     <th className="px-2 py-2 text-center font-semibold text-blue-800 text-xs">%</th>
                   </tr>
@@ -265,15 +685,15 @@ export default function EvolucionCartera() {
                 <tbody>
                   <tr className="bg-blue-100 border-b border-blue-200">
                     <td className="px-2 py-2 font-semibold text-blue-800 text-xs">R12</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12.junio23.toLocaleString('es-AR')}</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12.julio23.toLocaleString('es-AR')}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12[period1Key].toLocaleString('es-AR')}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12[period2Key].toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12.crecimiento.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ASSA.R12.porcentaje}%</td>
                   </tr>
                   <tr className="bg-blue-100 border-b border-blue-200">
                     <td className="px-2 py-2 font-semibold text-blue-800 text-xs">Q PÓL</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ASSA.Q_POL.junio23}</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ASSA.Q_POL.julio23}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ASSA.Q_POL[period1Key]}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ASSA.Q_POL[period2Key]}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">+{indicadoresData.ASSA.Q_POL.crecimiento}</td>
                     <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ASSA.Q_POL.porcentaje}%</td>
                   </tr>
@@ -292,8 +712,8 @@ export default function EvolucionCartera() {
                 <thead>
                   <tr className="bg-amber-50">
                     <th className="px-2 py-2 text-left font-semibold text-amber-800 text-xs">Indicadores</th>
-                    <th className="px-2 py-2 text-center font-semibold text-amber-800 text-xs">Junio 23</th>
-                    <th className="px-2 py-2 text-center font-semibold text-amber-800 text-xs">Julio 23</th>
+                    <th className="px-2 py-2 text-center font-semibold text-amber-800 text-xs">{periodLabels.period1}</th>
+                    <th className="px-2 py-2 text-center font-semibold text-amber-800 text-xs">{periodLabels.period2}</th>
                     <th className="px-2 py-2 text-center font-semibold text-amber-800 text-xs">Crec.</th>
                     <th className="px-2 py-2 text-center font-semibold text-amber-800 text-xs">%</th>
                   </tr>
@@ -301,15 +721,15 @@ export default function EvolucionCartera() {
                 <tbody>
                   <tr className="bg-amber-100 border-b border-amber-200">
                     <td className="px-2 py-2 font-semibold text-amber-800 text-xs">R12</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12.junio23.toLocaleString('es-AR')}</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12.julio23.toLocaleString('es-AR')}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12[period1Key].toLocaleString('es-AR')}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12[period2Key].toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12.crecimiento.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ART.R12.porcentaje}%</td>
                   </tr>
                   <tr className="bg-amber-100 border-b border-amber-200">
                     <td className="px-2 py-2 font-semibold text-amber-800 text-xs">Q PÓL</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ART.Q_POL.junio23}</td>
-                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ART.Q_POL.julio23}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ART.Q_POL[period1Key]}</td>
+                    <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ART.Q_POL[period2Key]}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">+{indicadoresData.ART.Q_POL.crecimiento}</td>
                     <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ART.Q_POL.porcentaje}%</td>
                   </tr>
@@ -334,7 +754,7 @@ export default function EvolucionCartera() {
         </div>
 
         {/* Botones de navegación */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           <button 
             onClick={() => {
               setShowAssaTable(false);
@@ -349,7 +769,7 @@ export default function EvolucionCartera() {
           </button>
           <button 
             onClick={() => {
-              setShowAssaTable(!showAssaTable);
+              setShowAssaTable(true);
               setShowFilialesTable(false);
               setShowPasTable(false);
               setShowCallCenterTable(false);
@@ -361,7 +781,7 @@ export default function EvolucionCartera() {
           </button>
           <button 
             onClick={() => {
-              setShowFilialesTable(!showFilialesTable);
+              setShowFilialesTable(true);
               setShowAssaTable(false);
               setShowPasTable(false);
               setShowCallCenterTable(false);
@@ -373,7 +793,7 @@ export default function EvolucionCartera() {
           </button>
           <button 
             onClick={() => {
-              setShowPasTable(!showPasTable);
+              setShowPasTable(true);
               setShowAssaTable(false);
               setShowFilialesTable(false);
               setShowCallCenterTable(false);
@@ -383,7 +803,7 @@ export default function EvolucionCartera() {
           >
             CANAL PAS POR RIESGO
           </button>
-          <button 
+          {/* <button 
             onClick={() => {
               setShowCallCenterTable(!showCallCenterTable);
               setShowAssaTable(false);
@@ -406,7 +826,7 @@ export default function EvolucionCartera() {
             className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md cursor-pointer"
           >
             FILIALES + PAS
-          </button>
+          </button> */}
         </div>
 
         <hr className="my-8 border-gray-300" />
@@ -421,9 +841,10 @@ export default function EvolucionCartera() {
                 <thead>
                   <tr className="bg-gray-800 text-white">
                     <th className="px-4 py-3 text-left font-bold">RIESGO</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>JUNIO 23</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>JULIO 23</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>{periodLabels.period1.toUpperCase()}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>{periodLabels.period2.toUpperCase()}</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={2}>CRECIMIENTO</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>% CREC.</th>
                   </tr>
                   <tr className="bg-blue-100">
                     <th className="px-4 py-2 text-left font-semibold text-blue-800">CANAL</th>
@@ -433,212 +854,41 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-2 text-center font-semibold text-blue-800">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-blue-800">Q PÓLIZAS</th>
                     <th className="px-4 py-2 text-center font-semibold text-blue-800">R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-blue-800">Q PÓLIZAS</th>
+                    <th className="px-4 py-2 text-center font-semibold text-blue-800">R12</th>
                   </tr>
                 </thead>
-                                 <tbody>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">AP</td>
-                     <td className="px-4 py-2 text-center text-red-600">1,245</td>
-                     <td className="px-4 py-2 text-center">$ 498,000</td>
-                     <td className="px-4 py-2 text-center text-red-600">1,380</td>
-                     <td className="px-4 py-2 text-center">$ 552,000</td>
-                     <td className="px-4 py-2 text-center">+135</td>
-                     <td className="px-4 py-2 text-center">+$ 54,000</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">AUTOMOTORES</td>
-                     <td className="px-4 py-2 text-center text-red-600">2,156</td>
-                     <td className="px-4 py-2 text-center">$ 862,400</td>
-                     <td className="px-4 py-2 text-center text-red-600">2,340</td>
-                     <td className="px-4 py-2 text-center">$ 936,000</td>
-                     <td className="px-4 py-2 text-center">+184</td>
-                     <td className="px-4 py-2 text-center">+$ 73,600</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">RC</td>
-                     <td className="px-4 py-2 text-center text-red-600">890</td>
-                     <td className="px-4 py-2 text-center">$ 356,000</td>
-                     <td className="px-4 py-2 text-center text-red-600">945</td>
-                     <td className="px-4 py-2 text-center">$ 378,000</td>
-                     <td className="px-4 py-2 text-center">+55</td>
-                     <td className="px-4 py-2 text-center">+$ 22,000</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">ROBO</td>
-                     <td className="px-4 py-2 text-center text-red-600">567</td>
-                     <td className="px-4 py-2 text-center">$ 226,800</td>
-                     <td className="px-4 py-2 text-center text-red-600">612</td>
-                     <td className="px-4 py-2 text-center">$ 244,800</td>
-                     <td className="px-4 py-2 text-center">+45</td>
-                     <td className="px-4 py-2 text-center">+$ 18,000</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">SALUD</td>
-                     <td className="px-4 py-2 text-center text-red-600">1,789</td>
-                     <td className="px-4 py-2 text-center">$ 715,600</td>
-                     <td className="px-4 py-2 text-center text-red-600">1,890</td>
-                     <td className="px-4 py-2 text-center">$ 756,000</td>
-                     <td className="px-4 py-2 text-center">+101</td>
-                     <td className="px-4 py-2 text-center">+$ 40,400</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">COMBINADO FAMILIAR</td>
-                     <td className="px-4 py-2 text-center text-red-600">2,345</td>
-                     <td className="px-4 py-2 text-center">$ 938,000</td>
-                     <td className="px-4 py-2 text-center text-red-600">2,520</td>
-                     <td className="px-4 py-2 text-center">$ 1,008,000</td>
-                     <td className="px-4 py-2 text-center">+175</td>
-                     <td className="px-4 py-2 text-center">+$ 70,000</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">VIDA OBLIGATORIO</td>
-                     <td className="px-4 py-2 text-center text-red-600">3,456</td>
-                     <td className="px-4 py-2 text-center">$ 1,382,400</td>
-                     <td className="px-4 py-2 text-center text-red-600">3,680</td>
-                     <td className="px-4 py-2 text-center">$ 1,472,000</td>
-                     <td className="px-4 py-2 text-center">+224</td>
-                     <td className="px-4 py-2 text-center">+$ 89,600</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL</td>
-                     <td className="px-4 py-2 text-center text-red-600">1,234</td>
-                     <td className="px-4 py-2 text-center">$ 493,600</td>
-                     <td className="px-4 py-2 text-center text-red-600">1,320</td>
-                     <td className="px-4 py-2 text-center">$ 528,000</td>
-                     <td className="px-4 py-2 text-center">+86</td>
-                     <td className="px-4 py-2 text-center">+$ 34,400</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">INCENDIO</td>
-                     <td className="px-4 py-2 text-center text-red-600">678</td>
-                     <td className="px-4 py-2 text-center">$ 271,200</td>
-                     <td className="px-4 py-2 text-center text-red-600">720</td>
-                     <td className="px-4 py-2 text-center">$ 288,000</td>
-                     <td className="px-4 py-2 text-center">+42</td>
-                     <td className="px-4 py-2 text-center">+$ 16,800</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">INT. COMERCIO</td>
-                     <td className="px-4 py-2 text-center text-red-600">445</td>
-                     <td className="px-4 py-2 text-center">$ 178,000</td>
-                     <td className="px-4 py-2 text-center text-red-600">480</td>
-                     <td className="px-4 py-2 text-center">$ 192,000</td>
-                     <td className="px-4 py-2 text-center">+35</td>
-                     <td className="px-4 py-2 text-center">+$ 14,000</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">PRAXIS</td>
-                     <td className="px-4 py-2 text-center text-red-600">789</td>
-                     <td className="px-4 py-2 text-center">$ 315,600</td>
-                     <td className="px-4 py-2 text-center text-red-600">840</td>
-                     <td className="px-4 py-2 text-center">$ 336,000</td>
-                     <td className="px-4 py-2 text-center">+51</td>
-                     <td className="px-4 py-2 text-center">+$ 20,400</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">INT. CONSORCIO</td>
-                     <td className="px-4 py-2 text-center text-red-600">234</td>
-                     <td className="px-4 py-2 text-center">$ 93,600</td>
-                     <td className="px-4 py-2 text-center text-red-600">255</td>
-                     <td className="px-4 py-2 text-center">$ 102,000</td>
-                     <td className="px-4 py-2 text-center">+21</td>
-                     <td className="px-4 py-2 text-center">+$ 8,400</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">SEGURO TÉCNICO</td>
-                     <td className="px-4 py-2 text-center text-red-600">123</td>
-                     <td className="px-4 py-2 text-center">$ 49,200</td>
-                     <td className="px-4 py-2 text-center text-red-600">135</td>
-                     <td className="px-4 py-2 text-center">$ 54,000</td>
-                     <td className="px-4 py-2 text-center">+12</td>
-                     <td className="px-4 py-2 text-center">+$ 4,800</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">SEPELIO INDIVIDUAL</td>
-                     <td className="px-4 py-2 text-center text-red-600">456</td>
-                     <td className="px-4 py-2 text-center">$ 182,400</td>
-                     <td className="px-4 py-2 text-center text-red-600">480</td>
-                     <td className="px-4 py-2 text-center">$ 192,000</td>
-                     <td className="px-4 py-2 text-center">+24</td>
-                     <td className="px-4 py-2 text-center">+$ 9,600</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">AERONAVEGACIÓN</td>
-                     <td className="px-4 py-2 text-center text-red-600">67</td>
-                     <td className="px-4 py-2 text-center">$ 26,800</td>
-                     <td className="px-4 py-2 text-center text-red-600">72</td>
-                     <td className="px-4 py-2 text-center">$ 28,800</td>
-                     <td className="px-4 py-2 text-center">+5</td>
-                     <td className="px-4 py-2 text-center">+$ 2,000</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">CASCOS</td>
-                     <td className="px-4 py-2 text-center text-red-600">89</td>
-                     <td className="px-4 py-2 text-center">$ 35,600</td>
-                     <td className="px-4 py-2 text-center text-red-600">96</td>
-                     <td className="px-4 py-2 text-center">$ 38,400</td>
-                     <td className="px-4 py-2 text-center">+7</td>
-                     <td className="px-4 py-2 text-center">+$ 2,800</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO</td>
-                     <td className="px-4 py-2 text-center text-red-600">567</td>
-                     <td className="px-4 py-2 text-center">$ 226,800</td>
-                     <td className="px-4 py-2 text-center text-red-600">600</td>
-                     <td className="px-4 py-2 text-center">$ 240,000</td>
-                     <td className="px-4 py-2 text-center">+33</td>
-                     <td className="px-4 py-2 text-center">+$ 13,200</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">TRANSPORTES</td>
-                     <td className="px-4 py-2 text-center text-red-600">234</td>
-                     <td className="px-4 py-2 text-center">$ 93,600</td>
-                     <td className="px-4 py-2 text-center text-red-600">252</td>
-                     <td className="px-4 py-2 text-center">$ 100,800</td>
-                     <td className="px-4 py-2 text-center">+18</td>
-                     <td className="px-4 py-2 text-center">+$ 7,200</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">CAUCIÓN</td>
-                     <td className="px-4 py-2 text-center text-red-600">123</td>
-                     <td className="px-4 py-2 text-center">$ 49,200</td>
-                     <td className="px-4 py-2 text-center text-red-600">132</td>
-                     <td className="px-4 py-2 text-center">$ 52,800</td>
-                     <td className="px-4 py-2 text-center">+9</td>
-                     <td className="px-4 py-2 text-center">+$ 3,600</td>
-                   </tr>
-                   <tr className="bg-gray-50 border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">RS. VS.</td>
-                     <td className="px-4 py-2 text-center text-red-600">345</td>
-                     <td className="px-4 py-2 text-center">$ 138,000</td>
-                     <td className="px-4 py-2 text-center text-red-600">372</td>
-                     <td className="px-4 py-2 text-center">$ 148,800</td>
-                     <td className="px-4 py-2 text-center">+27</td>
-                     <td className="px-4 py-2 text-center">+$ 10,800</td>
-                   </tr>
-                   <tr className="bg-white border-b">
-                     <td className="px-4 py-2 font-medium text-gray-900">MOTOS</td>
-                     <td className="px-4 py-2 text-center text-red-600">678</td>
-                     <td className="px-4 py-2 text-center">$ 271,200</td>
-                     <td className="px-4 py-2 text-center text-red-600">720</td>
-                     <td className="px-4 py-2 text-center">$ 288,000</td>
-                     <td className="px-4 py-2 text-center">+42</td>
-                     <td className="px-4 py-2 text-center">+$ 16,800</td>
-                   </tr>
-                   <tr className="bg-blue-100 font-bold">
-                     <td className="px-4 py-3 text-gray-900">Total general</td>
-                     <td className="px-4 py-3 text-center text-gray-900">16,987</td>
-                     <td className="px-4 py-3 text-center text-gray-900">$ 6,794,800</td>
-                     <td className="px-4 py-3 text-center text-gray-900">18,240</td>
-                     <td className="px-4 py-3 text-center text-gray-900">$ 7,296,000</td>
-                     <td className="px-4 py-3 text-center text-gray-900">+1,253</td>
-                     <td className="px-4 py-3 text-center text-gray-900">+$ 501,200</td>
-                   </tr>
-                 </tbody>
+                <tbody>
+                  {assaPorRiesgoData.map((item, index) => (
+                    <tr key={index} className={index % 2 === 0 ? "bg-white border-b" : "bg-gray-50 border-b"}>
+                      <td className="px-4 py-2 font-medium text-gray-900">{item.riesgo}</td>
+                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">$ {(item.r12_1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">$ {(item.r12_2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">+{(item.crecimientoQPol || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">+$ {(item.crecimientoR12 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-blue-800 text-white font-bold">
+                    <td className="px-4 py-2">TOTAL</td>
+                    <td className="px-4 py-2 text-center">{assaPorRiesgoData.reduce((sum, item) => sum + (item.qPolizas1 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">$ {assaPorRiesgoData.reduce((sum, item) => sum + (item.r12_1 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">{assaPorRiesgoData.reduce((sum, item) => sum + (item.qPolizas2 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">$ {assaPorRiesgoData.reduce((sum, item) => sum + (item.r12_2 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{assaPorRiesgoData.reduce((sum, item) => sum + (item.crecimientoQPol || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+$ {assaPorRiesgoData.reduce((sum, item) => sum + (item.crecimientoR12 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{(assaPorRiesgoData.reduce((sum, item) => sum + (item.porcentajeQPol || 0), 0) / assaPorRiesgoData.length).toFixed(1)}%</td>
+                    <td className="px-4 py-2 text-center">+{(assaPorRiesgoData.reduce((sum, item) => sum + (item.porcentajeR12 || 0), 0) / assaPorRiesgoData.length).toFixed(1)}%</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
-        ) : showFilialesTable ? (
+        ) : null}
+        {showFilialesTable ? (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="bg-green-600 text-white px-4 py-3 font-semibold">
               CANAL FILIALES POR FILIAL
@@ -648,9 +898,10 @@ export default function EvolucionCartera() {
                 <thead>
                   <tr className="bg-gray-800 text-white">
                     <th className="px-4 py-3 text-left font-bold">FILIAL</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>JUNIO 23</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>JULIO 23</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>{periodLabels.period1.toUpperCase()}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>{periodLabels.period2.toUpperCase()}</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={2}>CRECIMIENTO</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>% CREC.</th>
                   </tr>
                   <tr className="bg-green-100">
                     <th className="px-4 py-2 text-left font-semibold text-green-800">CANAL</th>
@@ -660,212 +911,41 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-2 text-center font-semibold text-green-800">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-green-800">Q PÓLIZAS</th>
                     <th className="px-4 py-2 text-center font-semibold text-green-800">R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-green-800">Q PÓLIZAS</th>
+                    <th className="px-4 py-2 text-center font-semibold text-green-800">R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL BAHIA BLANCA / PUNTA ALTA</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,245</td>
-                    <td className="px-4 py-2 text-center">$ 498,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,380</td>
-                    <td className="px-4 py-2 text-center">$ 552,000</td>
-                    <td className="px-4 py-2 text-center">+135</td>
-                    <td className="px-4 py-2 text-center">+$ 54,000</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL CORDOBA</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,156</td>
-                    <td className="px-4 py-2 text-center">$ 862,400</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,340</td>
-                    <td className="px-4 py-2 text-center">$ 936,000</td>
-                    <td className="px-4 py-2 text-center">+184</td>
-                    <td className="px-4 py-2 text-center">+$ 73,600</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL EL PALOMAR</td>
-                    <td className="px-4 py-2 text-center text-red-600">890</td>
-                    <td className="px-4 py-2 text-center">$ 356,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">945</td>
-                    <td className="px-4 py-2 text-center">$ 378,000</td>
-                    <td className="px-4 py-2 text-center">+55</td>
-                    <td className="px-4 py-2 text-center">+$ 22,000</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL CAMPO DE MAYO</td>
-                    <td className="px-4 py-2 text-center text-red-600">567</td>
-                    <td className="px-4 py-2 text-center">$ 226,800</td>
-                    <td className="px-4 py-2 text-center text-red-600">612</td>
-                    <td className="px-4 py-2 text-center">$ 244,800</td>
-                    <td className="px-4 py-2 text-center">+45</td>
-                    <td className="px-4 py-2 text-center">+$ 18,000</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL LIBERTADOR</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,789</td>
-                    <td className="px-4 py-2 text-center">$ 715,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,890</td>
-                    <td className="px-4 py-2 text-center">$ 756,000</td>
-                    <td className="px-4 py-2 text-center">+101</td>
-                    <td className="px-4 py-2 text-center">+$ 40,400</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL MORON</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,345</td>
-                    <td className="px-4 py-2 text-center">$ 938,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,520</td>
-                    <td className="px-4 py-2 text-center">$ 1,008,000</td>
-                    <td className="px-4 py-2 text-center">+175</td>
-                    <td className="px-4 py-2 text-center">+$ 70,000</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL PALERMO</td>
-                    <td className="px-4 py-2 text-center text-red-600">3,456</td>
-                    <td className="px-4 py-2 text-center">$ 1,382,400</td>
-                    <td className="px-4 py-2 text-center text-red-600">3,680</td>
-                    <td className="px-4 py-2 text-center">$ 1,472,000</td>
-                    <td className="px-4 py-2 text-center">+224</td>
-                    <td className="px-4 py-2 text-center">+$ 89,600</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL ROSARIO</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,234</td>
-                    <td className="px-4 py-2 text-center">$ 493,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,320</td>
-                    <td className="px-4 py-2 text-center">$ 528,000</td>
-                    <td className="px-4 py-2 text-center">+86</td>
-                    <td className="px-4 py-2 text-center">+$ 34,400</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL MONTSERRAT</td>
-                    <td className="px-4 py-2 text-center text-red-600">678</td>
-                    <td className="px-4 py-2 text-center">$ 271,200</td>
-                    <td className="px-4 py-2 text-center text-red-600">720</td>
-                    <td className="px-4 py-2 text-center">$ 288,000</td>
-                    <td className="px-4 py-2 text-center">+42</td>
-                    <td className="px-4 py-2 text-center">+$ 16,800</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL PARANA</td>
-                    <td className="px-4 py-2 text-center text-red-600">445</td>
-                    <td className="px-4 py-2 text-center">$ 178,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">480</td>
-                    <td className="px-4 py-2 text-center">$ 192,000</td>
-                    <td className="px-4 py-2 text-center">+35</td>
-                    <td className="px-4 py-2 text-center">+$ 14,000</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL LIBERTAD</td>
-                    <td className="px-4 py-2 text-center text-red-600">789</td>
-                    <td className="px-4 py-2 text-center">$ 315,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">840</td>
-                    <td className="px-4 py-2 text-center">$ 336,000</td>
-                    <td className="px-4 py-2 text-center">+51</td>
-                    <td className="px-4 py-2 text-center">+$ 20,400</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL CORRIENTES</td>
-                    <td className="px-4 py-2 text-center text-red-600">234</td>
-                    <td className="px-4 py-2 text-center">$ 93,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">255</td>
-                    <td className="px-4 py-2 text-center">$ 102,000</td>
-                    <td className="px-4 py-2 text-center">+21</td>
-                    <td className="px-4 py-2 text-center">+$ 8,400</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL LA PLATA</td>
-                    <td className="px-4 py-2 text-center text-red-600">123</td>
-                    <td className="px-4 py-2 text-center">$ 49,200</td>
-                    <td className="px-4 py-2 text-center text-red-600">135</td>
-                    <td className="px-4 py-2 text-center">$ 54,000</td>
-                    <td className="px-4 py-2 text-center">+12</td>
-                    <td className="px-4 py-2 text-center">+$ 4,800</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL CENTINELA / GUARDACOSTAS</td>
-                    <td className="px-4 py-2 text-center text-red-600">456</td>
-                    <td className="px-4 py-2 text-center">$ 182,400</td>
-                    <td className="px-4 py-2 text-center text-red-600">480</td>
-                    <td className="px-4 py-2 text-center">$ 192,000</td>
-                    <td className="px-4 py-2 text-center">+24</td>
-                    <td className="px-4 py-2 text-center">+$ 9,600</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL CONDOR</td>
-                    <td className="px-4 py-2 text-center text-red-600">67</td>
-                    <td className="px-4 py-2 text-center">$ 26,800</td>
-                    <td className="px-4 py-2 text-center text-red-600">72</td>
-                    <td className="px-4 py-2 text-center">$ 28,800</td>
-                    <td className="px-4 py-2 text-center">+5</td>
-                    <td className="px-4 py-2 text-center">+$ 2,000</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL OLIVOS</td>
-                    <td className="px-4 py-2 text-center text-red-600">89</td>
-                    <td className="px-4 py-2 text-center">$ 35,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">96</td>
-                    <td className="px-4 py-2 text-center">$ 38,400</td>
-                    <td className="px-4 py-2 text-center">+7</td>
-                    <td className="px-4 py-2 text-center">+$ 2,800</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL NEUQUEN</td>
-                    <td className="px-4 py-2 text-center text-red-600">567</td>
-                    <td className="px-4 py-2 text-center">$ 226,800</td>
-                    <td className="px-4 py-2 text-center text-red-600">600</td>
-                    <td className="px-4 py-2 text-center">$ 240,000</td>
-                    <td className="px-4 py-2 text-center">+33</td>
-                    <td className="px-4 py-2 text-center">+$ 13,200</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL SALTA</td>
-                    <td className="px-4 py-2 text-center text-red-600">234</td>
-                    <td className="px-4 py-2 text-center">$ 93,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">252</td>
-                    <td className="px-4 py-2 text-center">$ 100,800</td>
-                    <td className="px-4 py-2 text-center">+18</td>
-                    <td className="px-4 py-2 text-center">+$ 7,200</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL MENDOZA</td>
-                    <td className="px-4 py-2 text-center text-red-600">123</td>
-                    <td className="px-4 py-2 text-center">$ 49,200</td>
-                    <td className="px-4 py-2 text-center text-red-600">132</td>
-                    <td className="px-4 py-2 text-center">$ 52,800</td>
-                    <td className="px-4 py-2 text-center">+9</td>
-                    <td className="px-4 py-2 text-center">+$ 3,600</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL LOMAS DE ZAMORA</td>
-                    <td className="px-4 py-2 text-center text-red-600">345</td>
-                    <td className="px-4 py-2 text-center">$ 138,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">372</td>
-                    <td className="px-4 py-2 text-center">$ 148,800</td>
-                    <td className="px-4 py-2 text-center">+27</td>
-                    <td className="px-4 py-2 text-center">+$ 10,800</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FILIAL MAR DEL PLATA</td>
-                    <td className="px-4 py-2 text-center text-red-600">678</td>
-                    <td className="px-4 py-2 text-center">$ 271,200</td>
-                    <td className="px-4 py-2 text-center text-red-600">720</td>
-                    <td className="px-4 py-2 text-center">$ 288,000</td>
-                    <td className="px-4 py-2 text-center">+42</td>
-                    <td className="px-4 py-2 text-center">+$ 16,800</td>
-                  </tr>
-                  <tr className="bg-green-100 font-bold">
-                    <td className="px-4 py-3 text-gray-900">TOTAL CANAL FILIALES</td>
-                    <td className="px-4 py-3 text-center text-gray-900">16,987</td>
-                    <td className="px-4 py-3 text-center text-gray-900">$ 6,794,800</td>
-                    <td className="px-4 py-3 text-center text-gray-900">18,240</td>
-                    <td className="px-4 py-3 text-center text-gray-900">$ 7,296,000</td>
-                    <td className="px-4 py-3 text-center text-gray-900">+1,253</td>
-                    <td className="px-4 py-3 text-center text-gray-900">+$ 501,200</td>
+                  {filialesData.map((item, index) => (
+                    <tr key={index} className={index % 2 === 0 ? "bg-white border-b" : "bg-gray-50 border-b"}>
+                      <td className="px-4 py-2 font-medium text-gray-900">{item.filial}</td>
+                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">$ {(item.r12_1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">$ {(item.r12_2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">+{(item.crecimientoQPol || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">+$ {(item.crecimientoR12 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-green-800 text-white font-bold">
+                    <td className="px-4 py-2">TOTAL</td>
+                    <td className="px-4 py-2 text-center">{filialesData.reduce((sum, item) => sum + (item.qPolizas1 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">$ {filialesData.reduce((sum, item) => sum + (item.r12_1 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">{filialesData.reduce((sum, item) => sum + (item.qPolizas2 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">$ {filialesData.reduce((sum, item) => sum + (item.r12_2 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{filialesData.reduce((sum, item) => sum + (item.crecimientoQPol || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+$ {filialesData.reduce((sum, item) => sum + (item.crecimientoR12 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{(filialesData.reduce((sum, item) => sum + (item.porcentajeQPol || 0), 0) / filialesData.length).toFixed(1)}%</td>
+                    <td className="px-4 py-2 text-center">+{(filialesData.reduce((sum, item) => sum + (item.porcentajeR12 || 0), 0) / filialesData.length).toFixed(1)}%</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-        ) : showPasTable ? (
+        ) : null}
+        {showPasTable ? (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="bg-purple-600 text-white px-4 py-3 font-semibold">
               CANAL PAS POR RIESGO
@@ -875,9 +955,10 @@ export default function EvolucionCartera() {
                 <thead>
                   <tr className="bg-gray-800 text-white">
                     <th className="px-4 py-3 text-left font-bold">RIESGO</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>JUNIO 23</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>JULIO 23</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>{periodLabels.period1.toUpperCase()}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>{periodLabels.period2.toUpperCase()}</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={2}>CRECIMIENTO</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>% CREC.</th>
                   </tr>
                   <tr className="bg-purple-100">
                     <th className="px-4 py-2 text-left font-semibold text-purple-800">CANAL</th>
@@ -887,122 +968,41 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-2 text-center font-semibold text-purple-800">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-purple-800">Q PÓLIZAS</th>
                     <th className="px-4 py-2 text-center font-semibold text-purple-800">R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-purple-800">Q PÓLIZAS</th>
+                    <th className="px-4 py-2 text-center font-semibold text-purple-800">R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AUTOMOTORES</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,245</td>
-                    <td className="px-4 py-2 text-center">$ 498,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,380</td>
-                    <td className="px-4 py-2 text-center">$ 552,000</td>
-                    <td className="px-4 py-2 text-center">+135</td>
-                    <td className="px-4 py-2 text-center">+$ 54,000</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">HOGAR</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,156</td>
-                    <td className="px-4 py-2 text-center">$ 862,400</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,340</td>
-                    <td className="px-4 py-2 text-center">$ 936,000</td>
-                    <td className="px-4 py-2 text-center">+184</td>
-                    <td className="px-4 py-2 text-center">+$ 73,600</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">COMERCIO</td>
-                    <td className="px-4 py-2 text-center text-red-600">890</td>
-                    <td className="px-4 py-2 text-center">$ 356,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">945</td>
-                    <td className="px-4 py-2 text-center">$ 378,000</td>
-                    <td className="px-4 py-2 text-center">+55</td>
-                    <td className="px-4 py-2 text-center">+$ 22,000</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RESPONSABILIDAD CIVIL</td>
-                    <td className="px-4 py-2 text-center text-red-600">567</td>
-                    <td className="px-4 py-2 text-center">$ 226,800</td>
-                    <td className="px-4 py-2 text-center text-red-600">612</td>
-                    <td className="px-4 py-2 text-center">$ 244,800</td>
-                    <td className="px-4 py-2 text-center">+45</td>
-                    <td className="px-4 py-2 text-center">+$ 18,000</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,789</td>
-                    <td className="px-4 py-2 text-center">$ 715,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,890</td>
-                    <td className="px-4 py-2 text-center">$ 756,000</td>
-                    <td className="px-4 py-2 text-center">+101</td>
-                    <td className="px-4 py-2 text-center">+$ 40,400</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ACCIDENTES PERSONALES</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,345</td>
-                    <td className="px-4 py-2 text-center">$ 938,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">2,520</td>
-                    <td className="px-4 py-2 text-center">$ 1,008,000</td>
-                    <td className="px-4 py-2 text-center">+175</td>
-                    <td className="px-4 py-2 text-center">+$ 70,000</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">TRANSPORTE</td>
-                    <td className="px-4 py-2 text-center text-red-600">3,456</td>
-                    <td className="px-4 py-2 text-center">$ 1,382,400</td>
-                    <td className="px-4 py-2 text-center text-red-600">3,680</td>
-                    <td className="px-4 py-2 text-center">$ 1,472,000</td>
-                    <td className="px-4 py-2 text-center">+224</td>
-                    <td className="px-4 py-2 text-center">+$ 89,600</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AGRICOLA</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,234</td>
-                    <td className="px-4 py-2 text-center">$ 493,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">1,320</td>
-                    <td className="px-4 py-2 text-center">$ 528,000</td>
-                    <td className="px-4 py-2 text-center">+86</td>
-                    <td className="px-4 py-2 text-center">+$ 34,400</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INDUSTRIAL</td>
-                    <td className="px-4 py-2 text-center text-red-600">678</td>
-                    <td className="px-4 py-2 text-center">$ 271,200</td>
-                    <td className="px-4 py-2 text-center text-red-600">720</td>
-                    <td className="px-4 py-2 text-center">$ 288,000</td>
-                    <td className="px-4 py-2 text-center">+42</td>
-                    <td className="px-4 py-2 text-center">+$ 16,800</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SALUD</td>
-                    <td className="px-4 py-2 text-center text-red-600">445</td>
-                    <td className="px-4 py-2 text-center">$ 178,000</td>
-                    <td className="px-4 py-2 text-center text-red-600">480</td>
-                    <td className="px-4 py-2 text-center">$ 192,000</td>
-                    <td className="px-4 py-2 text-center">+35</td>
-                    <td className="px-4 py-2 text-center">+$ 14,000</td>
-                  </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">TECNICO</td>
-                    <td className="px-4 py-2 text-center text-red-600">789</td>
-                    <td className="px-4 py-2 text-center">$ 315,600</td>
-                    <td className="px-4 py-2 text-center text-red-600">840</td>
-                    <td className="px-4 py-2 text-center">$ 336,000</td>
-                    <td className="px-4 py-2 text-center">+51</td>
-                    <td className="px-4 py-2 text-center">+$ 20,400</td>
-                  </tr>
-                  <tr className="bg-purple-100 font-bold">
-                    <td className="px-4 py-3 text-gray-900">TOTAL CANAL PAS</td>
-                    <td className="px-4 py-3 text-center text-gray-900">16,987</td>
-                    <td className="px-4 py-3 text-center text-gray-900">$ 6,794,800</td>
-                    <td className="px-4 py-3 text-center text-gray-900">18,240</td>
-                    <td className="px-4 py-3 text-center text-gray-900">$ 7,296,000</td>
-                    <td className="px-4 py-3 text-center text-gray-900">+1,253</td>
-                    <td className="px-4 py-3 text-center text-gray-900">+$ 501,200</td>
+                  {pasData.map((item, index) => (
+                    <tr key={index} className={index % 2 === 0 ? "bg-white border-b" : "bg-gray-50 border-b"}>
+                      <td className="px-4 py-2 font-medium text-gray-900">{item.riesgo}</td>
+                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">$ {(item.r12_1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">$ {(item.r12_2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">+{(item.crecimientoQPol || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center">+$ {(item.crecimientoR12 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-purple-800 text-white font-bold">
+                    <td className="px-4 py-2">TOTAL</td>
+                    <td className="px-4 py-2 text-center">{pasData.reduce((sum, item) => sum + (item.qPolizas1 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">$ {pasData.reduce((sum, item) => sum + (item.r12_1 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">{pasData.reduce((sum, item) => sum + (item.qPolizas2 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">$ {pasData.reduce((sum, item) => sum + (item.r12_2 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{pasData.reduce((sum, item) => sum + (item.crecimientoQPol || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+$ {pasData.reduce((sum, item) => sum + (item.crecimientoR12 || 0), 0).toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{(pasData.reduce((sum, item) => sum + (item.porcentajeQPol || 0), 0) / pasData.length).toFixed(1)}%</td>
+                    <td className="px-4 py-2 text-center">+{(pasData.reduce((sum, item) => sum + (item.porcentajeR12 || 0), 0) / pasData.length).toFixed(1)}%</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-        ) : showCallCenterTable ? (
+        ) : null}
+        {showCallCenterTable ? (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="bg-orange-600 text-white px-4 py-3 font-semibold">
               Evolución de Ventas Brutas por Ramo
@@ -1362,20 +1362,20 @@ export default function EvolucionCartera() {
               </table>
             </div>
           </div>
-        ) : (
+        ) : (!showAssaTable && !showFilialesTable && !showPasTable && !showCallCenterTable && !showFilialesPasTable) ? (
           <>
             {/* Gráficos comparativos */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <HighchartsChart
                 id="comparativo-r12"
                 type="column"
-                title="Comparativa R12 - Junio vs Julio 2023"
+                title={`Comparativa R12 - ${periodLabels.period1} vs ${periodLabels.period2}`}
                 data={r12ChartData}
               />
               <HighchartsChart
                 id="torta-q-pol"
                 type="pie"
-                title="Distribución Q PÓL Julio 2023"
+                title={`Distribución Q PÓL ${periodLabels.period2}`}
                 data={qPolPieData}
               />
             </div>
@@ -1385,12 +1385,12 @@ export default function EvolucionCartera() {
               <HighchartsChart
                 id="evolucion-r12"
                 type="line"
-                title="Evolución R12 - Junio vs Julio 2023"
+                title={`Evolución R12 - ${periodLabels.period1} vs ${periodLabels.period2}`}
                 data={r12EvolutionData}
               />
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </DashboardLayout>
   );

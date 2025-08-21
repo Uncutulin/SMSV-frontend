@@ -120,7 +120,7 @@ export default function Comparativa() {
           indicadoresData.ASSA.R12.julio23,
           indicadoresData.ART.R12.julio23
         ], 
-        color: '#567caa' 
+        color: '#004376' 
       },
       { 
         name: 'Junio 23', 
@@ -129,7 +129,7 @@ export default function Comparativa() {
           indicadoresData.ASSA.R12.junio23,
           indicadoresData.ART.R12.junio23
         ], 
-        color: '#4ebeb0' 
+        color: '#007cc5' 
       },
     ],
     credits: { enabled: false },
@@ -142,9 +142,9 @@ export default function Comparativa() {
       {
         name: 'Q PÓL Julio 23',
         data: [
-          { name: 'CAS', y: indicadoresData.CAS.Q_POL.julio23, color: '#567caa' },
-          { name: 'ASSA', y: indicadoresData.ASSA.Q_POL.julio23, color: '#4ebeb0' },
-          { name: 'ART', y: indicadoresData.ART.Q_POL.julio23, color: '#fa9426' },
+          { name: 'CAS', y: indicadoresData.CAS.Q_POL.julio23, color: '#004376' },
+          { name: 'ASSA', y: indicadoresData.ASSA.Q_POL.julio23, color: '#007cc5' },
+          { name: 'ART', y: indicadoresData.ART.Q_POL.julio23, color: '#74671f' },
         ],
       },
     ],
@@ -181,17 +181,17 @@ export default function Comparativa() {
       { 
         name: 'CAS', 
         data: [indicadoresData.CAS.R12.junio23, indicadoresData.CAS.R12.julio23], 
-        color: '#567caa' 
+        color: '#004376' 
       },
       { 
         name: 'ASSA', 
         data: [indicadoresData.ASSA.R12.junio23, indicadoresData.ASSA.R12.julio23], 
-        color: '#4ebeb0' 
+        color: '#007cc5' 
       },
       { 
         name: 'ART', 
         data: [indicadoresData.ART.R12.junio23, indicadoresData.ART.R12.julio23], 
-        color: '#fa9426' 
+        color: '#74671f' 
       },
     ],
     credits: { enabled: false },

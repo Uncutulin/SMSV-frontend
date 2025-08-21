@@ -41,9 +41,9 @@ export default function Campanias() {
         name: 'Clientes',
         colorByPoint: true,
         data: [
-          { name: 'Jóvenes (18-30)', y: 35, color: '#4ebeb0' },
-          { name: 'Adultos (31-50)', y: 40, color: '#567caa' },
-          { name: 'Mayores (51+)', y: 20, color: '#fa9426' },
+          { name: 'Jóvenes (18-30)', y: 35, color: '#007cc5' },
+          { name: 'Adultos (31-50)', y: 40, color: '#004376' },
+          { name: 'Mayores (51+)', y: 20, color: '#74671f' },
           { name: 'Empresas', y: 5, color: '#e74c3c' },
         ],
       },
@@ -87,17 +87,17 @@ export default function Campanias() {
       {
         name: 'Clientes con 2 productos',
         data: [40, 30, 20, 25, 15],
-        color: '#4ebeb0',
+        color: '#007cc5',
       },
       {
         name: 'Clientes con 3 o más productos',
         data: [15, 10, 8, 12, 5],
-        color: '#fa9426',
+        color: '#74671f',
       },
       {
         name: 'Clientes con 1 producto (potencial)',
         data: [60, 70, 80, 75, 85],
-        color: '#567caa',
+        color: '#004376',
       },
     ],
     credits: { enabled: false },
@@ -119,7 +119,7 @@ export default function Campanias() {
       {
         name: 'Potencial',
         data: [85, 92, 60, 75, 88],
-        color: '#4ebeb0',
+        color: '#007cc5',
       },
     ],
     credits: { enabled: false },

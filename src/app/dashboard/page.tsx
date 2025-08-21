@@ -148,9 +148,9 @@ export default function Dashboard() {
           { name: 'Estructura Única', data: [900, 920, 940, 950, 960, 970, 980, 990, 1000, 1010, 1020, 1030], color: '#fa9426' }
         ]
       : [
-          { name: 'Estructura A - Ramo Vida', data: [1500, 1520, 1510, 1540, 1540, 1540, 1590, 1590, 1620, 1620, 1620, 1610], color: '#4ebeb0' },
-          { name: 'Estructura B - Ramo Auto', data: [1050, 1065, 1100, 1125, 1150, 1160, 1200, 1200, 1220, 1250, 1250, 1260], color: '#567caa' },
-          { name: 'Estructura A - Ramo Hogar', data: [800, 810, 805, 820, 840, 860, 870, 880, 890, 900, 910, 910], color: '#fa9426' },
+          { name: 'Estructura A - Ramo Vida', data: [1500, 1520, 1510, 1540, 1540, 1540, 1590, 1590, 1620, 1620, 1620, 1610], color: '#007cc5' },
+          { name: 'Estructura B - Ramo Auto', data: [1050, 1065, 1100, 1125, 1150, 1160, 1200, 1200, 1220, 1250, 1250, 1260], color: '#004376' },
+          { name: 'Estructura A - Ramo Hogar', data: [800, 810, 805, 820, 840, 860, 870, 880, 890, 900, 910, 910], color: '#74671f' },
         ],
     credits: { enabled: false },
   };
@@ -173,9 +173,9 @@ export default function Dashboard() {
       column: { stacking: 'normal', dataLabels: { enabled: true } }
     },
     series: [
-      { name: 'Altas', data: [150, 160, 170, 170, 155, 180, 190, 200, 220, 230, 230, 200], color: '#4ebeb0' },
-      { name: 'Renovaciones', data: [320, 320, 310, 340, 340, 350, 350, 350, 380, 400, 400, 380], color: '#567caa' },
-      { name: 'Bajas y Cancelaciones', data: [50, 55, 50, 45, 70, 65, 75, 80, 90, 96, 100, 70], color: '#fa9426' },
+      { name: 'Altas', data: [150, 160, 170, 170, 155, 180, 190, 200, 220, 230, 230, 200], color: '#007cc5' },
+      { name: 'Renovaciones', data: [320, 320, 310, 340, 340, 350, 350, 350, 380, 400, 400, 380], color: '#004376' },
+      { name: 'Bajas y Cancelaciones', data: [50, 55, 50, 45, 70, 65, 75, 80, 90, 96, 100, 70], color: '#74671f' },
     ],
     credits: { enabled: false },
   };
@@ -187,9 +187,9 @@ export default function Dashboard() {
       {
         name: 'Motivos',
         data: [
-          { name: 'Precio Elevado', y: 34.6, color: '#567caa' },
-          { name: 'Mala Atención al Cliente', y: 22.8, color: '#4ebeb0' },
-          { name: 'Cambio a Competencia (Mejor Oferta)', y: 20.2, color: '#fa9426' },
+          { name: 'Precio Elevado', y: 34.6, color: '#004376' },
+          { name: 'Mala Atención al Cliente', y: 22.8, color: '#007cc5' },
+          { name: 'Cambio a Competencia (Mejor Oferta)', y: 20.2, color: '#74671f' },
           { name: 'No Necesita Más la Cobertura', y: 13.8, color: '#e74c3c' },
           { name: 'Falta de Coberturas Específicas', y: 9.6, color: '#9b59b6' },
         ],
@@ -215,9 +215,9 @@ export default function Dashboard() {
       column: { grouping: true, shadow: false, borderWidth: 0 }
     },
     series: [
-      { name: 'Productores', data: [1300, 900, 700, 400, 300], color: '#4ebeb0' },
-      { name: 'Venta Directa', data: [1100, 1000, 600, 350, 200], color: '#567caa' },
-      { name: 'Bancaseguros', data: [700, 1200, 400, 200, 100], color: '#fa9426' },
+      { name: 'Productores', data: [1300, 900, 700, 400, 300], color: '#007cc5' },
+      { name: 'Venta Directa', data: [1100, 1000, 600, 350, 200], color: '#004376' },
+      { name: 'Bancaseguros', data: [700, 1200, 400, 200, 100], color: '#74671f' },
       { name: 'Canal Digital', data: [400, 300, 250, 100, 80], color: '#e74c3c' },
     ],
     credits: { enabled: false },
