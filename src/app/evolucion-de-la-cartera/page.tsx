@@ -401,7 +401,7 @@ export default function EvolucionCartera() {
             indicadoresData.ASSA.R12[period2Key],
             indicadoresData.ART.R12[period2Key]
         ], 
-        color: '#567caa' 
+        color: '#004376' 
       },
       { 
           name: period1Label, 
@@ -410,7 +410,7 @@ export default function EvolucionCartera() {
             indicadoresData.ASSA.R12[period1Key],
             indicadoresData.ART.R12[period1Key]
         ], 
-        color: '#4ebeb0' 
+        color: '#007cc5' 
       },
     ],
     credits: { enabled: false },
@@ -428,9 +428,9 @@ export default function EvolucionCartera() {
       {
           name: `Q PÓL ${period2Label}`,
         data: [
-            { name: 'CAS', y: indicadoresData.CAS.Q_POL[period2Key], color: '#567caa' },
-            { name: 'ASSA', y: indicadoresData.ASSA.Q_POL[period2Key], color: '#4ebeb0' },
-            { name: 'ART', y: indicadoresData.ART.Q_POL[period2Key], color: '#fa9426' },
+            { name: 'CAS', y: indicadoresData.CAS.Q_POL[period2Key], color: '#004376' },
+            { name: 'ASSA', y: indicadoresData.ASSA.Q_POL[period2Key], color: '#007cc5' },
+            { name: 'ART', y: indicadoresData.ART.Q_POL[period2Key], color: '#74671f' },
         ],
       },
     ],
@@ -474,17 +474,17 @@ export default function EvolucionCartera() {
       { 
         name: 'CAS', 
           data: [indicadoresData.CAS.R12[period1Key], indicadoresData.CAS.R12[period2Key]], 
-        color: '#567caa' 
+        color: '#004376' 
       },
       { 
         name: 'ASSA', 
           data: [indicadoresData.ASSA.R12[period1Key], indicadoresData.ASSA.R12[period2Key]], 
-        color: '#4ebeb0' 
+        color: '#007cc5' 
       },
       { 
         name: 'ART', 
           data: [indicadoresData.ART.R12[period1Key], indicadoresData.ART.R12[period2Key]], 
-        color: '#fa9426' 
+        color: '#74671f' 
       },
     ],
     credits: { enabled: false },
@@ -769,7 +769,7 @@ export default function EvolucionCartera() {
           </button>
           <button 
             onClick={() => {
-              setShowAssaTable(!showAssaTable);
+              setShowAssaTable(true);
               setShowFilialesTable(false);
               setShowPasTable(false);
               setShowCallCenterTable(false);
@@ -781,7 +781,7 @@ export default function EvolucionCartera() {
           </button>
           <button 
             onClick={() => {
-              setShowFilialesTable(!showFilialesTable);
+              setShowFilialesTable(true);
               setShowAssaTable(false);
               setShowPasTable(false);
               setShowCallCenterTable(false);
@@ -793,7 +793,7 @@ export default function EvolucionCartera() {
           </button>
           <button 
             onClick={() => {
-              setShowPasTable(!showPasTable);
+              setShowPasTable(true);
               setShowAssaTable(false);
               setShowFilialesTable(false);
               setShowCallCenterTable(false);
@@ -1362,7 +1362,7 @@ export default function EvolucionCartera() {
               </table>
             </div>
           </div>
-        ) : (
+        ) : (!showAssaTable && !showFilialesTable && !showPasTable && !showCallCenterTable && !showFilialesPasTable) ? (
           <>
             {/* Gráficos comparativos */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1390,7 +1390,7 @@ export default function EvolucionCartera() {
               />
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </DashboardLayout>
   );

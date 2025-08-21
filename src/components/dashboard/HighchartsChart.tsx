@@ -20,7 +20,7 @@ export default function HighchartsChart({ id, type, title, data, options = {} }:
         
         // Configuración global de Highcharts
         Highcharts.default.setOptions({
-          colors: ['#4ebeb0', '#567caa', '#fa9426', '#e74c3c', '#9b59b6', '#f39c12'],
+          colors: ['#007cc5', '#004376', '#74671f', '#e74c3c', '#9b59b6', '#f39c12'],
           chart: {
             backgroundColor: '#fff',
             style: {

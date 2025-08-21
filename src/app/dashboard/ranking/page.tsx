@@ -153,17 +153,17 @@ export default function Ranking() {
       {
         name: 'CAS',
         data: [3202, 2100, 1800, 727, 721], // Ejemplo: Productores, Venta Directa, Bancaseguros, Canal Digital, Otros
-        color: '#567caa',
+        color: '#004376',
       },
       {
         name: 'ASSA',
         data: [2200, 1800, 1500, 600, 500],
-        color: '#4ebeb0',
+        color: '#007cc5',
       },
       {
         name: 'ART',
         data: [1800, 1200, 1000, 400, 350],
-        color: '#fa9426',
+        color: '#74671f',
       },
     ],
     credits: { enabled: false },
@@ -199,12 +199,12 @@ export default function Ranking() {
     },
     series: filtro === 'ART'
       ? [
-          { name: 'ART', data: [300], color: '#fa9426' }
+          { name: 'ART', data: [300], color: '#74671f' }
         ]
       : [
-          { name: 'CAS', data: [800, 727, 632, 600, 500, 180], color: '#567caa' },
-          { name: 'ASSA', data: [600, 500, 400, 350, 300, 120], color: '#4ebeb0' },
-          { name: 'ART', data: [400, 300, 250, 200, 150, 60], color: '#fa9426' },
+          { name: 'CAS', data: [800, 727, 632, 600, 500, 180], color: '#004376' },
+          { name: 'ASSA', data: [600, 500, 400, 350, 300, 120], color: '#007cc5' },
+          { name: 'ART', data: [400, 300, 250, 200, 150, 60], color: '#74671f' },
         ],
     credits: { enabled: false },
     legend: { enabled: true },
@@ -235,7 +235,7 @@ export default function Ranking() {
         type: 'column',
         yAxis: 0,
         data: [50, 60, 100, 30],
-        color: '#567caa',
+        color: '#004376',
         dataLabels: {
           enabled: true,
           align: 'center',
@@ -248,7 +248,7 @@ export default function Ranking() {
         type: 'column',
         yAxis: 0,
         data: [40, 50, 80, 20],
-        color: '#4ebeb0',
+        color: '#007cc5',
         dataLabels: {
           enabled: true,
           align: 'center',
@@ -261,7 +261,7 @@ export default function Ranking() {
         type: 'column',
         yAxis: 0,
         data: [30, 40, 60, 10],
-        color: '#fa9426',
+        color: '#74671f',
         dataLabels: {
           enabled: true,
           align: 'center',
@@ -281,9 +281,9 @@ export default function Ranking() {
       {
         name: 'Participación',
         data: [
-          { name: 'CAS', y: 41.9, color: '#567caa' },
-          { name: 'ASSA', y: 27.9, color: '#4ebeb0' },
-          { name: 'ART', y: 14.2, color: '#fa9426' },
+          { name: 'CAS', y: 41.9, color: '#004376' },
+          { name: 'ASSA', y: 27.9, color: '#007cc5' },
+          { name: 'ART', y: 14.2, color: '#74671f' },
           { name: 'Otras', y: 16.0, color: '#9b59b6' },
         ],
       },
