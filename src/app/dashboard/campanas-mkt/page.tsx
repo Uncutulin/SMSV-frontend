@@ -1,33 +1,144 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 
+// Componente de Select Múltiple Desplegable
+interface MultiSelectProps {
+  options: string[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+}
+
+function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opciones" }: MultiSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Cerrar dropdown cuando se hace clic fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleToggleOption = (option: string) => {
+    if (value.includes(option)) {
+      onChange(value.filter(v => v !== option));
+    } else {
+      onChange([...value, option]);
+    }
+  };
+
+  const handleRemoveOption = (optionToRemove: string) => {
+    onChange(value.filter(v => v !== optionToRemove));
+  };
+
+  const displayText = value.length > 0 
+    ? value.join(', ') 
+    : placeholder;
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      {/* Campo principal que muestra las opciones seleccionadas */}
+      <div 
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer bg-white"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex flex-wrap gap-1 min-h-[20px]">
+            {value.length > 0 ? (
+              value.map(option => (
+                <span 
+                  key={option}
+                  className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800"
+                >
+                  {option}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemoveOption(option);
+                    }}
+                    className="ml-1 text-blue-600 hover:text-blue-800"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))
+            ) : (
+              <span className="text-gray-500">{displayText}</span>
+            )}
+          </div>
+          <div className="flex items-center">
+            <svg 
+              className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* Dropdown con opciones */}
+      {isOpen && (
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+          {options.map(option => (
+            <label 
+              key={option} 
+              className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                checked={value.includes(option)}
+                onChange={() => handleToggleOption(option)}
+                className="mr-3 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                onClick={(e) => e.stopPropagation()}
+              />
+              <span className="text-sm text-gray-700">{option}</span>
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function CampanasMKTPage() {
-  // Estados para los filtros
+  // Estados para los filtros - ahora son arrays para opción múltiple
   const [filters, setFilters] = useState({
-    sexo: '',
-    edadDesde: '',
-    edadHasta: '',
-    provincia: '',
-    canal: '',
-    estadoCivil: '',
-    productoVigente: '',
-    compania: '',
-    productoNoTiene: '',
-    socioMutual: '',
-    antiguedad: '',
-    tieneMail: '',
-    tieneTelefono: '',
-    fuerzaEmpresa: '',
-    situacionRevista: '',
-    origenDato: ''
+    sexo: [] as string[],
+    edadDesde: [] as string[],
+    edadHasta: [] as string[],
+    provincia: [] as string[],
+    canal: [] as string[],
+    estadoCivil: [] as string[],
+    productoVigente: [] as string[],
+    compania: [] as string[],
+    productoNoTiene: [] as string[],
+    socioMutual: [] as string[],
+    antiguedad: [] as string[],
+    tieneMail: [] as string[],
+    tieneTelefono: [] as string[],
+    fuerzaEmpresa: [] as string[],
+    situacionRevista: [] as string[],
+    origenDato: [] as string[]
   });
 
   const [filtersApplied, setFiltersApplied] = useState(false);
 
-  // Función para manejar cambios en los filtros
-  const handleFilterChange = (field: string, value: string) => {
+  // Función para manejar cambios en los filtros de opción múltiple
+  const handleFilterChange = (field: string, value: string[]) => {
     setFilters(prev => ({
       ...prev,
       [field]: value
@@ -42,22 +153,22 @@ export default function CampanasMKTPage() {
   // Función para limpiar filtros
   const clearFilters = () => {
     setFilters({
-      sexo: '',
-      edadDesde: '',
-      edadHasta: '',
-      provincia: '',
-      canal: '',
-      estadoCivil: '',
-      productoVigente: '',
-      compania: '',
-      productoNoTiene: '',
-      socioMutual: '',
-      antiguedad: '',
-      tieneMail: '',
-      tieneTelefono: '',
-      fuerzaEmpresa: '',
-      situacionRevista: '',
-      origenDato: ''
+      sexo: [],
+      edadDesde: [],
+      edadHasta: [],
+      provincia: [],
+      canal: [],
+      estadoCivil: [],
+      productoVigente: [],
+      compania: [],
+      productoNoTiene: [],
+      socioMutual: [],
+      antiguedad: [],
+      tieneMail: [],
+      tieneTelefono: [],
+      fuerzaEmpresa: [],
+      situacionRevista: [],
+      origenDato: []
     });
     setFiltersApplied(false);
   };
@@ -148,327 +259,210 @@ export default function CampanasMKTPage() {
 
       {/* Sistema de Filtros */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtros de Búsqueda</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">Filtros de Búsqueda</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          <i className="fa-solid fa-info-circle mr-1"></i>
+          Haga clic en cada filtro para desplegar las opciones y seleccionar múltiples valores
+        </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {/* Sexo */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Sexo</label>
-            <select 
-              value={filters.sexo}
-              onChange={(e) => handleFilterChange('sexo', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Femenino">Femenino</option>
-            </select>
-          </div>
+                     {/* Sexo */}
+           <div>
+             <label className="block text-sm font-medium text-gray-700 mb-2">Sexo</label>
+             <MultiSelect
+               options={["Masculino", "Femenino"]}
+               value={filters.sexo}
+               onChange={(value) => handleFilterChange("sexo", value)}
+             />
+           </div>
 
           {/* Edad Desde */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Edad Desde</label>
-            <select 
-              value={filters.edadDesde}
-              onChange={(e) => handleFilterChange('edadDesde', e.target.value)}
+            <input
+              type="number"
+              min="1"
+              max="120"
+              placeholder="Ej: 25"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              {Array.from({length: 99}, (_, i) => i + 1).map(edad => (
-                <option key={edad} value={edad}>{edad}</option>
-              ))}
-            </select>
+              value={filters.edadDesde[0] || ''}
+              onChange={(e) => handleFilterChange("edadDesde", e.target.value ? [e.target.value] : [])}
+            />
           </div>
 
           {/* Edad Hasta */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Edad Hasta</label>
-            <select 
-              value={filters.edadHasta}
-              onChange={(e) => handleFilterChange('edadHasta', e.target.value)}
+            <input
+              type="number"
+              min="1"
+              max="120"
+              placeholder="Ej: 65"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              {Array.from({length: 99}, (_, i) => i + 1).map(edad => (
-                <option key={edad} value={edad}>{edad}</option>
-              ))}
-            </select>
+              value={filters.edadHasta[0] || ''}
+              onChange={(e) => handleFilterChange("edadHasta", e.target.value ? [e.target.value] : [])}
+            />
           </div>
 
           {/* Provincia/Localidad */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Provincia/Localidad</label>
-            <select 
+            <MultiSelect
+              options={[
+                "Gran Buenos Aires",
+                "Ciudad Autónoma de Buenos Aires",
+                "Catamarca",
+                "Chaco",
+                "Chubut",
+                "Córdoba",
+                "Corrientes",
+                "Entre Ríos",
+                "Formosa",
+                "Jujuy",
+                "La Pampa",
+                "La Rioja",
+                "Mendoza",
+                "Misiones",
+                "Neuquén",
+                "Río Negro",
+                "Salta",
+                "San Juan",
+                "San Luis",
+                "Santa Cruz",
+                "Santiago del Estero",
+                "Tierra del Fuego",
+                "Tucumán"
+              ]}
               value={filters.provincia}
-              onChange={(e) => handleFilterChange('provincia', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="Gran Buenos Aires">Gran Buenos Aires</option>
-              <option value="Ciudad Autónoma de Buenos Aires">Ciudad Autónoma de Buenos Aires</option>
-              <option value="Catamarca">Catamarca</option>
-              <option value="Chaco">Chaco</option>
-              <option value="Chubut">Chubut</option>
-              <option value="Córdoba">Córdoba</option>
-              <option value="Corrientes">Corrientes</option>
-              <option value="Entre Ríos">Entre Ríos</option>
-              <option value="Formosa">Formosa</option>
-              <option value="Jujuy">Jujuy</option>
-              <option value="La Pampa">La Pampa</option>
-              <option value="La Rioja">La Rioja</option>
-              <option value="Mendoza">Mendoza</option>
-              <option value="Misiones">Misiones</option>
-              <option value="Neuquén">Neuquén</option>
-              <option value="Río Negro">Río Negro</option>
-              <option value="Salta">Salta</option>
-              <option value="San Juan">San Juan</option>
-              <option value="San Luis">San Luis</option>
-              <option value="Santa Cruz">Santa Cruz</option>
-              <option value="Santiago del Estero">Santiago del Estero</option>
-              <option value="Tierra del Fuego">Tierra del Fuego</option>
-              <option value="Tucumán">Tucumán</option>
-            </select>
+              onChange={(value) => handleFilterChange("provincia", value)}
+            />
           </div>
 
           {/* Canal */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Canal</label>
-            <select 
+            <MultiSelect
+              options={["Canal PAS", "Canal Filiales", "Canal Directo"]}
               value={filters.canal}
-              onChange={(e) => handleFilterChange('canal', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="Canal PAS">Canal PAS</option>
-              <option value="Canal Filiales">Canal Filiales</option>
-              <option value="Canal Directo">Canal Directo</option>
-            </select>
+              onChange={(value) => handleFilterChange("canal", value)}
+            />
           </div>
 
           {/* Estado Civil */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Estado Civil</label>
-            <select 
+            <MultiSelect
+              options={["Soltero/a", "Casado/a", "Separado/a", "Divorciado/a"]}
               value={filters.estadoCivil}
-              onChange={(e) => handleFilterChange('estadoCivil', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="Soltero/a">Soltero/a</option>
-              <option value="Casado/a">Casado/a</option>
-              <option value="Separado/a">Separado/a</option>
-              <option value="Divorciado/a">Divorciado/a</option>
-            </select>
+              onChange={(value) => handleFilterChange("estadoCivil", value)}
+            />
           </div>
 
           {/* Producto Vigente */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Producto Vigente</label>
-            <select 
+            <MultiSelect
+              options={[
+                "AERONAVEGACIÓN", "AP", "ART", "ASISTENCIA AL VIAJERO", "AUTOMOTORES",
+                "BOLSO PROTEGIDO", "CASCOS", "CAUCIÓN", "COMBINADO FAMILIAR", "INCENDIO",
+                "INT. COMERCIO", "INT. CONSORCIO", "MOTOS", "PRAXIS", "RC", "ROBO",
+                "RS. VS.", "SALDO DEUDOR", "SALUD", "SEGURO TÉCNICO", "SEPELIO COLECTIVO",
+                "SEPELIO INDIVIDUAL", "TRO", "VIDA COLECTIVO", "VIDA COLECTIVO CON AHORRO",
+                "VIDA INDIVIDUAL", "VIDA INDIVIDUAL CON AHORRO", "VIDA OBLIGATORIO",
+                "AP BOLSO", "TRANSPORTES", "SEPELIO", "ESCOLTA", "ARMAS", "ESCOLTA EJERCITO",
+                "SDJM", "ROBO DIBA", "ROBO Y RS. VS."
+              ]}
               value={filters.productoVigente}
-              onChange={(e) => handleFilterChange('productoVigente', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="AERONAVEGACIÓN">AERONAVEGACIÓN</option>
-              <option value="AP">AP</option>
-              <option value="ART">ART</option>
-              <option value="ASISTENCIA AL VIAJERO">ASISTENCIA AL VIAJERO</option>
-              <option value="AUTOMOTORES">AUTOMOTORES</option>
-              <option value="BOLSO PROTEGIDO">BOLSO PROTEGIDO</option>
-              <option value="CASCOS">CASCOS</option>
-              <option value="CAUCIÓN">CAUCIÓN</option>
-              <option value="COMBINADO FAMILIAR">COMBINADO FAMILIAR</option>
-              <option value="INCENDIO">INCENDIO</option>
-              <option value="INT. COMERCIO">INT. COMERCIO</option>
-              <option value="INT. CONSORCIO">INT. CONSORCIO</option>
-              <option value="MOTOS">MOTOS</option>
-              <option value="PRAXIS">PRAXIS</option>
-              <option value="RC">RC</option>
-              <option value="ROBO">ROBO</option>
-              <option value="RS. VS.">RS. VS.</option>
-              <option value="SALDO DEUDOR">SALDO DEUDOR</option>
-              <option value="SALUD">SALUD</option>
-              <option value="SEGURO TÉCNICO">SEGURO TÉCNICO</option>
-              <option value="SEPELIO COLECTIVO">SEPELIO COLECTIVO</option>
-              <option value="SEPELIO INDIVIDUAL">SEPELIO INDIVIDUAL</option>
-              <option value="TRO">TRO</option>
-              <option value="VIDA COLECTIVO">VIDA COLECTIVO</option>
-              <option value="VIDA COLECTIVO CON AHORRO">VIDA COLECTIVO CON AHORRO</option>
-              <option value="VIDA INDIVIDUAL">VIDA INDIVIDUAL</option>
-              <option value="VIDA INDIVIDUAL CON AHORRO">VIDA INDIVIDUAL CON AHORRO</option>
-              <option value="VIDA OBLIGATORIO">VIDA OBLIGATORIO</option>
-              <option value="AP BOLSO">AP BOLSO</option>
-              <option value="TRANSPORTES">TRANSPORTES</option>
-              <option value="SEPELIO">SEPELIO</option>
-              <option value="ESCOLTA">ESCOLTA</option>
-              <option value="ARMAS">ARMAS</option>
-              <option value="ESCOLTA EJERCITO">ESCOLTA EJERCITO</option>
-              <option value="SDJM">SDJM</option>
-              <option value="ROBO DIBA">ROBO DIBA</option>
-              <option value="ROBO Y RS. VS.">ROBO Y RS. VS.</option>
-            </select>
+              onChange={(value) => handleFilterChange("productoVigente", value)}
+            />
           </div>
 
           {/* Compañía */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Compañía</label>
-            <select 
+            <MultiSelect
+              options={[
+                "ALLIANZ", "ASOCIART ART", "ATM", "BOSTON", "CHUBB", "EXPERTA ART",
+                "GALENO ART", "HDI", "INTEGRITY", "LA HOLANDO", "LIBRA", "LMA", "NACION",
+                "NOBLE", "OMINT ART", "PROVINCIA ART", "PRUDENCIA", "RIVADAVIA", "SANCOR",
+                "SMG", "SMG ART", "SMG LIFE", "SMSV SEGUROS", "VICTORIA", "ZURICH",
+                "AFIANZADORA", "CAUCIONES", "FED PAT", "PROVINCIA", "PREVENCION ART",
+                "RUS", "LA HOLANDO ART", "COSENA", "ANDINA ART", "SAN CRISTOBAL",
+                "TRIUNFO", "VICTORIA ART"
+              ]}
               value={filters.compania}
-              onChange={(e) => handleFilterChange('compania', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="ALLIANZ">ALLIANZ</option>
-              <option value="ASOCIART ART">ASOCIART ART</option>
-              <option value="ATM">ATM</option>
-              <option value="BOSTON">BOSTON</option>
-              <option value="CHUBB">CHUBB</option>
-              <option value="EXPERTA ART">EXPERTA ART</option>
-              <option value="GALENO ART">GALENO ART</option>
-              <option value="HDI">HDI</option>
-              <option value="INTEGRITY">INTEGRITY</option>
-              <option value="LA HOLANDO">LA HOLANDO</option>
-              <option value="LIBRA">LIBRA</option>
-              <option value="LMA">LMA</option>
-              <option value="NACION">NACION</option>
-              <option value="NOBLE">NOBLE</option>
-              <option value="OMINT ART">OMINT ART</option>
-              <option value="PROVINCIA ART">PROVINCIA ART</option>
-              <option value="PRUDENCIA">PRUDENCIA</option>
-              <option value="RIVADAVIA">RIVADAVIA</option>
-              <option value="SANCOR">SANCOR</option>
-              <option value="SMG">SMG</option>
-              <option value="SMG ART">SMG ART</option>
-              <option value="SMG LIFE">SMG LIFE</option>
-              <option value="SMSV SEGUROS">SMSV SEGUROS</option>
-              <option value="VICTORIA">VICTORIA</option>
-              <option value="ZURICH">ZURICH</option>
-              <option value="AFIANZADORA">AFIANZADORA</option>
-              <option value="CAUCIONES">CAUCIONES</option>
-              <option value="FED PAT">FED PAT</option>
-              <option value="PROVINCIA">PROVINCIA</option>
-              <option value="PREVENCION ART">PREVENCION ART</option>
-              <option value="RUS">RUS</option>
-              <option value="LA HOLANDO ART">LA HOLANDO ART</option>
-              <option value="COSENA">COSENA</option>
-              <option value="ANDINA ART">ANDINA ART</option>
-              <option value="SAN CRISTOBAL">SAN CRISTOBAL</option>
-              <option value="TRIUNFO">TRIUNFO</option>
-              <option value="VICTORIA ART">VICTORIA ART</option>
-            </select>
+              onChange={(value) => handleFilterChange("compania", value)}
+            />
           </div>
 
           {/* Socio Mutual */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Socio Mutual</label>
-            <select 
-              value={filters.socioMutual}
-              onChange={(e) => handleFilterChange('socioMutual', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="SI">SI</option>
-              <option value="NO">NO</option>
-            </select>
+                         <MultiSelect
+               options={["SI", "NO"]}
+               value={filters.socioMutual}
+               onChange={(value) => handleFilterChange("socioMutual", value)}
+             />
           </div>
 
           {/* Antigüedad en ASSA o CAS */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Antigüedad en ASSA o CAS</label>
-            <select 
+            <MultiSelect
+                             options={["0 a 2 AÑOS", "2 a 5 AÑOS", "5 o más AÑOS"]}
               value={filters.antiguedad}
-              onChange={(e) => handleFilterChange('antiguedad', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-yellow-50"
-            >
-              <option value="">Seleccionar</option>
-              <option value="0 a 2 AÑOS">0 a 2 AÑOS</option>
-              <option value="2 a 5 AÑOS">2 a 5 AÑOS</option>
-              <option value="5 o más AÑOS">5 o más AÑOS</option>
-            </select>
+              onChange={(value) => handleFilterChange("antiguedad", value)}
+            />
           </div>
 
           {/* Tiene Mail */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Tiene Mail</label>
-            <select 
+            <MultiSelect
+                             options={["SI", "NO"]}
               value={filters.tieneMail}
-              onChange={(e) => handleFilterChange('tieneMail', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="SI">SI</option>
-              <option value="NO">NO</option>
-            </select>
+              onChange={(value) => handleFilterChange("tieneMail", value)}
+            />
           </div>
 
           {/* Tiene Teléfono */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Tiene Teléfono</label>
-            <select 
+            <MultiSelect
+                             options={["SI", "NO"]}
               value={filters.tieneTelefono}
-              onChange={(e) => handleFilterChange('tieneTelefono', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="SI">SI</option>
-              <option value="NO">NO</option>
-            </select>
+              onChange={(value) => handleFilterChange("tieneTelefono", value)}
+            />
           </div>
 
           {/* FUERZA/Empresa */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">FUERZA/Empresa</label>
-            <select 
+            <MultiSelect
+                             options={["Ejército", "Armada", "Naval", "Prefectura", "Gendarmería", "Policia", "Mutual", "Otro"]}
               value={filters.fuerzaEmpresa}
-              onChange={(e) => handleFilterChange('fuerzaEmpresa', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-yellow-50"
-            >
-              <option value="">Seleccionar</option>
-              <option value="Ejército">Ejército</option>
-              <option value="Armada">Armada</option>
-              <option value="Naval">Naval</option>
-              <option value="Prefectura">Prefectura</option>
-              <option value="Gendarmería">Gendarmería</option>
-              <option value="Policia">Policia</option>
-              <option value="Mutual">Mutual</option>
-              <option value="Otro">Otro</option>
-            </select>
+              onChange={(value) => handleFilterChange("fuerzaEmpresa", value)}
+            />
           </div>
 
           {/* Situación de Revista */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Situación de Revista</label>
-            <select 
+            <MultiSelect
+                             options={["En actividad", "Retirado", "No aplica"]}
               value={filters.situacionRevista}
-              onChange={(e) => handleFilterChange('situacionRevista', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="En actividad">En actividad</option>
-              <option value="Retirado">Retirado</option>
-              <option value="No aplica">No aplica</option>
-            </select>
+              onChange={(value) => handleFilterChange("situacionRevista", value)}
+            />
           </div>
 
           {/* Origen del Dato */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Origen del Dato (Desol)</label>
-            <select 
+            <MultiSelect
+                             options={["Campaña comercial", "Referidos", "BBDD", "Newsletter", "Socio SMSV", "WEB", "Casa central - Presencial", "Productor"]}
               value={filters.origenDato}
-              onChange={(e) => handleFilterChange('origenDato', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Seleccionar</option>
-              <option value="Campaña comercial">Campaña comercial</option>
-              <option value="Referidos">Referidos</option>
-              <option value="BBDD">BBDD</option>
-              <option value="Newsletter">Newsletter</option>
-              <option value="Socio SMSV">Socio SMSV</option>
-              <option value="WEB">WEB</option>
-              <option value="Casa central - Presencial">Casa central - Presencial</option>
-              <option value="Productor">Productor</option>
-            </select>
+              onChange={(value) => handleFilterChange("origenDato", value)}
+            />
           </div>
         </div>
 
@@ -502,7 +496,7 @@ export default function CampanasMKTPage() {
                   Filtros aplicados
                 </p>
                 <p className="text-sm text-blue-600">
-                  {Object.values(filters).filter(f => f !== '').length} filtros activos
+                  {Object.values(filters).filter(f => f.length > 0).length} filtros activos
                 </p>
               </div>
             </div>

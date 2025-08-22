@@ -38,7 +38,7 @@ export default function PresupuestoComercialPage() {
   };
 
   // Tabla principal de datos
-  const renderMainDataTable = (data: any[], title: string) => (
+  const renderMainDataTable = (data: Array<{description: string, qPol1: string, qPol2: string, r12_1: string, r12_2: string, isTotal?: boolean}>, title: string) => (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       <div className="px-6 py-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
