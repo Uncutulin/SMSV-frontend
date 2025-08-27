@@ -2221,37 +2221,801 @@ export default function PresupuestoComercialPage() {
   const renderAssaXCiaTables = () => (
     <>
       {renderMainDataTable([
-        { description: 'AFIANZADORA', qPol1: '25', qPol2: '29', r12_1: '300', r12_2: '348', isTotal: false },
-        { description: 'ALLIANZ', qPol1: '35', qPol2: '40', r12_1: '420', r12_2: '480', isTotal: false },
-        { description: 'AP', qPol1: '30', qPol2: '35', r12_1: '360', r12_2: '420', isTotal: false },
-        { description: 'ATM', qPol1: '28', qPol2: '32', r12_1: '336', r12_2: '384', isTotal: false },
-        { description: 'BOSTON', qPol1: '32', qPol2: '37', r12_1: '384', r12_2: '444', isTotal: false },
-        { description: 'CAMPAÑAS', qPol1: '20', qPol2: '23', r12_1: '240', r12_2: '276', isTotal: false },
-        { description: 'CHUBB', qPol1: '38', qPol2: '44', r12_1: '456', r12_2: '528', isTotal: false },
-        { description: 'FED PAT', qPol1: '25', qPol2: '29', r12_1: '300', r12_2: '348', isTotal: false },
-        { description: 'HDI', qPol1: '30', qPol2: '35', r12_1: '360', r12_2: '420', isTotal: false },
-        { description: 'INTEGRITY', qPol1: '22', qPol2: '25', r12_1: '264', r12_2: '300', isTotal: false },
-        { description: 'LA HOLANDO', qPol1: '28', qPol2: '32', r12_1: '336', r12_2: '384', isTotal: false },
-        { description: 'LIBRA', qPol1: '35', qPol2: '40', r12_1: '420', r12_2: '480', isTotal: false },
-        { description: 'MA', qPol1: '26', qPol2: '30', r12_1: '312', r12_2: '360', isTotal: false },
-        { description: 'NACION', qPol1: '40', qPol2: '46', r12_1: '480', r12_2: '552', isTotal: false },
-        { description: 'NOBLE', qPol1: '24', qPol2: '28', r12_1: '288', r12_2: '336', isTotal: false },
-        { description: 'PRUDENCIA', qPol1: '30', qPol2: '35', r12_1: '360', r12_2: '420', isTotal: false },
-        { description: 'RIO URUGUAY', qPol1: '22', qPol2: '25', r12_1: '264', r12_2: '300', isTotal: false },
-        { description: 'SANCOR', qPol1: '28', qPol2: '32', r12_1: '336', r12_2: '384', isTotal: false },
-        { description: 'SMG', qPol1: '32', qPol2: '37', r12_1: '384', r12_2: '444', isTotal: false },
-        { description: 'SMG LIFE', qPol1: '20', qPol2: '23', r12_1: '240', r12_2: '276', isTotal: false },
-        { description: 'TPC', qPol1: '25', qPol2: '29', r12_1: '300', r12_2: '348', isTotal: false },
-        { description: 'VICTORIA', qPol1: '26', qPol2: '30', r12_1: '312', r12_2: '360', isTotal: false },
-        { description: 'ZURICH', qPol1: '30', qPol2: '35', r12_1: '360', r12_2: '420', isTotal: false },
-        { description: 'COSENSA', qPol1: '24', qPol2: '28', r12_1: '288', r12_2: '336', isTotal: false },
-        { description: 'SAN CRISTOBAL', qPol1: '20', qPol2: '23', r12_1: '240', r12_2: '276', isTotal: false },
-        { description: 'Total General', qPol1: '680', qPol2: '780', r12_1: '8,160', r12_2: '9,360', isTotal: true }
+        { description: 'AFIANZADORA', qPol1: '121', qPol2: '213', r12_1: '23,275,510', r12_2: '30,786,112', isTotal: false },
+        { description: 'ALLIANZ', qPol1: '1,564', qPol2: '2,325', r12_1: '313,484,478', r12_2: '1,041,865,659', isTotal: false },
+        { description: 'ATM', qPol1: '513', qPol2: '716', r12_1: '46,181,438', r12_2: '138,493,339', isTotal: false },
+        { description: 'BOSTON', qPol1: '18', qPol2: '1', r12_1: '8,952,959', r12_2: '74,379', isTotal: false },
+        { description: 'CAUCIONES', qPol1: '19', qPol2: '13', r12_1: '5,344,606', r12_2: '1,390,887', isTotal: false },
+        { description: 'CHUBB', qPol1: '96', qPol2: '15', r12_1: '15,861,757', r12_2: '18,972,684', isTotal: false },
+        { description: 'FED PAT', qPol1: '791', qPol2: '959', r12_1: '305,661,335', r12_2: '531,237,711', isTotal: false },
+        { description: 'HDI', qPol1: '9', qPol2: '7', r12_1: '734,095', r12_2: '2,321,757', isTotal: false },
+        { description: 'INTEGRITY', qPol1: '1,533', qPol2: '1,619', r12_1: '312,773,035', r12_2: '543,840,130', isTotal: false },
+        { description: 'LA HOLANDO', qPol1: '70', qPol2: '62', r12_1: '6,838,282', r12_2: '15,875,658', isTotal: false },
+        { description: 'LIBRA', qPol1: '793', qPol2: '490', r12_1: '5,769,511', r12_2: '5,769,511', isTotal: false },
+        { description: 'LMA', qPol1: '24,266', qPol2: '23,454', r12_1: '3,366,394,962', r12_2: '9,590,435,724', isTotal: false },
+        { description: 'NACION', qPol1: '1', qPol2: '-', r12_1: '12,922', r12_2: '-', isTotal: false },
+        { description: 'NOBLE', qPol1: '12', qPol2: '11', r12_1: '6,352,831', r12_2: '13,304,418', isTotal: false },
+        { description: 'PRUDENCIA', qPol1: '265', qPol2: '333', r12_1: '46,599,032', r12_2: '129,736,655', isTotal: false },
+        { description: 'RIVADAVIA', qPol1: '10', qPol2: '48', r12_1: '2,596,687', r12_2: '22,280,185', isTotal: false },
+        { description: 'RUS', qPol1: '11', qPol2: '9', r12_1: '1,497,250', r12_2: '3,311,881', isTotal: false },
+        { description: 'SANCOR', qPol1: '4,675', qPol2: '3,256', r12_1: '988,772,441', r12_2: '2,826,362,279', isTotal: false },
+        { description: 'SMG', qPol1: '27,059', qPol2: '25,746', r12_1: '7,188,385,151', r12_2: '12,404,213,055', isTotal: false },
+        { description: 'SMG LIFE', qPol1: '13,379', qPol2: '13,295', r12_1: '528,038,385', r12_2: '684,862,351', isTotal: false },
+        { description: 'TPC', qPol1: '20', qPol2: '-', r12_1: '81,052', r12_2: '20,927', isTotal: false },
+        { description: 'VICTORIA', qPol1: '46', qPol2: '214', r12_1: '7,172,892', r12_2: '55,348,609', isTotal: false },
+        { description: 'ZURICH', qPol1: '8', qPol2: '2', r12_1: '2,291,112', r12_2: '96,455', isTotal: false },
+        { description: 'COSENA', qPol1: '136', qPol2: '218', r12_1: '61,962,312', r12_2: '52,853,317', isTotal: false },
+        { description: 'SAN CRISTOBAL', qPol1: '40', qPol2: '621', r12_1: '5,688,723', r12_2: '296,318,204', isTotal: false },
+        { description: 'Total General', qPol1: '75,455', qPol2: '73,631', r12_1: '13,250,722,758', r12_2: '28,410,171,357', isTotal: true }
       ], 'ASSA X CÍA')}
-      {renderGrowthTable()}
-      {renderYTDComplianceTable()}
-      {renderTotalComplianceTable()}
+      {renderAssaGrowthTable()}
+      {renderAssaYTDComplianceTable()}
+      {renderAssaTotalComplianceTable()}
     </>
+  );
+
+  // Tabla de crecimiento específica para ASSA X CÍA
+  const renderAssaGrowthTable = () => (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+      <div className="px-6 py-4 border-b border-gray-200">
+        <h2 className="text-lg font-semibold text-gray-900">CRECIMIENTO REAL {selectedYear2}/06</h2>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Descripción
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                % Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                R12
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                % R12
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">AFIANZADORA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">92</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">76,03%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">7,510,602</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">32,27%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ALLIANZ</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">761</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">48,66%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">728,381,180</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">232,35%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ATM</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">203</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">39,57%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">92,311,901</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">199,89%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">BOSTON</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-17</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-94,44%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-8,878,580</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-99,17%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CAUCIONES</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-6</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-31,58%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-3,953,720</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-73,98%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CHUBB</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-81</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-84,38%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,110,927</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">19,61%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">FED PAT</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">168</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">21,24%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">225,576,376</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">73,80%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">HDI</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-2</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-22,22%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,587,663</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">216,27%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">INTEGRITY</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">86</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">5,61%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">231,067,095</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">73,88%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LA HOLANDO</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-8</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-11,43%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,037,376</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">132,16%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LIBRA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-303</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-38,21%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">0</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LMA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-812</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-3,35%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">6,224,040,762</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">184,89%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NACION</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-1</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-100,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-12,922</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-100,00%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NOBLE</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-1</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-8,33%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">6,951,587</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">109,43%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">PRUDENCIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">68</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">25,66%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">83,137,623</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">178,41%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RIVADAVIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">38</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">380,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">19,683,498</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">758,02%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUS</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-2</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-18,18%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,814,631</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">121,20%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SANCOR</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-1,419</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-30,35%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,837,589,837</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">185,85%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMG</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-1,313</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-4,85%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,215,827,904</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">72,56%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMG LIFE</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-84</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-0,63%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">156,823,967</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">29,70%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TPC</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-20</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-100,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-60,125</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-74,18%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">VICTORIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">168</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">365,22%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">48,175,717</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">671,64%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ZURICH</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-6</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-75,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-2,194,657</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-95,79%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">COSENA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">82</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">60,29%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-9,108,995</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-14,70%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SAN CRISTOBAL</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">581</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">1,452,50%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">290,629,481</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">5,108,87%</td>
+            </tr>
+            <tr className="hover:bg-gray-50 bg-gray-100">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Total General</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-1,824</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">-2,42%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">15,159,448,599</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">114,40%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  // Tabla de cumplimiento YTD específica para ASSA X CÍA
+  const renderAssaYTDComplianceTable = () => (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+      <div className="px-6 py-4 border-b border-gray-200">
+        <h2 className="text-lg font-semibold text-gray-900">CUMP. PPTO YTD {selectedYear2}/06</h2>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Descripción
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                PPTO Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                REAL Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                % Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                PPTO R12
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                REAL R12
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                % R12
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">AFIANZADORA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">133</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">213</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">160,03%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">34,773,612</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">30,786,112</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">88,53%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ALLIANZ</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,720</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,325</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">135,14%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">468,345,810</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,041,865,659</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">222,46%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ATM</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">564</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">716</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">126,88%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">68,995,069</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">138,493,339</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">200,73%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">BOSTON</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">20</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">5,05%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13,375,720</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">74,379</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,56%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CAUCIONES</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">21</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">62,20%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">7,984,842</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,390,887</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">17,42%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CHUBB</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">106</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">15</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">14,20%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">23,697,464</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">18,972,684</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">80,06%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">FED PAT</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">870</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">959</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">110,22%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">456,658,035</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">531,237,711</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">116,33%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">HDI</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">7</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">70,71%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,096,737</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,321,757</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">211,70%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">INTEGRITY</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,686</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,619</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">96,01%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">467,282,914</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">543,840,130</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">116,38%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LA HOLANDO</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">77</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">62</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">80,52%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10,216,393</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">15,875,658</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">155,39%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LIBRA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">872</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">490</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">56,17%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">8,619,650</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,769,511</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">66,93%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LMA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">26,693</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">23,454</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">87,87%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,029,394,074</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,590,435,724</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">190,69%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NACION</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">19,305</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NOBLE</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">11</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">83,33%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,491,130</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13,304,418</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">140,18%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">PRUDENCIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">292</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">333</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">114,24%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">69,618,953</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">129,736,655</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">186,35%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RIVADAVIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">11</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">48</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">436,36%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,879,450</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">22,280,185</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">574,31%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUS</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">12</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">74,38%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,236,892</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,311,881</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">148,06%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SANCOR</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,143</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,256</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">63,32%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,477,226,027</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,826,362,279</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">191,33%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMG</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">29,765</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">25,746</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">86,50%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10,739,447,416</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">12,404,213,055</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">115,50%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMG LIFE</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">14,717</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13,295</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">90,34%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">788,889,347</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">684,862,351</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">86,81%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TPC</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">22</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">121,091</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">20,927</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">17,28%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">VICTORIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">51</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">214</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">422,92%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10,716,301</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">55,348,609</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">516,49%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ZURICH</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">22,73%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,422,922</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">96,455</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">2,82%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">COSENA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">150</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">218</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">145,72%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">92,571,694</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">52,853,317</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">57,09%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SAN CRISTOBAL</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">45</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">621</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">1,375,42%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,516,428</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">296,318,204</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">3,113,75%</td>
+            </tr>
+            <tr className="hover:bg-gray-50 bg-gray-100">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Total General</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">83,002</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">73,631</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">88,71%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">19,797,597,276</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">28,410,171,357</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">143,50%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  // Tabla de cumplimiento total específica para ASSA X CÍA
+  const renderAssaTotalComplianceTable = () => (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+      <div className="px-6 py-4 border-b border-gray-200">
+        <h2 className="text-lg font-semibold text-gray-900">CUMP. PPTO TOTAL {selectedYear2}/06</h2>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Descripción
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                PPTO Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                REAL Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                % Q PÓL
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                PPTO R12
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                REAL R12
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                % R12
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">AFIANZADORA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">133</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">213</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">160,03%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">34,773,612</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">30,786,112</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">88,53%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ALLIANZ</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,720</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,325</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">135,14%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">468,345,810</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,041,865,659</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">222,46%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ATM</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">564</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">716</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">126,88%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">68,995,069</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">138,493,339</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">200,73%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">BOSTON</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">20</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">5,05%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13,375,720</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">74,379</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,56%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CAUCIONES</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">21</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">62,20%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">7,984,842</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,390,887</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">17,42%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CHUBB</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">106</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">15</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">14,20%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">23,697,464</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">18,972,684</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">80,06%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">FED PAT</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">870</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">959</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">110,22%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">456,658,035</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">531,237,711</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">116,33%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">HDI</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">7</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">70,71%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,096,737</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,321,757</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">211,70%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">INTEGRITY</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,686</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,619</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">96,01%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">467,282,914</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">543,840,130</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">116,38%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LA HOLANDO</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">77</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">62</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">80,52%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10,216,393</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">15,875,658</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">155,39%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LIBRA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">872</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">490</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">56,17%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">8,619,650</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,769,511</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">66,93%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LMA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">26,693</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">23,454</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">87,87%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,029,394,074</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,590,435,724</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">190,69%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NACION</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">19,305</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NOBLE</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">11</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">83,33%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,491,130</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13,304,418</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">140,18%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">PRUDENCIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">292</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">333</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">114,24%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">69,618,953</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">129,736,655</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">186,35%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RIVADAVIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">11</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">48</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">436,36%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,879,450</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">22,280,185</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">574,31%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUS</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">12</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">74,38%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,236,892</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,311,881</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">148,06%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SANCOR</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">5,143</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,256</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">63,32%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">1,477,226,027</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2,826,362,279</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">191,33%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMG</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">29,765</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">25,746</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">86,50%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10,739,447,416</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">12,404,213,055</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">115,50%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMG LIFE</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">14,717</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">13,295</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">90,34%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">788,889,347</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">684,862,351</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">86,81%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TPC</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">22</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">-</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">0,00%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">121,091</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">20,927</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">17,28%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">VICTORIA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">51</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">214</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">422,92%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">10,716,301</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">55,348,609</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">516,49%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ZURICH</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">2</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">22,73%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">3,422,922</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">96,455</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">2,82%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">COSENA</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">150</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">218</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">145,72%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">92,571,694</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">52,853,317</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">57,09%</td>
+            </tr>
+            <tr className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SAN CRISTOBAL</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">45</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">621</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">1,375,42%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">9,447,413</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black">296,318,204</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">3,136,50%</td>
+            </tr>
+            <tr className="hover:bg-gray-50 bg-gray-100">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Total General</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">83,002</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">73,631</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">88,71%</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">19,797,528,261</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">28,410,171,357</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-black font-semibold">143,50%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 
   // Renderizado de tablas para CAS X CANAL
