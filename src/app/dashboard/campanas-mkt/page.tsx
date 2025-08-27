@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import * as XLSX from 'xlsx';
 
 // Componente de Select Múltiple Desplegable
@@ -13,6 +13,7 @@ interface MultiSelectProps {
 
 function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opciones" }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Cerrar dropdown cuando se hace clic fuera
@@ -20,6 +21,7 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setSearchTerm(''); // Limpiar búsqueda al cerrar
       }
     }
 
@@ -40,6 +42,18 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
   const handleRemoveOption = (optionToRemove: string) => {
     onChange(value.filter(v => v !== optionToRemove));
   };
+
+  const handleSelectAll = () => {
+    onChange([...options]);
+  };
+
+  const handleDeselectAll = () => {
+    onChange([]);
+  };
+
+  const filteredOptions = options.filter(option =>
+    option.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const displayText = value.length > 0 
     ? value.join(', ') 
@@ -92,22 +106,55 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
 
       {/* Dropdown con opciones */}
       {isOpen && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-          {options.map(option => (
-            <label 
-              key={option} 
-              className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-hidden">
+          {/* Campo de búsqueda */}
+          <div className="sticky top-0 bg-white border-b border-gray-200 p-2">
+            <input
+              type="text"
+              placeholder="Buscar opciones..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+          
+          {/* Botones de Seleccionar Todos / Deseleccionar Todos */}
+          <div className="sticky top-0 bg-gray-50 border-b border-gray-200 p-2 flex gap-2">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); handleSelectAll(); }}
+              className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
             >
-              <input
-                type="checkbox"
-                checked={value.includes(option)}
-                onChange={() => handleToggleOption(option)}
-                className="mr-3 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                onClick={(e) => e.stopPropagation()}
-              />
-              <span className="text-sm text-gray-700">{option}</span>
-            </label>
-          ))}
+              Seleccionar Todos
+            </button>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); handleDeselectAll(); }}
+              className="px-3 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+            >
+              Deseleccionar Todos
+            </button>
+          </div>
+          
+          {/* Lista de opciones */}
+          <div className="max-h-48 overflow-y-auto">
+            {filteredOptions.map(option => (
+              <label 
+                key={option} 
+                className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={value.includes(option)}
+                  onChange={() => handleToggleOption(option)}
+                  className="mr-3 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <span className="text-sm text-gray-700">{option}</span>
+              </label>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -173,9 +220,55 @@ export default function CampanasMKTPage() {
     setFiltersApplied(false);
   };
 
-  // Función para generar resultados de búsqueda
+  // Función para generar resultados de búsqueda (ahora usa datos estáticos)
   const generateSearchResults = () => {
-    // Simulación de resultados basados en filtros
+    return staticResults;
+  };
+
+  // Función para exportar a Excel
+  const exportToExcel = () => {
+    const results = generateSearchResults();
+    
+    // Preparar los datos para la exportación con solo las columnas especificadas
+    const exportData = results.map(cliente => ({
+      'NOMBRE': cliente.nombre,
+      'APELLIDO': cliente.apellido,
+      'DNI': cliente.dni,
+      'TELEFONO': cliente.telefono,
+      'EMAIL': cliente.email,
+      'OBS': new Date().toISOString().split('T')[0].replace(/-/g, '/') // Fecha en formato AAAA/MM/DD
+    }));
+
+    // Crear el workbook y worksheet
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Clientes Campañas MKT');
+
+    // Ajustar el ancho de las columnas para las nuevas columnas
+    const colWidths = [
+      { wch: 15 }, // NOMBRE
+      { wch: 15 }, // APELLIDO
+      { wch: 12 }, // DNI
+      { wch: 20 }, // TELEFONO
+      { wch: 25 }, // EMAIL
+      { wch: 12 }  // OBS (fecha)
+    ];
+    ws['!cols'] = colWidths;
+
+    // Generar el nombre del archivo con fecha
+    const fecha = new Date().toISOString().split('T')[0];
+    const fileName = `Clientes_Campanas_MKT_${fecha}.xlsx`;
+
+    // Descargar el archivo
+    XLSX.writeFile(wb, fileName);
+  };
+
+  // Estados para los desplegables de estadísticas
+  const [activeColumnFilter, setActiveColumnFilter] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Datos estáticos para evitar reordenamiento
+  const staticResults = useMemo(() => {
     const results = [];
     for (let i = 1; i <= 20; i++) {
       results.push({
@@ -192,62 +285,61 @@ export default function CampanasMKTPage() {
         tieneTelefono: Math.random() > 0.2 ? 'SI' : 'NO',
         telefono: Math.random() > 0.2 ? `+54 9 11 ${Math.floor(Math.random() * 9000000) + 1000000}` : 'No disponible',
         email: Math.random() > 0.3 ? `cliente${i}@email.com` : 'No disponible',
-        observaciones: `Observaciones para cliente ${i}`
+        observaciones: `Observaciones para cliente ${i}`,
+        socioMutual: Math.random() > 0.5 ? 'SI' : 'NO'
       });
     }
     return results;
+  }, []);
+
+  // Función para alternar el desplegable de estadísticas
+  const toggleColumnFilter = (field: string) => {
+    setActiveColumnFilter(activeColumnFilter === field ? null : field);
+    setSearchTerm(''); // Limpiar el término de búsqueda al abrir/cerrar
   };
 
-  // Función para exportar a Excel
-  const exportToExcel = () => {
+  // Cerrar desplegable cuando se hace clic fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (activeColumnFilter && !(event.target as Element).closest('.column-filter-dropdown')) {
+        setActiveColumnFilter(null);
+        setSearchTerm('');
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeColumnFilter]);
+
+  // Función para obtener valores únicos de una columna con cantidades
+  const getColumnUniqueValues = (field: string) => {
     const results = generateSearchResults();
+    const valueCounts: { [key: string]: number } = {};
     
-    // Preparar los datos para la exportación
-    const exportData = results.map(cliente => ({
-      'NOMBRE': cliente.nombre,
-      'APELLIDO': cliente.apellido,
-      'DNI': cliente.dni,
-      'EDAD': cliente.edad,
-      'PROVINCIA': cliente.provincia,
-      'CANAL': cliente.canal,
-      'PRODUCTO': cliente.producto,
-      'COMPAÑÍA': cliente.compania,
-      'TELÉFONO': cliente.telefono,
-      'EMAIL': cliente.email,
-      'TIENE MAIL': cliente.tieneMail,
-      'TIENE TELÉFONO': cliente.tieneTelefono,
-      'OBSERVACIONES': cliente.observaciones
+    // Contar la cantidad de cada valor
+    results.forEach(r => {
+      const value = (r as any)[field];
+      valueCounts[value] = (valueCounts[value] || 0) + 1;
+    });
+    
+    // Mantener el orden original de aparición en la tabla
+    const uniqueValues: string[] = [];
+    const seen = new Set<string>();
+    
+    results.forEach(r => {
+      const value = (r as any)[field];
+      if (!seen.has(value)) {
+        seen.add(value);
+        uniqueValues.push(value);
+      }
+    });
+    
+    return uniqueValues.map(value => ({
+      value,
+      count: valueCounts[value]
     }));
-
-    // Crear el workbook y worksheet
-    const ws = XLSX.utils.json_to_sheet(exportData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Clientes Campañas MKT');
-
-    // Ajustar el ancho de las columnas
-    const colWidths = [
-      { wch: 15 }, // NOMBRE
-      { wch: 15 }, // APELLIDO
-      { wch: 12 }, // DNI
-      { wch: 8 },  // EDAD
-      { wch: 20 }, // PROVINCIA
-      { wch: 15 }, // CANAL
-      { wch: 20 }, // PRODUCTO
-      { wch: 15 }, // COMPAÑÍA
-      { wch: 20 }, // TELÉFONO
-      { wch: 25 }, // EMAIL
-      { wch: 12 }, // TIENE MAIL
-      { wch: 15 }, // TIENE TELÉFONO
-      { wch: 30 }  // OBSERVACIONES
-    ];
-    ws['!cols'] = colWidths;
-
-    // Generar el nombre del archivo con fecha
-    const fecha = new Date().toISOString().split('T')[0];
-    const fileName = `Clientes_Campanas_MKT_${fecha}.xlsx`;
-
-    // Descargar el archivo
-    XLSX.writeFile(wb, fileName);
   };
 
   return (
@@ -374,6 +466,25 @@ export default function CampanasMKTPage() {
               ]}
               value={filters.productoVigente}
               onChange={(value) => handleFilterChange("productoVigente", value)}
+            />
+          </div>
+
+          {/* Sin el Producto */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Sin el Producto</label>
+            <MultiSelect
+              options={[
+                "AERONAVEGACIÓN", "AP", "ART", "ASISTENCIA AL VIAJERO", "AUTOMOTORES",
+                "BOLSO PROTEGIDO", "CASCOS", "CAUCIÓN", "COMBINADO FAMILIAR", "INCENDIO",
+                "INT. COMERCIO", "INT. CONSORCIO", "MOTOS", "PRAXIS", "RC", "ROBO",
+                "RS. VS.", "SALDO DEUDOR", "SALUD", "SEGURO TÉCNICO", "SEPELIO COLECTIVO",
+                "SEPELIO INDIVIDUAL", "TRO", "VIDA COLECTIVO", "VIDA COLECTIVO CON AHORRO",
+                "VIDA INDIVIDUAL", "VIDA INDIVIDUAL CON AHORRO", "VIDA OBLIGATORIO",
+                "AP BOLSO", "TRANSPORTES", "SEPELIO", "ESCOLTA", "ARMAS", "ESCOLTA EJERCITO",
+                "SDJM", "ROBO DIBA", "ROBO Y RS. VS."
+              ]}
+              value={filters.productoNoTiene}
+              onChange={(value) => handleFilterChange("productoNoTiene", value)}
             />
           </div>
 
@@ -534,78 +645,232 @@ export default function CampanasMKTPage() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Cliente
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Nombre
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Apellido
+                  </th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    DNI
+                  </th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Edad
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Provincia
+                    <div className="relative inline-block ml-1">
+                      <button
+                        onClick={() => toggleColumnFilter('provincia')}
+                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                        title="Ver estadísticas de columna"
+                      >
+                        <i className="fa-solid fa-info-circle text-xs"></i>
+                      </button>
+                      {activeColumnFilter === 'provincia' && (
+                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                          <div className="p-2 border-b border-gray-200">
+                            <input
+                              type="text"
+                              placeholder="Buscar..."
+                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                          </div>
+                          <div className="max-h-48 overflow-y-auto">
+                            {getColumnUniqueValues('provincia')
+                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                              .map((item) => (
+                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Canal
+                    <div className="relative inline-block ml-1">
+                      <button
+                        onClick={() => toggleColumnFilter('canal')}
+                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                        title="Ver estadísticas de columna"
+                      >
+                        <i className="fa-solid fa-info-circle text-xs"></i>
+                      </button>
+                      {activeColumnFilter === 'canal' && (
+                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                          <div className="p-2 border-b border-gray-200">
+                            <input
+                              type="text"
+                              placeholder="Buscar..."
+                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                          </div>
+                          <div className="max-h-48 overflow-y-auto">
+                            {getColumnUniqueValues('canal')
+                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                              .map((item) => (
+                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Producto
+                    <div className="relative inline-block ml-1">
+                      <button
+                        onClick={() => toggleColumnFilter('producto')}
+                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                        title="Ver estadísticas de columna"
+                      >
+                        <i className="fa-solid fa-info-circle text-xs"></i>
+                      </button>
+                      {activeColumnFilter === 'producto' && (
+                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                          <div className="p-2 border-b border-gray-200">
+                            <input
+                              type="text"
+                              placeholder="Buscar..."
+                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                          </div>
+                          <div className="max-h-48 overflow-y-auto">
+                            {getColumnUniqueValues('producto')
+                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                              .map((item) => (
+                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Compañía
+                    <div className="relative inline-block ml-1">
+                      <button
+                        onClick={() => toggleColumnFilter('compania')}
+                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                        title="Ver estadísticas de columna"
+                      >
+                        <i className="fa-solid fa-info-circle text-xs"></i>
+                      </button>
+                      {activeColumnFilter === 'compania' && (
+                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                          <div className="p-2 border-b border-gray-200">
+                            <input
+                              type="text"
+                              placeholder="Buscar..."
+                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                          </div>
+                          <div className="max-h-48 overflow-y-auto">
+                            {getColumnUniqueValues('compania')
+                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                              .map((item) => (
+                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contacto
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Teléfono
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Acciones
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Socio Mutual
+                    <div className="relative inline-block ml-1">
+                      <button
+                        onClick={() => toggleColumnFilter('socioMutual')}
+                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                        title="Ver estadísticas de columna"
+                      >
+                        <i className="fa-solid fa-info-circle text-xs"></i>
+                      </button>
+                      {activeColumnFilter === 'socioMutual' && (
+                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                          <div className="p-2 border-b border-gray-200">
+                            <input
+                              type="text"
+                              placeholder="Buscar..."
+                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                          </div>
+                          <div className="max-h-48 overflow-y-auto">
+                            {getColumnUniqueValues('socioMutual')
+                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                              .map((item) => (
+                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {generateSearchResults().map((cliente) => (
                   <tr key={cliente.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
                       {cliente.nombre}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
+                      {cliente.apellido}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
+                      {cliente.dni}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
                       {cliente.edad} años
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
                       {cliente.provincia}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
                       {cliente.canal}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
                       {cliente.producto}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
                       {cliente.compania}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="flex space-x-2">
-                        {cliente.tieneMail === 'SI' && (
-                          <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
-                            <i className="fa-solid fa-envelope mr-1"></i>
-                            Mail
-                          </span>
-                        )}
-                        {cliente.tieneTelefono === 'SI' && (
-                          <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                            <i className="fa-solid fa-phone mr-1"></i>
-                            Tel
-                          </span>
-                        )}
-                      </div>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                      {cliente.telefono}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-800">
-                          <i className="fa-solid fa-eye"></i>
-                        </button>
-                        <button className="text-green-600 hover:text-green-800">
-                          <i className="fa-solid fa-plus"></i>
-                        </button>
-                      </div>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                      {cliente.email}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                      <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                        cliente.socioMutual === 'SI' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {cliente.socioMutual}
+                      </span>
                     </td>
                   </tr>
                 ))}
