@@ -320,7 +320,7 @@ export default function CampanasMKTPage() {
     
     // Contar la cantidad de cada valor
     results.forEach(r => {
-      const value = (r as any)[field];
+      const value = String((r as Record<string, unknown>)[field] || '');
       valueCounts[value] = (valueCounts[value] || 0) + 1;
     });
     
@@ -329,7 +329,7 @@ export default function CampanasMKTPage() {
     const seen = new Set<string>();
     
     results.forEach(r => {
-      const value = (r as any)[field];
+      const value = String((r as Record<string, unknown>)[field] || '');
       if (!seen.has(value)) {
         seen.add(value);
         uniqueValues.push(value);
