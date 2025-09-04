@@ -292,6 +292,7 @@ export default function EvolucionPorTipoOperacion() {
             <HighchartsChart
               id="evolucion-r12"
               type="column"
+              title="Evolución R12 por Tipo de Operación"
               data={chartData}
             />
           </div>
@@ -302,6 +303,7 @@ export default function EvolucionPorTipoOperacion() {
             <HighchartsChart
               id="evolucion-qpol"
               type="line"
+              title="Evolución Q POL por Tipo de Operación"
               data={lineChartData}
             />
           </div>

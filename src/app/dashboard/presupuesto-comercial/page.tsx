@@ -5,11 +5,11 @@ import { useState, useMemo, useEffect } from 'react';
 
 export default function PresupuestoComercial() {
   const router = useRouter();
-  const [showAssaTable, setShowAssaTable] = useState(false);
-  const [showFilialesTable, setShowFilialesTable] = useState(false);
-  const [showPasTable, setShowPasTable] = useState(false);
-  const [showCallCenterTable, setShowCallCenterTable] = useState(false);
-  const [showFilialesPasTable, setShowFilialesPasTable] = useState(false);
+  const [showAssaTable] = useState(false);
+  const [showFilialesTable] = useState(false);
+  const [showPasTable] = useState(false);
+  const [showCallCenterTable] = useState(false);
+  const [showFilialesPasTable] = useState(false);
   const [rankingFilter, setRankingFilter] = useState<'con-art' | 'sin-art'>('con-art');
 
   // Estados para el filtro
@@ -337,30 +337,7 @@ export default function PresupuestoComercial() {
 
 
 
-  const handleVerClick = (compania: string) => {
-    console.log(`Ver detalles de ${compania}`);
-    if (compania === 'CAS') {
-      router.push('/cas-indicator');
-    } else if (compania === 'ASSA') {
-      router.push('/assa-indicator');
-    } else {
-      alert(`Ver detalles de ${compania}`);
-    }
-  };
 
-  // Calcular total de prima
-  const totalPrima = useMemo(() => {
-    if (filterApplied) {
-      const period2Key = selectedMonth2 + selectedYear2;
-      return indicadoresData.CAS.R12[period2Key] + 
-             indicadoresData.ASSA.R12[period2Key] + 
-             indicadoresData.ART.R12[period2Key];
-    } else {
-      return indicadoresData.CAS.R12.julio23 + 
-    indicadoresData.ASSA.R12.julio23 + 
-    indicadoresData.ART.R12.julio23;
-    }
-  }, [indicadoresData, filterApplied, selectedMonth2, selectedYear2]);
 
   // Datos específicos para TOTAL X CÍA
   const totalXCiaData = {
@@ -1288,8 +1265,8 @@ export default function PresupuestoComercial() {
     }
   };
 
-  // Gráfico comparativo de R12 por compañía
-  const r12ChartData = useMemo(() => {
+  // Gráfico de torta de Q PÓL por compañía
+  const qPolPieData = useMemo(() => {
     if (tipoVista === 'TOTAL X CÍA') {
       return {
         chart: { type: 'column', height: 320 },
@@ -1947,27 +1924,6 @@ export default function PresupuestoComercial() {
     ],
     credits: { enabled: false },
   };
-  }, [indicadoresData, filterApplied, selectedMonth1, selectedYear1, selectedMonth2, selectedYear2, tipoVista, totalXCiaData]);
-
-  // Gráfico de torta de Q PÓL por compañía
-  const qPolPieData = useMemo(() => {
-    if (tipoVista === 'TOTAL X CÍA') {
-      return {
-        chart: { type: 'pie', height: 320 },
-        series: [
-          {
-            name: 'Q PÓL 202506',
-            data: [
-              { name: 'CAS', y: totalXCiaData.CAS.qPol202506, color: '#003871' },
-              { name: 'ASSA', y: totalXCiaData.ASSA.qPol202506, color: '#007DC5' },
-              { name: 'ART', y: totalXCiaData.ART.qPol202506, color: '#00AEEF' },
-            ],
-          },
-        ],
-        credits: { enabled: false },
-        legend: { enabled: true },
-      };
-    }
 
     if (tipoVista === 'TOTAL X CANAL') {
       return {
@@ -2179,8 +2135,6 @@ export default function PresupuestoComercial() {
       };
     }
 
-    const period2Key = filterApplied ? selectedMonth2 + selectedYear2 : 'julio23';
-    const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
 
     return {
     chart: { type: 'pie', height: 320 },
@@ -2866,8 +2820,6 @@ export default function PresupuestoComercial() {
   };
 
   const periodLabels = getPeriodLabels();
-  const period1Key = filterApplied ? selectedMonth1 + selectedYear1 : 'junio23';
-  const period2Key = filterApplied ? selectedMonth2 + selectedYear2 : 'julio23';
 
   // Datos para gráficos de cumplimiento presupuestario
   const cumplimientoQPolData = useMemo(() => {
