@@ -26,10 +26,22 @@ export default function Sidebar() {
 
   const menuItems: MenuItem[] = [
     {
+      name: 'Cartera Vigente',
+      href: '/cartera-vigente',
+      icon: 'fa-solid fa-wallet',
+      active: pathname === '/cartera-vigente'
+    },
+    {
       name: 'Evolución de la Cartera',
       href: '/evolucion-de-la-cartera',
       icon: 'fa-solid fa-house',
       active: pathname === '/evolucion-de-la-cartera'
+    },
+    {
+      name: 'Evolución por Tipo de Operación',
+      href: '/evolucion-por-tipo-operacion',
+      icon: 'fa-solid fa-chart-line',
+      active: pathname === '/evolucion-por-tipo-operacion'
     },
     {
       name: 'Ranking de Compañías / Productores',
