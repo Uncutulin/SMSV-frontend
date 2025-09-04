@@ -429,14 +429,14 @@ export default function CASIndicatorPage() {
                     <td className="px-4 py-2 text-center">$ {casData.R12[period1Key].toLocaleString('es-AR')}</td>
                     <td className="px-4 py-2 text-center">$ {casData.R12[period2Key].toLocaleString('es-AR')}</td>
                     <td className="px-4 py-2 text-center">$ {casData.R12.crecimiento.toLocaleString('es-AR')}</td>
-                    <td className="px-4 py-2 text-center text-green-600">+{casData.R12.porcentaje}%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">+{casData.R12.porcentaje}%</td>
                     </tr>
                     <tr className="border-b border-gray-200">
                       <td className="px-4 py-2 font-medium">Q PÓL</td>
                     <td className="px-4 py-2 text-center">{casData.Q_POL[period1Key]}</td>
                     <td className="px-4 py-2 text-center">{casData.Q_POL[period2Key]}</td>
                     <td className="px-4 py-2 text-center">+{casData.Q_POL.crecimiento}</td>
-                    <td className="px-4 py-2 text-center text-green-600">+{casData.Q_POL.porcentaje}%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">+{casData.Q_POL.porcentaje}%</td>
                     </tr>
                   </tbody>
                 </table>
@@ -711,60 +711,60 @@ export default function CASIndicatorPage() {
                              <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaColectivo.qPol[period1Key].toLocaleString('es-AR')}</td>
                              <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaColectivo.qPol[period2Key].toLocaleString('es-AR')}</td>
                              <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.vidaColectivo.qPol.crecimiento.toLocaleString('es-AR')}</td>
-                             <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.vidaColectivo.qPol.porcentaje}%</td>
+                             <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.vidaColectivo.qPol.porcentaje}%</td>
                              <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaColectivo.qAsegurados[period1Key].toLocaleString('es-AR')}</td>
                              <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaColectivo.qAsegurados[period2Key].toLocaleString('es-AR')}</td>
                              <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.vidaColectivo.qAsegurados.crecimiento.toLocaleString('es-AR')}</td>
-                             <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.vidaColectivo.qAsegurados.porcentaje}%</td>
+                             <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.vidaColectivo.qAsegurados.porcentaje}%</td>
                              <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.vidaColectivo.r12[period1Key].toLocaleString('es-AR')}</td>
                              <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.vidaColectivo.r12[period2Key].toLocaleString('es-AR')}</td>
                              <td className="px-2 py-1 text-center bg-blue-100 text-xs">$ {carteraSMSVData.vidaColectivo.r12.crecimiento.toLocaleString('es-AR')}</td>
-                             <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.vidaColectivo.r12.porcentaje}%</td>
+                             <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.vidaColectivo.r12.porcentaje}%</td>
                         </tr>
                         <tr className="border-b border-gray-200">
                             <td className="px-2 py-1 font-medium text-xs">SEPELIO COLECTIVO</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.sepelioColectivo.qPol[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.sepelioColectivo.qPol[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.sepelioColectivo.qPol.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.sepelioColectivo.qPol.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.sepelioColectivo.qPol.porcentaje}%</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.sepelioColectivo.qAsegurados[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.sepelioColectivo.qAsegurados[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.sepelioColectivo.qAsegurados.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.sepelioColectivo.qAsegurados.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.sepelioColectivo.qAsegurados.porcentaje}%</td>
                             <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.sepelioColectivo.r12[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.sepelioColectivo.r12[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">$ {carteraSMSVData.sepelioColectivo.r12.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.sepelioColectivo.r12.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.sepelioColectivo.r12.porcentaje}%</td>
                         </tr>
                         <tr className="border-b border-gray-200">
                             <td className="px-2 py-1 font-medium text-xs">VIDA IND. C/ AHORRO</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaIndAhorro.qPol[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaIndAhorro.qPol[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.vidaIndAhorro.qPol.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.vidaIndAhorro.qPol.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.vidaIndAhorro.qPol.porcentaje}%</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaIndAhorro.qAsegurados[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.vidaIndAhorro.qAsegurados[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.vidaIndAhorro.qAsegurados.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.vidaIndAhorro.qAsegurados.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.vidaIndAhorro.qAsegurados.porcentaje}%</td>
                             <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.vidaIndAhorro.r12[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.vidaIndAhorro.r12[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">$ {carteraSMSVData.vidaIndAhorro.r12.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.vidaIndAhorro.r12.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.vidaIndAhorro.r12.porcentaje}%</td>
                         </tr>
                         <tr className="border-b border-gray-200">
                             <td className="px-2 py-1 font-medium text-xs">SALDO DEUDOR</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.saldoDeudor.qPol[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.saldoDeudor.qPol[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.saldoDeudor.qPol.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.saldoDeudor.qPol.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.saldoDeudor.qPol.porcentaje}%</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.saldoDeudor.qAsegurados[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">{carteraSMSVData.saldoDeudor.qAsegurados[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">+{carteraSMSVData.saldoDeudor.qAsegurados.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.saldoDeudor.qAsegurados.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.saldoDeudor.qAsegurados.porcentaje}%</td>
                             <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.saldoDeudor.r12[period1Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center text-xs">$ {carteraSMSVData.saldoDeudor.r12[period2Key].toLocaleString('es-AR')}</td>
                             <td className="px-2 py-1 text-center bg-blue-100 text-xs">$ {carteraSMSVData.saldoDeudor.r12.crecimiento.toLocaleString('es-AR')}</td>
-                            <td className="px-2 py-1 text-center text-green-600 text-xs">+{carteraSMSVData.saldoDeudor.r12.porcentaje}%</td>
+                            <td className="px-2 py-1 text-center text-gray-900 text-xs">+{carteraSMSVData.saldoDeudor.r12.porcentaje}%</td>
                         </tr>
                         <tr className="bg-blue-800 text-white font-bold">
                             <td className="px-2 py-1 text-xs">TOTAL</td>

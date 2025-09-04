@@ -727,15 +727,15 @@ export default function ASSAIndicatorPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">R12</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">$ {assaData.R12[period1Key].toLocaleString('es-AR')}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">$ {assaData.R12[period2Key].toLocaleString('es-AR')}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-green-600">$ {assaData.R12.crecimiento.toLocaleString('es-AR')}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-green-600">+{assaData.R12.porcentaje}%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">$ {assaData.R12.crecimiento.toLocaleString('es-AR')}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">+{assaData.R12.porcentaje}%</td>
                   </tr>
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Q PÓL</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">{assaData.Q_POL[period1Key]}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">{assaData.Q_POL[period2Key]}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-green-600">+{assaData.Q_POL.crecimiento}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-green-600">+{assaData.Q_POL.porcentaje}%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">+{assaData.Q_POL.crecimiento}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">+{assaData.Q_POL.porcentaje}%</td>
                   </tr>
                 </tbody>
               </table>
@@ -1089,7 +1089,7 @@ export default function ASSAIndicatorPage() {
                   <h3 className="text-xl font-semibold">Evolucion Prima BROKER {periodLabels.period1} - {periodLabels.period2}</h3>
                   <button
                     onClick={handleBackToASSA}
-                    className="bg-white text-green-600 px-3 py-1 rounded text-sm font-medium hover:bg-gray-100"
+                    className="bg-white text-gray-900 px-3 py-1 rounded text-sm font-medium hover:bg-gray-100"
                   >
                     <i className="fa-solid fa-times mr-1"></i>
                     Cerrar
@@ -1518,119 +1518,119 @@ export default function ASSAIndicatorPage() {
                                 <td className="px-2 py-1 font-medium">{item.seccion}</td>
                                 <td className="px-2 py-1 text-center">{item.cantidad[period1Key] || 0}</td>
                                 <td className="px-2 py-1 text-center">{item.cantidad[period2Key] || 0}</td>
-                                <td className="px-2 py-1 text-center text-green-600">+{item.cantidadPorcentaje.toFixed(1)}%</td>
+                                <td className="px-2 py-1 text-center text-gray-900">+{item.cantidadPorcentaje.toFixed(1)}%</td>
                                 <td className="px-2 py-1 text-center">${((item.prima[period1Key] || 0) / 1000).toFixed(0)}k</td>
                                 <td className="px-2 py-1 text-center">${((item.prima[period2Key] || 0) / 1000).toFixed(0)}k</td>
-                                <td className="px-2 py-1 text-center text-green-600">+{item.primaPorcentaje.toFixed(1)}%</td>
+                                <td className="px-2 py-1 text-center text-gray-900">+{item.primaPorcentaje.toFixed(1)}%</td>
                               </tr>
                             ))}
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">PRAXIS</td>
                               <td className="px-2 py-1 text-center">65</td>
                               <td className="px-2 py-1 text-center">70</td>
-                              <td className="px-2 py-1 text-center text-green-600">+7.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+7.7%</td>
                               <td className="px-2 py-1 text-center">$180k</td>
                               <td className="px-2 py-1 text-center">$190k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+5.6%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+5.6%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">ROBO</td>
                               <td className="px-2 py-1 text-center">120</td>
                               <td className="px-2 py-1 text-center">135</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.5%</td>
                               <td className="px-2 py-1 text-center">$150k</td>
                               <td className="px-2 py-1 text-center">$165k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.0%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">INT. COMERCIO</td>
                               <td className="px-2 py-1 text-center">95</td>
                               <td className="px-2 py-1 text-center">105</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.5%</td>
                               <td className="px-2 py-1 text-center">$280k</td>
                               <td className="px-2 py-1 text-center">$310k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.7%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">SEGURO TÉCNICO</td>
                               <td className="px-2 py-1 text-center">55</td>
                               <td className="px-2 py-1 text-center">60</td>
-                              <td className="px-2 py-1 text-center text-green-600">+9.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+9.1%</td>
                               <td className="px-2 py-1 text-center">$55k</td>
                               <td className="px-2 py-1 text-center">$60k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+9.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+9.1%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">RC</td>
                               <td className="px-2 py-1 text-center">75</td>
                               <td className="px-2 py-1 text-center">85</td>
-                              <td className="px-2 py-1 text-center text-green-600">+13.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+13.3%</td>
                               <td className="px-2 py-1 text-center">$75k</td>
                               <td className="px-2 py-1 text-center">$85k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+13.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+13.3%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">AP</td>
                               <td className="px-2 py-1 text-center">160</td>
                               <td className="px-2 py-1 text-center">180</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.5%</td>
                               <td className="px-2 py-1 text-center">$180k</td>
                               <td className="px-2 py-1 text-center">$200k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+11.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+11.1%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">INCENDIO</td>
                               <td className="px-2 py-1 text-center">120</td>
                               <td className="px-2 py-1 text-center">130</td>
-                              <td className="px-2 py-1 text-center text-green-600">+8.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+8.3%</td>
                               <td className="px-2 py-1 text-center">$320k</td>
                               <td className="px-2 py-1 text-center">$350k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+9.4%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+9.4%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">INT. CONSORCIO</td>
                               <td className="px-2 py-1 text-center">45</td>
                               <td className="px-2 py-1 text-center">50</td>
-                              <td className="px-2 py-1 text-center text-green-600">+11.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+11.1%</td>
                               <td className="px-2 py-1 text-center">$180k</td>
                               <td className="px-2 py-1 text-center">$200k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+11.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+11.1%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">CASCOS</td>
                               <td className="px-2 py-1 text-center">35</td>
                               <td className="px-2 py-1 text-center">40</td>
-                              <td className="px-2 py-1 text-center text-green-600">+14.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+14.3%</td>
                               <td className="px-2 py-1 text-center">$35k</td>
                               <td className="px-2 py-1 text-center">$40k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+14.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+14.3%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">TRANSPORTES</td>
                               <td className="px-2 py-1 text-center">25</td>
                               <td className="px-2 py-1 text-center">28</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.0%</td>
                               <td className="px-2 py-1 text-center">$25k</td>
                               <td className="px-2 py-1 text-center">$28k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.0%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">MOTOS</td>
                               <td className="px-2 py-1 text-center">220</td>
                               <td className="px-2 py-1 text-center">240</td>
-                              <td className="px-2 py-1 text-center text-green-600">+9.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+9.1%</td>
                               <td className="px-2 py-1 text-center">$380k</td>
                               <td className="px-2 py-1 text-center">$420k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.5%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">CRISTALES</td>
                               <td className="px-2 py-1 text-center">15</td>
                               <td className="px-2 py-1 text-center">18</td>
-                              <td className="px-2 py-1 text-center text-green-600">+20.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+20.0%</td>
                               <td className="px-2 py-1 text-center">$15k</td>
                               <td className="px-2 py-1 text-center">$18k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+20.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+20.0%</td>
                             </tr>
                             
                             {/* SMG Total Row */}
@@ -1638,10 +1638,10 @@ export default function ASSAIndicatorPage() {
                               <td className="px-2 py-1">Total</td>
                               <td className="px-2 py-1 text-center">1.320</td>
                               <td className="px-2 py-1 text-center">1.456</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.3%</td>
                               <td className="px-2 py-1 text-center">$2.700k</td>
                               <td className="px-2 py-1 text-center">$2.922k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+8.2%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+8.2%</td>
                             </tr>
                           </tbody>
                         </table>
@@ -1677,110 +1677,110 @@ export default function ASSAIndicatorPage() {
                                 <td className="px-2 py-1 font-medium">{item.seccion}</td>
                                 <td className="px-2 py-1 text-center">{item.cantidad[period1Key] || 0}</td>
                                 <td className="px-2 py-1 text-center">{item.cantidad[period2Key] || 0}</td>
-                                <td className="px-2 py-1 text-center text-green-600">+{item.cantidadPorcentaje.toFixed(1)}%</td>
+                                <td className="px-2 py-1 text-center text-gray-900">+{item.cantidadPorcentaje.toFixed(1)}%</td>
                                 <td className="px-2 py-1 text-center">${((item.prima[period1Key] || 0) / 1000).toFixed(0)}k</td>
                                 <td className="px-2 py-1 text-center">${((item.prima[period2Key] || 0) / 1000).toFixed(0)}k</td>
-                                <td className="px-2 py-1 text-center text-green-600">+{item.primaPorcentaje.toFixed(1)}%</td>
+                                <td className="px-2 py-1 text-center text-gray-900">+{item.primaPorcentaje.toFixed(1)}%</td>
                               </tr>
                             ))}
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">RC</td>
                               <td className="px-2 py-1 text-center">65</td>
                               <td className="px-2 py-1 text-center">75</td>
-                              <td className="px-2 py-1 text-center text-green-600">+15.4%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+15.4%</td>
                               <td className="px-2 py-1 text-center">$65k</td>
                               <td className="px-2 py-1 text-center">$75k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+15.4%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+15.4%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">INT. CONSORCIO</td>
                               <td className="px-2 py-1 text-center">40</td>
                               <td className="px-2 py-1 text-center">45</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.5%</td>
                               <td className="px-2 py-1 text-center">$160k</td>
                               <td className="px-2 py-1 text-center">$180k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.5%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">SEGURO TÉCNICO</td>
                               <td className="px-2 py-1 text-center">50</td>
                               <td className="px-2 py-1 text-center">55</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.0%</td>
                               <td className="px-2 py-1 text-center">$50k</td>
                               <td className="px-2 py-1 text-center">$55k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.0%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">INT. COMERCIO</td>
                               <td className="px-2 py-1 text-center">85</td>
                               <td className="px-2 py-1 text-center">95</td>
-                              <td className="px-2 py-1 text-center text-green-600">+11.8%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+11.8%</td>
                               <td className="px-2 py-1 text-center">$240k</td>
                               <td className="px-2 py-1 text-center">$270k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.5%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">INCENDIO</td>
                               <td className="px-2 py-1 text-center">110</td>
                               <td className="px-2 py-1 text-center">120</td>
-                              <td className="px-2 py-1 text-center text-green-600">+9.1%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+9.1%</td>
                               <td className="px-2 py-1 text-center">$280k</td>
                               <td className="px-2 py-1 text-center">$310k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.7%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">TRANSPORTES</td>
                               <td className="px-2 py-1 text-center">20</td>
                               <td className="px-2 py-1 text-center">23</td>
-                              <td className="px-2 py-1 text-center text-green-600">+15.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+15.0%</td>
                               <td className="px-2 py-1 text-center">$20k</td>
                               <td className="px-2 py-1 text-center">$23k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+15.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+15.0%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">MOTOS</td>
                               <td className="px-2 py-1 text-center">200</td>
                               <td className="px-2 py-1 text-center">220</td>
-                              <td className="px-2 py-1 text-center text-green-600">+10.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+10.0%</td>
                               <td className="px-2 py-1 text-center">$340k</td>
                               <td className="px-2 py-1 text-center">$380k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+11.8%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+11.8%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">VIDA</td>
                               <td className="px-2 py-1 text-center">30</td>
                               <td className="px-2 py-1 text-center">35</td>
-                              <td className="px-2 py-1 text-center text-green-600">+16.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+16.7%</td>
                               <td className="px-2 py-1 text-center">$30k</td>
                               <td className="px-2 py-1 text-center">$35k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+16.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+16.7%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">CAUCIÓN</td>
                               <td className="px-2 py-1 text-center">75</td>
                               <td className="px-2 py-1 text-center">85</td>
-                              <td className="px-2 py-1 text-center text-green-600">+13.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+13.3%</td>
                               <td className="px-2 py-1 text-center">$400k</td>
                               <td className="px-2 py-1 text-center">$430k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+7.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+7.5%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">CASCOS</td>
                               <td className="px-2 py-1 text-center">30</td>
                               <td className="px-2 py-1 text-center">35</td>
-                              <td className="px-2 py-1 text-center text-green-600">+16.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+16.7%</td>
                               <td className="px-2 py-1 text-center">$30k</td>
                               <td className="px-2 py-1 text-center">$35k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+16.7%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+16.7%</td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <td className="px-2 py-1 font-medium">ROBO y RS. VS.</td>
                               <td className="px-2 py-1 text-center">100</td>
                               <td className="px-2 py-1 text-center">115</td>
-                              <td className="px-2 py-1 text-center text-green-600">+15.0%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+15.0%</td>
                               <td className="px-2 py-1 text-center">$120k</td>
                               <td className="px-2 py-1 text-center">$135k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+12.5%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+12.5%</td>
                             </tr>
                             
                             {/* La Mercantil Andina Total Row */}
@@ -1788,10 +1788,10 @@ export default function ASSAIndicatorPage() {
                               <td className="px-2 py-1">Total</td>
                               <td className="px-2 py-1 text-center">1.130</td>
                               <td className="px-2 py-1 text-center">1.258</td>
-                              <td className="px-2 py-1 text-center text-green-600">+11.3%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+11.3%</td>
                               <td className="px-2 py-1 text-center">$2.215k</td>
                               <td className="px-2 py-1 text-center">$2.433k</td>
-                              <td className="px-2 py-1 text-center text-green-600">+9.8%</td>
+                              <td className="px-2 py-1 text-center text-gray-900">+9.8%</td>
                             </tr>
                           </tbody>
                         </table>
@@ -1809,7 +1809,7 @@ export default function ASSAIndicatorPage() {
                   <h3 className="text-xl font-semibold">ART</h3>
                   <button
                     onClick={handleBackToASSA}
-                    className="bg-white text-red-600 px-3 py-1 rounded text-sm font-medium hover:bg-gray-100"
+                    className="bg-white text-gray-900 px-3 py-1 rounded text-sm font-medium hover:bg-gray-100"
                   >
                     <i className="fa-solid fa-times mr-1"></i>
                     Cerrar
@@ -1849,10 +1849,10 @@ export default function ASSAIndicatorPage() {
                               <td className="px-4 py-2 font-medium">{item.compania}</td>
                               <td className="px-4 py-2 text-center">${(item.primaAnual1 || 0).toLocaleString('es-AR')}</td>
                               <td className="px-4 py-2 text-center">{item.contratos1 || 0}</td>
-                              <td className="px-4 py-2 text-center text-green-600">+{item.primaPorcentaje.toFixed(1)}%</td>
+                              <td className="px-4 py-2 text-center text-gray-900">+{item.primaPorcentaje.toFixed(1)}%</td>
                               <td className="px-4 py-2 text-center">${(item.primaAnual2 || 0).toLocaleString('es-AR')}</td>
                               <td className="px-4 py-2 text-center">{item.contratos2 || 0}</td>
-                              <td className="px-4 py-2 text-center text-green-600">+{item.contratosPorcentaje.toFixed(1)}%</td>
+                              <td className="px-4 py-2 text-center text-gray-900">+{item.contratosPorcentaje.toFixed(1)}%</td>
                             </tr>
                           ))}
                           <tr className="bg-gray-800 text-white font-bold">
@@ -1860,10 +1860,10 @@ export default function ASSAIndicatorPage() {
                             <td className="px-4 py-2">TOTAL</td>
                             <td className="px-4 py-2 text-center">${artComparativoData.reduce((sum, item) => sum + (item.primaAnual1 || 0), 0).toLocaleString('es-AR')}</td>
                             <td className="px-4 py-2 text-center">{artComparativoData.reduce((sum, item) => sum + (item.contratos1 || 0), 0)}</td>
-                            <td className="px-4 py-2 text-center text-green-600">+{((artComparativoData.reduce((sum, item) => sum + (item.primaPorcentaje || 0), 0) / artComparativoData.length)).toFixed(1)}%</td>
+                            <td className="px-4 py-2 text-center text-gray-900">+{((artComparativoData.reduce((sum, item) => sum + (item.primaPorcentaje || 0), 0) / artComparativoData.length)).toFixed(1)}%</td>
                             <td className="px-4 py-2 text-center">${artComparativoData.reduce((sum, item) => sum + (item.primaAnual2 || 0), 0).toLocaleString('es-AR')}</td>
                             <td className="px-4 py-2 text-center">{artComparativoData.reduce((sum, item) => sum + (item.contratos2 || 0), 0)}</td>
-                            <td className="px-4 py-2 text-center text-green-600">+{((artComparativoData.reduce((sum, item) => sum + (item.contratosPorcentaje || 0), 0) / artComparativoData.length)).toFixed(1)}%</td>
+                            <td className="px-4 py-2 text-center text-gray-900">+{((artComparativoData.reduce((sum, item) => sum + (item.contratosPorcentaje || 0), 0) / artComparativoData.length)).toFixed(1)}%</td>
                           </tr>
                         </tbody>
                       </table>

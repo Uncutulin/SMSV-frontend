@@ -61,9 +61,9 @@ export default function AssaPorRiesgo() {
                 {riesgosData.map((item, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                     <td className="px-4 py-2 font-medium text-gray-900">{item.riesgo}</td>
-                    <td className="px-4 py-2 text-center text-red-600">{item.qPolJunio}</td>
+                    <td className="px-4 py-2 text-center text-gray-900">{item.qPolJunio}</td>
                     <td className="px-4 py-2 text-center text-gray-900">{item.r12Junio}</td>
-                    <td className="px-4 py-2 text-center text-red-600">{item.qPolJulio}</td>
+                    <td className="px-4 py-2 text-center text-gray-900">{item.qPolJulio}</td>
                     <td className="px-4 py-2 text-center text-gray-900">{item.r12Julio}</td>
                     <td className="px-4 py-2 text-center text-gray-900">{item.qPolCrec}</td>
                     <td className="px-4 py-2 text-center text-gray-900">{item.r12Crec}</td>

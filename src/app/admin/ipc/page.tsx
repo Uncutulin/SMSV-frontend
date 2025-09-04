@@ -663,13 +663,13 @@ export default function IPCPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {item.mes}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
                         {item.ipcMes.toFixed(2)}%
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {item.ipcYtd.toFixed(2)}%
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
                         {item.ipcInteranual.toFixed(2)}%
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -703,7 +703,7 @@ export default function IPCPage() {
                           </button>
                           <button
                             onClick={() => handleDelete(item.id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-gray-900 hover:text-red-900"
                           >
                             Eliminar
                           </button>

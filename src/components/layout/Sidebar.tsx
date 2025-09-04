@@ -43,6 +43,7 @@ export default function Sidebar() {
       icon: 'fa-solid fa-chart-line',
       active: pathname === '/evolucion-por-tipo-operacion'
     },
+    /*
     {
       name: 'Ranking de Compañías / Productores',
       href: '/dashboard/ranking',
@@ -54,7 +55,7 @@ export default function Sidebar() {
       href: '/dashboard/produccion',
       icon: 'fa-solid fa-building',
       active: pathname === '/dashboard/produccion'
-    },
+    },*/
     {
       name: 'Campañas Comerciales y Oportunidades de Venta',
       href: '/dashboard/campanias',

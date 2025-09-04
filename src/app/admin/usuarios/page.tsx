@@ -249,7 +249,7 @@ export default function UsuariosPage() {
                           </button>
                           <button
                             onClick={() => handleDelete(usuario.id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-gray-900 hover:text-red-900"
                           >
                             Eliminar
                           </button>

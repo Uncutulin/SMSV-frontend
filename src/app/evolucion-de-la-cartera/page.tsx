@@ -4420,14 +4420,14 @@ export default function EvolucionCartera() {
                   {assaPorRiesgoData.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? "bg-white border-b" : "bg-gray-50 border-b"}>
                       <td className="px-4 py-2 font-medium text-gray-900">{item.riesgo}</td>
-                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-gray-900">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">$ {(item.r12_1 || 0).toLocaleString('es-AR')}</td>
-                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-gray-900">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">$ {(item.r12_2 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">+{(item.crecimientoQPol || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">+$ {(item.crecimientoR12 || 0).toLocaleString('es-AR')}</td>
-                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
-                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-gray-900">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-gray-900">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
                     </tr>
                   ))}
                   <tr className="bg-blue-800 text-white font-bold">
@@ -4477,14 +4477,14 @@ export default function EvolucionCartera() {
                   {filialesData.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? "bg-white border-b" : "bg-gray-50 border-b"}>
                       <td className="px-4 py-2 font-medium text-gray-900">{item.filial}</td>
-                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-gray-900">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">$ {(item.r12_1 || 0).toLocaleString('es-AR')}</td>
-                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-gray-900">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">$ {(item.r12_2 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">+{(item.crecimientoQPol || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">+$ {(item.crecimientoR12 || 0).toLocaleString('es-AR')}</td>
-                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
-                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-gray-900">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-gray-900">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
                     </tr>
                   ))}
                   <tr className="bg-green-800 text-white font-bold">
@@ -4534,14 +4534,14 @@ export default function EvolucionCartera() {
                   {pasData.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? "bg-white border-b" : "bg-gray-50 border-b"}>
                       <td className="px-4 py-2 font-medium text-gray-900">{item.riesgo}</td>
-                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-gray-900">{(item.qPolizas1 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">$ {(item.r12_1 || 0).toLocaleString('es-AR')}</td>
-                      <td className="px-4 py-2 text-center text-red-600">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
+                      <td className="px-4 py-2 text-center text-gray-900">{(item.qPolizas2 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">$ {(item.r12_2 || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">+{(item.crecimientoQPol || 0).toLocaleString('es-AR')}</td>
                       <td className="px-4 py-2 text-center">+$ {(item.crecimientoR12 || 0).toLocaleString('es-AR')}</td>
-                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
-                      <td className="px-4 py-2 text-center font-bold text-green-600">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-gray-900">+{(item.porcentajeQPol || 0).toFixed(1)}%</td>
+                      <td className="px-4 py-2 text-center font-bold text-gray-900">+{(item.porcentajeR12 || 0).toFixed(1)}%</td>
                     </tr>
                   ))}
                   <tr className="bg-purple-800 text-white font-bold">
