@@ -55,13 +55,13 @@ export default function Sidebar() {
       href: '/dashboard/produccion',
       icon: 'fa-solid fa-building',
       active: pathname === '/dashboard/produccion'
-    },*/
+    },
     {
       name: 'Campañas Comerciales y Oportunidades de Venta',
       href: '/dashboard/campanias',
       icon: 'fa-solid fa-bullhorn',
       active: pathname === '/dashboard/campanias'
-    },
+    },*/
     {
       name: 'Presupuesto Comercial',
       href: '/dashboard/presupuesto-comercial',
@@ -69,7 +69,7 @@ export default function Sidebar() {
       active: pathname === '/dashboard/presupuesto-comercial'
     },
     {
-      name: 'Campañas de MKT',
+      name: 'Campañas de Marketing',
       href: '/dashboard/campanas-mkt',
       icon: 'fa-solid fa-ad',
       active: pathname === '/dashboard/campanas-mkt'

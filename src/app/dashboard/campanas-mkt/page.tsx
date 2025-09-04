@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import * as XLSX from 'xlsx';
+import HighchartsChart from '@/components/dashboard/HighchartsChart';
 
 // Componente de Select Múltiple Desplegable
 interface MultiSelectProps {
@@ -184,6 +185,99 @@ export default function CampanasMKTPage() {
 
   const [filtersApplied, setFiltersApplied] = useState(false);
 
+  // Datos de ejemplo para segmentación de clientes
+  const chartData = {
+    chart: { type: 'pie', height: 320 },
+    title: { text: '' },
+    series: [
+      {
+        name: 'Clientes',
+        colorByPoint: true,
+        data: [
+          { name: 'Jóvenes (18-30)', y: 35, color: '#007cc5' },
+          { name: 'Adultos (31-50)', y: 40, color: '#004376' },
+          { name: 'Mayores (51+)', y: 20, color: '#74671f' },
+          { name: 'Empresas', y: 5, color: '#e74c3c' },
+        ],
+      },
+    ],
+    credits: { enabled: false },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        size: '110%',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+        },
+      },
+    },
+  };
+
+  // Datos de ejemplo para oportunidades de venta cruzada
+  const chartCrossSell = {
+    chart: { type: 'bar', height: 320 },
+    xAxis: {
+      categories: ['Auto', 'Vida', 'Hogar', 'Salud', 'Comercio'],
+      title: { text: 'Ramo/Producto' },
+    },
+    yAxis: {
+      min: 0,
+      title: { text: 'Oportunidades de Venta Cruzada' },
+      allowDecimals: false,
+    },
+    legend: { reversed: true },
+    plotOptions: {
+      series: {
+        stacking: 'normal',
+        dataLabels: {
+          enabled: true,
+        },
+      },
+    },
+    series: [
+      {
+        name: 'Clientes con 2 productos',
+        data: [40, 30, 20, 25, 15],
+        color: '#007cc5',
+      },
+      {
+        name: 'Clientes con 3 o más productos',
+        data: [15, 10, 8, 12, 5],
+        color: '#74671f',
+      },
+      {
+        name: 'Clientes con 1 producto (potencial)',
+        data: [60, 70, 80, 75, 85],
+        color: '#004376',
+      },
+    ],
+    credits: { enabled: false },
+  };
+
+  // Datos de ejemplo para identificación de segmentos con alto potencial
+  const chartHighPotential = {
+    chart: { type: 'column', height: 320 },
+    xAxis: {
+      categories: ['Jóvenes', 'Adultos', 'Mayores', 'Empresas', 'Familias'],
+      title: { text: 'Segmento' },
+    },
+    yAxis: {
+      min: 0,
+      title: { text: 'Potencial de Venta (Índice)' },
+      allowDecimals: false,
+    },
+    series: [
+      {
+        name: 'Potencial',
+        data: [85, 92, 60, 75, 88],
+        color: '#007cc5',
+      },
+    ],
+    credits: { enabled: false },
+  };
+
   // Función para manejar cambios en los filtros de opción múltiple
   const handleFilterChange = (field: string, value: string[]) => {
     setFilters(prev => ({
@@ -343,7 +437,7 @@ export default function CampanasMKTPage() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Campañas de Marketing</h1>
         <p className="text-gray-600">Buscador avanzado para segmentación de audiencias en campañas de marketing</p>
@@ -596,35 +690,43 @@ export default function CampanasMKTPage() {
         </div>
       </div>
 
-      {/* Indicador de filtros aplicados */}
-      {filtersApplied && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <i className="fa-solid fa-filter text-blue-600"></i>
-              <div>
-                <p className="text-sm font-medium text-blue-800">
-                  Filtros aplicados
-                </p>
-                <p className="text-sm text-blue-600">
-                  {Object.values(filters).filter(f => f.length > 0).length} filtros activos
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={clearFilters}
-              className="text-blue-600 hover:text-blue-800 text-sm"
-            >
-              <i className="fa-solid fa-times mr-1"></i>
-              Limpiar
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Resultados de búsqueda */}
       {filtersApplied ? (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <>
+          {/* Gráficos principales */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-8">
+            <div className="w-full">
+              <HighchartsChart
+                id="segmentacion-clientes"
+                type="pie"
+                title="Segmentación de clientes para marketing dirigido"
+                data={chartData}
+              />
+            </div>
+            <div className="w-full">
+              <HighchartsChart
+                id="cross-sell"
+                type="bar"
+                title="Oportunidades de venta cruzada entre ramos/productos"
+                data={chartCrossSell}
+              />
+            </div>
+          </div>
+          
+          {/* Gráfico inferior */}
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-8 w-full mb-8">
+            <div className="w-full">
+              <HighchartsChart
+                id="high-potential"
+                type="column"
+                title="Identificación de segmentos con alto potencial"
+                data={chartHighPotential}
+              />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div>
@@ -878,6 +980,7 @@ export default function CampanasMKTPage() {
             </table>
           </div>
         </div>
+        </>
       ) : (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 text-center">
           <i className="fa-solid fa-search text-yellow-600 text-4xl mb-4"></i>
