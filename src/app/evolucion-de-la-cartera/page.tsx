@@ -2850,12 +2850,12 @@ export default function EvolucionCartera() {
       <div className="space-y-6">
         <div className="text-center mt-10">
           <h1 className="text-3xl font-bold text-gray-900">Evolución de Cartera</h1>
-          <p className="text-gray-600 mt-2">Visualice la Evolución de Cartera de la Compañia</p>
+          <p className="text-gray-600 mt-2">Visualice la Evolución de Cartera</p>
         </div>
 
         {/* Bloque de filtro */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro de Evolución de Cartera</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro</h3>
           
           <div className="flex flex-col md:flex-row gap-6 mb-6">
             {/* Fecha Inicio */}
@@ -2970,7 +2970,7 @@ export default function EvolucionCartera() {
         </div>
 
           {/* Botón Aplicar Filtros */}
-          <div className="flex justify-end">
+          <div className="flex justify-end hidden">
               <button
               onClick={() => setFilterApplied(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md flex items-center gap-2"
@@ -2988,65 +2988,70 @@ export default function EvolucionCartera() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">TOTAL X CÍA</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black">  </th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">COMPAÑÍA</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">COMPAÑÍA</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,899</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,669</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 23,386,730,812</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,230</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-4.41%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.41%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 11,820,721,857</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 23,386,730,812</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 11,566,008,954</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">97.85%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ASSA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ASSA</td>
                     <td className="px-4 py-2 text-center text-gray-900">75,455</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center text-gray-900">73,631</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,824</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2.42%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-2.42%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 13,250,722,758</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 15,159,448,599</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">114.40%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900  border-r-2 border-black">ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,244</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,550,273,010</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,345</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 12,369,878,053</td>
                     <td className="px-4 py-2 text-center text-gray-900">101</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">3.11%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">3.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 7,550,273,010</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 12,369,878,053</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,819,605,043</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">63.83%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">106,598</td>
-                    <td className="px-4 py-2 text-center">$ 32,621,717,625</td>
                     <td className="px-4 py-2 text-center">103,645</td>
-                    <td className="px-4 py-2 text-center">$ 64,166,780,222</td>
                     <td className="px-4 py-2 text-center">-2,953</td>
-                    <td className="px-4 py-2 text-center">-2.77%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-2.77%</td>
+                    <td className="px-4 py-2 text-center">$ 32,621,717,625</td>
+                    <td className="px-4 py-2 text-center">$ 64,166,780,222</td>
                     <td className="px-4 py-2 text-center">$ 31,545,062,596</td>
                     <td className="px-4 py-2 text-center">96.70%</td>
                   </tr>
@@ -3059,72 +3064,74 @@ export default function EvolucionCartera() {
         {/* Tabla TOTAL X CANAL */}
         {tipoVista === 'TOTAL X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              TOTAL X CANAL
-            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">TOTAL X CANAL</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black">  </th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">CANAL</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CANAL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">44,658</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 10,420,688,521</td>
                     <td className="px-4 py-2 text-center text-gray-900">43,034</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 18,119,038,113</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,624</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-3.64%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-3.64%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 10,420,688,521</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 18,119,038,113</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 7,698,349,592</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">73.88%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,437</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,998,522,395</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,934</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 11,602,251,313</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,503</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-5.11%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-5.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,998,522,395</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 11,602,251,313</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 6,603,728,918</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">132.11%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,503</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 17,202,506,710</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,677</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 34,445,490,795</td>
                     <td className="px-4 py-2 text-center text-gray-900">174</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.54%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.54%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 17,202,506,710</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 34,445,490,795</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 17,242,984,085</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">100.24%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">106,598</td>
-                    <td className="px-4 py-2 text-center">$ 32,621,717,625</td>
                     <td className="px-4 py-2 text-center">103,645</td>
-                    <td className="px-4 py-2 text-center">$ 64,166,780,222</td>
                     <td className="px-4 py-2 text-center">-2,953</td>
-                    <td className="px-4 py-2 text-center">-2.77%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-2.77%</td>
+                    <td className="px-4 py-2 text-center">$ 32,621,717,625</td>
+                    <td className="px-4 py-2 text-center">$ 64,166,780,222</td>
                     <td className="px-4 py-2 text-center">$ 31,545,062,596</td>
                     <td className="px-4 py-2 text-center">96.70%</td>
                   </tr>
@@ -3137,72 +3144,74 @@ export default function EvolucionCartera() {
         {/* Tabla CAS X CANAL */}
         {tipoVista === 'CAS X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              CAS X CANAL
-            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">CAS X CANAL</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">CANAL</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CANAL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">20,735</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,888,439,319</td>
                     <td className="px-4 py-2 text-center text-gray-900">20,264</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 14,583,997,615</td>
                     <td className="px-4 py-2 text-center text-gray-900">-471</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2.27%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-2.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,888,439,319</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 14,583,997,615</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 7,695,558,296</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">111.72%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">6,108</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 189,013,200</td>
                     <td className="px-4 py-2 text-center text-gray-900">5,221</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 480,754,899</td>
                     <td className="px-4 py-2 text-center text-gray-900">-887</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-14.52%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-14.52%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 189,013,200</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 480,754,899</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 291,741,700</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">154.35%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,056</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,743,269,339</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,184</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,321,978,298</td>
                     <td className="px-4 py-2 text-center text-gray-900">128</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">12.12%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">12.12%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,743,269,339</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,321,978,298</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 3,578,708,959</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">75.45%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
-                    <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center">26,669</td>
-                    <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
                     <td className="px-4 py-2 text-center">-1,230</td>
-                    <td className="px-4 py-2 text-center">-4.41%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-4.41%</td>
+                    <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
+                    <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
                     <td className="px-4 py-2 text-center">$ 11,566,008,954</td>
                     <td className="px-4 py-2 text-center">97.85%</td>
                   </tr>
@@ -3215,226 +3224,228 @@ export default function EvolucionCartera() {
         {/* Tabla CAS X RAMO */}
         {tipoVista === 'CAS X RAMO' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              CAS X RAMO
-        </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">CAS X RAMO</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">RAMO</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">RAMO</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AP</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,943</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 100,846,660</td>
                     <td className="px-4 py-2 text-center text-gray-900">387</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 123,478,870</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,556</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-80.08%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-80.08%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 100,846,660</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 123,478,870</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 22,632,210</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">22.44%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AP BOLSO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP BOLSO</td>
                     <td className="px-4 py-2 text-center text-gray-900">4,176</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,818,065</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,994</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,684,762</td>
                     <td className="px-4 py-2 text-center text-gray-900">-182</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-4.36%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.36%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,818,065</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,684,762</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,866,697</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">127.47%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ARMAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ARMAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">185</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,696,933</td>
                     <td className="px-4 py-2 text-center text-gray-900">176</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 9,083,123</td>
                     <td className="px-4 py-2 text-center text-gray-900">-9</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-4.86%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.86%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,696,933</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 9,083,123</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 6,386,190</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">236.79%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">BOLSO PROTEGIDO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOLSO PROTEGIDO</td>
                     <td className="px-4 py-2 text-center text-gray-900">5,020</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 143,612,108</td>
                     <td className="px-4 py-2 text-center text-gray-900">4,947</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 323,744,516</td>
                     <td className="px-4 py-2 text-center text-gray-900">-73</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1.45%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-1.45%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 143,612,108</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 323,744,516</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 180,132,407</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.43%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ESCOLTA</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ESCOLTA</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,169</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 47,472,437</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,589</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 174,251,101</td>
                     <td className="px-4 py-2 text-center text-gray-900">420</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">19.36%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">19.36%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 47,472,437</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 174,251,101</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 126,778,664</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">267.06%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ESCOLTA EJERCITO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ESCOLTA EJERCITO</td>
                     <td className="px-4 py-2 text-center text-gray-900">65</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 203,896,881</td>
                     <td className="px-4 py-2 text-center text-gray-900">69</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 445,644,686</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">6.15%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">6.15%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 203,896,881</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 445,644,686</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 241,747,805</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">118.56%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ROBO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ROBO</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 19,811,883</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 37,669,275</td>
                     <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 19,811,883</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 37,669,275</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 17,857,392</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">90.13%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SALDO DEUDOR</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SALDO DEUDOR</td>
                     <td className="px-4 py-2 text-center text-gray-900">12</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 699,713,484</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 659,929,483</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-8.33%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-8.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 699,713,484</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 659,929,483</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -39,784,001</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-5.69%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SDJM</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SDJM</td>
                     <td className="px-4 py-2 text-center text-gray-900">89</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 51,462,909</td>
                     <td className="px-4 py-2 text-center text-gray-900">145</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 142,087,469</td>
                     <td className="px-4 py-2 text-center text-gray-900">56</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">62.92%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">62.92%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 51,462,909</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 142,087,469</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 90,624,560</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">176.10%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEPELIO COLECTIVO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO COLECTIVO</td>
                     <td className="px-4 py-2 text-center text-gray-900">96</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,400,123,114</td>
                     <td className="px-4 py-2 text-center text-gray-900">103</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,695,908,050</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">7.29%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">7.29%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,400,123,114</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,695,908,050</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 2,295,784,936</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">95.65%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEPELIO INDIVIDUAL</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO INDIVIDUAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,405</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,165,609</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,535</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 25,540,731</td>
                     <td className="px-4 py-2 text-center text-gray-900">130</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">9.25%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">9.25%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,165,609</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 25,540,731</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 19,375,122</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">314.25%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO</td>
                     <td className="px-4 py-2 text-center text-gray-900">237</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,827,939,045</td>
                     <td className="px-4 py-2 text-center text-gray-900">234</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 9,160,455,325</td>
                     <td className="px-4 py-2 text-center text-gray-900">-3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1.27%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-1.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,827,939,045</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 9,160,455,325</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,332,516,280</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">89.74%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO CON AHORRO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO CON AHORRO</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 43,952,280</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 128,390,512</td>
                     <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 43,952,280</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 128,390,512</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 84,438,232</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">192.11%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA DIBA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA DIBA</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,586,517,281</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,553,967,309</td>
                     <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,586,517,281</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,553,967,309</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,967,450,028</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">124.01%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">33</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,477</td>
                     <td className="px-4 py-2 text-center text-gray-900">33</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,481</td>
                     <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,477</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,481</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 4</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">0.09%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL CON AHORRO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL CON AHORRO</td>
                     <td className="px-4 py-2 text-center text-gray-900">12,133</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,673,993,351</td>
                     <td className="px-4 py-2 text-center text-gray-900">12,047</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,878,282,244</td>
                     <td className="px-4 py-2 text-center text-gray-900">-86</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-0.71%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-0.71%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,673,993,351</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,878,282,244</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 2,204,288,893</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">131.68%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA OBLIGATORIO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA OBLIGATORIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">327</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,695,340</td>
                     <td className="px-4 py-2 text-center text-gray-900">390</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 19,608,876</td>
                     <td className="px-4 py-2 text-center text-gray-900">63</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">19.27%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">19.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,695,340</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 19,608,876</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 10,913,535</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.51%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
-                    <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center">26,669</td>
-                    <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
                     <td className="px-4 py-2 text-center">-1,230</td>
-                    <td className="px-4 py-2 text-center">-4.41%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-4.41%</td>
+                    <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
+                    <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
                     <td className="px-4 py-2 text-center">$ 11,566,008,954</td>
                     <td className="px-4 py-2 text-center">97.85%</td>
                   </tr>
@@ -3447,72 +3458,74 @@ export default function EvolucionCartera() {
         {/* Tabla ASSA X CANAL */}
         {tipoVista === 'ASSA X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ASSA X CANAL
-            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ASSA X CANAL</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">CANAL</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CANAL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">23,806</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,240,959,553</td>
                     <td className="px-4 py-2 text-center text-gray-900">22,607</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,431,509,543</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,199</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-5.04%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-5.04%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,240,959,553</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,431,509,543</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,190,549,990</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">53.13%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">22,313</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,193,230,281</td>
                     <td className="px-4 py-2 text-center text-gray-900">21,709</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 9,421,091,618</td>
                     <td className="px-4 py-2 text-center text-gray-900">-604</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2.71%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-2.71%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,193,230,281</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 9,421,091,618</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 5,227,861,338</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">124.67%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,336</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,816,532,925</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,315</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,557,570,196</td>
                     <td className="px-4 py-2 text-center text-gray-900">-21</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-0.07%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-0.07%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,816,532,925</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 15,557,570,196</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 8,741,037,271</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">128.23%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
-                    <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center">73,631</td>
-                    <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center">-1,824</td>
-                    <td className="px-4 py-2 text-center">-2.42%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-2.42%</td>
+                    <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
+                    <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center">$ 15,159,448,599</td>
                     <td className="px-4 py-2 text-center">114.40%</td>
                   </tr>
@@ -3525,270 +3538,272 @@ export default function EvolucionCartera() {
         {/* Tabla ASSA X RAMO */}
         {tipoVista === 'ASSA X RAMO' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ASSA X RAMO
-          </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ASSA X RAMO</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                  <tr className="text-white" style={{backgroundColor: '#003871'}}>                    
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">RAMO</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">RAMO</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AERONAVEGACIÓN</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AERONAVEGACIÓN</td>
                     <td className="px-4 py-2 text-center text-gray-900">5</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,135,009</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 26,056,851</td>
                     <td className="px-4 py-2 text-center text-gray-900">2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">40.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">40.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,135,009</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 26,056,851</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 20,921,842</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">407.44%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AP</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP</td>
                     <td className="px-4 py-2 text-center text-gray-900">9,847</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 139,061,759</td>
                     <td className="px-4 py-2 text-center text-gray-900">7,893</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 397,825,842</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,954</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-19.84%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-19.84%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 139,061,759</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 397,825,842</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 258,764,083</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">186.08%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AUTOMOTORES</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AUTOMOTORES</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,185</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 10,545,921,731</td>
                     <td className="px-4 py-2 text-center text-gray-900">25,872</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 22,109,067,730</td>
                     <td className="px-4 py-2 text-center text-gray-900">-313</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1.20%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-1.20%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 10,545,921,731</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 22,109,067,730</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 11,563,145,999</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">109.65%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CASCOS</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CASCOS</td>
                     <td className="px-4 py-2 text-center text-gray-900">85</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 9,037,238</td>
                     <td className="px-4 py-2 text-center text-gray-900">100</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 22,205,827</td>
                     <td className="px-4 py-2 text-center text-gray-900">15</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">17.65%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">17.65%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 9,037,238</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 22,205,827</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 13,168,588</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">145.71%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CAUCIÓN</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAUCIÓN</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,255</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 178,505,745</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,415</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 247,867,241</td>
                     <td className="px-4 py-2 text-center text-gray-900">160</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">12.75%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">12.75%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 178,505,745</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 247,867,241</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 69,361,495</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">38.86%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">COMBINADO FAMILIAR</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">COMBINADO FAMILIAR</td>
                     <td className="px-4 py-2 text-center text-gray-900">14,553</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 673,695,571</td>
                     <td className="px-4 py-2 text-center text-gray-900">14,150</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,969,642,521</td>
                     <td className="px-4 py-2 text-center text-gray-900">-403</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2.77%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-2.77%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 673,695,571</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,969,642,521</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,295,946,951</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">192.36%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INCENDIO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INCENDIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">986</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 215,310,802</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,098</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 360,437,744</td>
                     <td className="px-4 py-2 text-center text-gray-900">112</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">11.36%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">11.36%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 215,310,802</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 360,437,744</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 145,126,942</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">67.40%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INT. COMERCIO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INT. COMERCIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,070</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 170,584,891</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,088</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 503,965,600</td>
                     <td className="px-4 py-2 text-center text-gray-900">18</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">1.68%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">1.68%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 170,584,891</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 503,965,600</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 333,380,709</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">195.43%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INT. CONSORCIO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INT. CONSORCIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">348</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 54,835,550</td>
                     <td className="px-4 py-2 text-center text-gray-900">358</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 216,621,078</td>
                     <td className="px-4 py-2 text-center text-gray-900">10</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">2.87%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">2.87%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 54,835,550</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 216,621,078</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 161,785,528</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">295.04%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">MOTOS</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">MOTOS</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,873</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 257,920,015</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,779</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 773,443,504</td>
                     <td className="px-4 py-2 text-center text-gray-900">-94</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-3.27%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-3.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 257,920,015</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 773,443,504</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 515,523,489</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">199.88%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PRAXIS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PRAXIS</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,601</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 79,593,636</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,885</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 325,809,180</td>
                     <td className="px-4 py-2 text-center text-gray-900">284</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">17.74%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">17.74%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 79,593,636</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 325,809,180</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 246,215,544</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">309.34%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RC</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RC</td>
                     <td className="px-4 py-2 text-center text-gray-900">916</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 163,271,810</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,081</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 314,655,120</td>
                     <td className="px-4 py-2 text-center text-gray-900">165</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">18.01%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">18.01%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 163,271,810</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 314,655,120</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 151,383,310</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">92.72%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ROBO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ROBO</td>
                     <td className="px-4 py-2 text-center text-gray-900">267</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 32,854,975</td>
                     <td className="px-4 py-2 text-center text-gray-900">252</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 119,425,509</td>
                     <td className="px-4 py-2 text-center text-gray-900">-15</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-5.62%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-5.62%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 32,854,975</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 119,425,509</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 86,570,535</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">263.49%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RS. VS.</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RS. VS.</td>
                     <td className="px-4 py-2 text-center text-gray-900">168</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,768,893</td>
                     <td className="px-4 py-2 text-center text-gray-900">287</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 24,540,489</td>
                     <td className="px-4 py-2 text-center text-gray-900">119</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">70.83%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">70.83%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,768,893</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 24,540,489</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 18,771,596</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">325.39%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SALUD</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SALUD</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,588</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 372,266,042</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,468</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 533,492,024</td>
                     <td className="px-4 py-2 text-center text-gray-900">-120</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-0.88%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-0.88%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 372,266,042</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 533,492,024</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 161,225,982</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">43.31%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEGURO TÉCNICO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEGURO TÉCNICO</td>
                     <td className="px-4 py-2 text-center text-gray-900">157</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 133,314,698</td>
                     <td className="px-4 py-2 text-center text-gray-900">132</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 108,466,196</td>
                     <td className="px-4 py-2 text-center text-gray-900">-25</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-15.92%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-15.92%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 133,314,698</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 108,466,196</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -24,848,501</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-18.64%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEPELIO INDIVIDUAL</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO INDIVIDUAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">6</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,984,249</td>
                     <td className="px-4 py-2 text-center text-gray-900">6</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 35,183,978</td>
                     <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 7,984,249</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 35,183,978</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 27,199,729</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">340.67%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">TRANSPORTES</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TRANSPORTES</td>
                     <td className="px-4 py-2 text-center text-gray-900">27</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 25,790,732</td>
                     <td className="px-4 py-2 text-center text-gray-900">22</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 51,966,462</td>
                     <td className="px-4 py-2 text-center text-gray-900">-5</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-18.52%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-18.52%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 25,790,732</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 51,966,462</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 26,175,730</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">101.49%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO</td>
                     <td className="px-4 py-2 text-center text-gray-900">209</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 143,319,269</td>
                     <td className="px-4 py-2 text-center text-gray-900">205</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 151,592,394</td>
                     <td className="px-4 py-2 text-center text-gray-900">-4</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1.91%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-1.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 143,319,269</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 151,592,394</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 8,273,126</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5.77%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">272</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 31,998,834</td>
                     <td className="px-4 py-2 text-center text-gray-900">394</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 54,756,960</td>
                     <td className="px-4 py-2 text-center text-gray-900">122</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">44.85%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">44.85%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 31,998,834</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 54,756,960</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 22,758,126</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">71.12%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA OBLIGATORIO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA OBLIGATORIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,037</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 4,551,311</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,138</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,382,732</td>
                     <td className="px-4 py-2 text-center text-gray-900">101</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">9.74%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">9.74%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 4,551,311</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 15,382,732</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 10,831,421</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">237.98%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
-                    <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center">73,631</td>
-                    <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center">-1,824</td>
-                    <td className="px-4 py-2 text-center">-2.42%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-2.42%</td>
+                    <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
+                    <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center">$ 15,159,448,599</td>
                     <td className="px-4 py-2 text-center">114.40%</td>
                   </tr>
@@ -3801,314 +3816,316 @@ export default function EvolucionCartera() {
         {/* Tabla ASSA X CÍA */}
         {tipoVista === 'ASSA X CÍA' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ASSA X CÍA
-        </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ASSA X CÍA</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">CÍA</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CÍA</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AFIANZADORA</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AFIANZADORA</td>
                     <td className="px-4 py-2 text-center text-gray-900">121</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 23,275,510</td>
                     <td className="px-4 py-2 text-center text-gray-900">213</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 30,786,112</td>
                     <td className="px-4 py-2 text-center text-gray-900">92</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">76.03%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">76.03%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 23,275,510</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 30,786,112</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 7,510,602</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">32.27%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ALLIANZ</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ALLIANZ</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,564</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 313,484,478</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,325</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,041,865,659</td>
                     <td className="px-4 py-2 text-center text-gray-900">761</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">48.66%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">48.66%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 313,484,478</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,041,865,659</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 728,381,180</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">232.35%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ATM</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ATM</td>
                     <td className="px-4 py-2 text-center text-gray-900">513</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 46,181,438</td>
                     <td className="px-4 py-2 text-center text-gray-900">716</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 138,493,339</td>
                     <td className="px-4 py-2 text-center text-gray-900">203</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">39.57%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">39.57%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 46,181,438</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 138,493,339</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 92,311,901</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">199.89%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">BOSTON</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOSTON</td>
                     <td className="px-4 py-2 text-center text-gray-900">18</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,952,959</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 74,379</td>
                     <td className="px-4 py-2 text-center text-gray-900">-17</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-94.44%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-94.44%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,952,959</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 74,379</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -8,878,580</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-99.17%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CAUCIONES</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAUCIONES</td>
                     <td className="px-4 py-2 text-center text-gray-900">19</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,344,606</td>
                     <td className="px-4 py-2 text-center text-gray-900">13</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,390,887</td>
                     <td className="px-4 py-2 text-center text-gray-900">-6</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-31.58%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-31.58%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,344,606</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,390,887</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -3,953,720</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-73.98%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CHUBB</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CHUBB</td>
                     <td className="px-4 py-2 text-center text-gray-900">96</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,861,757</td>
                     <td className="px-4 py-2 text-center text-gray-900">15</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 18,972,684</td>
                     <td className="px-4 py-2 text-center text-gray-900">-81</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-84.38%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-84.38%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 15,861,757</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 18,972,684</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 3,110,927</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">19.61%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FED PAT</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
                     <td className="px-4 py-2 text-center text-gray-900">791</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 305,661,335</td>
                     <td className="px-4 py-2 text-center text-gray-900">959</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 531,237,711</td>
                     <td className="px-4 py-2 text-center text-gray-900">168</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">21.24%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">21.24%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 305,661,335</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 531,237,711</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 225,576,376</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">73.80%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">HDI</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">HDI</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 734,095</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,321,757</td>
                     <td className="px-4 py-2 text-center text-gray-900">-2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-22.22%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-22.22%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 734,095</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,321,757</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,587,663</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">216.27%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INTEGRITY</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INTEGRITY</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,533</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 312,773,035</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,619</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 543,840,130</td>
                     <td className="px-4 py-2 text-center text-gray-900">86</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">5.61%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">5.61%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 312,773,035</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 543,840,130</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 231,067,095</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">73.88%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LA HOLANDO</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO</td>
                     <td className="px-4 py-2 text-center text-gray-900">70</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,838,282</td>
                     <td className="px-4 py-2 text-center text-gray-900">62</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,875,658</td>
                     <td className="px-4 py-2 text-center text-gray-900">-8</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-11.43%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-11.43%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,838,282</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 15,875,658</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 9,037,376</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">132.16%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LIBRA</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LIBRA</td>
                     <td className="px-4 py-2 text-center text-gray-900">793</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
                     <td className="px-4 py-2 text-center text-gray-900">490</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
                     <td className="px-4 py-2 text-center text-gray-900">-303</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-38.21%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-38.21%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 0</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LMA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LMA</td>
                     <td className="px-4 py-2 text-center text-gray-900">24,266</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,366,394,962</td>
                     <td className="px-4 py-2 text-center text-gray-900">23,454</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 9,590,435,724</td>
                     <td className="px-4 py-2 text-center text-gray-900">-812</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-3.35%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-3.35%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,366,394,962</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 9,590,435,724</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 6,224,040,762</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">184.89%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">NACIÓN</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NACIÓN</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 12,922</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-100.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-100.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 12,922</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ -</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -12,922</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-100.00%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">NOBLE</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NOBLE</td>
                     <td className="px-4 py-2 text-center text-gray-900">12</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,352,831</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 13,304,418</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-8.33%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-8.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,352,831</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 13,304,418</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 6,951,587</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">109.43%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PRUDENCIA</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PRUDENCIA</td>
                     <td className="px-4 py-2 text-center text-gray-900">265</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 46,599,032</td>
                     <td className="px-4 py-2 text-center text-gray-900">333</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 129,736,655</td>
                     <td className="px-4 py-2 text-center text-gray-900">68</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">25.66%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">25.66%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 46,599,032</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 129,736,655</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 83,137,623</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">178.41%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RIVADAVIA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RIVADAVIA</td>
                     <td className="px-4 py-2 text-center text-gray-900">10</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,596,687</td>
                     <td className="px-4 py-2 text-center text-gray-900">48</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 22,280,185</td>
                     <td className="px-4 py-2 text-center text-gray-900">38</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">380.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">380.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,596,687</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 22,280,185</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 19,683,498</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">758.02%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RUS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RUS</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,497,250</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,311,881</td>
                     <td className="px-4 py-2 text-center text-gray-900">-2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-18.18%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-18.18%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,497,250</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,311,881</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,814,631</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">121.20%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SANCOR</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SANCOR</td>
                     <td className="px-4 py-2 text-center text-gray-900">4,675</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 988,772,441</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,256</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,826,362,279</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,419</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-30.35%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-30.35%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 988,772,441</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,826,362,279</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,837,589,837</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">185.85%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SMG</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,059</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,188,385,151</td>
                     <td className="px-4 py-2 text-center text-gray-900">25,746</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 12,404,213,055</td>
                     <td className="px-4 py-2 text-center text-gray-900">-1,313</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-4.85%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.85%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 7,188,385,151</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 12,404,213,055</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 5,215,827,904</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">72.56%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SMG LIFE</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG LIFE</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,379</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 528,038,385</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,295</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 684,862,351</td>
                     <td className="px-4 py-2 text-center text-gray-900">-84</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-0.63%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-0.63%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 528,038,385</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 684,862,351</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 156,823,967</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">29.70%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">TPC</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TPC</td>
                     <td className="px-4 py-2 text-center text-gray-900">20</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 81,052</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 20,927</td>
                     <td className="px-4 py-2 text-center text-gray-900">-20</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-100.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-100.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 81,052</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 20,927</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -60,125</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-74.18%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VICTORIA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA</td>
                     <td className="px-4 py-2 text-center text-gray-900">46</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,172,892</td>
                     <td className="px-4 py-2 text-center text-gray-900">214</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 55,348,609</td>
                     <td className="px-4 py-2 text-center text-gray-900">168</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">365.22%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">365.22%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 7,172,892</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 55,348,609</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 48,175,717</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">671.64%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ZURICH</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ZURICH</td>
                     <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,291,112</td>
                     <td className="px-4 py-2 text-center text-gray-900">2</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 96,455</td>
                     <td className="px-4 py-2 text-center text-gray-900">-6</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-75.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-75.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,291,112</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 96,455</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -2,194,657</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-95.79%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">COSENA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">COSENA</td>
                     <td className="px-4 py-2 text-center text-gray-900">136</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 61,962,312</td>
                     <td className="px-4 py-2 text-center text-gray-900">218</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 52,853,317</td>
                     <td className="px-4 py-2 text-center text-gray-900">82</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">60.29%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">60.29%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 61,962,312</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 52,853,317</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -9,108,995</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-14.70%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SAN CRISTOBAL</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SAN CRISTOBAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">40</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,688,723</td>
                     <td className="px-4 py-2 text-center text-gray-900">621</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 296,318,204</td>
                     <td className="px-4 py-2 text-center text-gray-900">581</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">1452.50%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">1452.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,688,723</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 296,318,204</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 290,629,481</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5108.87%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
-                    <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center">73,631</td>
-                    <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center">-1,824</td>
-                    <td className="px-4 py-2 text-center">-2.42%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">-2.42%</td>
+                    <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
+                    <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
                     <td className="px-4 py-2 text-center">$ 15,159,448,599</td>
                     <td className="px-4 py-2 text-center">114.40%</td>
                   </tr>
@@ -4121,72 +4138,74 @@ export default function EvolucionCartera() {
         {/* Tabla ART X CANAL */}
         {tipoVista === 'ART X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ART X CANAL
-            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ART X CANAL</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">Canal</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">Canal</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">117</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,291,289,649</td>
                     <td className="px-4 py-2 text-center text-gray-900">163</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 103,530,955</td>
                     <td className="px-4 py-2 text-center text-gray-900">46</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">39.32%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">39.32%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,291,289,649</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 103,530,955</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -1,187,758,694</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-91.98%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,016</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 616,278,915</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,004</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,700,404,796</td>
                     <td className="px-4 py-2 text-center text-gray-900">-12</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1.18%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-1.18%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 616,278,915</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,700,404,796</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,084,125,881</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">175.91%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,111</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,642,704,446</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,178</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 10,565,942,302</td>
                     <td className="px-4 py-2 text-center text-gray-900">67</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">3.17%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">3.17%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,642,704,446</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 10,565,942,302</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,923,237,856</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">87.25%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,244</td>
-                    <td className="px-4 py-2 text-center">$ 7,550,273,010</td>
                     <td className="px-4 py-2 text-center">3,345</td>
-                    <td className="px-4 py-2 text-center">$ 12,369,878,053</td>
                     <td className="px-4 py-2 text-center">101</td>
-                    <td className="px-4 py-2 text-center">3.11%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">3.11%</td>
+                    <td className="px-4 py-2 text-center">$ 7,550,273,010</td>
+                    <td className="px-4 py-2 text-center">$ 12,369,878,053</td>
                     <td className="px-4 py-2 text-center">$ 4,819,605,043</td>
                     <td className="px-4 py-2 text-center">63.83%</td>
                   </tr>
@@ -4199,160 +4218,162 @@ export default function EvolucionCartera() {
         {/* Tabla ART X CÍA */}
         {tipoVista === 'ART X CÍA' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ART X CÍA
-            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ART X CÍA</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202406</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={2}>202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={4}>CRECIMIENTO REAL 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black">C REAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold">202406</th>
+                    <th className="px-4 py-3 text-center font-bold">202506</th>
+                    <th className="px-4 py-3 text-center font-bold">DIF</th>
+                    <th className="px-4 py-3 text-center font-bold">C REAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white">CÍA</th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CÍA</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ANDINA ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ANDINA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">73</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 166,842,533</td>
                     <td className="px-4 py-2 text-center text-gray-900">244</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,479,829,623</td>
                     <td className="px-4 py-2 text-center text-gray-900">171</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">234.25%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">234.25%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 166,842,533</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,479,829,623</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,312,987,090</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">786.96%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ASOCIART ART</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ASOCIART ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">323</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,629,349,277</td>
                     <td className="px-4 py-2 text-center text-gray-900">361</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,575,358,075</td>
                     <td className="px-4 py-2 text-center text-gray-900">38</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">11.76%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">11.76%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,629,349,277</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,575,358,075</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 946,008,798</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">58.06%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">EXPERTA ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">EXPERTA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">28</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 138,734,835</td>
                     <td className="px-4 py-2 text-center text-gray-900">23</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 309,246,420</td>
                     <td className="px-4 py-2 text-center text-gray-900">-5</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-17.86%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-17.86%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 138,734,835</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 309,246,420</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 170,511,586</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">122.90%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FED PAT</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
                     <td className="px-4 py-2 text-center text-gray-900">132</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,349,559,046</td>
                     <td className="px-4 py-2 text-center text-gray-900">106</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,069,467,626</td>
                     <td className="px-4 py-2 text-center text-gray-900">-26</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-19.70%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-19.70%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,349,559,046</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,069,467,626</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -1,280,091,420</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-54.48%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">GALENO ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">GALENO ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">12</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 66,536,918</td>
                     <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 10,885,655</td>
                     <td className="px-4 py-2 text-center text-gray-900">-4</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-33.33%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-33.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 66,536,918</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 10,885,655</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -55,651,263</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-83.64%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LA HOLANDO ART</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 21,561,415</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 248,271,635</td>
                     <td className="px-4 py-2 text-center text-gray-900">3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">37.50%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">37.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 21,561,415</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 248,271,635</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 226,710,220</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">1051.46%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">OMINT ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">OMINT ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,009,147</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,405,747</td>
                     <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,009,147</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,405,747</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 3,396,600</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">67.81%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PREVENCIÓN ART</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PREVENCIÓN ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,579</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,215,706,171</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,590</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,745,633,959</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.70%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.70%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,215,706,171</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,745,633,959</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,529,927,788</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.85%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PROVINCIA ART</td>
-                    <td className="px-4 py-2 text-center text-gray-900">574</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,074,334,312</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PROVINCIA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">534</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,361,201,528</td>
+                    <td className="px-4 py-2 text-center text-gray-900">574</td>
                     <td className="px-4 py-2 text-center text-gray-900">-40</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-6.97%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-6.97%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,074,334,312</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,361,201,528</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,286,867,216</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">119.78%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SMG ART</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">511</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 882,639,356</td>
                     <td className="px-4 py-2 text-center text-gray-900">460</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,546,534,132</td>
                     <td className="px-4 py-2 text-center text-gray-900">-51</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-9.98%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-9.98%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 882,639,356</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,546,534,132</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 663,894,776</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">75.22%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VICTORIA ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">100.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 15,043,652</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">100.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 15,043,652</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">100.00%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,244</td>
-                    <td className="px-4 py-2 text-center">$ 7,550,273,010</td>
                     <td className="px-4 py-2 text-center">3,345</td>
-                    <td className="px-4 py-2 text-center">$ 12,369,878,053</td>
                     <td className="px-4 py-2 text-center">101</td>
-                    <td className="px-4 py-2 text-center">3.11%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">3.11%</td>
+                    <td className="px-4 py-2 text-center">$ 7,550,273,010</td>
+                    <td className="px-4 py-2 text-center">$ 12,369,878,053</td>
                     <td className="px-4 py-2 text-center">$ 4,819,605,043</td>
                     <td className="px-4 py-2 text-center">63.83%</td>
                   </tr>

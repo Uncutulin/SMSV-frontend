@@ -2904,7 +2904,7 @@ export default function PresupuestoComercial() {
     <div className="space-y-6">
         <div className="text-center mt-10">
           <h1 className="text-3xl font-bold text-gray-900">Presupuesto Comercial</h1>
-          <p className="text-gray-600 mt-2">Visualice el Presupuesto Comercial de la Compañía</p>
+          <p className="text-gray-600 mt-2">Visualice el Presupuesto Comercial</p>
         </div>
 
         {/* Bloque de filtro */}
@@ -3024,7 +3024,7 @@ export default function PresupuestoComercial() {
         </div>
 
           {/* Botón Aplicar Filtros */}
-          <div className="flex justify-end">
+          <div className="flex justify-end hidden">
               <button
               onClick={() => setFilterApplied(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md flex items-center gap-2"
@@ -3039,15 +3039,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'TOTAL X CÍA' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">TOTAL X CÍA</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}> </th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3055,7 +3055,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3067,8 +3067,8 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ART</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,568</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,345</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-223</td>
@@ -3076,7 +3076,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">11,280,107,876</td>
                     <td className="px-4 py-2 text-center text-gray-900">12,369,878,053</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">1,089,770,177</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">109.66%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">109.66%</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,568</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,345</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-223</td>
@@ -3086,8 +3086,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">1,089,770,177</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">109.66%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ASSA</td>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ASSA</td>
                     <td className="px-4 py-2 text-center text-gray-900">83,002</td>
                     <td className="px-4 py-2 text-center text-gray-900">73,631</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-9,371</td>
@@ -3095,7 +3095,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">19,797,597,276</td>
                     <td className="px-4 py-2 text-center text-gray-900">28,410,171,357</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">8,612,574,081</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">143.50%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">143.50%</td>
                     <td className="px-4 py-2 text-center text-gray-900">83,002</td>
                     <td className="px-4 py-2 text-center text-gray-900">73,631</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-9,371</td>
@@ -3105,8 +3105,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">8,612,643,096</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">143.50%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CAS</td>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">30,689</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,669</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-4,020</td>
@@ -3114,7 +3114,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">17,660,158,455</td>
                     <td className="px-4 py-2 text-center text-gray-900">23,386,730,812</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5,726,572,357</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">132.43%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">132.43%</td>
                     <td className="px-4 py-2 text-center text-gray-900">30,689</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,669</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-4,020</td>
@@ -3124,8 +3124,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5,726,572,357</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">132.43%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">117,259</td>
                     <td className="px-4 py-2 text-center">103,645</td>
                     <td className="px-4 py-2 text-center">-13,614</td>
@@ -3133,7 +3133,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">48,737,863,608</td>
                     <td className="px-4 py-2 text-center">64,166,780,222</td>
                     <td className="px-4 py-2 text-center">15,428,916,614</td>
-                    <td className="px-4 py-2 text-center">131.66%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">131.66%</td>
                     <td className="px-4 py-2 text-center">117,259</td>
                     <td className="px-4 py-2 text-center">103,645</td>
                     <td className="px-4 py-2 text-center">-13,614</td>
@@ -3153,15 +3153,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'TOTAL X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">TOTAL X CANAL</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}> </th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3169,7 +3169,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3181,8 +3181,8 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">49,124</td>
                     <td className="px-4 py-2 text-center text-gray-900">43,034</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-6,090</td>
@@ -3190,7 +3190,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">15,568,508,650</td>
                     <td className="px-4 py-2 text-center text-gray-900">18,119,038,113</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">2,550,529,463</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">116.38%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">116.38%</td>
                     <td className="px-4 py-2 text-center text-gray-900">49,124</td>
                     <td className="px-4 py-2 text-center text-gray-900">43,034</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-6,090</td>
@@ -3200,8 +3200,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">2,550,529,463</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">116.38%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,381</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,934</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-4,447</td>
@@ -3209,7 +3209,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">7,467,792,458</td>
                     <td className="px-4 py-2 text-center text-gray-900">11,602,251,313</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">4,134,458,855</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">155.36%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">155.36%</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,381</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,934</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-4,447</td>
@@ -3219,8 +3219,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">4,134,458,855</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">155.36%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">35,754</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,677</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-3,077</td>
@@ -3228,7 +3228,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">25,701,562,499</td>
                     <td className="px-4 py-2 text-center text-gray-900">34,445,490,795</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">8,743,928,296</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">134.02%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">134.02%</td>
                     <td className="px-4 py-2 text-center text-gray-900">35,754</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,677</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-3,077</td>
@@ -3238,8 +3238,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">8,743,997,311</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">134.02%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">117,259</td>
                     <td className="px-4 py-2 text-center">103,645</td>
                     <td className="px-4 py-2 text-center">-13,614</td>
@@ -3247,7 +3247,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">48,737,863,608</td>
                     <td className="px-4 py-2 text-center">64,166,780,222</td>
                     <td className="px-4 py-2 text-center">15,428,916,614</td>
-                    <td className="px-4 py-2 text-center">131.66%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">131.66%</td>
                     <td className="px-4 py-2 text-center">117,259</td>
                     <td className="px-4 py-2 text-center">103,645</td>
                     <td className="px-4 py-2 text-center">-13,614</td>
@@ -3267,15 +3267,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'CAS X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">CAS X CANAL</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3283,7 +3283,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3295,8 +3295,16 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">22,809</td>
+                    <td className="px-4 py-2 text-center text-gray-900">20,264</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2,545</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">88.84%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10,291,328,343</td>
+                    <td className="px-4 py-2 text-center text-gray-900">14,583,997,615</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">4,292,669,272</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">141.71%</td>
                     <td className="px-4 py-2 text-center text-gray-900">22,809</td>
                     <td className="px-4 py-2 text-center text-gray-900">20,264</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-2,545</td>
@@ -3305,17 +3313,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">14,583,997,615</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">4,292,669,272</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">141.71%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">22,809</td>
-                    <td className="px-4 py-2 text-center text-gray-900">20,264</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2,545</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">88.84%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10,291,328,343</td>
-                    <td className="px-4 py-2 text-center text-gray-900">14,583,997,615</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">4,292,669,272</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">141.71%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
+                    <td className="px-4 py-2 text-center text-gray-900">6,719</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,221</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1,498</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">77.71%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7,282,385,720</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,480,754,899</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2,801,630,821</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">170.25%</td>
                     <td className="px-4 py-2 text-center text-gray-900">6,719</td>
                     <td className="px-4 py-2 text-center text-gray-900">5,221</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-1,498</td>
@@ -3324,17 +3332,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">4,480,754,899</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-2,801,630,821</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">170.25%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">6,719</td>
-                    <td className="px-4 py-2 text-center text-gray-900">5,221</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1,498</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">77.71%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7,282,385,720</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4,480,754,899</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-2,801,630,821</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">170.25%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,162</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,184</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">22</td>
@@ -3342,7 +3342,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">7,086,444,392</td>
                     <td className="px-4 py-2 text-center text-gray-900">8,321,978,298</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">1,235,533,906</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">117.44%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">117.44%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,162</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,184</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">22</td>
@@ -3352,8 +3352,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">1,235,533,906</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">117.44%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]" style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">30,689</td>
                     <td className="px-4 py-2 text-center">26,669</td>
                     <td className="px-4 py-2 text-center">-4,020</td>
@@ -3361,7 +3361,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">17,660,158,455</td>
                     <td className="px-4 py-2 text-center">23,386,730,812</td>
                     <td className="px-4 py-2 text-center">5,726,572,357</td>
-                    <td className="px-4 py-2 text-center">132.43%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">132.43%</td>
                     <td className="px-4 py-2 text-center">30,689</td>
                     <td className="px-4 py-2 text-center">26,669</td>
                     <td className="px-4 py-2 text-center">-4,020</td>
@@ -3381,15 +3381,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'CAS X RAMO' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">CAS X RAMO</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3397,7 +3397,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3409,8 +3409,16 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AP</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,137</td>
+                    <td className="px-4 py-2 text-center text-gray-900">387</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1,750</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">18.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">150,664,910</td>
+                    <td className="px-4 py-2 text-center text-gray-900">123,478,870</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-27,186,040</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">81.96%</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,137</td>
                     <td className="px-4 py-2 text-center text-gray-900">387</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-1,750</td>
@@ -3419,17 +3427,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">123,478,870</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-27,186,040</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">81.96%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,137</td>
-                    <td className="px-4 py-2 text-center text-gray-900">387</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1,750</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">18.11%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">150,664,910</td>
-                    <td className="px-4 py-2 text-center text-gray-900">123,478,870</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-27,186,040</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">81.96%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AP BOLSO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP BOLSO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,594</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,994</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-600</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.95%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,704,189</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8,684,762</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">2,980,573</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">152.25%</td>
                     <td className="px-4 py-2 text-center text-gray-900">4,594</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,994</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-600</td>
@@ -3438,17 +3446,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">8,684,762</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">2,980,573</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">152.25%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4,594</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,994</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-600</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.95%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">5,704,189</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8,684,762</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">2,980,573</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">152.25%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ARMAS</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ARMAS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">204</td>
+                    <td className="px-4 py-2 text-center text-gray-900">176</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-28</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.49%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,029,218</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,083,123</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">5,053,905</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">225.43%</td>
                     <td className="px-4 py-2 text-center text-gray-900">204</td>
                     <td className="px-4 py-2 text-center text-gray-900">176</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-28</td>
@@ -3457,17 +3465,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">9,083,123</td>
                     <td className="px-4 py-2 text-center font-bold text-black">5,053,905</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">225.43%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">204</td>
-                    <td className="px-4 py-2 text-center text-gray-900">176</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-28</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.49%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4,029,218</td>
-                    <td className="px-4 py-2 text-center text-gray-900">9,083,123</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">5,053,905</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">225.43%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">BOLSO PROTEGIDO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOLSO PROTEGIDO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,522</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,947</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-575</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.59%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">214,556,490</td>
+                    <td className="px-4 py-2 text-center text-gray-900">323,744,516</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">109,188,026</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">150.89%</td>
                     <td className="px-4 py-2 text-center text-gray-900">5,522</td>
                     <td className="px-4 py-2 text-center text-gray-900">4,947</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-575</td>
@@ -3476,17 +3484,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">323,744,516</td>
                     <td className="px-4 py-2 text-center font-bold text-black">109,188,026</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">150.89%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">5,522</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4,947</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-575</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.59%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">214,556,490</td>
-                    <td className="px-4 py-2 text-center text-gray-900">323,744,516</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">109,188,026</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">150.89%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ESCOLTA</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ESCOLTA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,386</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,589</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">203</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.51%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">70,923,821</td>
+                    <td className="px-4 py-2 text-center text-gray-900">174,251,101</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">103,327,280</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">245.69%</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,386</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,589</td>
                     <td className="px-4 py-2 text-center font-bold text-black">203</td>
@@ -3495,17 +3503,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">174,251,101</td>
                     <td className="px-4 py-2 text-center font-bold text-black">103,327,280</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">245.69%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,386</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,589</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">203</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.51%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">70,923,821</td>
-                    <td className="px-4 py-2 text-center text-gray-900">174,251,101</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">103,327,280</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">245.69%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ESCOLTA EJERCITO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ESCOLTA EJERCITO</td>
                     <td className="px-4 py-2 text-center text-gray-900">72</td>
                     <td className="px-4 py-2 text-center text-gray-900">69</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -3513,7 +3513,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">304,621,940</td>
                     <td className="px-4 py-2 text-center text-gray-900">445,644,686</td>
                     <td className="px-4 py-2 text-center font-bold text-black">141,022,746</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">146.29%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">146.29%</td>
                     <td className="px-4 py-2 text-center text-gray-900">72</td>
                     <td className="px-4 py-2 text-center text-gray-900">69</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -3523,8 +3523,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">141,022,746</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">146.29%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ROBO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ROBO</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -3532,7 +3532,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">29,598,954</td>
                     <td className="px-4 py-2 text-center text-gray-900">37,669,275</td>
                     <td className="px-4 py-2 text-center font-bold text-black">8,070,321</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">127.27%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">127.27%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -3542,8 +3542,16 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">8,070,321</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">127.27%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SALDO DEUDOR</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SALDO DEUDOR</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">83.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,045,371,946</td>
+                    <td className="px-4 py-2 text-center text-gray-900">659,929,483</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-385,442,463</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">63.13%</td>
                     <td className="px-4 py-2 text-center text-gray-900">13</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2</td>
@@ -3552,17 +3560,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">659,929,483</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-385,442,463</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">63.13%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13</td>
-                    <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">83.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,045,371,946</td>
-                    <td className="px-4 py-2 text-center text-gray-900">659,929,483</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-385,442,463</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">63.13%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SDJM</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SDJM</td>
+                    <td className="px-4 py-2 text-center text-gray-900">98</td>
+                    <td className="px-4 py-2 text-center text-gray-900">145</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">47</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">148.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">76,885,586</td>
+                    <td className="px-4 py-2 text-center text-gray-900">142,087,469</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">65,201,883</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">184.80%</td>
                     <td className="px-4 py-2 text-center text-gray-900">98</td>
                     <td className="px-4 py-2 text-center text-gray-900">145</td>
                     <td className="px-4 py-2 text-center font-bold text-black">47</td>
@@ -3571,17 +3579,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">142,087,469</td>
                     <td className="px-4 py-2 text-center font-bold text-black">65,201,883</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">184.80%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">98</td>
-                    <td className="px-4 py-2 text-center text-gray-900">145</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">47</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">148.11%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">76,885,586</td>
-                    <td className="px-4 py-2 text-center text-gray-900">142,087,469</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">65,201,883</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">184.80%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEPELIO COLECTIVO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO COLECTIVO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">106</td>
+                    <td className="px-4 py-2 text-center text-gray-900">103</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">97.54%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,585,783,932</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,695,908,050</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,110,124,118</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">130.96%</td>
                     <td className="px-4 py-2 text-center text-gray-900">106</td>
                     <td className="px-4 py-2 text-center text-gray-900">103</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -3590,17 +3598,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">4,695,908,050</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,110,124,118</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">130.96%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">106</td>
-                    <td className="px-4 py-2 text-center text-gray-900">103</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">97.54%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,585,783,932</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4,695,908,050</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,110,124,118</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">130.96%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEPELIO INDIVIDUAL</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO INDIVIDUAL</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,546</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,535</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-11</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">99.32%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,211,420</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25,540,731</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">16,329,311</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">277.27%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,546</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,535</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-11</td>
@@ -3609,17 +3617,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">25,540,731</td>
                     <td className="px-4 py-2 text-center font-bold text-black">16,329,311</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">277.27%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,546</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,535</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-11</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">99.32%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">9,211,420</td>
-                    <td className="px-4 py-2 text-center text-gray-900">25,540,731</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">16,329,311</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">277.27%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO</td>
                     <td className="px-4 py-2 text-center text-gray-900">261</td>
                     <td className="px-4 py-2 text-center text-gray-900">234</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-27</td>
@@ -3627,7 +3627,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">7,212,940,934</td>
                     <td className="px-4 py-2 text-center text-gray-900">9,160,455,325</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,947,514,391</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">127.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">127.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">261</td>
                     <td className="px-4 py-2 text-center text-gray-900">234</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-27</td>
@@ -3637,8 +3637,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">1,947,514,391</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">127.00%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO CON AHORRO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO CON AHORRO</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -3646,7 +3646,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">65,664,706</td>
                     <td className="px-4 py-2 text-center text-gray-900">128,390,512</td>
                     <td className="px-4 py-2 text-center font-bold text-black">62,725,806</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">195.52%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">195.52%</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -3656,8 +3656,16 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">62,725,806</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">195.52%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA DIBA</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA DIBA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,370,256,817</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,553,967,309</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,183,710,492</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">149.94%</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -3666,17 +3674,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">3,553,967,309</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,183,710,492</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">149.94%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,370,256,817</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,553,967,309</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,183,710,492</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">149.94%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL</td>
+                    <td className="px-4 py-2 text-center text-gray-900">36</td>
+                    <td className="px-4 py-2 text-center text-gray-900">33</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">6,688</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,481</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2,207</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">66.99%</td>
                     <td className="px-4 py-2 text-center text-gray-900">36</td>
                     <td className="px-4 py-2 text-center text-gray-900">33</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -3685,17 +3693,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">4,481</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2,207</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">66.99%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">36</td>
-                    <td className="px-4 py-2 text-center text-gray-900">33</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">6,688</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4,481</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2,207</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">66.99%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL CON AHORRO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL CON AHORRO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,346</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12,047</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-1,299</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.26%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,500,946,066</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,878,282,244</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,377,336,178</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">155.07%</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,346</td>
                     <td className="px-4 py-2 text-center text-gray-900">12,047</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1,299</td>
@@ -3704,17 +3712,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">3,878,282,244</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,377,336,178</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">155.07%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,346</td>
-                    <td className="px-4 py-2 text-center text-gray-900">12,047</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-1,299</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.26%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,500,946,066</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,878,282,244</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,377,336,178</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">155.07%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA OBLIGATORIO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA OBLIGATORIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">360</td>
                     <td className="px-4 py-2 text-center text-gray-900">390</td>
                     <td className="px-4 py-2 text-center font-bold text-black">30</td>
@@ -3722,7 +3722,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">12,990,838</td>
                     <td className="px-4 py-2 text-center text-gray-900">19,608,876</td>
                     <td className="px-4 py-2 text-center font-bold text-black">6,618,038</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">150.94%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">150.94%</td>
                     <td className="px-4 py-2 text-center text-gray-900">360</td>
                     <td className="px-4 py-2 text-center text-gray-900">390</td>
                     <td className="px-4 py-2 text-center font-bold text-black">30</td>
@@ -3732,8 +3732,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">6,618,038</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">150.94%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">30,689</td>
                     <td className="px-4 py-2 text-center">26,669</td>
                     <td className="px-4 py-2 text-center">-4,020</td>
@@ -3741,7 +3741,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">17,660,158,455</td>
                     <td className="px-4 py-2 text-center">23,386,730,812</td>
                     <td className="px-4 py-2 text-center">5,726,572,357</td>
-                    <td className="px-4 py-2 text-center">132.43%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">132.43%</td>
                     <td className="px-4 py-2 text-center">30,689</td>
                     <td className="px-4 py-2 text-center">26,669</td>
                     <td className="px-4 py-2 text-center">-4,020</td>
@@ -3761,15 +3761,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'ASSA X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ASSA X CANAL</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3777,7 +3777,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3789,8 +3789,8 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,187</td>
                     <td className="px-4 py-2 text-center text-gray-900">22,607</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-3,580</td>
@@ -3798,7 +3798,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">3,347,993,572</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,431,509,543</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">83,515,971</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">102.49%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">102.49%</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,187</td>
                     <td className="px-4 py-2 text-center text-gray-900">22,607</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-3,580</td>
@@ -3808,8 +3808,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">83,515,971</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">102.49%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">24,544</td>
                     <td className="px-4 py-2 text-center text-gray-900">21,709</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-2,835</td>
@@ -3817,7 +3817,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">6,264,686,039</td>
                     <td className="px-4 py-2 text-center text-gray-900">9,421,091,618</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">3,156,405,579</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">150.38%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">150.38%</td>
                     <td className="px-4 py-2 text-center text-gray-900">24,544</td>
                     <td className="px-4 py-2 text-center text-gray-900">21,709</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-2,835</td>
@@ -3827,8 +3827,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">3,156,405,579</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">150.38%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,271</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,315</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-2,956</td>
@@ -3836,7 +3836,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">10,184,917,665</td>
                     <td className="px-4 py-2 text-center text-gray-900">15,557,570,196</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5,372,652,531</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">152.75%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">152.75%</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,271</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,315</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-2,956</td>
@@ -3846,8 +3846,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5,372,721,546</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">152.75%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">83,002</td>
                     <td className="px-4 py-2 text-center">73,631</td>
                     <td className="px-4 py-2 text-center">-9,371</td>
@@ -3855,7 +3855,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">19,797,597,276</td>
                     <td className="px-4 py-2 text-center">28,410,171,357</td>
                     <td className="px-4 py-2 text-center">8,612,574,081</td>
-                    <td className="px-4 py-2 text-center">143.50%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">143.50%</td>
                     <td className="px-4 py-2 text-center">83,002</td>
                     <td className="px-4 py-2 text-center">73,631</td>
                     <td className="px-4 py-2 text-center">-9,371</td>
@@ -3875,15 +3875,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'ASSA X RAMO' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ASSA X RAMO</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3891,7 +3891,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -3903,8 +3903,16 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AERONAVEGACIÓN</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AERONAVEGACIÓN</td>
+                    <td className="px-4 py-2 text-center text-gray-900">6</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">127.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7,671,704</td>
+                    <td className="px-4 py-2 text-center text-gray-900">26,056,851</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">18,385,147</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">339.65%</td>
                     <td className="px-4 py-2 text-center text-gray-900">6</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1</td>
@@ -3913,17 +3921,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">26,056,851</td>
                     <td className="px-4 py-2 text-center font-bold text-black">18,385,147</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">339.65%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">6</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">127.27%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7,671,704</td>
-                    <td className="px-4 py-2 text-center text-gray-900">26,056,851</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">18,385,147</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">339.65%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AP</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10,832</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7,893</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2,939</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">72.87%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">207,758,268</td>
+                    <td className="px-4 py-2 text-center text-gray-900">397,825,842</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">190,067,574</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">191.48%</td>
                     <td className="px-4 py-2 text-center text-gray-900">10,832</td>
                     <td className="px-4 py-2 text-center text-gray-900">7,893</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2,939</td>
@@ -3932,17 +3940,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">397,825,842</td>
                     <td className="px-4 py-2 text-center font-bold text-black">190,067,574</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">191.48%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10,832</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7,893</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2,939</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">72.87%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">207,758,268</td>
-                    <td className="px-4 py-2 text-center text-gray-900">397,825,842</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">190,067,574</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">191.48%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AUTOMOTORES</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AUTOMOTORES</td>
+                    <td className="px-4 py-2 text-center text-gray-900">28,804</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25,872</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2,932</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.82%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">15,755,607,066</td>
+                    <td className="px-4 py-2 text-center text-gray-900">22,109,067,730</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6,353,460,664</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">140.33%</td>
                     <td className="px-4 py-2 text-center text-gray-900">28,804</td>
                     <td className="px-4 py-2 text-center text-gray-900">25,872</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2,932</td>
@@ -3951,17 +3959,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">22,109,067,730</td>
                     <td className="px-4 py-2 text-center font-bold text-black">6,353,460,664</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">140.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">28,804</td>
-                    <td className="px-4 py-2 text-center text-gray-900">25,872</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2,932</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.82%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">15,755,607,066</td>
-                    <td className="px-4 py-2 text-center text-gray-900">22,109,067,730</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">6,353,460,664</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">140.33%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CASCOS</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CASCOS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">94</td>
+                    <td className="px-4 py-2 text-center text-gray-900">100</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">106.95%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,501,634</td>
+                    <td className="px-4 py-2 text-center text-gray-900">22,205,827</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">8,704,193</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">164.47%</td>
                     <td className="px-4 py-2 text-center text-gray-900">94</td>
                     <td className="px-4 py-2 text-center text-gray-900">100</td>
                     <td className="px-4 py-2 text-center font-bold text-black">6</td>
@@ -3970,17 +3978,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">22,205,827</td>
                     <td className="px-4 py-2 text-center font-bold text-black">8,704,193</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">164.47%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">94</td>
-                    <td className="px-4 py-2 text-center text-gray-900">100</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">6</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">106.95%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,501,634</td>
-                    <td className="px-4 py-2 text-center text-gray-900">22,205,827</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">8,704,193</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">164.47%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CAUCIÓN</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAUCIÓN</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,381</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,415</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">34</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">102.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">266,687,584</td>
+                    <td className="px-4 py-2 text-center text-gray-900">247,867,241</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-18,820,343</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">92.94%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,381</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,415</td>
                     <td className="px-4 py-2 text-center font-bold text-black">34</td>
@@ -3989,17 +3997,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">247,867,241</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-18,820,343</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">92.94%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,381</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,415</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">34</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">102.50%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">266,687,584</td>
-                    <td className="px-4 py-2 text-center text-gray-900">247,867,241</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-18,820,343</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">92.94%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">COMBINADO FAMILIAR</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">COMBINADO FAMILIAR</td>
+                    <td className="px-4 py-2 text-center text-gray-900">16,008</td>
+                    <td className="px-4 py-2 text-center text-gray-900">14,150</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-1,858</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">88.39%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,006,501,182</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,969,642,521</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">963,141,339</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">195.69%</td>
                     <td className="px-4 py-2 text-center text-gray-900">16,008</td>
                     <td className="px-4 py-2 text-center text-gray-900">14,150</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1,858</td>
@@ -4008,17 +4016,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,969,642,521</td>
                     <td className="px-4 py-2 text-center font-bold text-black">963,141,339</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">195.69%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">16,008</td>
-                    <td className="px-4 py-2 text-center text-gray-900">14,150</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-1,858</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">88.39%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,006,501,182</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,969,642,521</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">963,141,339</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">195.69%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INCENDIO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INCENDIO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,085</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,098</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">13</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">101.24%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">321,674,338</td>
+                    <td className="px-4 py-2 text-center text-gray-900">360,437,744</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">38,763,406</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">112.05%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,085</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,098</td>
                     <td className="px-4 py-2 text-center font-bold text-black">13</td>
@@ -4027,17 +4035,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">360,437,744</td>
                     <td className="px-4 py-2 text-center font-bold text-black">38,763,406</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">112.05%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,085</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,098</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">13</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">101.24%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">321,674,338</td>
-                    <td className="px-4 py-2 text-center text-gray-900">360,437,744</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">38,763,406</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">112.05%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INT. COMERCIO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INT. COMERCIO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,177</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,088</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-89</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">92.44%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">254,853,827</td>
+                    <td className="px-4 py-2 text-center text-gray-900">503,965,600</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">249,111,773</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">197.75%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,177</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,088</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-89</td>
@@ -4046,17 +4054,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">503,965,600</td>
                     <td className="px-4 py-2 text-center font-bold text-black">249,111,773</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">197.75%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,177</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,088</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-89</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">92.44%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">254,853,827</td>
-                    <td className="px-4 py-2 text-center text-gray-900">503,965,600</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">249,111,773</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">197.75%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INT. CONSORCIO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INT. CONSORCIO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">383</td>
+                    <td className="px-4 py-2 text-center text-gray-900">358</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-25</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">93.52%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">81,924,312</td>
+                    <td className="px-4 py-2 text-center text-gray-900">216,621,078</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">134,696,766</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">264.42%</td>
                     <td className="px-4 py-2 text-center text-gray-900">383</td>
                     <td className="px-4 py-2 text-center text-gray-900">358</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-25</td>
@@ -4065,17 +4073,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">216,621,078</td>
                     <td className="px-4 py-2 text-center font-bold text-black">134,696,766</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">264.42%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">383</td>
-                    <td className="px-4 py-2 text-center text-gray-900">358</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-25</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">93.52%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">81,924,312</td>
-                    <td className="px-4 py-2 text-center text-gray-900">216,621,078</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">134,696,766</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">264.42%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">MOTOS</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">MOTOS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,160</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,779</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-381</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">87.93%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">385,332,503</td>
+                    <td className="px-4 py-2 text-center text-gray-900">773,443,504</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">388,111,001</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">200.72%</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,160</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,779</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-381</td>
@@ -4084,17 +4092,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">773,443,504</td>
                     <td className="px-4 py-2 text-center font-bold text-black">388,111,001</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">200.72%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,160</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,779</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-381</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">87.93%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">385,332,503</td>
-                    <td className="px-4 py-2 text-center text-gray-900">773,443,504</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">388,111,001</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">200.72%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PRAXIS</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PRAXIS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,761</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,885</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">124</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">107.04%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">118,912,892</td>
+                    <td className="px-4 py-2 text-center text-gray-900">325,809,180</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">206,896,288</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">273.99%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,761</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,885</td>
                     <td className="px-4 py-2 text-center font-bold text-black">124</td>
@@ -4103,17 +4111,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">325,809,180</td>
                     <td className="px-4 py-2 text-center font-bold text-black">206,896,288</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">273.99%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,761</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,885</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">124</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">107.04%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">118,912,892</td>
-                    <td className="px-4 py-2 text-center text-gray-900">325,809,180</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">206,896,288</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">273.99%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RC</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RC</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,008</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,081</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">73</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">107.28%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">243,928,084</td>
+                    <td className="px-4 py-2 text-center text-gray-900">314,655,120</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">70,727,036</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">129.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,008</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,081</td>
                     <td className="px-4 py-2 text-center font-bold text-black">73</td>
@@ -4122,17 +4130,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">314,655,120</td>
                     <td className="px-4 py-2 text-center font-bold text-black">70,727,036</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">129.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,008</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,081</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">73</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">107.28%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">243,928,084</td>
-                    <td className="px-4 py-2 text-center text-gray-900">314,655,120</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">70,727,036</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">129.00%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ROBO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ROBO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">294</td>
+                    <td className="px-4 py-2 text-center text-gray-900">252</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-42</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">85.80%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">49,085,332</td>
+                    <td className="px-4 py-2 text-center text-gray-900">119,425,509</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">70,340,177</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">243.30%</td>
                     <td className="px-4 py-2 text-center text-gray-900">294</td>
                     <td className="px-4 py-2 text-center text-gray-900">252</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-42</td>
@@ -4141,17 +4149,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">119,425,509</td>
                     <td className="px-4 py-2 text-center font-bold text-black">70,340,177</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">243.30%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">294</td>
-                    <td className="px-4 py-2 text-center text-gray-900">252</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-42</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">85.80%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">49,085,332</td>
-                    <td className="px-4 py-2 text-center text-gray-900">119,425,509</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">70,340,177</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">243.30%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RS. VS.</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RS. VS.</td>
+                    <td className="px-4 py-2 text-center text-gray-900">185</td>
+                    <td className="px-4 py-2 text-center text-gray-900">287</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">102</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">155.30%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8,618,726</td>
+                    <td className="px-4 py-2 text-center text-gray-900">24,540,489</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">15,921,763</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">284.73%</td>
                     <td className="px-4 py-2 text-center text-gray-900">185</td>
                     <td className="px-4 py-2 text-center text-gray-900">287</td>
                     <td className="px-4 py-2 text-center font-bold text-black">102</td>
@@ -4160,17 +4168,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">24,540,489</td>
                     <td className="px-4 py-2 text-center font-bold text-black">15,921,763</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">284.73%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">185</td>
-                    <td className="px-4 py-2 text-center text-gray-900">287</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">102</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">155.30%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8,618,726</td>
-                    <td className="px-4 py-2 text-center text-gray-900">24,540,489</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">15,921,763</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">284.73%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SALUD</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SALUD</td>
+                    <td className="px-4 py-2 text-center text-gray-900">14,947</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,468</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-1,479</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">556,165,467</td>
+                    <td className="px-4 py-2 text-center text-gray-900">533,492,024</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-22,673,443</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">95.92%</td>
                     <td className="px-4 py-2 text-center text-gray-900">14,947</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,468</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1,479</td>
@@ -4179,17 +4187,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">533,492,024</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-22,673,443</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">95.92%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">14,947</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,468</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-1,479</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.11%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">556,165,467</td>
-                    <td className="px-4 py-2 text-center text-gray-900">533,492,024</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-22,673,443</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">95.92%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEGURO TÉCNICO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEGURO TÉCNICO</td>
                     <td className="px-4 py-2 text-center text-gray-900">173</td>
                     <td className="px-4 py-2 text-center text-gray-900">132</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-41</td>
@@ -4197,7 +4197,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">199,172,158</td>
                     <td className="px-4 py-2 text-center text-gray-900">108,466,196</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-90,705,962</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">54.46%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">54.46%</td>
                     <td className="px-4 py-2 text-center text-gray-900">173</td>
                     <td className="px-4 py-2 text-center text-gray-900">132</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-41</td>
@@ -4207,8 +4207,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">-90,705,962</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">54.46%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SEPELIO INDIVIDUAL</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO INDIVIDUAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
                     <td className="px-4 py-2 text-center text-gray-900">6</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1</td>
@@ -4216,7 +4216,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">11,928,467</td>
                     <td className="px-4 py-2 text-center text-gray-900">35,183,978</td>
                     <td className="px-4 py-2 text-center font-bold text-black">23,255,511</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">294.96%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">294.96%</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
                     <td className="px-4 py-2 text-center text-gray-900">6</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1</td>
@@ -4226,8 +4226,16 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">23,255,511</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">294.96%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">TRANSPORTES</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TRANSPORTES</td>
+                    <td className="px-4 py-2 text-center text-gray-900">30</td>
+                    <td className="px-4 py-2 text-center text-gray-900">22</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-8</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">74.07%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">38,531,353</td>
+                    <td className="px-4 py-2 text-center text-gray-900">51,966,462</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">13,435,109</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">134.87%</td>
                     <td className="px-4 py-2 text-center text-gray-900">30</td>
                     <td className="px-4 py-2 text-center text-gray-900">22</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-8</td>
@@ -4236,17 +4244,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">51,966,462</td>
                     <td className="px-4 py-2 text-center font-bold text-black">13,435,109</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">134.87%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">30</td>
-                    <td className="px-4 py-2 text-center text-gray-900">22</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-8</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">74.07%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">38,531,353</td>
-                    <td className="px-4 py-2 text-center text-gray-900">51,966,462</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">13,435,109</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">134.87%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA COLECTIVO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">230</td>
+                    <td className="px-4 py-2 text-center text-gray-900">205</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-25</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.17%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">214,118,988</td>
+                    <td className="px-4 py-2 text-center text-gray-900">151,592,394</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-62,526,594</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">70.80%</td>
                     <td className="px-4 py-2 text-center text-gray-900">230</td>
                     <td className="px-4 py-2 text-center text-gray-900">205</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-25</td>
@@ -4255,17 +4263,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">151,592,394</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-62,526,594</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">70.80%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">230</td>
-                    <td className="px-4 py-2 text-center text-gray-900">205</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-25</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.17%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">214,118,988</td>
-                    <td className="px-4 py-2 text-center text-gray-900">151,592,394</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-62,526,594</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">70.80%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA INDIVIDUAL</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL</td>
+                    <td className="px-4 py-2 text-center text-gray-900">299</td>
+                    <td className="px-4 py-2 text-center text-gray-900">394</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">95</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">131.68%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">47,806,257</td>
+                    <td className="px-4 py-2 text-center text-gray-900">54,756,960</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6,950,703</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">114.54%</td>
                     <td className="px-4 py-2 text-center text-gray-900">299</td>
                     <td className="px-4 py-2 text-center text-gray-900">394</td>
                     <td className="px-4 py-2 text-center font-bold text-black">95</td>
@@ -4274,17 +4282,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">54,756,960</td>
                     <td className="px-4 py-2 text-center font-bold text-black">6,950,703</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">114.54%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">299</td>
-                    <td className="px-4 py-2 text-center text-gray-900">394</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">95</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">131.68%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">47,806,257</td>
-                    <td className="px-4 py-2 text-center text-gray-900">54,756,960</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">6,950,703</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">114.54%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VIDA OBLIGATORIO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA OBLIGATORIO</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,141</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,138</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -4292,7 +4292,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">6,799,658</td>
                     <td className="px-4 py-2 text-center text-gray-900">15,382,732</td>
                     <td className="px-4 py-2 text-center font-bold text-black">8,583,074</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">226.23%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">226.23%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,141</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,138</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -4302,8 +4302,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">8,583,074</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">226.23%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">83,002</td>
                     <td className="px-4 py-2 text-center">73,631</td>
                     <td className="px-4 py-2 text-center">-9,371</td>
@@ -4311,7 +4311,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">19,797,597,276</td>
                     <td className="px-4 py-2 text-center">28,410,171,357</td>
                     <td className="px-4 py-2 text-center">8,612,574,081</td>
-                    <td className="px-4 py-2 text-center">143.50%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">143.50%</td>
                     <td className="px-4 py-2 text-center">83,002</td>
                     <td className="px-4 py-2 text-center">73,631</td>
                     <td className="px-4 py-2 text-center">-9,371</td>
@@ -4331,15 +4331,15 @@ export default function PresupuestoComercial() {
         {tipoVista === 'ASSA X CÍA' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ASSA X CÍA</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -4347,7 +4347,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -4359,8 +4359,16 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">AFIANZADORA</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AFIANZADORA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">133</td>
+                    <td className="px-4 py-2 text-center text-gray-900">213</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">80</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">160.03%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">34,773,612</td>
+                    <td className="px-4 py-2 text-center text-gray-900">30,786,112</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3,987,500</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">88.53%</td>
                     <td className="px-4 py-2 text-center text-gray-900">133</td>
                     <td className="px-4 py-2 text-center text-gray-900">213</td>
                     <td className="px-4 py-2 text-center font-bold text-black">80</td>
@@ -4369,17 +4377,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">30,786,112</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3,987,500</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">88.53%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">133</td>
-                    <td className="px-4 py-2 text-center text-gray-900">213</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">80</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">160.03%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">34,773,612</td>
-                    <td className="px-4 py-2 text-center text-gray-900">30,786,112</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-3,987,500</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">88.53%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ALLIANZ</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ALLIANZ</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,720</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,325</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">605</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">135.14%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">468,345,810</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,041,865,659</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">573,519,849</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">222.46%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,720</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,325</td>
                     <td className="px-4 py-2 text-center font-bold text-black">605</td>
@@ -4388,17 +4396,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,041,865,659</td>
                     <td className="px-4 py-2 text-center font-bold text-black">573,519,849</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">222.46%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,720</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,325</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">605</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">135.14%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">468,345,810</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,041,865,659</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">573,519,849</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">222.46%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ATM</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ATM</td>
+                    <td className="px-4 py-2 text-center text-gray-900">564</td>
+                    <td className="px-4 py-2 text-center text-gray-900">716</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">152</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">126.88%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">68,995,069</td>
+                    <td className="px-4 py-2 text-center text-gray-900">138,493,339</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">69,498,270</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">200.73%</td>
                     <td className="px-4 py-2 text-center text-gray-900">564</td>
                     <td className="px-4 py-2 text-center text-gray-900">716</td>
                     <td className="px-4 py-2 text-center font-bold text-black">152</td>
@@ -4407,17 +4415,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">138,493,339</td>
                     <td className="px-4 py-2 text-center font-bold text-black">69,498,270</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">200.73%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">564</td>
-                    <td className="px-4 py-2 text-center text-gray-900">716</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">152</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">126.88%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">68,995,069</td>
-                    <td className="px-4 py-2 text-center text-gray-900">138,493,339</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">69,498,270</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">200.73%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">BOSTON</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOSTON</td>
+                    <td className="px-4 py-2 text-center text-gray-900">20</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-19</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">5.05%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,375,720</td>
+                    <td className="px-4 py-2 text-center text-gray-900">74,379</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-13,301,341</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.56%</td>
                     <td className="px-4 py-2 text-center text-gray-900">20</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-19</td>
@@ -4426,17 +4434,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">74,379</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-13,301,341</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">0.56%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">20</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-19</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">5.05%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,375,720</td>
-                    <td className="px-4 py-2 text-center text-gray-900">74,379</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-13,301,341</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.56%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CAUCIONES</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAUCIONES</td>
+                    <td className="px-4 py-2 text-center text-gray-900">21</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-8</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">62.20%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7,984,842</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,390,887</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-6,593,955</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">17.42%</td>
                     <td className="px-4 py-2 text-center text-gray-900">21</td>
                     <td className="px-4 py-2 text-center text-gray-900">13</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-8</td>
@@ -4445,17 +4453,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,390,887</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-6,593,955</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">17.42%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">21</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-8</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">62.20%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7,984,842</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,390,887</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-6,593,955</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">17.42%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CHUBB</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CHUBB</td>
+                    <td className="px-4 py-2 text-center text-gray-900">106</td>
+                    <td className="px-4 py-2 text-center text-gray-900">15</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-91</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">14.20%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">23,697,464</td>
+                    <td className="px-4 py-2 text-center text-gray-900">18,972,684</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-4,724,780</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">80.06%</td>
                     <td className="px-4 py-2 text-center text-gray-900">106</td>
                     <td className="px-4 py-2 text-center text-gray-900">15</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-91</td>
@@ -4464,17 +4472,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">18,972,684</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-4,724,780</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">80.06%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">106</td>
-                    <td className="px-4 py-2 text-center text-gray-900">15</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-91</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">14.20%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">23,697,464</td>
-                    <td className="px-4 py-2 text-center text-gray-900">18,972,684</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-4,724,780</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">80.06%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FED PAT</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
+                    <td className="px-4 py-2 text-center text-gray-900">870</td>
+                    <td className="px-4 py-2 text-center text-gray-900">959</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">89</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">110.22%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">456,658,035</td>
+                    <td className="px-4 py-2 text-center text-gray-900">531,237,711</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">74,579,676</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">116.33%</td>
                     <td className="px-4 py-2 text-center text-gray-900">870</td>
                     <td className="px-4 py-2 text-center text-gray-900">959</td>
                     <td className="px-4 py-2 text-center font-bold text-black">89</td>
@@ -4483,17 +4491,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">531,237,711</td>
                     <td className="px-4 py-2 text-center font-bold text-black">74,579,676</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">116.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">870</td>
-                    <td className="px-4 py-2 text-center text-gray-900">959</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">89</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">110.22%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">456,658,035</td>
-                    <td className="px-4 py-2 text-center text-gray-900">531,237,711</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">74,579,676</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">116.33%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">HDI</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">HDI</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">70.71%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,096,737</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,321,757</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,225,020</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">211.70%</td>
                     <td className="px-4 py-2 text-center text-gray-900">10</td>
                     <td className="px-4 py-2 text-center text-gray-900">7</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -4502,17 +4510,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">2,321,757</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,225,020</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">211.70%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">70.71%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,096,737</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,321,757</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,225,020</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">211.70%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">INTEGRITY</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INTEGRITY</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,686</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,619</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-67</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">96.01%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">467,282,914</td>
+                    <td className="px-4 py-2 text-center text-gray-900">543,840,130</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">76,557,216</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">116.38%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,686</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,619</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-67</td>
@@ -4521,17 +4529,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">543,840,130</td>
                     <td className="px-4 py-2 text-center font-bold text-black">76,557,216</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">116.38%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,686</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,619</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-67</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">96.01%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">467,282,914</td>
-                    <td className="px-4 py-2 text-center text-gray-900">543,840,130</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">76,557,216</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">116.38%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LA HOLANDO</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">77</td>
+                    <td className="px-4 py-2 text-center text-gray-900">62</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-15</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">80.52%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10,216,393</td>
+                    <td className="px-4 py-2 text-center text-gray-900">15,875,658</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">5,659,265</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">155.39%</td>
                     <td className="px-4 py-2 text-center text-gray-900">77</td>
                     <td className="px-4 py-2 text-center text-gray-900">62</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-15</td>
@@ -4540,17 +4548,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">15,875,658</td>
                     <td className="px-4 py-2 text-center font-bold text-black">5,659,265</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">155.39%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">77</td>
-                    <td className="px-4 py-2 text-center text-gray-900">62</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-15</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">80.52%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10,216,393</td>
-                    <td className="px-4 py-2 text-center text-gray-900">15,875,658</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">5,659,265</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">155.39%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LIBRA</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LIBRA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">872</td>
+                    <td className="px-4 py-2 text-center text-gray-900">490</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-382</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">56.17%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8,619,650</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,769,511</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2,850,139</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">66.93%</td>
                     <td className="px-4 py-2 text-center text-gray-900">872</td>
                     <td className="px-4 py-2 text-center text-gray-900">490</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-382</td>
@@ -4559,17 +4567,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">5,769,511</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2,850,139</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">66.93%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">872</td>
-                    <td className="px-4 py-2 text-center text-gray-900">490</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-382</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">56.17%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8,619,650</td>
-                    <td className="px-4 py-2 text-center text-gray-900">5,769,511</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2,850,139</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">66.93%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LMA</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LMA</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,693</td>
                     <td className="px-4 py-2 text-center text-gray-900">23,454</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3,239</td>
@@ -4577,7 +4577,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">5,029,394,074</td>
                     <td className="px-4 py-2 text-center text-gray-900">9,590,435,724</td>
                     <td className="px-4 py-2 text-center font-bold text-black">4,561,041,650</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">190.69%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">190.69%</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,693</td>
                     <td className="px-4 py-2 text-center text-gray-900">23,454</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3,239</td>
@@ -4587,8 +4587,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">4,561,041,650</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">190.69%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">NACIÓN</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NACIÓN</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1</td>
@@ -4596,7 +4596,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">19,305</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-19,305</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1</td>
@@ -4606,8 +4606,16 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">-19,305</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">NOBLE</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NOBLE</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">83.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,491,130</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,304,418</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">3,813,288</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">140.18%</td>
                     <td className="px-4 py-2 text-center text-gray-900">13</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2</td>
@@ -4616,17 +4624,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">13,304,418</td>
                     <td className="px-4 py-2 text-center font-bold text-black">3,813,288</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">140.18%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13</td>
-                    <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">83.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">9,491,130</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,304,418</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">3,813,288</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">140.18%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PRUDENCIA</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PRUDENCIA</td>
                     <td className="px-4 py-2 text-center text-gray-900">292</td>
                     <td className="px-4 py-2 text-center text-gray-900">333</td>
                     <td className="px-4 py-2 text-center font-bold text-black">41</td>
@@ -4634,7 +4634,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">69,618,953</td>
                     <td className="px-4 py-2 text-center text-gray-900">129,736,655</td>
                     <td className="px-4 py-2 text-center font-bold text-black">60,117,702</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">186.35%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">186.35%</td>
                     <td className="px-4 py-2 text-center text-gray-900">292</td>
                     <td className="px-4 py-2 text-center text-gray-900">333</td>
                     <td className="px-4 py-2 text-center font-bold text-black">41</td>
@@ -4644,8 +4644,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">60,117,702</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">186.35%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RIVADAVIA</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RIVADAVIA</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
                     <td className="px-4 py-2 text-center text-gray-900">48</td>
                     <td className="px-4 py-2 text-center font-bold text-black">37</td>
@@ -4653,7 +4653,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">3,879,450</td>
                     <td className="px-4 py-2 text-center text-gray-900">22,280,185</td>
                     <td className="px-4 py-2 text-center font-bold text-black">18,400,735</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">574.31%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">574.31%</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
                     <td className="px-4 py-2 text-center text-gray-900">48</td>
                     <td className="px-4 py-2 text-center font-bold text-black">37</td>
@@ -4663,8 +4663,16 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">18,400,735</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">574.31%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">RUS</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RUS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">74.38%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,236,892</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,311,881</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,074,989</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">148.06%</td>
                     <td className="px-4 py-2 text-center text-gray-900">12</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3</td>
@@ -4673,17 +4681,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">3,311,881</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,074,989</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">148.06%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">12</td>
-                    <td className="px-4 py-2 text-center text-gray-900">9</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">74.38%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,236,892</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,311,881</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,074,989</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">148.06%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SANCOR</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SANCOR</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,143</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,256</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-1,887</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">63.32%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,477,226,027</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,826,362,279</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,349,136,252</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">191.33%</td>
                     <td className="px-4 py-2 text-center text-gray-900">5,143</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,256</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1,887</td>
@@ -4692,17 +4700,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">2,826,362,279</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,349,136,252</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">191.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">5,143</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,256</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-1,887</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">63.32%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,477,226,027</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,826,362,279</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,349,136,252</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">191.33%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SMG</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG</td>
+                    <td className="px-4 py-2 text-center text-gray-900">29,765</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25,746</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-4,019</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10,739,447,416</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12,404,213,055</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,664,765,639</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">115.50%</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,765</td>
                     <td className="px-4 py-2 text-center text-gray-900">25,746</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-4,019</td>
@@ -4711,17 +4719,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">12,404,213,055</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,664,765,639</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">115.50%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">29,765</td>
-                    <td className="px-4 py-2 text-center text-gray-900">25,746</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-4,019</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.50%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10,739,447,416</td>
-                    <td className="px-4 py-2 text-center text-gray-900">12,404,213,055</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,664,765,639</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">115.50%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SMG LIFE</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG LIFE</td>
+                    <td className="px-4 py-2 text-center text-gray-900">14,717</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,295</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-1,422</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.34%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">788,889,347</td>
+                    <td className="px-4 py-2 text-center text-gray-900">684,862,351</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-104,026,996</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">86.81%</td>
                     <td className="px-4 py-2 text-center text-gray-900">14,717</td>
                     <td className="px-4 py-2 text-center text-gray-900">13,295</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1,422</td>
@@ -4730,17 +4738,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">684,862,351</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-104,026,996</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">86.81%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">14,717</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,295</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-1,422</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.34%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">788,889,347</td>
-                    <td className="px-4 py-2 text-center text-gray-900">684,862,351</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-104,026,996</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.81%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">TPC</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TPC</td>
+                    <td className="px-4 py-2 text-center text-gray-900">22</td>
+                    <td className="px-4 py-2 text-center text-gray-900">-</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-22</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">121,091</td>
+                    <td className="px-4 py-2 text-center text-gray-900">20,927</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-100,164</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">17.28%</td>
                     <td className="px-4 py-2 text-center text-gray-900">22</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-22</td>
@@ -4749,17 +4757,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">20,927</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-100,164</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">17.28%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">22</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-22</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">121,091</td>
-                    <td className="px-4 py-2 text-center text-gray-900">20,927</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-100,164</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">17.28%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VICTORIA</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA</td>
                     <td className="px-4 py-2 text-center text-gray-900">51</td>
                     <td className="px-4 py-2 text-center text-gray-900">214</td>
                     <td className="px-4 py-2 text-center font-bold text-black">163</td>
@@ -4767,7 +4767,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">10,716,301</td>
                     <td className="px-4 py-2 text-center text-gray-900">55,348,609</td>
                     <td className="px-4 py-2 text-center font-bold text-black">44,632,308</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">516.49%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">516.49%</td>
                     <td className="px-4 py-2 text-center text-gray-900">51</td>
                     <td className="px-4 py-2 text-center text-gray-900">214</td>
                     <td className="px-4 py-2 text-center font-bold text-black">163</td>
@@ -4777,8 +4777,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">44,632,308</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">516.49%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ZURICH</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ZURICH</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
                     <td className="px-4 py-2 text-center text-gray-900">2</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-7</td>
@@ -4786,7 +4786,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">3,422,922</td>
                     <td className="px-4 py-2 text-center text-gray-900">96,455</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-3,326,467</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">2.82%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">2.82%</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
                     <td className="px-4 py-2 text-center text-gray-900">2</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-7</td>
@@ -4796,8 +4796,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">-3,326,467</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">2.82%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">COSENA</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">COSENA</td>
                     <td className="px-4 py-2 text-center text-gray-900">150</td>
                     <td className="px-4 py-2 text-center text-gray-900">218</td>
                     <td className="px-4 py-2 text-center font-bold text-black">68</td>
@@ -4805,7 +4805,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">92,571,694</td>
                     <td className="px-4 py-2 text-center text-gray-900">52,853,317</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-39,718,377</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">57.09%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">57.09%</td>
                     <td className="px-4 py-2 text-center text-gray-900">150</td>
                     <td className="px-4 py-2 text-center text-gray-900">218</td>
                     <td className="px-4 py-2 text-center font-bold text-black">68</td>
@@ -4815,8 +4815,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">-39,718,377</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">57.09%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SAN CRISTOBAL</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SAN CRISTOBAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">45</td>
                     <td className="px-4 py-2 text-center text-gray-900">621</td>
                     <td className="px-4 py-2 text-center font-bold text-black">576</td>
@@ -4824,7 +4824,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">9,516,428</td>
                     <td className="px-4 py-2 text-center text-gray-900">296,318,204</td>
                     <td className="px-4 py-2 text-center font-bold text-black">286,801,776</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">3113.75%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">3113.75%</td>
                     <td className="px-4 py-2 text-center text-gray-900">45</td>
                     <td className="px-4 py-2 text-center text-gray-900">621</td>
                     <td className="px-4 py-2 text-center font-bold text-black">576</td>
@@ -4834,8 +4834,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">286,870,791</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">3136.50%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">83,002</td>
                     <td className="px-4 py-2 text-center">73,631</td>
                     <td className="px-4 py-2 text-center">-9,371</td>
@@ -4843,7 +4843,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">19,797,597,276</td>
                     <td className="px-4 py-2 text-center">28,410,171,357</td>
                     <td className="px-4 py-2 text-center">8,612,574,081</td>
-                    <td className="px-4 py-2 text-center">143.50%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">143.50%</td>
                     <td className="px-4 py-2 text-center">83,002</td>
                     <td className="px-4 py-2 text-center">73,631</td>
                     <td className="px-4 py-2 text-center">-9,371</td>
@@ -4862,19 +4862,16 @@ export default function PresupuestoComercial() {
         {/* Tabla ART X CANAL */}
         {tipoVista === 'ART X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ART X CANAL
-            </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ART X CANAL</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -4882,7 +4879,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -4894,8 +4891,16 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL DIRECTO</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">129</td>
+                    <td className="px-4 py-2 text-center text-gray-900">163</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">34</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">126.65%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,929,186,735</td>
+                    <td className="px-4 py-2 text-center text-gray-900">103,530,955</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-1,825,655,780</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">5.37%</td>
                     <td className="px-4 py-2 text-center text-gray-900">129</td>
                     <td className="px-4 py-2 text-center text-gray-900">163</td>
                     <td className="px-4 py-2 text-center font-bold text-black">34</td>
@@ -4904,17 +4909,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">103,530,955</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-1,825,655,780</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5.37%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">129</td>
-                    <td className="px-4 py-2 text-center text-gray-900">163</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">34</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">126.65%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,929,186,735</td>
-                    <td className="px-4 py-2 text-center text-gray-900">103,530,955</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-1,825,655,780</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">5.37%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL FILIALES</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,118</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,004</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-114</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.84%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">920,720,699</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,700,404,796</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">779,684,097</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">184.68%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,118</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,004</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-114</td>
@@ -4923,17 +4928,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,700,404,796</td>
                     <td className="px-4 py-2 text-center font-bold text-black">779,684,097</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">184.68%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,118</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,004</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-114</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.84%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">920,720,699</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,700,404,796</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">779,684,097</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">184.68%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">CANAL PAS</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,322</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,178</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-144</td>
@@ -4941,7 +4938,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">8,430,200,442</td>
                     <td className="px-4 py-2 text-center text-gray-900">10,565,942,302</td>
                     <td className="px-4 py-2 text-center font-bold text-black">2,135,741,860</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">125.33%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">125.33%</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,322</td>
                     <td className="px-4 py-2 text-center text-gray-900">2,178</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-144</td>
@@ -4951,8 +4948,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">2,135,741,860</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.33%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,568</td>
                     <td className="px-4 py-2 text-center">3,345</td>
                     <td className="px-4 py-2 text-center">-223</td>
@@ -4960,7 +4957,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">11,280,107,876</td>
                     <td className="px-4 py-2 text-center">12,369,878,053</td>
                     <td className="px-4 py-2 text-center">1,089,770,177</td>
-                    <td className="px-4 py-2 text-center">109.66%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">109.66%</td>
                     <td className="px-4 py-2 text-center">3,568</td>
                     <td className="px-4 py-2 text-center">3,345</td>
                     <td className="px-4 py-2 text-center">-223</td>
@@ -4979,19 +4976,16 @@ export default function PresupuestoComercial() {
         {/* Tabla ART X CÍA */}
         {tipoVista === 'ART X CÍA' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="text-white px-4 py-3 font-semibold" style={{backgroundColor: '#003871'}}>
-              ART X CÍA
-            </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
-                    <th className="px-4 py-3 text-left font-bold">ART X CÍA</th>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
-                    <th className="px-4 py-2 text-left font-semibold text-white"></th>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -4999,7 +4993,7 @@ export default function PresupuestoComercial() {
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
-                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
@@ -5011,8 +5005,16 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ANDINA ART</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ANDINA ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">80</td>
+                    <td className="px-4 py-2 text-center text-gray-900">244</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">164</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">303.86%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">249,262,744</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,479,829,623</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,230,566,879</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">593.68%</td>
                     <td className="px-4 py-2 text-center text-gray-900">80</td>
                     <td className="px-4 py-2 text-center text-gray-900">244</td>
                     <td className="px-4 py-2 text-center font-bold text-black">164</td>
@@ -5021,17 +5023,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,479,829,623</td>
                     <td className="px-4 py-2 text-center font-bold text-black">1,230,566,879</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">593.68%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">80</td>
-                    <td className="px-4 py-2 text-center text-gray-900">244</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">164</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">303.86%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">249,262,744</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,479,829,623</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">1,230,566,879</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">593.68%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">ASOCIART ART</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ASOCIART ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">355</td>
+                    <td className="px-4 py-2 text-center text-gray-900">361</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">101.60%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,434,247,820</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,575,358,075</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">141,110,255</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">105.80%</td>
                     <td className="px-4 py-2 text-center text-gray-900">355</td>
                     <td className="px-4 py-2 text-center text-gray-900">361</td>
                     <td className="px-4 py-2 text-center font-bold text-black">6</td>
@@ -5040,17 +5042,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">2,575,358,075</td>
                     <td className="px-4 py-2 text-center font-bold text-black">141,110,255</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">105.80%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">355</td>
-                    <td className="px-4 py-2 text-center text-gray-900">361</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">6</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">101.60%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,434,247,820</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,575,358,075</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">141,110,255</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">105.80%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">EXPERTA ART</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">EXPERTA ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">31</td>
+                    <td className="px-4 py-2 text-center text-gray-900">23</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-8</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">74.68%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">207,269,843</td>
+                    <td className="px-4 py-2 text-center text-gray-900">309,246,420</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">101,976,577</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">149.20%</td>
                     <td className="px-4 py-2 text-center text-gray-900">31</td>
                     <td className="px-4 py-2 text-center text-gray-900">23</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-8</td>
@@ -5059,17 +5061,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">309,246,420</td>
                     <td className="px-4 py-2 text-center font-bold text-black">101,976,577</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">149.20%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">31</td>
-                    <td className="px-4 py-2 text-center text-gray-900">23</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-8</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">74.68%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">207,269,843</td>
-                    <td className="px-4 py-2 text-center text-gray-900">309,246,420</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">101,976,577</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">149.20%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">FED PAT</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
+                    <td className="px-4 py-2 text-center text-gray-900">145</td>
+                    <td className="px-4 py-2 text-center text-gray-900">106</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-39</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">73.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,510,241,215</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,069,467,626</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2,440,773,589</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">30.47%</td>
                     <td className="px-4 py-2 text-center text-gray-900">145</td>
                     <td className="px-4 py-2 text-center text-gray-900">106</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-39</td>
@@ -5078,17 +5080,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,069,467,626</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-2,440,773,589</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">30.47%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">145</td>
-                    <td className="px-4 py-2 text-center text-gray-900">106</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-39</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">73.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3,510,241,215</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,069,467,626</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-2,440,773,589</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">30.47%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">GALENO ART</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">GALENO ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-5</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">60.61%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">99,406,156</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10,885,655</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-88,520,501</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">10.95%</td>
                     <td className="px-4 py-2 text-center text-gray-900">13</td>
                     <td className="px-4 py-2 text-center text-gray-900">8</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-5</td>
@@ -5097,17 +5099,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">10,885,655</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-88,520,501</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">10.95%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-5</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">60.61%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">99,406,156</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10,885,655</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-88,520,501</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">10.95%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">LA HOLANDO ART</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
                     <td className="px-4 py-2 text-center font-bold text-black">2</td>
@@ -5115,7 +5109,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">32,212,754</td>
                     <td className="px-4 py-2 text-center text-gray-900">248,271,635</td>
                     <td className="px-4 py-2 text-center font-bold text-black">216,058,881</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">770.72%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">770.72%</td>
                     <td className="px-4 py-2 text-center text-gray-900">9</td>
                     <td className="px-4 py-2 text-center text-gray-900">11</td>
                     <td className="px-4 py-2 text-center font-bold text-black">2</td>
@@ -5125,8 +5119,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">216,058,881</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">770.72%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">OMINT ART</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">OMINT ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -5134,7 +5128,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">7,483,665</td>
                     <td className="px-4 py-2 text-center text-gray-900">8,405,747</td>
                     <td className="px-4 py-2 text-center font-bold text-black">922,082</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">112.32%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">112.32%</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">0</td>
@@ -5144,8 +5138,16 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">922,082</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">112.32%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PREVENCION ART</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PREVENCION ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,737</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,590</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-147</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">91.54%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,816,265,019</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,745,633,959</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">929,368,940</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">151.17%</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,737</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,590</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-147</td>
@@ -5154,17 +5156,17 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">2,745,633,959</td>
                     <td className="px-4 py-2 text-center font-bold text-black">929,368,940</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">151.17%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,737</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,590</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-147</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">91.54%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,816,265,019</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,745,633,959</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">929,368,940</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">151.17%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">PROVINCIA ART</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PROVINCIA ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">631</td>
+                    <td className="px-4 py-2 text-center text-gray-900">534</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-97</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">84.57%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,605,055,462</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,361,201,528</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">756,146,066</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">147.11%</td>
                     <td className="px-4 py-2 text-center text-gray-900">631</td>
                     <td className="px-4 py-2 text-center text-gray-900">534</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-97</td>
@@ -5173,17 +5175,9 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">2,361,201,528</td>
                     <td className="px-4 py-2 text-center font-bold text-black">756,146,066</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">147.11%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">631</td>
-                    <td className="px-4 py-2 text-center text-gray-900">534</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">-97</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">84.57%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,605,055,462</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,361,201,528</td>
-                    <td className="px-4 py-2 text-center font-bold text-black">756,146,066</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">147.11%</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">SMG ART</td>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">562</td>
                     <td className="px-4 py-2 text-center text-gray-900">460</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-102</td>
@@ -5191,7 +5185,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">1,318,663,198</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,546,534,132</td>
                     <td className="px-4 py-2 text-center font-bold text-black">227,870,934</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">117.28%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">117.28%</td>
                     <td className="px-4 py-2 text-center text-gray-900">562</td>
                     <td className="px-4 py-2 text-center text-gray-900">460</td>
                     <td className="px-4 py-2 text-center font-bold text-black">-102</td>
@@ -5201,8 +5195,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">227,870,934</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">117.28%</td>
                   </tr>
-                  <tr className="bg-white border-b">
-                    <td className="px-4 py-2 font-medium text-gray-900">VICTORIA ART</td>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">4</td>
@@ -5210,7 +5204,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center text-gray-900">15,043,652</td>
                     <td className="px-4 py-2 text-center font-bold text-black">15,043,652</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">100.00%</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">100.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
                     <td className="px-4 py-2 text-center font-bold text-black">4</td>
@@ -5220,8 +5214,8 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center font-bold text-black">15,043,652</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">100.00%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
-                    <td className="px-4 py-2">Total general</td>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,568</td>
                     <td className="px-4 py-2 text-center">3,345</td>
                     <td className="px-4 py-2 text-center">-223</td>
@@ -5229,7 +5223,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">11,280,107,876</td>
                     <td className="px-4 py-2 text-center">12,369,878,053</td>
                     <td className="px-4 py-2 text-center">1,089,770,177</td>
-                    <td className="px-4 py-2 text-center">109.66%</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">109.66%</td>
                     <td className="px-4 py-2 text-center">3,568</td>
                     <td className="px-4 py-2 text-center">3,345</td>
                     <td className="px-4 py-2 text-center">-223</td>
@@ -5438,7 +5432,7 @@ export default function PresupuestoComercial() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b">
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Auto</td>
                     <td className="px-4 py-2 text-center">$ 45,200</td>
                     <td className="px-4 py-2 text-center">$ 48,500</td>
@@ -5448,7 +5442,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">$ 62,500</td>
                     <td className="px-4 py-2 text-center">$ 323,300</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Hogar</td>
                     <td className="px-4 py-2 text-center">$ 32,800</td>
                     <td className="px-4 py-2 text-center">$ 35,200</td>
@@ -5458,7 +5452,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">$ 45,800</td>
                     <td className="px-4 py-2 text-center">$ 235,300</td>
                   </tr>
-                  <tr className="bg-white border-b">
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Salud</td>
                     <td className="px-4 py-2 text-center">$ 28,500</td>
                     <td className="px-4 py-2 text-center">$ 30,200</td>
@@ -5468,7 +5462,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">$ 38,500</td>
                     <td className="px-4 py-2 text-center">$ 199,500</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Vida</td>
                     <td className="px-4 py-2 text-center">$ 25,100</td>
                     <td className="px-4 py-2 text-center">$ 26,800</td>
@@ -5478,7 +5472,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">$ 33,800</td>
                     <td className="px-4 py-2 text-center">$ 176,400</td>
                   </tr>
-                  <tr className="bg-white border-b">
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Bolso</td>
                     <td className="px-4 py-2 text-center">$ 18,200</td>
                     <td className="px-4 py-2 text-center">$ 19,500</td>
@@ -5488,7 +5482,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">$ 24,800</td>
                     <td className="px-4 py-2 text-center">$ 128,900</td>
                   </tr>
-                  <tr className="bg-gray-50 border-b">
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Sepelio</td>
                     <td className="px-4 py-2 text-center">$ 15,800</td>
                     <td className="px-4 py-2 text-center">$ 16,500</td>
@@ -5498,7 +5492,7 @@ export default function PresupuestoComercial() {
                     <td className="px-4 py-2 text-center">$ 19,600</td>
                     <td className="px-4 py-2 text-center">$ 105,900</td>
                   </tr>
-                  <tr className="bg-white border-b">
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900">Otros</td>
                     <td className="px-4 py-2 text-center">$ 12,400</td>
                     <td className="px-4 py-2 text-center">$ 13,200</td>

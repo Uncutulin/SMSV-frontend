@@ -7,15 +7,18 @@ export default function EvolucionPorTipoOperacion() {
   // Estados para el filtro
   const [selectedYear1, setSelectedYear1] = useState('2024');
   const [selectedYear2, setSelectedYear2] = useState('2025');
+  const [selectedYear3, setSelectedYear3] = useState('2026');
   const [selectedMonth1, setSelectedMonth1] = useState('01');
   const [selectedMonth2, setSelectedMonth2] = useState('01');
+  const [selectedMonth3, setSelectedMonth3] = useState('01');
   const [tipoVista, setTipoVista] = useState('ASSA');
+  const [tipoFiltro, setTipoFiltro] = useState('CANAL');
   const [filterApplied, setFilterApplied] = useState(false);
 
   // useEffect para aplicar el filtro automáticamente
   useEffect(() => {
     setFilterApplied(true);
-  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
 
   // Función para obtener el nombre del mes
   const getMonthName = (month: string) => {
@@ -51,6 +54,7 @@ export default function EvolucionPorTipoOperacion() {
     const selectedData = baseData[tipoVista as keyof typeof baseData];
     const value1 = selectedData[selectedMonth1 as keyof typeof selectedData] || 0;
     const value2 = selectedData[selectedMonth2 as keyof typeof selectedData] || 0;
+    const value3 = selectedData[selectedMonth3 as keyof typeof selectedData] || 0;
 
     return {
       chart: { type: 'column', height: 400 },
@@ -58,7 +62,7 @@ export default function EvolucionPorTipoOperacion() {
         text: `Evolución R12 - ${tipoVista}`
       },
       xAxis: {
-        categories: [`${getMonthName(selectedMonth1)} ${selectedYear1}`, `${getMonthName(selectedMonth2)} ${selectedYear2}`],
+        categories: [`${getMonthName(selectedMonth1)} ${selectedYear1}`, `${getMonthName(selectedMonth2)} ${selectedYear2}`, `${getMonthName(selectedMonth3)} ${selectedYear3}`],
         title: { text: 'Períodos' }
       },
       yAxis: {
@@ -82,13 +86,13 @@ export default function EvolucionPorTipoOperacion() {
       series: [
         {
           name: `${tipoVista}`,
-          data: [value1, value2],
+          data: [value1, value2, value3],
           color: '#007DC5'
         }
       ],
       credits: { enabled: false }
     };
-  }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+  }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
 
   // Datos para el gráfico de líneas Q POL
   const lineChartData = useMemo(() => {
@@ -112,12 +116,12 @@ export default function EvolucionPorTipoOperacion() {
       }
     };
 
-    const categories = [`${getMonthName(selectedMonth1)} ${selectedYear1}`, `${getMonthName(selectedMonth2)} ${selectedYear2}`];
+    const categories = [`${getMonthName(selectedMonth1)} ${selectedYear1}`, `${getMonthName(selectedMonth2)} ${selectedYear2}`, `${getMonthName(selectedMonth3)} ${selectedYear3}`];
     
     return {
       chart: { type: 'line', height: 400 },
       title: {
-        text: `Evolución Q POL - ${getMonthName(selectedMonth1)} ${selectedYear1} vs ${getMonthName(selectedMonth2)} ${selectedYear2}`
+        text: `Evolución Q POL - ${getMonthName(selectedMonth1)} ${selectedYear1} vs ${getMonthName(selectedMonth2)} ${selectedYear2} vs ${getMonthName(selectedMonth3)} ${selectedYear3}`
       },
       xAxis: {
         categories: categories,
@@ -135,48 +139,48 @@ export default function EvolucionPorTipoOperacion() {
       series: [
         {
           name: 'NN',
-          data: [qPolData.NN[selectedMonth1 as keyof typeof qPolData.NN], qPolData.NN[selectedMonth2 as keyof typeof qPolData.NN]],
+          data: [qPolData.NN[selectedMonth1 as keyof typeof qPolData.NN], qPolData.NN[selectedMonth2 as keyof typeof qPolData.NN], qPolData.NN[selectedMonth3 as keyof typeof qPolData.NN]],
           color: '#28a745', // Verde
           marker: { symbol: 'circle' }
         },
         {
           name: 'Anul',
-          data: [qPolData.Anul[selectedMonth1 as keyof typeof qPolData.Anul], qPolData.Anul[selectedMonth2 as keyof typeof qPolData.Anul]],
+          data: [qPolData.Anul[selectedMonth1 as keyof typeof qPolData.Anul], qPolData.Anul[selectedMonth2 as keyof typeof qPolData.Anul], qPolData.Anul[selectedMonth3 as keyof typeof qPolData.Anul]],
           color: '#dc3545', // Rojo
           marker: { symbol: 'diamond' }
         },
         {
           name: 'Renov',
-          data: [qPolData.Renov[selectedMonth1 as keyof typeof qPolData.Renov], qPolData.Renov[selectedMonth2 as keyof typeof qPolData.Renov]],
+          data: [qPolData.Renov[selectedMonth1 as keyof typeof qPolData.Renov], qPolData.Renov[selectedMonth2 as keyof typeof qPolData.Renov], qPolData.Renov[selectedMonth3 as keyof typeof qPolData.Renov]],
           color: '#007DC5', // Azul
           marker: { symbol: 'square' }
         },
         {
           name: 'Endos',
-          data: [qPolData.Endos[selectedMonth1 as keyof typeof qPolData.Endos], qPolData.Endos[selectedMonth2 as keyof typeof qPolData.Endos]],
+          data: [qPolData.Endos[selectedMonth1 as keyof typeof qPolData.Endos], qPolData.Endos[selectedMonth2 as keyof typeof qPolData.Endos], qPolData.Endos[selectedMonth3 as keyof typeof qPolData.Endos]],
           color: '#6c757d', // Gris
           marker: { symbol: 'triangle' }
         }
       ],
       credits: { enabled: false }
     };
-  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
 
   return (
     <div className="space-y-6">
       <div className="text-center mt-10">
-        <h1 className="text-3xl font-bold text-gray-900">Evolución de Cartera</h1>
-        <p className="text-gray-600 mt-2">Visualice la Evolución de Cartera de la Compañía</p>
+        <h1 className="text-3xl font-bold text-gray-900">Evolución por Tipo de Operación</h1>
+        <p className="text-gray-600 mt-2">Visualice la Evolución por Tipo de Operacióna</p>
       </div>
 
       {/* Filtro de Evolución de Cartera */}
       <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro de Evolución de Cartera</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro</h3>
           
-          <div className="flex flex-col md:flex-row gap-6 mb-6">
-            {/* Fecha Inicio */}
+          <div className="flex flex-col lg:flex-row gap-6 mb-6">
+            {/* Período 1 */}
             <div className="flex-1 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="text-md font-medium text-blue-800 mb-3">Fecha Inicio</h4>
+              <h4 className="text-md font-medium text-blue-800 mb-3">Período 1</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
@@ -189,6 +193,7 @@ export default function EvolucionPorTipoOperacion() {
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
+                    <option value="2026">2026</option>
                   </select>
                 </div>
                 <div>
@@ -215,9 +220,9 @@ export default function EvolucionPorTipoOperacion() {
               </div>
             </div>
 
-            {/* Fecha Fin */}
+            {/* Período 2 */}
             <div className="flex-1 p-4 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="text-md font-medium text-green-800 mb-3">Fecha Fin</h4>
+              <h4 className="text-md font-medium text-green-800 mb-3">Período 2</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
@@ -230,6 +235,7 @@ export default function EvolucionPorTipoOperacion() {
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
+                    <option value="2026">2026</option>
                   </select>
                 </div>
                 <div>
@@ -255,21 +261,79 @@ export default function EvolucionPorTipoOperacion() {
                 </div>
               </div>
             </div>
-                     </div>
 
-          {/* Tipo de Vista */}
+            {/* Período 3 */}
+            <div className="flex-1 p-4 bg-purple-50 rounded-lg border border-purple-200">
+              <h4 className="text-md font-medium text-purple-800 mb-3">Período 3</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
+                  <select 
+                    value={selectedYear3}
+                    onChange={(e) => setSelectedYear3(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Mes</label>
+                  <select 
+                    value={selectedMonth3}
+                    onChange={(e) => setSelectedMonth3(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tipo de Vista y Tipo de Filtro */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
-            <select 
-              value={tipoVista}
-              onChange={(e) => setTipoVista(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="ASSA">ASSA</option>
-              <option value="CAS">CAS</option>
-              <option value="ART">ART</option>
-            </select>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
+                <select 
+                  value={tipoVista}
+                  onChange={(e) => setTipoVista(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="ASSA">ASSA</option>
+                  <option value="CAS">CAS</option>
+                  <option value="ART">ART</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Filtro</label>
+                <select 
+                  value={tipoFiltro}
+                  onChange={(e) => setTipoFiltro(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="CANAL">CANAL</option>
+                  <option value="RAMO">RAMO</option>
+                  <option value="CIA">CIA</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
           {/* Botón Aplicar Filtros */}
           <div className="flex justify-end">
