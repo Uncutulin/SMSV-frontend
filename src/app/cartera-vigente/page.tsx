@@ -336,7 +336,7 @@ export default function CarteraVigente() {
       </div>
       
       {/* Bloque de filtros */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro</h3>
         
         <div className="flex flex-col lg:flex-row gap-6">
@@ -427,7 +427,7 @@ export default function CarteraVigente() {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Top 20 - {tipoFiltro}</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs">
               <thead>
                 <tr className="text-white" style={{backgroundColor: '#003871'}}>
                   <th className="px-4 py-3 text-center font-bold border-r-2 border-black">#</th>

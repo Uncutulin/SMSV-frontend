@@ -437,15 +437,15 @@ export default function CampanasMKTPage() {
   };
 
   return (
-    <div className="w-full p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Campañas de Marketing</h1>
-        <p className="text-gray-600">Buscador avanzado para segmentación de audiencias en campañas de marketing</p>
-      </div>
+    <div className="flex-1 pb-6 px-4 w-full h-full">
+         <div className="text-center mt-10">
+          <h1 className="text-3xl font-bold text-gray-900">Campañas de Marketing</h1>
+          <p className="text-gray-600 mt-2 pb-7"> </p>
+        </div>
 
       {/* Sistema de Filtros */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Filtros de Búsqueda</h3>
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">Filtro</h3>
         <p className="text-sm text-gray-600 mb-4">
           <i className="fa-solid fa-info-circle mr-1"></i>
           Haga clic en cada filtro para desplegar las opciones y seleccionar múltiples valores
@@ -713,18 +713,7 @@ export default function CampanasMKTPage() {
               />
             </div>
           </div>
-          
-          {/* Gráfico inferior */}
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-8 w-full mb-8">
-            <div className="w-full">
-              <HighchartsChart
-                id="high-potential"
-                type="column"
-                title="Identificación de segmentos con alto potencial"
-                data={chartHighPotential}
-              />
-            </div>
-          </div>
+    
 
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">

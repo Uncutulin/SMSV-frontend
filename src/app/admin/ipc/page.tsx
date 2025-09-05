@@ -338,14 +338,14 @@ export default function IPCPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Administración IPC</h1>
-          <p className="text-gray-600">Gestione los datos del Índice de Precios al Consumidor</p>
+      <div className="flex-1 pb-6 px-4 w-full h-full">
+        <div className="text-center mt-10">
+          <h1 className="text-3xl font-bold text-gray-900">Administración IPC</h1>
+          <p className="text-gray-600 mt-2 pb-6"></p>
         </div>
 
         {/* Formulario */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
           <h2 className="text-lg font-semibold mb-4">
             {editingId ? 'Editar Registro IPC' : 'Agregar Nuevo Registro IPC'}
           </h2>

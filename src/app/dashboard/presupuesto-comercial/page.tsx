@@ -2823,82 +2823,127 @@ export default function PresupuestoComercial() {
 
   // Datos para gráficos de cumplimiento presupuestario
   const cumplimientoQPolData = useMemo(() => {
-    const period1 = `${getMonthName(selectedMonth1)} ${selectedYear1}`;
-    const period2 = `${getMonthName(selectedMonth2)} ${selectedYear2}`;
-    
     return {
-      chart: { type: 'column', height: 400 },
+      chart: { type: 'line', height: 330 },
       title: {
-        text: 'Cumplimiento Q PÓL'
+        text: 'Cumplimiento YTD Q PÓL'
       },
       xAxis: {
-        categories: [period1, period2],
-        title: { text: 'Período' }
+        categories: tipoVista.includes('CÍA') ? ['CAS', 'ASSA', 'ART'] : 
+                   tipoVista.includes('CANAL') ? ['CANAL DIRECTO', 'CANAL BROKER', 'CANAL BANCA'] :
+                   tipoVista.includes('RAMO') ? ['AP', 'VIDA', 'SEPELIO'] : ['CAS', 'ASSA', 'ART'],
+        title: { text: tipoVista.includes('CÍA') ? 'Compañía' : tipoVista.includes('CANAL') ? 'Canal' : 'Ramo' }
       },
       yAxis: {
-        title: { text: 'Cumplimiento (%)' },
+        title: { text: 'Q PÓL (Cantidad)' },
         min: 0,
-        max: 120
+        labels: {
+          formatter: function (this: { value: number }) {
+            if (this.value >= 1000000) return (this.value / 1000000) + ' M';
+            if (this.value >= 1000) return (this.value / 1000) + ' mil';
+            return this.value;
+          }
+        }
+      },
+      tooltip: {
+        pointFormatter: function (this: { y: number }) {
+          if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
+          if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
+          return '<b>' + this.y + '</b>';
+        }
+      },
+      legend: {
+        enabled: true,
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        itemStyle: {
+          fontSize: '12px'
+        }
       },
       series: [
         {
-          name: 'CAS',
-          data: [85, 92],
-          color: '#003871'
+          name: 'PPTO Q PÓL',
+          data: tipoVista.includes('CÍA') ? [30689, 83002, 3568] :
+                tipoVista.includes('CANAL') ? [50000, 40000, 30000] :
+                tipoVista.includes('RAMO') ? [60000, 50000, 40000] : [30689, 83002, 3568],
+          color: '#003871',
+          marker: { symbol: 'circle' }
         },
         {
-          name: 'ASSA',
-          data: [78, 88],
-          color: '#00AEEF'
-        },
-        {
-          name: 'ART',
-          data: [72, 82],
-          color: '#6c757d'
+          name: 'REAL Q PÓL',
+          data: tipoVista.includes('CÍA') ? [26669, 73631, 3345] :
+                tipoVista.includes('CANAL') ? [45000, 35000, 25000] :
+                tipoVista.includes('RAMO') ? [55000, 45000, 35000] : [26669, 73631, 3345],
+          color: '#00AEEF',
+          marker: { symbol: 'diamond' }
         }
       ],
       credits: { enabled: false }
     };
-  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+  }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
 
   const cumplimientoR12Data = useMemo(() => {
     const period1 = `${getMonthName(selectedMonth1)} ${selectedYear1}`;
     const period2 = `${getMonthName(selectedMonth2)} ${selectedYear2}`;
     
     return {
-      chart: { type: 'column', height: 400 },
+      chart: { type: 'column', height: 330 },
       title: {
-        text: 'Cumplimiento R12'
+        text: 'Cumplimiento YTD R12'
       },
       xAxis: {
-        categories: [period1, period2],
-        title: { text: 'Período' }
+        categories: tipoVista.includes('CÍA') ? ['CAS', 'ASSA', 'ART'] : 
+                   tipoVista.includes('CANAL') ? ['CANAL DIRECTO', 'CANAL BROKER', 'CANAL BANCA'] :
+                   tipoVista.includes('RAMO') ? ['AP', 'VIDA', 'SEPELIO'] : ['CAS', 'ASSA', 'ART'],
+        title: { text: tipoVista.includes('CÍA') ? 'Compañía' : tipoVista.includes('CANAL') ? 'Canal' : 'Ramo' }
       },
       yAxis: {
-        title: { text: 'Cumplimiento (%)' },
+        title: { text: 'R12 (Millones $)' },
         min: 0,
-        max: 120
+        labels: {
+          formatter: function (this: { value: number }) {
+            if (this.value >= 1000000) return (this.value / 1000000) + ' M';
+            if (this.value >= 1000) return (this.value / 1000) + ' mil';
+            return this.value;
+          }
+        }
+      },
+      tooltip: {
+        pointFormatter: function (this: { y: number }) {
+          if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
+          if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
+          return '<b>' + this.y + '</b>';
+        }
+      },
+      legend: {
+        enabled: true,
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        itemStyle: {
+          fontSize: '12px'
+        }
       },
       series: [
         {
-          name: 'CAS',
-          data: [88, 95],
+          name: 'PPTO R12',
+          data: tipoVista.includes('CÍA') ? [17660158455, 19797597276, 11280107876] :
+                tipoVista.includes('CANAL') ? [15000000000, 12000000000, 8000000000] :
+                tipoVista.includes('RAMO') ? [20000000000, 18000000000, 12000000000] : [17660158455, 19797597276, 11280107876],
           color: '#003871'
         },
         {
-          name: 'ASSA',
-          data: [82, 90],
+          name: 'REAL R12',
+          data: tipoVista.includes('CÍA') ? [23386730812, 28410171357, 12369878053] :
+                tipoVista.includes('CANAL') ? [13500000000, 11000000000, 9000000000] :
+                tipoVista.includes('RAMO') ? [17500000000, 19500000000, 11000000000] : [23386730812, 28410171357, 12369878053],
           color: '#00AEEF'
-        },
-        {
-          name: 'ART',
-          data: [75, 85],
-          color: '#6c757d'
         }
       ],
       credits: { enabled: false }
     };
-  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
+  }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
 
   return (
     <div className="space-y-6">
@@ -2908,8 +2953,8 @@ export default function PresupuestoComercial() {
         </div>
 
         {/* Bloque de filtro */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro de Presupuesto Comercial</h3>
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro</h3>
           
           <div className="flex flex-col md:flex-row gap-6 mb-6">
             {/* Fecha Inicio */}
@@ -3006,6 +3051,7 @@ export default function PresupuestoComercial() {
               <optgroup label="Vistas Generales">
                 <option value="TOTAL X CÍA">TOTAL X CÍA</option>
                 <option value="TOTAL X CANAL">TOTAL X CANAL</option>
+                <option value="TOTAL X RAMO">TOTAL X RAMO</option>
               </optgroup>
               <optgroup label="Vistas CAS">
                 <option value="CAS X CANAL">CAS X CANAL</option>
@@ -3157,7 +3203,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}> </th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -3271,7 +3317,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -3385,7 +3431,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -3757,6 +3803,386 @@ export default function PresupuestoComercial() {
           </div>
         )}
 
+        {/* Tabla TOTAL X RAMO */}
+        {tipoVista === 'TOTAL X RAMO' && (
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                    <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                  </tr>
+                  <tr style={{backgroundColor: '#00AEEF'}}>
+                    <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white border-r-2 border-black">% R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">PPTO Q PÓL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">REAL Q POL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">DIF Q POL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">% Q POL</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">PPTO R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">REAL R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">DIF R12</th>
+                    <th className="px-4 py-2 text-center font-semibold text-white">% R12</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,137</td>
+                    <td className="px-4 py-2 text-center text-gray-900">387</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1,750</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">18.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">150,664,910</td>
+                    <td className="px-4 py-2 text-center text-gray-900">123,478,870</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-27,186,040</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">81.96%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,137</td>
+                    <td className="px-4 py-2 text-center text-gray-900">387</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-1,750</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">18.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">150,664,910</td>
+                    <td className="px-4 py-2 text-center text-gray-900">123,478,870</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-27,186,040</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">81.96%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AP BOLSO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,594</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,994</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-600</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.95%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,704,189</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8,684,762</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">2,980,573</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">152.25%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,594</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,994</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-600</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.95%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,704,189</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8,684,762</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">2,980,573</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">152.25%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ARMAS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">204</td>
+                    <td className="px-4 py-2 text-center text-gray-900">176</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-28</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.49%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,029,218</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,083,123</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">5,053,905</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">225.43%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">204</td>
+                    <td className="px-4 py-2 text-center text-gray-900">176</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-28</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">86.49%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,029,218</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,083,123</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">5,053,905</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">225.43%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOLSO PROTEGIDO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,522</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,947</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-575</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.59%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">214,556,490</td>
+                    <td className="px-4 py-2 text-center text-gray-900">323,744,516</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">109,188,026</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">150.89%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">5,522</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,947</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-575</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.59%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">214,556,490</td>
+                    <td className="px-4 py-2 text-center text-gray-900">323,744,516</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">109,188,026</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">150.89%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ESCOLTA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,386</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,589</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">203</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.51%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">70,923,821</td>
+                    <td className="px-4 py-2 text-center text-gray-900">174,251,101</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">103,327,280</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">245.69%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,386</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,589</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">203</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.51%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">70,923,821</td>
+                    <td className="px-4 py-2 text-center text-gray-900">174,251,101</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">103,327,280</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">245.69%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ESCOLTA EJERCITO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">72</td>
+                    <td className="px-4 py-2 text-center text-gray-900">69</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">96.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">304,621,940</td>
+                    <td className="px-4 py-2 text-center text-gray-900">445,644,686</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">141,022,746</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">146.29%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">72</td>
+                    <td className="px-4 py-2 text-center text-gray-900">69</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">96.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">304,621,940</td>
+                    <td className="px-4 py-2 text-center text-gray-900">445,644,686</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">141,022,746</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">146.29%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ROBO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">29,598,954</td>
+                    <td className="px-4 py-2 text-center text-gray-900">37,669,275</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">8,070,321</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">127.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">29,598,954</td>
+                    <td className="px-4 py-2 text-center text-gray-900">37,669,275</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">8,070,321</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">127.27%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SALDO DEUDOR</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">83.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,045,371,946</td>
+                    <td className="px-4 py-2 text-center text-gray-900">659,929,483</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-385,442,463</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">63.13%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-2</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">83.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,045,371,946</td>
+                    <td className="px-4 py-2 text-center text-gray-900">659,929,483</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-385,442,463</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">63.13%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SDJM</td>
+                    <td className="px-4 py-2 text-center text-gray-900">98</td>
+                    <td className="px-4 py-2 text-center text-gray-900">145</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">47</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">148.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">76,885,586</td>
+                    <td className="px-4 py-2 text-center text-gray-900">142,087,469</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">65,201,883</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">184.80%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">98</td>
+                    <td className="px-4 py-2 text-center text-gray-900">145</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">47</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">148.11%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">76,885,586</td>
+                    <td className="px-4 py-2 text-center text-gray-900">142,087,469</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">65,201,883</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">184.80%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO COLECTIVO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">106</td>
+                    <td className="px-4 py-2 text-center text-gray-900">103</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">97.54%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,585,783,932</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,695,908,050</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,110,124,118</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">130.96%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">106</td>
+                    <td className="px-4 py-2 text-center text-gray-900">103</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">97.54%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,585,783,932</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4,695,908,050</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,110,124,118</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">130.96%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SEPELIO INDIVIDUAL</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,546</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,535</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-11</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">99.32%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,211,420</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25,540,731</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">16,329,311</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">277.27%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,546</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,535</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-11</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">99.32%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,211,420</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25,540,731</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">16,329,311</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">277.27%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">261</td>
+                    <td className="px-4 py-2 text-center text-gray-900">234</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-27</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.76%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7,212,940,934</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,160,455,325</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,947,514,391</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">127.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">261</td>
+                    <td className="px-4 py-2 text-center text-gray-900">234</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">-27</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">89.76%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7,212,940,934</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9,160,455,325</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,947,514,391</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">127.00%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA COLECTIVO CON AHORRO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">65,664,706</td>
+                    <td className="px-4 py-2 text-center text-gray-900">128,390,512</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">62,725,806</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">195.52%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">65,664,706</td>
+                    <td className="px-4 py-2 text-center text-gray-900">128,390,512</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">62,725,806</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">195.52%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA DIBA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,370,256,817</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,553,967,309</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,183,710,492</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">149.94%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,370,256,817</td>
+                    <td className="px-4 py-2 text-center text-gray-900">3,553,967,309</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">1,183,710,492</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">149.94%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL</td>
+                    <td className="px-4 py-2 text-center text-gray-900">360</td>
+                    <td className="px-4 py-2 text-center text-gray-900">390</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">30</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.42%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12,990,838</td>
+                    <td className="px-4 py-2 text-center text-gray-900">19,608,876</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6,618,038</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">150.94%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">360</td>
+                    <td className="px-4 py-2 text-center text-gray-900">390</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">30</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.42%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12,990,838</td>
+                    <td className="px-4 py-2 text-center text-gray-900">19,608,876</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6,618,038</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">150.94%</td>
+                  </tr>
+                  <tr className="bg-white border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA INDIVIDUAL CON AHORRO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">65,664,706</td>
+                    <td className="px-4 py-2 text-center text-gray-900">128,390,512</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">62,725,806</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">195.52%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">90.91%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">65,664,706</td>
+                    <td className="px-4 py-2 text-center text-gray-900">128,390,512</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">62,725,806</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">195.52%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VIDA OBLIGATORIO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">360</td>
+                    <td className="px-4 py-2 text-center text-gray-900">390</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">30</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.42%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12,990,838</td>
+                    <td className="px-4 py-2 text-center text-gray-900">19,608,876</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6,618,038</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">150.94%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">360</td>
+                    <td className="px-4 py-2 text-center text-gray-900">390</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">30</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">108.42%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12,990,838</td>
+                    <td className="px-4 py-2 text-center text-gray-900">19,608,876</td>
+                    <td className="px-4 py-2 text-center font-bold text-black">6,618,038</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">150.94%</td>
+                  </tr>
+                  <tr className="text-white font-bold border-b hover:bg-[#3382af85]"style={{backgroundColor: '#007DC5'}}>
+                    <td className="px-4 py-2 border-r-2 border-black">Total general</td>
+                    <td className="px-4 py-2 text-center">30,689</td>
+                    <td className="px-4 py-2 text-center">26,669</td>
+                    <td className="px-4 py-2 text-center">-4,020</td>
+                    <td className="px-4 py-2 text-center">86.90%</td>
+                    <td className="px-4 py-2 text-center">17,660,158,455</td>
+                    <td className="px-4 py-2 text-center">23,386,730,812</td>
+                    <td className="px-4 py-2 text-center">5,726,572,357</td>
+                    <td className="px-4 py-2 text-center border-r-2 border-black">132.43%</td>
+                    <td className="px-4 py-2 text-center">30,689</td>
+                    <td className="px-4 py-2 text-center">26,669</td>
+                    <td className="px-4 py-2 text-center">-4,020</td>
+                    <td className="px-4 py-2 text-center">86.90%</td>
+                    <td className="px-4 py-2 text-center">17,660,158,455</td>
+                    <td className="px-4 py-2 text-center">23,386,730,812</td>
+                    <td className="px-4 py-2 text-center">5,726,572,357</td>
+                    <td className="px-4 py-2 text-center">132.43%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {/* Tabla ASSA X CANAL */}
         {tipoVista === 'ASSA X CANAL' && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -3765,7 +4191,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -3879,7 +4305,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -4335,7 +4761,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -4867,7 +5293,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -4981,7 +5407,7 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
                     <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
@@ -5772,21 +6198,21 @@ export default function PresupuestoComercial() {
               </table>
             </div>
           </div>
-        ) : (tipoVista === 'TOTAL X CÍA' || tipoVista === 'TOTAL X CANAL' || tipoVista === 'CAS X CANAL' || tipoVista === 'CAS X RAMO' || tipoVista === 'ASSA X CANAL' || tipoVista === 'ASSA X RAMO' || tipoVista === 'ASSA X CÍA' || tipoVista === 'ART X CANAL' || tipoVista === 'ART X CÍA' || (!showAssaTable && !showFilialesTable && !showPasTable && !showCallCenterTable && !showFilialesPasTable)) ? (
+        ) : (tipoVista === 'TOTAL X CÍA' || tipoVista === 'TOTAL X CANAL' || tipoVista === 'TOTAL X RAMO' || tipoVista === 'CAS X CANAL' || tipoVista === 'CAS X RAMO' || tipoVista === 'ASSA X CANAL' || tipoVista === 'ASSA X RAMO' || tipoVista === 'ASSA X CÍA' || tipoVista === 'ART X CANAL' || tipoVista === 'ART X CÍA' || (!showAssaTable && !showFilialesTable && !showPasTable && !showCallCenterTable && !showFilialesPasTable)) ? (
           <>
             {/* Gráficos de cumplimiento presupuestario */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <HighchartsChart
-                id="cumplimiento-qpol"
-                type="column"
-                title="Cumplimiento Q PÓL"
-                data={cumplimientoQPolData}
-              />
-              <HighchartsChart
                 id="cumplimiento-r12"
                 type="column"
-                title="Cumplimiento R12"
+                title=""
                 data={cumplimientoR12Data}
+              />
+              <HighchartsChart
+                id="cumplimiento-qpol"
+                type="line"
+                title=""
+                data={cumplimientoQPolData}
               />
             </div>
           </>

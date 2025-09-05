@@ -123,14 +123,14 @@ export default function RolesPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Administración de Roles</h1>
-          <p className="text-gray-600">Gestione los roles y permisos del sistema</p>
+      <div className="p-3">
+        <div className="text-center mt-10">
+          <h1 className="text-3xl font-bold text-gray-900">Administración de Roles</h1>
+          <p className="text-gray-600 mt-2 pb-6"></p>
         </div>
 
         {/* Formulario */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
           <h2 className="text-lg font-semibold mb-4">
             {editingId ? 'Editar Rol' : 'Agregar Nuevo Rol'}
           </h2>

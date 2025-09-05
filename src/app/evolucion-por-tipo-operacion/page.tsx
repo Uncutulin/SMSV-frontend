@@ -5,14 +5,14 @@ import HighchartsChart from '@/components/dashboard/HighchartsChart';
 
 export default function EvolucionPorTipoOperacion() {
   // Estados para el filtro
-  const [selectedYear1, setSelectedYear1] = useState('2024');
-  const [selectedYear2, setSelectedYear2] = useState('2025');
-  const [selectedYear3, setSelectedYear3] = useState('2026');
-  const [selectedMonth1, setSelectedMonth1] = useState('01');
-  const [selectedMonth2, setSelectedMonth2] = useState('01');
-  const [selectedMonth3, setSelectedMonth3] = useState('01');
-  const [tipoVista, setTipoVista] = useState('ASSA');
-  const [tipoFiltro, setTipoFiltro] = useState('CANAL');
+  const [selectedYear1, setSelectedYear1] = useState('2023');
+  const [selectedYear2, setSelectedYear2] = useState('2024');
+  const [selectedYear3, setSelectedYear3] = useState('2025');
+  const [selectedMonth1, setSelectedMonth1] = useState('08');
+  const [selectedMonth2, setSelectedMonth2] = useState('08');
+  const [selectedMonth3, setSelectedMonth3] = useState('08');
+  const [tipoVista, setTipoVista] = useState('TODOS');
+  const [tipoFiltro, setTipoFiltro] = useState('TODOS');
   const [filterApplied, setFilterApplied] = useState(false);
 
   // useEffect para aplicar el filtro automáticamente
@@ -32,38 +32,123 @@ export default function EvolucionPorTipoOperacion() {
 
   // Datos para el gráfico de barras
   const chartData = useMemo(() => {
-    // Datos de ejemplo basados en el tipo de operación seleccionado
-    const baseData = {
+    // Datos de ejemplo por tipo de operación y período con mayor variación
+    const r12Data = {
       ASSA: {
-        '01': 1200000, '02': 1250000, '03': 1300000, '04': 1280000,
-        '05': 1350000, '06': 1400000, '07': 1450000, '08': 1420000,
-        '09': 1480000, '10': 1520000, '11': 1550000, '12': 1580000
+        'Nuevos Negocios': {
+          [selectedMonth1]: 1200000, [selectedMonth2]: 1450000, [selectedMonth3]: 1600000
+        },
+        'Anulaciones': {
+          [selectedMonth1]: 180000, [selectedMonth2]: 120000, [selectedMonth3]: 90000
+        },
+        'Renovaciones': {
+          [selectedMonth1]: 800000, [selectedMonth2]: 950000, [selectedMonth3]: 1100000
+        },
+        'Refacturación': {
+          [selectedMonth1]: 200000, [selectedMonth2]: 280000, [selectedMonth3]: 350000
+        }
       },
       CAS: {
-        '01': 980000, '02': 1020000, '03': 1050000, '04': 1030000,
-        '05': 1080000, '06': 1120000, '07': 1150000, '08': 1130000,
-        '09': 1180000, '10': 1220000, '11': 1250000, '12': 1280000
+        'Nuevos Negocios': {
+          [selectedMonth1]: 980000, [selectedMonth2]: 1200000, [selectedMonth3]: 1400000
+        },
+        'Anulaciones': {
+          [selectedMonth1]: 150000, [selectedMonth2]: 100000, [selectedMonth3]: 75000
+        },
+        'Renovaciones': {
+          [selectedMonth1]: 650000, [selectedMonth2]: 780000, [selectedMonth3]: 920000
+        },
+        'Refacturación': {
+          [selectedMonth1]: 180000, [selectedMonth2]: 240000, [selectedMonth3]: 300000
+        }
       },
       ART: {
-        '01': 750000, '02': 780000, '03': 800000, '04': 790000,
-        '05': 820000, '06': 850000, '07': 880000, '08': 870000,
-        '09': 900000, '10': 930000, '11': 950000, '12': 980000
+        'Nuevos Negocios': {
+          [selectedMonth1]: 750000, [selectedMonth2]: 950000, [selectedMonth3]: 1150000
+        },
+        'Anulaciones': {
+          [selectedMonth1]: 120000, [selectedMonth2]: 80000, [selectedMonth3]: 60000
+        },
+        'Renovaciones': {
+          [selectedMonth1]: 500000, [selectedMonth2]: 620000, [selectedMonth3]: 750000
+        },
+        'Refacturación': {
+          [selectedMonth1]: 140000, [selectedMonth2]: 190000, [selectedMonth3]: 250000
+        }
       }
     };
 
-    const selectedData = baseData[tipoVista as keyof typeof baseData];
-    const value1 = selectedData[selectedMonth1 as keyof typeof selectedData] || 0;
-    const value2 = selectedData[selectedMonth2 as keyof typeof selectedData] || 0;
-    const value3 = selectedData[selectedMonth3 as keyof typeof selectedData] || 0;
+    let selectedData;
+    if (tipoVista === 'TODOS') {
+      // Agregar datos de todos los tipos de vista
+      selectedData = {
+        'Nuevos Negocios': {
+          [selectedMonth1]: r12Data.ASSA['Nuevos Negocios'][selectedMonth1 as keyof typeof r12Data.ASSA['Nuevos Negocios']] + 
+                           r12Data.CAS['Nuevos Negocios'][selectedMonth1 as keyof typeof r12Data.CAS['Nuevos Negocios']] + 
+                           r12Data.ART['Nuevos Negocios'][selectedMonth1 as keyof typeof r12Data.ART['Nuevos Negocios']],
+          [selectedMonth2]: r12Data.ASSA['Nuevos Negocios'][selectedMonth2 as keyof typeof r12Data.ASSA['Nuevos Negocios']] + 
+                           r12Data.CAS['Nuevos Negocios'][selectedMonth2 as keyof typeof r12Data.CAS['Nuevos Negocios']] + 
+                           r12Data.ART['Nuevos Negocios'][selectedMonth2 as keyof typeof r12Data.ART['Nuevos Negocios']],
+          [selectedMonth3]: r12Data.ASSA['Nuevos Negocios'][selectedMonth3 as keyof typeof r12Data.ASSA['Nuevos Negocios']] + 
+                           r12Data.CAS['Nuevos Negocios'][selectedMonth3 as keyof typeof r12Data.CAS['Nuevos Negocios']] + 
+                           r12Data.ART['Nuevos Negocios'][selectedMonth3 as keyof typeof r12Data.ART['Nuevos Negocios']]
+        },
+        'Anulaciones': {
+          [selectedMonth1]: r12Data.ASSA['Anulaciones'][selectedMonth1 as keyof typeof r12Data.ASSA['Anulaciones']] + 
+                           r12Data.CAS['Anulaciones'][selectedMonth1 as keyof typeof r12Data.CAS['Anulaciones']] + 
+                           r12Data.ART['Anulaciones'][selectedMonth1 as keyof typeof r12Data.ART['Anulaciones']],
+          [selectedMonth2]: r12Data.ASSA['Anulaciones'][selectedMonth2 as keyof typeof r12Data.ASSA['Anulaciones']] + 
+                           r12Data.CAS['Anulaciones'][selectedMonth2 as keyof typeof r12Data.CAS['Anulaciones']] + 
+                           r12Data.ART['Anulaciones'][selectedMonth2 as keyof typeof r12Data.ART['Anulaciones']],
+          [selectedMonth3]: r12Data.ASSA['Anulaciones'][selectedMonth3 as keyof typeof r12Data.ASSA['Anulaciones']] + 
+                           r12Data.CAS['Anulaciones'][selectedMonth3 as keyof typeof r12Data.CAS['Anulaciones']] + 
+                           r12Data.ART['Anulaciones'][selectedMonth3 as keyof typeof r12Data.ART['Anulaciones']]
+        },
+        'Renovaciones': {
+          [selectedMonth1]: r12Data.ASSA['Renovaciones'][selectedMonth1 as keyof typeof r12Data.ASSA['Renovaciones']] + 
+                           r12Data.CAS['Renovaciones'][selectedMonth1 as keyof typeof r12Data.CAS['Renovaciones']] + 
+                           r12Data.ART['Renovaciones'][selectedMonth1 as keyof typeof r12Data.ART['Renovaciones']],
+          [selectedMonth2]: r12Data.ASSA['Renovaciones'][selectedMonth2 as keyof typeof r12Data.ASSA['Renovaciones']] + 
+                           r12Data.CAS['Renovaciones'][selectedMonth2 as keyof typeof r12Data.CAS['Renovaciones']] + 
+                           r12Data.ART['Renovaciones'][selectedMonth2 as keyof typeof r12Data.ART['Renovaciones']],
+          [selectedMonth3]: r12Data.ASSA['Renovaciones'][selectedMonth3 as keyof typeof r12Data.ASSA['Renovaciones']] + 
+                           r12Data.CAS['Renovaciones'][selectedMonth3 as keyof typeof r12Data.CAS['Renovaciones']] + 
+                           r12Data.ART['Renovaciones'][selectedMonth3 as keyof typeof r12Data.ART['Renovaciones']]
+        },
+        'Refacturación': {
+          [selectedMonth1]: r12Data.ASSA['Refacturación'][selectedMonth1 as keyof typeof r12Data.ASSA['Refacturación']] + 
+                           r12Data.CAS['Refacturación'][selectedMonth1 as keyof typeof r12Data.CAS['Refacturación']] + 
+                           r12Data.ART['Refacturación'][selectedMonth1 as keyof typeof r12Data.ART['Refacturación']],
+          [selectedMonth2]: r12Data.ASSA['Refacturación'][selectedMonth2 as keyof typeof r12Data.ASSA['Refacturación']] + 
+                           r12Data.CAS['Refacturación'][selectedMonth2 as keyof typeof r12Data.CAS['Refacturación']] + 
+                           r12Data.ART['Refacturación'][selectedMonth2 as keyof typeof r12Data.ART['Refacturación']],
+          [selectedMonth3]: r12Data.ASSA['Refacturación'][selectedMonth3 as keyof typeof r12Data.ASSA['Refacturación']] + 
+                           r12Data.CAS['Refacturación'][selectedMonth3 as keyof typeof r12Data.CAS['Refacturación']] + 
+                           r12Data.ART['Refacturación'][selectedMonth3 as keyof typeof r12Data.ART['Refacturación']]
+        }
+      };
+    } else {
+      selectedData = r12Data[tipoVista as keyof typeof r12Data];
+    }
+    
+    const period1Label = `${getMonthName(selectedMonth1)} ${selectedYear1}`;
+    const period2Label = `${getMonthName(selectedMonth2)} ${selectedYear2}`;
+    const period3Label = `${getMonthName(selectedMonth3)} ${selectedYear3}`;
 
     return {
-      chart: { type: 'column', height: 400 },
+      chart: { type: 'column', height: 360 },
       title: {
-        text: `Evolución R12 - ${tipoVista}`
+        text: `Evolución R12 por Tipo de Operación - ${tipoVista}`
       },
       xAxis: {
-        categories: [`${getMonthName(selectedMonth1)} ${selectedYear1}`, `${getMonthName(selectedMonth2)} ${selectedYear2}`, `${getMonthName(selectedMonth3)} ${selectedYear3}`],
-        title: { text: 'Períodos' }
+        categories: ['Nuevos Negocios', 'Anulaciones', 'Renovaciones', 'Refacturación'],
+        title: { text: 'Tipo de Operación' },
+        labels: {
+          rotation: -45,
+          style: {
+            fontSize: '11px'
+          }
+        }
       },
       yAxis: {
         title: { text: 'R12 (Millones $)' },
@@ -85,12 +170,46 @@ export default function EvolucionPorTipoOperacion() {
       },
       series: [
         {
-          name: `${tipoVista}`,
-          data: [value1, value2, value3],
+          name: period1Label,
+          data: [
+            selectedData['Nuevos Negocios'][selectedMonth1 as keyof typeof selectedData['Nuevos Negocios']] || 0,
+            selectedData['Anulaciones'][selectedMonth1 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth1 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Refacturación'][selectedMonth1 as keyof typeof selectedData['Refacturación']] || 0
+          ],
           color: '#007DC5'
+        },
+        {
+          name: period2Label,
+          data: [
+            selectedData['Nuevos Negocios'][selectedMonth2 as keyof typeof selectedData['Nuevos Negocios']] || 0,
+            selectedData['Anulaciones'][selectedMonth2 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth2 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0
+          ],
+          color: '#28a745'
+        },
+        {
+          name: period3Label,
+          data: [
+            selectedData['Nuevos Negocios'][selectedMonth3 as keyof typeof selectedData['Nuevos Negocios']] || 0,
+            selectedData['Anulaciones'][selectedMonth3 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth3 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0
+          ],
+          color: '#dc3545'
         }
       ],
-      credits: { enabled: false }
+      credits: { enabled: false },
+      legend: {
+        enabled: true,
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle',
+        itemStyle: {
+          fontSize: '12px'
+        }
+      }
     };
   }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
 
@@ -98,19 +217,19 @@ export default function EvolucionPorTipoOperacion() {
   const lineChartData = useMemo(() => {
     // Datos de ejemplo para Q POL por tipo de operación
     const qPolData = {
-      NN: {
+      'Nuevos Negocios': {
         '01': 450, '02': 480, '03': 520, '04': 510, '05': 550, '06': 580,
         '07': 620, '08': 610, '09': 650, '10': 680, '11': 700, '12': 720
       },
-      Anul: {
+      'Anulaciones': {
         '01': 120, '02': 115, '03': 110, '04': 105, '05': 100, '06': 95,
         '07': 90, '08': 85, '09': 80, '10': 75, '11': 70, '12': 65
       },
-      Renov: {
+      'Renovaciones': {
         '01': 320, '02': 330, '03': 340, '04': 335, '05': 350, '06': 365,
         '07': 380, '08': 375, '09': 390, '10': 405, '11': 420, '12': 435
       },
-      Endos: {
+      'Refacturación': {
         '01': 180, '02': 185, '03': 190, '04': 188, '05': 195, '06': 200,
         '07': 205, '08': 203, '09': 210, '10': 215, '11': 220, '12': 225
       }
@@ -138,33 +257,42 @@ export default function EvolucionPorTipoOperacion() {
       },
       series: [
         {
-          name: 'NN',
-          data: [qPolData.NN[selectedMonth1 as keyof typeof qPolData.NN], qPolData.NN[selectedMonth2 as keyof typeof qPolData.NN], qPolData.NN[selectedMonth3 as keyof typeof qPolData.NN]],
+          name: 'Nuevos Negocios',
+          data: [qPolData['Nuevos Negocios'][selectedMonth1 as keyof typeof qPolData['Nuevos Negocios']], qPolData['Nuevos Negocios'][selectedMonth2 as keyof typeof qPolData['Nuevos Negocios']], qPolData['Nuevos Negocios'][selectedMonth3 as keyof typeof qPolData['Nuevos Negocios']]],
           color: '#28a745', // Verde
           marker: { symbol: 'circle' }
         },
         {
-          name: 'Anul',
-          data: [qPolData.Anul[selectedMonth1 as keyof typeof qPolData.Anul], qPolData.Anul[selectedMonth2 as keyof typeof qPolData.Anul], qPolData.Anul[selectedMonth3 as keyof typeof qPolData.Anul]],
+          name: 'Anulaciones',
+          data: [qPolData['Anulaciones'][selectedMonth1 as keyof typeof qPolData['Anulaciones']], qPolData['Anulaciones'][selectedMonth2 as keyof typeof qPolData['Anulaciones']], qPolData['Anulaciones'][selectedMonth3 as keyof typeof qPolData['Anulaciones']]],
           color: '#dc3545', // Rojo
           marker: { symbol: 'diamond' }
         },
         {
-          name: 'Renov',
-          data: [qPolData.Renov[selectedMonth1 as keyof typeof qPolData.Renov], qPolData.Renov[selectedMonth2 as keyof typeof qPolData.Renov], qPolData.Renov[selectedMonth3 as keyof typeof qPolData.Renov]],
+          name: 'Renovaciones',
+          data: [qPolData['Renovaciones'][selectedMonth1 as keyof typeof qPolData['Renovaciones']], qPolData['Renovaciones'][selectedMonth2 as keyof typeof qPolData['Renovaciones']], qPolData['Renovaciones'][selectedMonth3 as keyof typeof qPolData['Renovaciones']]],
           color: '#007DC5', // Azul
           marker: { symbol: 'square' }
         },
         {
-          name: 'Endos',
-          data: [qPolData.Endos[selectedMonth1 as keyof typeof qPolData.Endos], qPolData.Endos[selectedMonth2 as keyof typeof qPolData.Endos], qPolData.Endos[selectedMonth3 as keyof typeof qPolData.Endos]],
+          name: 'Refacturación',
+          data: [qPolData['Refacturación'][selectedMonth1 as keyof typeof qPolData['Refacturación']], qPolData['Refacturación'][selectedMonth2 as keyof typeof qPolData['Refacturación']], qPolData['Refacturación'][selectedMonth3 as keyof typeof qPolData['Refacturación']]],
           color: '#6c757d', // Gris
           marker: { symbol: 'triangle' }
         }
       ],
-      credits: { enabled: false }
+      credits: { enabled: false },
+      legend: {
+        enabled: true,
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle',
+        itemStyle: {
+          fontSize: '12px'
+        }
+      }
     };
-  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
+  }, [selectedYear1, selectedMonth1, selectedMonth2, selectedMonth3]);
 
   return (
     <div className="space-y-6">
@@ -174,7 +302,7 @@ export default function EvolucionPorTipoOperacion() {
       </div>
 
       {/* Filtro de Evolución de Cartera */}
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white rounded-lg shadow-md p-6 text-xs">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro</h3>
           
           <div className="flex flex-col lg:flex-row gap-6 mb-6">
@@ -315,6 +443,7 @@ export default function EvolucionPorTipoOperacion() {
                   onChange={(e) => setTipoVista(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
+                  <option value="TODOS">TODOS</option>
                   <option value="ASSA">ASSA</option>
                   <option value="CAS">CAS</option>
                   <option value="ART">ART</option>
@@ -327,6 +456,7 @@ export default function EvolucionPorTipoOperacion() {
                   onChange={(e) => setTipoFiltro(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 >
+                  <option value="TODOS">TODOS</option>
                   <option value="CANAL">CANAL</option>
                   <option value="RAMO">RAMO</option>
                   <option value="CIA">CIA</option>
@@ -336,7 +466,7 @@ export default function EvolucionPorTipoOperacion() {
           </div>
 
           {/* Botón Aplicar Filtros */}
-          <div className="flex justify-end">
+          <div className="flex justify-end hidden">
               <button
               onClick={() => setFilterApplied(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md flex items-center gap-2"
@@ -352,22 +482,20 @@ export default function EvolucionPorTipoOperacion() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Gráfico de barras R12 */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Evolución R12 por Tipo de Operación</h2>
             <HighchartsChart
               id="evolucion-r12"
               type="column"
-              title="Evolución R12 por Tipo de Operación"
+              title=""
               data={chartData}
             />
           </div>
 
           {/* Gráfico de líneas Q POL */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Evolución Q POL por Tipo de Operación</h2>
             <HighchartsChart
               id="evolucion-qpol"
               type="line"
-              title="Evolución Q POL por Tipo de Operación"
+              title=""
               data={lineChartData}
             />
           </div>
