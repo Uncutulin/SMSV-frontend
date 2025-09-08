@@ -95,7 +95,7 @@ export default function HighchartsChart({ id, type, title, data, options = {} }:
       <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
         {title}
       </h3>
-      <div ref={chartRef} className="h-80"></div>
+      <div ref={chartRef} className="h-96 min-h-96"></div>
     </div>
   );
 } 

@@ -46,54 +46,54 @@ export default function CarteraVigente() {
   // Función para generar datos dinámicos de tabla
   const getDynamicTableData = () => {
     const baseData = {
-      CANAL: [
-        { nombre: 'CANAL DIRECTO', qPol: 15420, r12: 2850000000 },
+    CANAL: [
+      { nombre: 'CANAL DIRECTO', qPol: 15420, r12: 2850000000 },
         { nombre: 'CANAL FILIALES', qPol: 12850, r12: 2450000000 },
         { nombre: 'CANAL PAS', qPol: 11200, r12: 1980000000 }
-      ],
-      RAMO: [
-        { nombre: 'AUTOMOTORES', qPol: 18500, r12: 3200000000 },
-        { nombre: 'VIDA', qPol: 15200, r12: 2850000000 },
-        { nombre: 'SALUD', qPol: 12800, r12: 2450000000 },
-        { nombre: 'ACCIDENTES PERSONALES', qPol: 11200, r12: 1980000000 },
-        { nombre: 'INCENDIO', qPol: 9800, r12: 1750000000 },
-        { nombre: 'RESPONSABILIDAD CIVIL', qPol: 8500, r12: 1520000000 },
-        { nombre: 'ROBO', qPol: 7200, r12: 1280000000 },
-        { nombre: 'TRANSPORTE', qPol: 6800, r12: 1150000000 },
-        { nombre: 'GARANTÍA', qPol: 6200, r12: 980000000 },
-        { nombre: 'CRÉDITO', qPol: 5800, r12: 850000000 },
-        { nombre: 'TECNOLÓGICO', qPol: 5200, r12: 720000000 },
-        { nombre: 'PROFESIONAL', qPol: 4800, r12: 650000000 },
-        { nombre: 'DIRECTORES Y FUNCIONARIOS', qPol: 4200, r12: 580000000 },
-        { nombre: 'CYBER', qPol: 3800, r12: 520000000 },
-        { nombre: 'CATASTRÓFICO', qPol: 3400, r12: 480000000 },
-        { nombre: 'MARÍTIMO', qPol: 3000, r12: 420000000 },
-        { nombre: 'AERONÁUTICO', qPol: 2800, r12: 380000000 },
-        { nombre: 'NUCLEAR', qPol: 2500, r12: 350000000 },
-        { nombre: 'ENERGÍA', qPol: 2200, r12: 320000000 },
-        { nombre: 'VARIOS', qPol: 2000, r12: 290000000 }
-      ],
-      CIA: [
+    ],
+    RAMO: [
+      { nombre: 'AUTOMOTORES', qPol: 18500, r12: 3200000000 },
+      { nombre: 'VIDA', qPol: 15200, r12: 2850000000 },
+      { nombre: 'SALUD', qPol: 12800, r12: 2450000000 },
+      { nombre: 'ACCIDENTES PERSONALES', qPol: 11200, r12: 1980000000 },
+      { nombre: 'INCENDIO', qPol: 9800, r12: 1750000000 },
+      { nombre: 'RESPONSABILIDAD CIVIL', qPol: 8500, r12: 1520000000 },
+      { nombre: 'ROBO', qPol: 7200, r12: 1280000000 },
+      { nombre: 'TRANSPORTE', qPol: 6800, r12: 1150000000 },
+      { nombre: 'GARANTÍA', qPol: 6200, r12: 980000000 },
+      { nombre: 'CRÉDITO', qPol: 5800, r12: 850000000 },
+      { nombre: 'TECNOLÓGICO', qPol: 5200, r12: 720000000 },
+      { nombre: 'PROFESIONAL', qPol: 4800, r12: 650000000 },
+      { nombre: 'DIRECTORES Y FUNCIONARIOS', qPol: 4200, r12: 580000000 },
+      { nombre: 'CYBER', qPol: 3800, r12: 520000000 },
+      { nombre: 'CATASTRÓFICO', qPol: 3400, r12: 480000000 },
+      { nombre: 'MARÍTIMO', qPol: 3000, r12: 420000000 },
+      { nombre: 'AERONÁUTICO', qPol: 2800, r12: 380000000 },
+      { nombre: 'NUCLEAR', qPol: 2500, r12: 350000000 },
+      { nombre: 'ENERGÍA', qPol: 2200, r12: 320000000 },
+      { nombre: 'VARIOS', qPol: 2000, r12: 290000000 }
+    ],
+    CIA: [
         { nombre: 'SMSV SEGUROS', qPol: 28500, r12: 4850000000 },
-        { nombre: 'SURA SEGUROS', qPol: 19800, r12: 3200000000 },
-        { nombre: 'BOLÍVAR SEGUROS', qPol: 17500, r12: 2850000000 },
-        { nombre: 'LIBERTY SEGUROS', qPol: 15200, r12: 2450000000 },
-        { nombre: 'MAPFRE SEGUROS', qPol: 12800, r12: 1980000000 },
-        { nombre: 'AXA COLPATRIA', qPol: 11200, r12: 1750000000 },
-        { nombre: 'ZURICH SEGUROS', qPol: 9800, r12: 1520000000 },
-        { nombre: 'ALLIANZ SEGUROS', qPol: 8500, r12: 1280000000 },
-        { nombre: 'HDI SEGUROS', qPol: 7200, r12: 1150000000 },
-        { nombre: 'CHUBB SEGUROS', qPol: 6800, r12: 980000000 },
-        { nombre: 'GENERALI SEGUROS', qPol: 6200, r12: 850000000 },
-        { nombre: 'HDI SEGUROS', qPol: 5800, r12: 720000000 },
-        { nombre: 'EQUIDAD SEGUROS', qPol: 5200, r12: 650000000 },
-        { nombre: 'POSITIVA SEGUROS', qPol: 4800, r12: 580000000 },
-        { nombre: 'ALIANZA SEGUROS', qPol: 4200, r12: 520000000 },
-        { nombre: 'SEGUROS DEL ESTADO', qPol: 3800, r12: 480000000 },
-        { nombre: 'FASECOLDA', qPol: 3400, r12: 420000000 },
-        { nombre: 'OTRAS COMPAÑÍAS', qPol: 3000, r12: 380000000 }
-      ]
-    };
+      { nombre: 'SURA SEGUROS', qPol: 19800, r12: 3200000000 },
+      { nombre: 'BOLÍVAR SEGUROS', qPol: 17500, r12: 2850000000 },
+      { nombre: 'LIBERTY SEGUROS', qPol: 15200, r12: 2450000000 },
+      { nombre: 'MAPFRE SEGUROS', qPol: 12800, r12: 1980000000 },
+      { nombre: 'AXA COLPATRIA', qPol: 11200, r12: 1750000000 },
+      { nombre: 'ZURICH SEGUROS', qPol: 9800, r12: 1520000000 },
+      { nombre: 'ALLIANZ SEGUROS', qPol: 8500, r12: 1280000000 },
+      { nombre: 'HDI SEGUROS', qPol: 7200, r12: 1150000000 },
+      { nombre: 'CHUBB SEGUROS', qPol: 6800, r12: 980000000 },
+      { nombre: 'GENERALI SEGUROS', qPol: 6200, r12: 850000000 },
+      { nombre: 'HDI SEGUROS', qPol: 5800, r12: 720000000 },
+      { nombre: 'EQUIDAD SEGUROS', qPol: 5200, r12: 650000000 },
+      { nombre: 'POSITIVA SEGUROS', qPol: 4800, r12: 580000000 },
+      { nombre: 'ALIANZA SEGUROS', qPol: 4200, r12: 520000000 },
+      { nombre: 'SEGUROS DEL ESTADO', qPol: 3800, r12: 480000000 },
+      { nombre: 'FASECOLDA', qPol: 3400, r12: 420000000 },
+      { nombre: 'OTRAS COMPAÑÍAS', qPol: 3000, r12: 380000000 }
+    ]
+  };
 
     // Datos específicos para ASSA y CIA
     const assaCiaData = [
@@ -236,7 +236,7 @@ export default function CarteraVigente() {
   // Función para generar estadísticas dinámicas por compañía
   const getDynamicStats = () => {
     const baseStats = {
-      TODOS: {
+    TODOS: {
         asegurados: 3500,
         primaAnual: 218844404,
         capitas: 270
@@ -269,25 +269,25 @@ export default function CarteraVigente() {
       dynamicStats[compania] = [
         {
           title: 'Cantidad de Pólizas',
-          value: aseguradosVariado.toLocaleString(),
+          value: aseguradosVariado.toLocaleString('es-AR'),
           icon: 'fa-solid fa-file-contract',
           color: 'green' as const,
         },
         {
           title: 'Prima Anual emitida',
-          value: `$ ${primaAnualVariada.toLocaleString()}`,
+          value: `$ ${primaAnualVariada.toLocaleString('es-AR')}`,
           icon: 'fa-regular fa-id-badge',
           color: 'blue' as const,
         },
         {
           title: 'Prima Mensual emitida',
-          value: `$ ${primaMensual.toLocaleString()}`,
+          value: `$ ${primaMensual.toLocaleString('es-AR')}`,
           icon: 'fa-solid fa-calendar-day',
           color: 'purple' as const,
         },
         {
           title: compania === 'TODOS' ? 'Cantidad de Cápitas' : 'Cantidad de Cápitas',
-          value: capitasVariadas.toLocaleString(),
+          value: capitasVariadas.toLocaleString('es-AR'),
           icon: 'fa-solid fa-user',
           color: 'red' as const,
         },
@@ -434,12 +434,12 @@ export default function CarteraVigente() {
                     <td className={`px-4 py-2 text-center border-r-2 border-black ${
                       index < 3 ? 'text-yellow-800 font-semibold' : 'text-gray-900'
                     }`}>
-                      {item.qPol.toLocaleString()}
+                      {item.qPol.toLocaleString('es-AR')}
                     </td>
                     <td className={`px-4 py-2 text-center ${
                       index < 3 ? 'text-yellow-800 font-semibold' : 'text-gray-900'
                     }`}>
-                      ${item.r12.toLocaleString()}
+                      ${item.r12.toLocaleString('es-AR')}
                     </td>
                   </tr>
                 ))}
@@ -452,10 +452,10 @@ export default function CarteraVigente() {
                     TOTAL
                   </td>
                   <td className="px-4 py-3 text-center font-bold border-r-2 border-black text-blue-800">
-                    {tablaData[tipoFiltro as keyof typeof tablaData].reduce((sum, item) => sum + item.qPol, 0).toLocaleString()}
+                    {tablaData[tipoFiltro as keyof typeof tablaData].reduce((sum, item) => sum + item.qPol, 0).toLocaleString('es-AR')}
                   </td>
                   <td className="px-4 py-3 text-center font-bold text-blue-800">
-                    ${tablaData[tipoFiltro as keyof typeof tablaData].reduce((sum, item) => sum + item.r12, 0).toLocaleString()}
+                    ${tablaData[tipoFiltro as keyof typeof tablaData].reduce((sum, item) => sum + item.r12, 0).toLocaleString('es-AR')}
                   </td>
                 </tr>
               </tbody>

@@ -17,7 +17,7 @@ export default function ChartPlaceholder({ title, chartType, description }: Char
       <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
         {title}
       </h3>
-      <div className="h-80 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-200">
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-200">
         <div className="text-center">
           <i className={`${chartIcons[chartType]} text-5xl text-gray-400 mb-4`}></i>
           <p className="text-gray-500 font-medium">{chartType === 'line' ? 'Gráfico de Línea' : 

@@ -2630,6 +2630,11 @@ export default function EvolucionCartera() {
         xAxis: {
           categories: ['202408', '202508'],
           title: { text: 'Período' },
+          labels: {
+            style: {
+              fontSize: '12px'
+            }
+          }
         },
         yAxis: {
           title: { text: 'Q PÓL (Cantidad)' },

@@ -12,13 +12,15 @@ export default function EvolucionPorTipoOperacion() {
   const [selectedMonth2, setSelectedMonth2] = useState('08');
   const [selectedMonth3, setSelectedMonth3] = useState('08');
   const [tipoVista, setTipoVista] = useState('TODOS');
-  const [tipoFiltro, setTipoFiltro] = useState('TODOS');
+  const [filtroCanal, setFiltroCanal] = useState('CANAL DIRECTO');
+  const [filtroCia, setFiltroCia] = useState('SMG');
+  const [filtroRamo, setFiltroRamo] = useState('AP');
   const [filterApplied, setFilterApplied] = useState(false);
 
   // useEffect para aplicar el filtro automáticamente
   useEffect(() => {
     setFilterApplied(true);
-  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
+  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3, filtroCanal, filtroCia, filtroRamo]);
 
   // Función para obtener el nombre del mes
   const getMonthName = (month: string) => {
@@ -46,6 +48,9 @@ export default function EvolucionPorTipoOperacion() {
         },
         'Refacturación': {
           [selectedMonth1]: 200000, [selectedMonth2]: 280000, [selectedMonth3]: 350000
+        },
+        'Otros Endosos': {
+          [selectedMonth1]: 120000, [selectedMonth2]: 150000, [selectedMonth3]: 180000
         }
       },
       CAS: {
@@ -60,6 +65,9 @@ export default function EvolucionPorTipoOperacion() {
         },
         'Refacturación': {
           [selectedMonth1]: 180000, [selectedMonth2]: 240000, [selectedMonth3]: 300000
+        },
+        'Otros Endosos': {
+          [selectedMonth1]: 100000, [selectedMonth2]: 130000, [selectedMonth3]: 160000
         }
       },
       ART: {
@@ -74,6 +82,9 @@ export default function EvolucionPorTipoOperacion() {
         },
         'Refacturación': {
           [selectedMonth1]: 140000, [selectedMonth2]: 190000, [selectedMonth3]: 250000
+        },
+        'Otros Endosos': {
+          [selectedMonth1]: 80000, [selectedMonth2]: 110000, [selectedMonth3]: 140000
         }
       }
     };
@@ -125,6 +136,17 @@ export default function EvolucionPorTipoOperacion() {
           [selectedMonth3]: r12Data.ASSA['Refacturación'][selectedMonth3 as keyof typeof r12Data.ASSA['Refacturación']] + 
                            r12Data.CAS['Refacturación'][selectedMonth3 as keyof typeof r12Data.CAS['Refacturación']] + 
                            r12Data.ART['Refacturación'][selectedMonth3 as keyof typeof r12Data.ART['Refacturación']]
+        },
+        'Otros Endosos': {
+          [selectedMonth1]: r12Data.ASSA['Otros Endosos'][selectedMonth1 as keyof typeof r12Data.ASSA['Otros Endosos']] + 
+                           r12Data.CAS['Otros Endosos'][selectedMonth1 as keyof typeof r12Data.CAS['Otros Endosos']] + 
+                           r12Data.ART['Otros Endosos'][selectedMonth1 as keyof typeof r12Data.ART['Otros Endosos']],
+          [selectedMonth2]: r12Data.ASSA['Otros Endosos'][selectedMonth2 as keyof typeof r12Data.ASSA['Otros Endosos']] + 
+                           r12Data.CAS['Otros Endosos'][selectedMonth2 as keyof typeof r12Data.CAS['Otros Endosos']] + 
+                           r12Data.ART['Otros Endosos'][selectedMonth2 as keyof typeof r12Data.ART['Otros Endosos']],
+          [selectedMonth3]: r12Data.ASSA['Otros Endosos'][selectedMonth3 as keyof typeof r12Data.ASSA['Otros Endosos']] + 
+                           r12Data.CAS['Otros Endosos'][selectedMonth3 as keyof typeof r12Data.CAS['Otros Endosos']] + 
+                           r12Data.ART['Otros Endosos'][selectedMonth3 as keyof typeof r12Data.ART['Otros Endosos']]
         }
       };
     } else {
@@ -203,6 +225,15 @@ export default function EvolucionPorTipoOperacion() {
             selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0,
             selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0
           ],
+          color: '#ff8c00'
+        },
+        {
+          name: 'Otros Endosos',
+          data: [
+            selectedData['Otros Endosos'][selectedMonth1 as keyof typeof selectedData['Otros Endosos']] || 0,
+            selectedData['Otros Endosos'][selectedMonth2 as keyof typeof selectedData['Otros Endosos']] || 0,
+            selectedData['Otros Endosos'][selectedMonth3 as keyof typeof selectedData['Otros Endosos']] || 0
+          ],
           color: '#6c757d'
         }
       ],
@@ -247,7 +278,8 @@ export default function EvolucionPorTipoOperacion() {
       'Nuevos Negocios': 610,
       'Anulaciones': 85,
       'Renovaciones': 375,
-      'Refacturación': 203
+      'Refacturación': 203,
+      'Otros Endosos': 125
     };
 
     // Generar datos dinámicos para cada período
@@ -271,6 +303,11 @@ export default function EvolucionPorTipoOperacion() {
         [selectedMonth1]: getQPolVariation(baseQPolData['Refacturación'], selectedYear1, selectedMonth1),
         [selectedMonth2]: getQPolVariation(baseQPolData['Refacturación'], selectedYear2, selectedMonth2),
         [selectedMonth3]: getQPolVariation(baseQPolData['Refacturación'], selectedYear3, selectedMonth3)
+      },
+      'Otros Endosos': {
+        [selectedMonth1]: getQPolVariation(baseQPolData['Otros Endosos'], selectedYear1, selectedMonth1),
+        [selectedMonth2]: getQPolVariation(baseQPolData['Otros Endosos'], selectedYear2, selectedMonth2),
+        [selectedMonth3]: getQPolVariation(baseQPolData['Otros Endosos'], selectedYear3, selectedMonth3)
       }
     };
 
@@ -316,8 +353,14 @@ export default function EvolucionPorTipoOperacion() {
         {
           name: 'Refacturación',
           data: [qPolData['Refacturación'][selectedMonth1 as keyof typeof qPolData['Refacturación']], qPolData['Refacturación'][selectedMonth2 as keyof typeof qPolData['Refacturación']], qPolData['Refacturación'][selectedMonth3 as keyof typeof qPolData['Refacturación']]],
-          color: '#6c757d', // Gris
+          color: '#ff8c00', // Naranja
           marker: { symbol: 'triangle' }
+        },
+        {
+          name: 'Otros Endosos',
+          data: [qPolData['Otros Endosos'][selectedMonth1 as keyof typeof qPolData['Otros Endosos']], qPolData['Otros Endosos'][selectedMonth2 as keyof typeof qPolData['Otros Endosos']], qPolData['Otros Endosos'][selectedMonth3 as keyof typeof qPolData['Otros Endosos']]],
+          color: '#6c757d', // Gris
+          marker: { symbol: 'circle' }
         }
       ],
       credits: { enabled: false },
@@ -472,9 +515,9 @@ export default function EvolucionPorTipoOperacion() {
             </div>
           </div>
 
-          {/* Tipo de Vista y Tipo de Filtro */}
+          {/* Filtros - Tipo de Vista, Canal, CIA y Ramo */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
                 <select 
@@ -489,16 +532,101 @@ export default function EvolucionPorTipoOperacion() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Filtro</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Canal</label>
                 <select 
-                  value={tipoFiltro}
-                  onChange={(e) => setTipoFiltro(e.target.value)}
+                  value={filtroCanal}
+                  onChange={(e) => setFiltroCanal(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 >
-                  <option value="TODOS">TODOS</option>
-                  <option value="CANAL">CANAL</option>
-                  <option value="RAMO">RAMO</option>
-                  <option value="CIA">CIA</option>
+                  <option value="CANAL DIRECTO">CANAL DIRECTO</option>
+                  <option value="CANAL FILIALES">CANAL FILIALES</option>
+                  <option value="CANAL PAS">CANAL PAS</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">CÍA</label>
+                <select 
+                  value={filtroCia}
+                  onChange={(e) => setFiltroCia(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="SMG">SMG</option>
+                  <option value="LMA">LMA</option>
+                  <option value="SMG LIFE">SMG LIFE</option>
+                  <option value="SANCOR">SANCOR</option>
+                  <option value="ALLIANZ">ALLIANZ</option>
+                  <option value="INTEGRITY">INTEGRITY</option>
+                  <option value="FED PAT">FED PAT</option>
+                  <option value="ATM">ATM</option>
+                  <option value="SAN CRISTOBAL">SAN CRISTOBAL</option>
+                  <option value="LIBRA">LIBRA</option>
+                  <option value="PRUDENCIA">PRUDENCIA</option>
+                  <option value="COSENA">COSENA</option>
+                  <option value="VICTORIA">VICTORIA</option>
+                  <option value="AFIANZADORA">AFIANZADORA</option>
+                  <option value="LA HOLANDO">LA HOLANDO</option>
+                  <option value="RIVADAVIA">RIVADAVIA</option>
+                  <option value="CHUBB">CHUBB</option>
+                  <option value="CAUCIONES">CAUCIONES</option>
+                  <option value="NOBLE">NOBLE</option>
+                  <option value="RUS">RUS</option>
+                  <option value="HDI">HDI</option>
+                  <option value="TRIUNFO">TRIUNFO</option>
+                  <option value="ZURICH">ZURICH</option>
+                  <option value="BOSTON">BOSTON</option>
+                  <option value="TPC">TPC</option>
+                  <option value="ASOCIART ART">ASOCIART ART</option>
+                  <option value="PREVENCION ART">PREVENCION ART</option>
+                  <option value="PROVINCIA ART">PROVINCIA ART</option>
+                  <option value="SMG ART">SMG ART</option>
+                  <option value="ANDINA ART">ANDINA ART</option>
+                  <option value="EXPERTA ART">EXPERTA ART</option>
+                  <option value="LA HOLANDO ART">LA HOLANDO ART</option>
+                  <option value="GALENO ART">GALENO ART</option>
+                  <option value="OMINT ART">OMINT ART</option>
+                  <option value="VICTORIA ART">VICTORIA ART</option>
+                  <option value="SMSV SEGUROS">SMSV SEGUROS</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Ramo</label>
+                <select 
+                  value={filtroRamo}
+                  onChange={(e) => setFiltroRamo(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="AP">AP</option>
+                  <option value="AP BOLSO">AP BOLSO</option>
+                  <option value="ARMAS">ARMAS</option>
+                  <option value="BOLSO PROTEGIDO">BOLSO PROTEGIDO</option>
+                  <option value="ESCOLTA">ESCOLTA</option>
+                  <option value="ESCOLTA EJERCITO">ESCOLTA EJERCITO</option>
+                  <option value="ROBO">ROBO</option>
+                  <option value="SALDO DEUDOR">SALDO DEUDOR</option>
+                  <option value="SDJM">SDJM</option>
+                  <option value="SEPELIO COLECTIVO">SEPELIO COLECTIVO</option>
+                  <option value="SEPELIO INDIVIDUAL">SEPELIO INDIVIDUAL</option>
+                  <option value="VIDA COLECTIVO">VIDA COLECTIVO</option>
+                  <option value="VIDA COLECTIVO CON AHORRO">VIDA COLECTIVO CON AHORRO</option>
+                  <option value="VIDA DIBA">VIDA DIBA</option>
+                  <option value="VIDA INDIVIDUAL">VIDA INDIVIDUAL</option>
+                  <option value="VIDA INDIVIDUAL CON AHORRO">VIDA INDIVIDUAL CON AHORRO</option>
+                  <option value="VIDA OBLIGATORIO">VIDA OBLIGATORIO</option>
+                  <option value="AERONAVEGACIÓN">AERONAVEGACIÓN</option>
+                  <option value="AUTOMOTORES">AUTOMOTORES</option>
+                  <option value="CASCOS">CASCOS</option>
+                  <option value="CAUCIÓN">CAUCIÓN</option>
+                  <option value="COMBINADO FAMILIAR">COMBINADO FAMILIAR</option>
+                  <option value="INCENDIO">INCENDIO</option>
+                  <option value="INT. COMERCIO">INT. COMERCIO</option>
+                  <option value="INT. CONSORCIO">INT. CONSORCIO</option>
+                  <option value="MOTOS">MOTOS</option>
+                  <option value="PRAXIS">PRAXIS</option>
+                  <option value="RC">RC</option>
+                  <option value="RS. VS.">RS. VS.</option>
+                  <option value="SALUD">SALUD</option>
+                  <option value="SEGURO TÉCNICO">SEGURO TÉCNICO</option>
+                  <option value="TRANSPORTES">TRANSPORTES</option>
                 </select>
               </div>
             </div>

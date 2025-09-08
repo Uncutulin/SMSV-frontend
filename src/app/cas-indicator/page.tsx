@@ -433,9 +433,9 @@ export default function CASIndicatorPage() {
                     </tr>
                     <tr className="border-b border-gray-200">
                       <td className="px-4 py-2 font-medium">Q PÓL</td>
-                    <td className="px-4 py-2 text-center">{casData.Q_POL[period1Key]}</td>
-                    <td className="px-4 py-2 text-center">{casData.Q_POL[period2Key]}</td>
-                    <td className="px-4 py-2 text-center">+{casData.Q_POL.crecimiento}</td>
+                    <td className="px-4 py-2 text-center">{casData.Q_POL[period1Key].toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">{casData.Q_POL[period2Key].toLocaleString('es-AR')}</td>
+                    <td className="px-4 py-2 text-center">+{casData.Q_POL.crecimiento.toLocaleString('es-AR')}</td>
                     <td className="px-4 py-2 text-center text-gray-900">+{casData.Q_POL.porcentaje}%</td>
                     </tr>
                   </tbody>

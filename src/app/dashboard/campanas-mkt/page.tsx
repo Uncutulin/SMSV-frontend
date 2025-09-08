@@ -185,19 +185,20 @@ export default function CampanasMKTPage() {
 
   const [filtersApplied, setFiltersApplied] = useState(false);
 
-  // Datos de ejemplo para segmentación de clientes
-  const chartData = {
+  // Datos de ejemplo para segmentación por grupo etario
+  const chartDataEdad = {
     chart: { type: 'pie', height: 320 },
     title: { text: '' },
     series: [
       {
-        name: 'Clientes',
+        name: 'Clientes por Edad',
         colorByPoint: true,
         data: [
-          { name: 'Jóvenes (18-30)', y: 35, color: '#007cc5' },
-          { name: 'Adultos (31-50)', y: 40, color: '#004376' },
-          { name: 'Mayores (51+)', y: 20, color: '#74671f' },
-          { name: 'Empresas', y: 5, color: '#e74c3c' },
+          { name: '18-25 años', y: 15, color: '#007cc5' },
+          { name: '26-35 años', y: 25, color: '#004376' },
+          { name: '36-45 años', y: 30, color: '#74671f' },
+          { name: '46-55 años', y: 20, color: '#e74c3c' },
+          { name: '56+ años', y: 10, color: '#9b59b6' },
         ],
       },
     ],
@@ -215,68 +216,88 @@ export default function CampanasMKTPage() {
     },
   };
 
-  // Datos de ejemplo para oportunidades de venta cruzada
-  const chartCrossSell = {
-    chart: { type: 'bar', height: 320 },
-    xAxis: {
-      categories: ['Auto', 'Vida', 'Hogar', 'Salud', 'Comercio'],
-      title: { text: 'Ramo/Producto' },
-    },
-    yAxis: {
-      min: 0,
-      title: { text: 'Oportunidades de Venta Cruzada' },
-      allowDecimals: false,
-    },
-    legend: { reversed: true },
+  // Datos de ejemplo para segmentación por sexo
+  const chartDataSexo = {
+    chart: { type: 'pie', height: 320 },
+    title: { text: '' },
+    series: [
+      {
+        name: 'Clientes por Sexo',
+        colorByPoint: true,
+        data: [
+          { name: 'Masculino', y: 50, color: '#007cc5' },
+          { name: 'Femenino', y: 40, color: '#e74c3c' },
+          { name: 'No definido', y: 10, color: '#95a5a6' },
+        ],
+      },
+    ],
+    credits: { enabled: false },
     plotOptions: {
-      series: {
-        stacking: 'normal',
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        size: '110%',
         dataLabels: {
           enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
         },
       },
     },
-    series: [
-      {
-        name: 'Clientes con 2 productos',
-        data: [40, 30, 20, 25, 15],
-        color: '#007cc5',
-      },
-      {
-        name: 'Clientes con 3 o más productos',
-        data: [15, 10, 8, 12, 5],
-        color: '#74671f',
-      },
-      {
-        name: 'Clientes con 1 producto (potencial)',
-        data: [60, 70, 80, 75, 85],
-        color: '#004376',
-      },
-    ],
-    credits: { enabled: false },
   };
 
-  // Datos de ejemplo para identificación de segmentos con alto potencial
-  const chartHighPotential = {
-    chart: { type: 'column', height: 320 },
-    xAxis: {
-      categories: ['Jóvenes', 'Adultos', 'Mayores', 'Empresas', 'Familias'],
-      title: { text: 'Segmento' },
-    },
-    yAxis: {
-      min: 0,
-      title: { text: 'Potencial de Venta (Índice)' },
-      allowDecimals: false,
-    },
-    series: [
-      {
-        name: 'Potencial',
-        data: [85, 92, 60, 75, 88],
-        color: '#007cc5',
+  // Datos dinámicos para oportunidades de venta cruzada basados en filtros
+  const chartCrossSell = useMemo(() => {
+    // Si no hay filtros aplicados o no hay productos seleccionados, usar datos por defecto
+    const productosSeleccionados = filters.productoVigente.length > 0 ? filters.productoVigente : ['AUTOMOTORES', 'VIDA COLECTIVO', 'INCENDIO', 'SEPELIO INDIVIDUAL', 'AP'];
+    
+    // Generar datos aleatorios para cada producto seleccionado
+    const datosVentaCruzada = productosSeleccionados.map(() => ({
+      clientes2Productos: Math.floor(Math.random() * 50) + 10,
+      clientes3OMas: Math.floor(Math.random() * 30) + 5,
+      clientes1Producto: Math.floor(Math.random() * 80) + 20,
+    }));
+
+    return {
+      chart: { type: 'bar', height: 320 },
+      xAxis: {
+        categories: productosSeleccionados,
+        title: { text: 'Ramo/Producto' },
       },
-    ],
-    credits: { enabled: false },
-  };
+      yAxis: {
+        min: 0,
+        title: { text: 'Oportunidades de Venta Cruzada' },
+        allowDecimals: false,
+      },
+      legend: { reversed: true },
+      plotOptions: {
+        series: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true,
+          },
+        },
+      },
+      series: [
+        {
+          name: 'Clientes con 3 o más productos',
+          data: datosVentaCruzada.map(d => d.clientes2Productos),
+          color: '#007cc5',
+        },
+        {
+          name: 'Clientes con 2 productos',
+          data: datosVentaCruzada.map(d => d.clientes3OMas),
+          color: '#74671f',
+        },
+        {
+          name: 'Clientes con 1 product',
+          data: datosVentaCruzada.map(d => d.clientes1Producto),
+          color: '#004376',
+        },
+      ],
+      credits: { enabled: false },
+    };
+  }, [filters.productoVigente, filtersApplied]);
+
 
   // Función para manejar cambios en los filtros de opción múltiple
   const handleFilterChange = (field: string, value: string[]) => {
@@ -698,20 +719,30 @@ export default function CampanasMKTPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-8">
             <div className="w-full">
               <HighchartsChart
-                id="segmentacion-clientes"
+                id="segmentacion-edad"
                 type="pie"
-                title="Segmentación de clientes para marketing dirigido"
-                data={chartData}
+                title="Segmentación por Grupo Etario"
+                data={chartDataEdad}
               />
             </div>
             <div className="w-full">
               <HighchartsChart
-                id="cross-sell"
-                type="bar"
-                title="Oportunidades de venta cruzada entre ramos/productos"
-                data={chartCrossSell}
+                id="segmentacion-sexo"
+                type="pie"
+                title="Segmentación por Sexo"
+                data={chartDataSexo}
               />
             </div>
+          </div>
+
+          {/* Gráfico de venta cruzada */}
+          <div className="w-full mb-8">
+            <HighchartsChart
+              id="cross-sell"
+              type="bar"
+              title="Oportunidades de venta cruzada entre ramos/productos"
+              data={chartCrossSell}
+            />
           </div>
     
 
