@@ -245,14 +245,14 @@ export default function Comparativa() {
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12.junio23.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12.julio23.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.CAS.R12.crecimiento.toLocaleString('es-AR')}</td>
-                    <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.CAS.R12.porcentaje}%</td>
+                    <td className="px-2 py-2 text-center font-bold text-gray-900 text-xs">+{indicadoresData.CAS.R12.porcentaje}%</td>
                   </tr>
                   <tr className="bg-blue-100 border-b border-blue-200">
                     <td className="px-2 py-2 font-semibold text-blue-800 text-xs">Q PÓL</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.CAS.Q_POL.junio23}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.CAS.Q_POL.julio23}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">+{indicadoresData.CAS.Q_POL.crecimiento}</td>
-                    <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.CAS.Q_POL.porcentaje}%</td>
+                    <td className="px-2 py-2 text-center font-bold text-gray-900 text-xs">+{indicadoresData.CAS.Q_POL.porcentaje}%</td>
                   </tr>
                 </tbody>
               </table>
@@ -288,14 +288,14 @@ export default function Comparativa() {
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12.junio23.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12.julio23.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ASSA.R12.crecimiento.toLocaleString('es-AR')}</td>
-                    <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ASSA.R12.porcentaje}%</td>
+                    <td className="px-2 py-2 text-center font-bold text-gray-900 text-xs">+{indicadoresData.ASSA.R12.porcentaje}%</td>
                   </tr>
                   <tr className="bg-blue-100 border-b border-blue-200">
                     <td className="px-2 py-2 font-semibold text-blue-800 text-xs">Q PÓL</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ASSA.Q_POL.junio23}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ASSA.Q_POL.julio23}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">+{indicadoresData.ASSA.Q_POL.crecimiento}</td>
-                    <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ASSA.Q_POL.porcentaje}%</td>
+                    <td className="px-2 py-2 text-center font-bold text-gray-900 text-xs">+{indicadoresData.ASSA.Q_POL.porcentaje}%</td>
                   </tr>
                 </tbody>
               </table>
@@ -324,14 +324,14 @@ export default function Comparativa() {
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12.junio23.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12.julio23.toLocaleString('es-AR')}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">$ {indicadoresData.ART.R12.crecimiento.toLocaleString('es-AR')}</td>
-                    <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ART.R12.porcentaje}%</td>
+                    <td className="px-2 py-2 text-center font-bold text-gray-900 text-xs">+{indicadoresData.ART.R12.porcentaje}%</td>
                   </tr>
                   <tr className="bg-amber-100 border-b border-amber-200">
                     <td className="px-2 py-2 font-semibold text-amber-800 text-xs">Q PÓL</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ART.Q_POL.junio23}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">{indicadoresData.ART.Q_POL.julio23}</td>
                     <td className="px-2 py-2 text-center font-medium text-xs">+{indicadoresData.ART.Q_POL.crecimiento}</td>
-                    <td className="px-2 py-2 text-center font-bold text-green-600 text-xs">+{indicadoresData.ART.Q_POL.porcentaje}%</td>
+                    <td className="px-2 py-2 text-center font-bold text-gray-900 text-xs">+{indicadoresData.ART.Q_POL.porcentaje}%</td>
                   </tr>
                 </tbody>
               </table>

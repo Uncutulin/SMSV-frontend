@@ -96,7 +96,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <div className="border-t border-gray-100">
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
+                    className="w-full text-left px-4 py-2 text-sm text-gray-900 hover:bg-red-50 flex items-center"
                   >
                     <i className="fa-solid fa-sign-out-alt mr-3"></i>
                     Cerrar Sesión
