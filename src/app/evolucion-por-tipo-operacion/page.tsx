@@ -163,8 +163,8 @@ export default function EvolucionPorTipoOperacion() {
         text: `Evolución R12 por Tipo de Operación - ${tipoVista}`
       },
       xAxis: {
-        categories: [period1Label, period2Label, period3Label],
-        title: { text: 'Período' },
+        categories: ['Nuevos Negocios', 'Anulaciones', 'Renovaciones', 'Refacturación', 'Otros Endosos'],
+        title: { text: 'Tipo de Operación' },
         labels: {
           rotation: -45,
           style: {
@@ -192,49 +192,37 @@ export default function EvolucionPorTipoOperacion() {
       },
       series: [
         {
-          name: 'Nuevos Negocios',
+          name: period1Label,
           data: [
             selectedData['Nuevos Negocios'][selectedMonth1 as keyof typeof selectedData['Nuevos Negocios']] || 0,
-            selectedData['Nuevos Negocios'][selectedMonth2 as keyof typeof selectedData['Nuevos Negocios']] || 0,
-            selectedData['Nuevos Negocios'][selectedMonth3 as keyof typeof selectedData['Nuevos Negocios']] || 0
+            selectedData['Anulaciones'][selectedMonth1 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth1 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Refacturación'][selectedMonth1 as keyof typeof selectedData['Refacturación']] || 0,
+            selectedData['Otros Endosos'][selectedMonth1 as keyof typeof selectedData['Otros Endosos']] || 0
           ],
           color: '#28a745'
         },
         {
-          name: 'Anulaciones',
+          name: period2Label,
           data: [
-            selectedData['Anulaciones'][selectedMonth1 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Nuevos Negocios'][selectedMonth2 as keyof typeof selectedData['Nuevos Negocios']] || 0,
             selectedData['Anulaciones'][selectedMonth2 as keyof typeof selectedData['Anulaciones']] || 0,
-            selectedData['Anulaciones'][selectedMonth3 as keyof typeof selectedData['Anulaciones']] || 0
+            selectedData['Renovaciones'][selectedMonth2 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0,
+            selectedData['Otros Endosos'][selectedMonth2 as keyof typeof selectedData['Otros Endosos']] || 0
           ],
           color: '#dc3545'
         },
         {
-          name: 'Renovaciones',
+          name: period3Label,
           data: [
-            selectedData['Renovaciones'][selectedMonth1 as keyof typeof selectedData['Renovaciones']] || 0,
-            selectedData['Renovaciones'][selectedMonth2 as keyof typeof selectedData['Renovaciones']] || 0,
-            selectedData['Renovaciones'][selectedMonth3 as keyof typeof selectedData['Renovaciones']] || 0
-          ],
-          color: '#007DC5'
-        },
-        {
-          name: 'Refacturación',
-          data: [
-            selectedData['Refacturación'][selectedMonth1 as keyof typeof selectedData['Refacturación']] || 0,
-            selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0,
-            selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0
-          ],
-          color: '#ff8c00'
-        },
-        {
-          name: 'Otros Endosos',
-          data: [
-            selectedData['Otros Endosos'][selectedMonth1 as keyof typeof selectedData['Otros Endosos']] || 0,
-            selectedData['Otros Endosos'][selectedMonth2 as keyof typeof selectedData['Otros Endosos']] || 0,
+            selectedData['Nuevos Negocios'][selectedMonth3 as keyof typeof selectedData['Nuevos Negocios']] || 0,
+            selectedData['Anulaciones'][selectedMonth3 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth3 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0,
             selectedData['Otros Endosos'][selectedMonth3 as keyof typeof selectedData['Otros Endosos']] || 0
           ],
-          color: '#6c757d'
+          color: '#007DC5'
         }
       ],
       credits: { enabled: false },
@@ -538,6 +526,7 @@ export default function EvolucionPorTipoOperacion() {
                   onChange={(e) => setFiltroCanal(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 >
+                  <option value="TODOS">TODOS</option>
                   <option value="CANAL DIRECTO">CANAL DIRECTO</option>
                   <option value="CANAL FILIALES">CANAL FILIALES</option>
                   <option value="CANAL PAS">CANAL PAS</option>
@@ -550,6 +539,7 @@ export default function EvolucionPorTipoOperacion() {
                   onChange={(e) => setFiltroCia(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 >
+                  <option value="TODOS">TODOS</option>
                   <option value="SMG">SMG</option>
                   <option value="LMA">LMA</option>
                   <option value="SMG LIFE">SMG LIFE</option>
@@ -595,6 +585,7 @@ export default function EvolucionPorTipoOperacion() {
                   onChange={(e) => setFiltroRamo(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 >
+                  <option value="TODOS">TODOS</option>
                   <option value="AP">AP</option>
                   <option value="AP BOLSO">AP BOLSO</option>
                   <option value="ARMAS">ARMAS</option>

@@ -245,13 +245,13 @@ export default function CampanasMKTPage() {
     },
   };
 
-  // Datos dinámicos para oportunidades de venta cruzada basados en filtros
+  // Datos dinámicos para oportunidades de venta cruzada basados en filtros de provincia
   const chartCrossSell = useMemo(() => {
-    // Si no hay filtros aplicados o no hay productos seleccionados, usar datos por defecto
-    const productosSeleccionados = filters.productoVigente.length > 0 ? filters.productoVigente : ['AUTOMOTORES', 'VIDA COLECTIVO', 'INCENDIO', 'SEPELIO INDIVIDUAL', 'AP'];
+    // Si no hay filtros aplicados o no hay provincias seleccionadas, usar datos por defecto
+    const provinciasSeleccionadas = filters.provincia.length > 0 ? filters.provincia : ['Gran Buenos Aires', 'Ciudad Autónoma de Buenos Aires', 'Córdoba', 'Santa Fe', 'Mendoza'];
     
-    // Generar datos aleatorios para cada producto seleccionado
-    const datosVentaCruzada = productosSeleccionados.map(() => ({
+    // Generar datos aleatorios para cada provincia seleccionada
+    const datosVentaCruzada = provinciasSeleccionadas.map(() => ({
       clientes2Productos: Math.floor(Math.random() * 50) + 10,
       clientes3OMas: Math.floor(Math.random() * 30) + 5,
       clientes1Producto: Math.floor(Math.random() * 80) + 20,
@@ -260,8 +260,8 @@ export default function CampanasMKTPage() {
     return {
       chart: { type: 'bar', height: 320 },
       xAxis: {
-        categories: productosSeleccionados,
-        title: { text: 'Ramo/Producto' },
+        categories: provinciasSeleccionadas,
+        title: { text: 'Provincia-Localidad' },
       },
       yAxis: {
         min: 0,
@@ -296,7 +296,7 @@ export default function CampanasMKTPage() {
       ],
       credits: { enabled: false },
     };
-  }, [filters.productoVigente, filtersApplied]);
+  }, [filters.provincia, filtersApplied]);
 
 
   // Función para manejar cambios en los filtros de opción múltiple

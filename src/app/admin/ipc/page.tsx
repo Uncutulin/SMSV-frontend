@@ -411,7 +411,7 @@ export default function IPCPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  % DISCRECIONAL ANUAL Q
+                  % Discreción Anual Q
                 </label>
                 <input
                   type="number"
@@ -425,7 +425,7 @@ export default function IPCPage() {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  % DISCRECIONAL ANUAL PRIMA
+                  % Discreción Anual PRIMA
                 </label>
                 <input
                   type="number"
