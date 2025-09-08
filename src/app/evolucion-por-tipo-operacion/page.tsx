@@ -141,8 +141,8 @@ export default function EvolucionPorTipoOperacion() {
         text: `Evolución R12 por Tipo de Operación - ${tipoVista}`
       },
       xAxis: {
-        categories: ['Nuevos Negocios', 'Anulaciones', 'Renovaciones', 'Refacturación'],
-        title: { text: 'Tipo de Operación' },
+        categories: [period1Label, period2Label, period3Label],
+        title: { text: 'Período' },
         labels: {
           rotation: -45,
           style: {
@@ -170,34 +170,40 @@ export default function EvolucionPorTipoOperacion() {
       },
       series: [
         {
-          name: period1Label,
+          name: 'Nuevos Negocios',
           data: [
             selectedData['Nuevos Negocios'][selectedMonth1 as keyof typeof selectedData['Nuevos Negocios']] || 0,
-            selectedData['Anulaciones'][selectedMonth1 as keyof typeof selectedData['Anulaciones']] || 0,
-            selectedData['Renovaciones'][selectedMonth1 as keyof typeof selectedData['Renovaciones']] || 0,
-            selectedData['Refacturación'][selectedMonth1 as keyof typeof selectedData['Refacturación']] || 0
-          ],
-          color: '#007DC5'
-        },
-        {
-          name: period2Label,
-          data: [
             selectedData['Nuevos Negocios'][selectedMonth2 as keyof typeof selectedData['Nuevos Negocios']] || 0,
-            selectedData['Anulaciones'][selectedMonth2 as keyof typeof selectedData['Anulaciones']] || 0,
-            selectedData['Renovaciones'][selectedMonth2 as keyof typeof selectedData['Renovaciones']] || 0,
-            selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0
+            selectedData['Nuevos Negocios'][selectedMonth3 as keyof typeof selectedData['Nuevos Negocios']] || 0
           ],
           color: '#28a745'
         },
         {
-          name: period3Label,
+          name: 'Anulaciones',
           data: [
-            selectedData['Nuevos Negocios'][selectedMonth3 as keyof typeof selectedData['Nuevos Negocios']] || 0,
-            selectedData['Anulaciones'][selectedMonth3 as keyof typeof selectedData['Anulaciones']] || 0,
-            selectedData['Renovaciones'][selectedMonth3 as keyof typeof selectedData['Renovaciones']] || 0,
-            selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0
+            selectedData['Anulaciones'][selectedMonth1 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Anulaciones'][selectedMonth2 as keyof typeof selectedData['Anulaciones']] || 0,
+            selectedData['Anulaciones'][selectedMonth3 as keyof typeof selectedData['Anulaciones']] || 0
           ],
           color: '#dc3545'
+        },
+        {
+          name: 'Renovaciones',
+          data: [
+            selectedData['Renovaciones'][selectedMonth1 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth2 as keyof typeof selectedData['Renovaciones']] || 0,
+            selectedData['Renovaciones'][selectedMonth3 as keyof typeof selectedData['Renovaciones']] || 0
+          ],
+          color: '#007DC5'
+        },
+        {
+          name: 'Refacturación',
+          data: [
+            selectedData['Refacturación'][selectedMonth1 as keyof typeof selectedData['Refacturación']] || 0,
+            selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0,
+            selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0
+          ],
+          color: '#6c757d'
         }
       ],
       credits: { enabled: false },
@@ -213,25 +219,58 @@ export default function EvolucionPorTipoOperacion() {
     };
   }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
 
+  // Función para generar variación Q POL basada en fecha
+  const getQPolVariation = (baseValue: number, year: string, month: string) => {
+    const yearFactor = parseInt(year) - 2023; // Factor de crecimiento anual desde 2023
+    
+    // Variación anual (crecimiento del 8-12% por año)
+    const annualGrowth = 1 + (yearFactor * 0.10);
+    
+    // Variación estacional (algunos meses tienen más actividad)
+    const seasonalFactors = {
+      '01': 0.85, '02': 0.90, '03': 1.05, '04': 1.00,
+      '05': 1.10, '06': 1.15, '07': 1.20, '08': 1.25,
+      '09': 1.30, '10': 1.35, '11': 1.25, '12': 1.40
+    };
+    const seasonalFactor = seasonalFactors[month as keyof typeof seasonalFactors] || 1.0;
+    
+    // Variación aleatoria pequeña (±5%)
+    const randomFactor = 0.95 + (Math.random() * 0.10);
+    
+    return Math.round(baseValue * annualGrowth * seasonalFactor * randomFactor);
+  };
+
   // Datos para el gráfico de líneas Q POL
   const lineChartData = useMemo(() => {
-    // Datos de ejemplo para Q POL por tipo de operación
+    // Datos base para Q POL por tipo de operación (Agosto 2023 como referencia)
+    const baseQPolData = {
+      'Nuevos Negocios': 610,
+      'Anulaciones': 85,
+      'Renovaciones': 375,
+      'Refacturación': 203
+    };
+
+    // Generar datos dinámicos para cada período
     const qPolData = {
       'Nuevos Negocios': {
-        '01': 450, '02': 480, '03': 520, '04': 510, '05': 550, '06': 580,
-        '07': 620, '08': 610, '09': 650, '10': 680, '11': 700, '12': 720
+        [selectedMonth1]: getQPolVariation(baseQPolData['Nuevos Negocios'], selectedYear1, selectedMonth1),
+        [selectedMonth2]: getQPolVariation(baseQPolData['Nuevos Negocios'], selectedYear2, selectedMonth2),
+        [selectedMonth3]: getQPolVariation(baseQPolData['Nuevos Negocios'], selectedYear3, selectedMonth3)
       },
       'Anulaciones': {
-        '01': 120, '02': 115, '03': 110, '04': 105, '05': 100, '06': 95,
-        '07': 90, '08': 85, '09': 80, '10': 75, '11': 70, '12': 65
+        [selectedMonth1]: getQPolVariation(baseQPolData['Anulaciones'], selectedYear1, selectedMonth1),
+        [selectedMonth2]: getQPolVariation(baseQPolData['Anulaciones'], selectedYear2, selectedMonth2),
+        [selectedMonth3]: getQPolVariation(baseQPolData['Anulaciones'], selectedYear3, selectedMonth3)
       },
       'Renovaciones': {
-        '01': 320, '02': 330, '03': 340, '04': 335, '05': 350, '06': 365,
-        '07': 380, '08': 375, '09': 390, '10': 405, '11': 420, '12': 435
+        [selectedMonth1]: getQPolVariation(baseQPolData['Renovaciones'], selectedYear1, selectedMonth1),
+        [selectedMonth2]: getQPolVariation(baseQPolData['Renovaciones'], selectedYear2, selectedMonth2),
+        [selectedMonth3]: getQPolVariation(baseQPolData['Renovaciones'], selectedYear3, selectedMonth3)
       },
       'Refacturación': {
-        '01': 180, '02': 185, '03': 190, '04': 188, '05': 195, '06': 200,
-        '07': 205, '08': 203, '09': 210, '10': 215, '11': 220, '12': 225
+        [selectedMonth1]: getQPolVariation(baseQPolData['Refacturación'], selectedYear1, selectedMonth1),
+        [selectedMonth2]: getQPolVariation(baseQPolData['Refacturación'], selectedYear2, selectedMonth2),
+        [selectedMonth3]: getQPolVariation(baseQPolData['Refacturación'], selectedYear3, selectedMonth3)
       }
     };
 
@@ -292,7 +331,7 @@ export default function EvolucionPorTipoOperacion() {
         }
       }
     };
-  }, [selectedYear1, selectedMonth1, selectedMonth2, selectedMonth3]);
+  }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, selectedYear3, selectedMonth3]);
 
   return (
     <div className="space-y-6">

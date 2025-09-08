@@ -11,10 +11,10 @@ interface StatCardProps {
 
 const colorClasses = {
   green: 'border-green-500 text-gray-900',
-  blue: 'border-blue-500 text-blue-600',
+  blue: 'border-blue-500 text-gray-900',
   red: 'border-red-500 text-gray-900',
   yellow: 'border-yellow-500 text-yellow-600',
-  purple: 'border-purple-500 text-purple-600',
+  purple: 'border-purple-500 text-gray-900',
 };
 
 const iconBg = {
