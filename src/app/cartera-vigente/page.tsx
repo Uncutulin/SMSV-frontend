@@ -74,9 +74,7 @@ export default function CarteraVigente() {
         { nombre: 'VARIOS', qPol: 2000, r12: 290000000 }
       ],
       CIA: [
-        { nombre: 'ASSA COMPAÑÍA DE SEGUROS', qPol: 28500, r12: 4850000000 },
-        { nombre: 'CAS COMPAÑÍA DE SEGUROS', qPol: 25200, r12: 4200000000 },
-        { nombre: 'ART COMPAÑÍA DE SEGUROS', qPol: 22800, r12: 3850000000 },
+        { nombre: 'SMSV SEGUROS', qPol: 28500, r12: 4850000000 },
         { nombre: 'SURA SEGUROS', qPol: 19800, r12: 3200000000 },
         { nombre: 'BOLÍVAR SEGUROS', qPol: 17500, r12: 2850000000 },
         { nombre: 'LIBERTY SEGUROS', qPol: 15200, r12: 2450000000 },
@@ -97,14 +95,136 @@ export default function CarteraVigente() {
       ]
     };
 
+    // Datos específicos para ASSA y CIA
+    const assaCiaData = [
+      { nombre: 'SMG', qPol: 28500, r12: 4850000000 },
+      { nombre: 'LMA', qPol: 25200, r12: 4200000000 },
+      { nombre: 'SMG LIFE', qPol: 22800, r12: 3850000000 },
+      { nombre: 'SANCOR', qPol: 19800, r12: 3200000000 },
+      { nombre: 'ALLIANZ', qPol: 17500, r12: 2850000000 },
+      { nombre: 'INTEGRITY', qPol: 15200, r12: 2450000000 },
+      { nombre: 'FED PAT', qPol: 12800, r12: 1980000000 },
+      { nombre: 'ATM', qPol: 11200, r12: 1750000000 },
+      { nombre: 'SAN CRISTOBAL', qPol: 9800, r12: 1520000000 },
+      { nombre: 'LIBRA', qPol: 8500, r12: 1280000000 },
+      { nombre: 'PRUDENCIA', qPol: 7200, r12: 1150000000 },
+      { nombre: 'COSENA', qPol: 6800, r12: 980000000 },
+      { nombre: 'VICTORIA', qPol: 6200, r12: 850000000 },
+      { nombre: 'AFIANZADORA', qPol: 5800, r12: 720000000 },
+      { nombre: 'LA HOLANDO', qPol: 5200, r12: 650000000 },
+      { nombre: 'RIVADAVIA', qPol: 4800, r12: 580000000 },
+      { nombre: 'CHUBB', qPol: 4200, r12: 520000000 },
+      { nombre: 'CAUCIONES', qPol: 3800, r12: 480000000 },
+      { nombre: 'NOBLE', qPol: 3400, r12: 420000000 },
+      { nombre: 'RUS', qPol: 3000, r12: 380000000 },
+      { nombre: 'HDI', qPol: 2800, r12: 360000000 },
+      { nombre: 'TRIUNFO', qPol: 2600, r12: 340000000 },
+      { nombre: 'ZURICH', qPol: 2400, r12: 320000000 },
+      { nombre: 'BOSTON', qPol: 2200, r12: 300000000 },
+      { nombre: 'TPC', qPol: 2000, r12: 280000000 }
+    ];
+
+    // Datos específicos para CAS y CIA (solo SMSV SEGUROS)
+    const casCiaData = [
+      { nombre: 'SMSV SEGUROS', qPol: 28500, r12: 4850000000 }
+    ];
+
+    // Datos específicos para ART y CIA
+    const artCiaData = [
+      { nombre: 'ASOCIART ART', qPol: 28500, r12: 4850000000 },
+      { nombre: 'PREVENCION ART', qPol: 25200, r12: 4200000000 },
+      { nombre: 'PROVINCIA ART', qPol: 22800, r12: 3850000000 },
+      { nombre: 'FED PAT', qPol: 19800, r12: 3200000000 },
+      { nombre: 'SMG ART', qPol: 17500, r12: 2850000000 },
+      { nombre: 'ANDINA ART', qPol: 15200, r12: 2450000000 },
+      { nombre: 'EXPERTA ART', qPol: 12800, r12: 1980000000 },
+      { nombre: 'LA HOLANDO ART', qPol: 11200, r12: 1750000000 },
+      { nombre: 'GALENO ART', qPol: 9800, r12: 1520000000 },
+      { nombre: 'OMINT ART', qPol: 8500, r12: 1280000000 },
+      { nombre: 'VICTORIA ART', qPol: 7200, r12: 1150000000 }
+    ];
+
+    // Datos para TODOS + CIA (combinación de ASSA + ART)
+    const todosCiaData = [
+      { nombre: 'SMSV SEGUROS', qPol: 28500, r12: 4850000000 },
+      { nombre: 'SMG', qPol: 25200, r12: 4200000000 },
+      { nombre: 'LMA', qPol: 22800, r12: 3850000000 },
+      { nombre: 'SMG LIFE', qPol: 19800, r12: 3200000000 },
+      { nombre: 'SANCOR', qPol: 17500, r12: 2850000000 },
+      { nombre: 'ALLIANZ', qPol: 15200, r12: 2450000000 },
+      { nombre: 'INTEGRITY', qPol: 12800, r12: 1980000000 },
+      { nombre: 'FED PAT', qPol: 11200, r12: 1750000000 },
+      { nombre: 'ATM', qPol: 9800, r12: 1520000000 },
+      { nombre: 'SAN CRISTOBAL', qPol: 8500, r12: 1280000000 },
+      { nombre: 'LIBRA', qPol: 7200, r12: 1150000000 },
+      { nombre: 'PRUDENCIA', qPol: 6800, r12: 980000000 },
+      { nombre: 'COSENA', qPol: 6200, r12: 850000000 },
+      { nombre: 'VICTORIA', qPol: 5800, r12: 720000000 },
+      { nombre: 'AFIANZADORA', qPol: 5200, r12: 650000000 },
+      { nombre: 'LA HOLANDO', qPol: 4800, r12: 580000000 },
+      { nombre: 'RIVADAVIA', qPol: 4200, r12: 520000000 },
+      { nombre: 'CHUBB', qPol: 3800, r12: 480000000 },
+      { nombre: 'CAUCIONES', qPol: 3400, r12: 420000000 },
+      { nombre: 'NOBLE', qPol: 3000, r12: 380000000 },
+      { nombre: 'RUS', qPol: 2800, r12: 360000000 },
+      { nombre: 'HDI', qPol: 2600, r12: 340000000 },
+      { nombre: 'TRIUNFO', qPol: 2400, r12: 320000000 },
+      { nombre: 'ZURICH', qPol: 2200, r12: 300000000 },
+      { nombre: 'BOSTON', qPol: 2000, r12: 280000000 },
+      { nombre: 'TPC', qPol: 1800, r12: 260000000 },
+      { nombre: 'ASOCIART ART', qPol: 1600, r12: 240000000 },
+      { nombre: 'PREVENCION ART', qPol: 1400, r12: 220000000 },
+      { nombre: 'PROVINCIA ART', qPol: 1200, r12: 200000000 },
+      { nombre: 'SMG ART', qPol: 1000, r12: 180000000 },
+      { nombre: 'ANDINA ART', qPol: 800, r12: 160000000 },
+      { nombre: 'EXPERTA ART', qPol: 600, r12: 140000000 },
+      { nombre: 'LA HOLANDO ART', qPol: 400, r12: 120000000 },
+      { nombre: 'GALENO ART', qPol: 200, r12: 100000000 },
+      { nombre: 'OMINT ART', qPol: 150, r12: 80000000 },
+      { nombre: 'VICTORIA ART', qPol: 100, r12: 60000000 }
+    ];
+
     // Aplicar variaciones dinámicas
     const dynamicData: Record<string, Array<{nombre: string, qPol: number, r12: number}>> = {};
     Object.keys(baseData).forEach(key => {
-      dynamicData[key] = baseData[key as keyof typeof baseData].map(item => ({
-        ...item,
-        qPol: getDateVariation(item.qPol, selectedYear, selectedMonth),
-        r12: getDateVariation(item.r12, selectedYear, selectedMonth)
-      }));
+      // Si es CIA y el filtro es ASSA, usar datos específicos de ASSA
+      if (key === 'CIA' && filtro === 'ASSA') {
+        dynamicData[key] = assaCiaData.map(item => ({
+          ...item,
+          qPol: getDateVariation(item.qPol, selectedYear, selectedMonth),
+          r12: getDateVariation(item.r12, selectedYear, selectedMonth)
+        }));
+      }
+      // Si es CIA y el filtro es CAS, usar solo SMSV SEGUROS
+      else if (key === 'CIA' && filtro === 'CAS') {
+        dynamicData[key] = casCiaData.map(item => ({
+          ...item,
+          qPol: getDateVariation(item.qPol, selectedYear, selectedMonth),
+          r12: getDateVariation(item.r12, selectedYear, selectedMonth)
+        }));
+      }
+      // Si es CIA y el filtro es ART, usar datos específicos de ART
+      else if (key === 'CIA' && filtro === 'ART') {
+        dynamicData[key] = artCiaData.map(item => ({
+          ...item,
+          qPol: getDateVariation(item.qPol, selectedYear, selectedMonth),
+          r12: getDateVariation(item.r12, selectedYear, selectedMonth)
+        }));
+      }
+      // Si es CIA y el filtro es TODOS, usar datos combinados (ASSA + ART)
+      else if (key === 'CIA' && filtro === 'TODOS') {
+        dynamicData[key] = todosCiaData.map(item => ({
+          ...item,
+          qPol: getDateVariation(item.qPol, selectedYear, selectedMonth),
+          r12: getDateVariation(item.r12, selectedYear, selectedMonth)
+        }));
+      } else {
+        dynamicData[key] = baseData[key as keyof typeof baseData].map(item => ({
+          ...item,
+          qPol: getDateVariation(item.qPol, selectedYear, selectedMonth),
+          r12: getDateVariation(item.r12, selectedYear, selectedMonth)
+        }));
+      }
     });
 
     return dynamicData;
@@ -150,7 +270,7 @@ export default function CarteraVigente() {
         {
           title: 'Cantidad de Pólizas',
           value: aseguradosVariado.toLocaleString(),
-          icon: 'fa-solid fa-users',
+          icon: 'fa-solid fa-file-contract',
           color: 'green' as const,
         },
         {
@@ -166,9 +286,9 @@ export default function CarteraVigente() {
           color: 'purple' as const,
         },
         {
-          title: compania === 'TODOS' ? 'Cantidad de Cápitas' : 'Cancelaciones',
+          title: compania === 'TODOS' ? 'Cantidad de Cápitas' : 'Cantidad de Cápitas',
           value: capitasVariadas.toLocaleString(),
-          icon: 'fa-solid fa-ban',
+          icon: 'fa-solid fa-user',
           color: 'red' as const,
         },
       ];
@@ -286,7 +406,7 @@ export default function CarteraVigente() {
                   <th className="px-4 py-3 text-center font-bold border-r-2 border-black">#</th>
                   <th className="px-4 py-3 text-left font-bold border-r-2 border-black">GRUPO</th>
                   <th className="px-4 py-3 text-center font-bold border-r-2 border-black">Q POL</th>
-                  <th className="px-4 py-3 text-center font-bold">R12 (Pesos)</th>
+                  <th className="px-4 py-3 text-center font-bold">R12</th>
                 </tr>
               </thead>
               <tbody>
@@ -323,6 +443,21 @@ export default function CarteraVigente() {
                     </td>
                   </tr>
                 ))}
+                {/* Fila de Total */}
+                <tr className="bg-blue-100 font-bold border-t-2 border-blue-500">
+                  <td className="px-4 py-3 text-center font-bold border-r-2 border-black text-blue-800">
+                    TOTAL
+                  </td>
+                  <td className="px-4 py-3 font-bold border-r-2 border-black text-blue-800">
+                    TOTAL
+                  </td>
+                  <td className="px-4 py-3 text-center font-bold border-r-2 border-black text-blue-800">
+                    {tablaData[tipoFiltro as keyof typeof tablaData].reduce((sum, item) => sum + item.qPol, 0).toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-center font-bold text-blue-800">
+                    ${tablaData[tipoFiltro as keyof typeof tablaData].reduce((sum, item) => sum + item.r12, 0).toLocaleString()}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

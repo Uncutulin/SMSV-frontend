@@ -36,6 +36,19 @@ export default function EvolucionCartera() {
     return months[month as keyof typeof months] || month;
   };
 
+  // Función para obtener el color de la columna DIF basado en si es positivo o negativo
+  const getDifColor = (value: string) => {
+    // Remover comas y convertir a número
+    const numericValue = parseFloat(value.replace(/,/g, ''));
+    if (numericValue < 0) {
+      return 'text-red-600 font-semibold'; // Rojo para valores negativos
+    } else if (numericValue > 0) {
+      return 'text-green-600 font-semibold'; // Verde para valores positivos
+    } else {
+      return 'text-gray-900'; // Gris para valores cero
+    }
+  };
+
   // Función para generar datos dinámicos basados en los filtros
   const generateDynamicData = (year1: string, month1: string, year2: string, month2: string) => {
     const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
@@ -3078,75 +3091,81 @@ export default function EvolucionCartera() {
         xAxis: {
           categories: ['202408', '202508'],
           title: { text: 'Período' },
+          labels: {
+            style: {
+              fontSize: '12px'
+            }
+          }
         },
         yAxis: {
-          title: { text: 'R12 (Millones $)' },
+          title: { text: 'Q PÓL (Cantidad de Pólizas)' },
           min: 0,
           labels: {
             formatter: function (this: { value: number }) {
-              if (this.value >= 1000000) return (this.value / 1000000) + ' M';
-              if (this.value >= 1000) return (this.value / 1000) + ' mil';
-              return this.value;
+              return this.value.toLocaleString();
             }
           }
         },
         tooltip: {
           pointFormatter: function (this: { y: number }) {
-            if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
-            if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
-            return '<b>' + this.y + '</b>';
+            return '<b>' + this.y.toLocaleString() + ' pólizas</b>';
           }
         },
         series: [
           { 
-            name: 'PREVENCIÓN ART', 
-            data: [artXCiaData.PREVENCION_ART.r12202408, artXCiaData.PREVENCION_ART.r12202508], 
+            name: 'ASOCIART ART', 
+            data: [artXCiaData.ASOCIART_ART.qPol202408, artXCiaData.ASOCIART_ART.qPol202508], 
             color: '#003871' 
           },
           { 
-            name: 'ASOCIART ART', 
-            data: [artXCiaData.ASOCIART_ART.r12202408, artXCiaData.ASOCIART_ART.r12202508], 
+            name: 'PREVENCION ART', 
+            data: [artXCiaData.PREVENCION_ART.qPol202408, artXCiaData.PREVENCION_ART.qPol202508], 
             color: '#007DC5' 
           },
           { 
             name: 'PROVINCIA ART', 
-            data: [artXCiaData.PROVINCIA_ART.r12202408, artXCiaData.PROVINCIA_ART.r12202508], 
+            data: [artXCiaData.PROVINCIA_ART.qPol202408, artXCiaData.PROVINCIA_ART.qPol202508], 
             color: '#00AEEF' 
           },
           { 
-            name: 'SMG ART', 
-            data: [artXCiaData.SMG_ART.r12202408, artXCiaData.SMG_ART.r12202508], 
+            name: 'FED PAT', 
+            data: [artXCiaData.FED_PAT.qPol202408, artXCiaData.FED_PAT.qPol202508], 
             color: '#FF6B6B' 
           },
           { 
-            name: 'ANDINA ART', 
-            data: [artXCiaData.ANDINA_ART.r12202408, artXCiaData.ANDINA_ART.r12202508], 
+            name: 'SMG ART', 
+            data: [artXCiaData.SMG_ART.qPol202408, artXCiaData.SMG_ART.qPol202508], 
             color: '#4ECDC4' 
           },
           { 
-            name: 'FED PAT', 
-            data: [artXCiaData.FED_PAT.r12202408, artXCiaData.FED_PAT.r12202508], 
+            name: 'ANDINA ART', 
+            data: [artXCiaData.ANDINA_ART.qPol202408, artXCiaData.ANDINA_ART.qPol202508], 
             color: '#45B7D1' 
           },
           { 
             name: 'EXPERTA ART', 
-            data: [artXCiaData.EXPERTA_ART.r12202408, artXCiaData.EXPERTA_ART.r12202508], 
+            data: [artXCiaData.EXPERTA_ART.qPol202408, artXCiaData.EXPERTA_ART.qPol202508], 
             color: '#96CEB4' 
           },
           { 
             name: 'LA HOLANDO ART', 
-            data: [artXCiaData.LA_HOLANDO_ART.r12202408, artXCiaData.LA_HOLANDO_ART.r12202508], 
+            data: [artXCiaData.LA_HOLANDO_ART.qPol202408, artXCiaData.LA_HOLANDO_ART.qPol202508], 
             color: '#FFEAA7' 
           },
           { 
             name: 'GALENO ART', 
-            data: [artXCiaData.GALENO_ART.r12202408, artXCiaData.GALENO_ART.r12202508], 
+            data: [artXCiaData.GALENO_ART.qPol202408, artXCiaData.GALENO_ART.qPol202508], 
             color: '#DDA0DD' 
           },
           { 
             name: 'OMINT ART', 
-            data: [artXCiaData.OMINT_ART.r12202408, artXCiaData.OMINT_ART.r12202508], 
+            data: [artXCiaData.OMINT_ART.qPol202408, artXCiaData.OMINT_ART.qPol202508], 
             color: '#98D8C8' 
+          },
+          { 
+            name: 'VICTORIA ART', 
+            data: [artXCiaData.VICTORIA_ART.qPol202408, artXCiaData.VICTORIA_ART.qPol202508], 
+            color: '#F7DC6F' 
           },
         ],
         credits: { enabled: false },
@@ -3400,7 +3419,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,899</td>
                     <td className="px-4 py-2 text-center text-gray-900">26,669</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1,230</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,230')}`}>-1,230</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.41%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 23,386,730,812</td>
@@ -3411,7 +3430,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ASSA</td>
                     <td className="px-4 py-2 text-center text-gray-900">75,455</td>
                     <td className="px-4 py-2 text-center text-gray-900">73,631</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1,824</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,824')}`}>-1,824</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-2.42%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 28,410,171,357</td>
@@ -3422,7 +3441,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 font-medium text-gray-900  border-r-2 border-black">ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,244</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,345</td>
-                    <td className="px-4 py-2 text-center text-gray-900">101</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('101')}`}>101</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">3.11%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 7,550,273,010</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 12,369,878,053</td>
@@ -3433,7 +3452,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">106,598</td>
                     <td className="px-4 py-2 text-center">103,645</td>
-                    <td className="px-4 py-2 text-center">-2,953</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-2,953')}`}>-2,953</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-2.77%</td>
                     <td className="px-4 py-2 text-center">$ 32,621,717,625</td>
                     <td className="px-4 py-2 text-center">$ 64,166,780,222</td>
@@ -3480,7 +3499,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL DIRECTO</td>
                     <td className="px-4 py-2 text-center text-gray-900">44,658</td>
                     <td className="px-4 py-2 text-center text-gray-900">43,034</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1,624</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,624')}`}>-1,624</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-3.64%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 10,420,688,521</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 18,119,038,113</td>
@@ -3491,7 +3510,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL FILIALES</td>
                     <td className="px-4 py-2 text-center text-gray-900">29,437</td>
                     <td className="px-4 py-2 text-center text-gray-900">27,934</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1,503</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,503')}`}>-1,503</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-5.11%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,998,522,395</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 11,602,251,313</td>
@@ -3502,7 +3521,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CANAL PAS</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,503</td>
                     <td className="px-4 py-2 text-center text-gray-900">32,677</td>
-                    <td className="px-4 py-2 text-center text-gray-900">174</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('174')}`}>174</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.54%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 17,202,506,710</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 34,445,490,795</td>
@@ -3513,7 +3532,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">106,598</td>
                     <td className="px-4 py-2 text-center">103,645</td>
-                    <td className="px-4 py-2 text-center">-2,953</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-2,953')}`}>-2,953</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-2.77%</td>
                     <td className="px-4 py-2 text-center">$ 32,621,717,625</td>
                     <td className="px-4 py-2 text-center">$ 64,166,780,222</td>
@@ -3593,7 +3612,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
                     <td className="px-4 py-2 text-center">26,669</td>
-                    <td className="px-4 py-2 text-center">-1,230</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,230')}`}>-1,230</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-4.41%</td>
                     <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
@@ -3827,7 +3846,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
                     <td className="px-4 py-2 text-center">26,669</td>
-                    <td className="px-4 py-2 text-center">-1,230</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,230')}`}>-1,230</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-4.41%</td>
                     <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
@@ -4061,7 +4080,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
                     <td className="px-4 py-2 text-center">26,669</td>
-                    <td className="px-4 py-2 text-center">-1,230</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,230')}`}>-1,230</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-4.41%</td>
                     <td className="px-4 py-2 text-center">$ 11,820,721,857</td>
                     <td className="px-4 py-2 text-center">$ 23,386,730,812</td>
@@ -4141,7 +4160,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
                     <td className="px-4 py-2 text-center">73,631</td>
-                    <td className="px-4 py-2 text-center">-1,824</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,824')}`}>-1,824</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-2.42%</td>
                     <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
@@ -4419,7 +4438,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
                     <td className="px-4 py-2 text-center">73,631</td>
-                    <td className="px-4 py-2 text-center">-1,824</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,824')}`}>-1,824</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-2.42%</td>
                     <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
@@ -4463,285 +4482,285 @@ export default function EvolucionCartera() {
                 </thead>
                 <tbody>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AFIANZADORA</td>
-                    <td className="px-4 py-2 text-center text-gray-900">121</td>
-                    <td className="px-4 py-2 text-center text-gray-900">213</td>
-                    <td className="px-4 py-2 text-center text-gray-900">92</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">76.03%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 23,275,510</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 30,786,112</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,510,602</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">32.27%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ALLIANZ</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,564</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2,325</td>
-                    <td className="px-4 py-2 text-center text-gray-900">761</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">48.66%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 313,484,478</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,041,865,659</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 728,381,180</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">232.35%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ATM</td>
-                    <td className="px-4 py-2 text-center text-gray-900">513</td>
-                    <td className="px-4 py-2 text-center text-gray-900">716</td>
-                    <td className="px-4 py-2 text-center text-gray-900">203</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">39.57%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 46,181,438</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 138,493,339</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 92,311,901</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">199.89%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOSTON</td>
-                    <td className="px-4 py-2 text-center text-gray-900">18</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-17</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-94.44%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,952,959</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 74,379</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -8,878,580</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-99.17%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAUCIONES</td>
-                    <td className="px-4 py-2 text-center text-gray-900">19</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-6</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-31.58%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,344,606</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,390,887</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -3,953,720</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-73.98%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CHUBB</td>
-                    <td className="px-4 py-2 text-center text-gray-900">96</td>
-                    <td className="px-4 py-2 text-center text-gray-900">15</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-81</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-84.38%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,861,757</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 18,972,684</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,110,927</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">19.61%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
-                    <td className="px-4 py-2 text-center text-gray-900">791</td>
-                    <td className="px-4 py-2 text-center text-gray-900">959</td>
-                    <td className="px-4 py-2 text-center text-gray-900">168</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">21.24%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 305,661,335</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 531,237,711</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 225,576,376</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">73.80%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">HDI</td>
-                    <td className="px-4 py-2 text-center text-gray-900">9</td>
-                    <td className="px-4 py-2 text-center text-gray-900">7</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-22.22%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 734,095</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,321,757</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,587,663</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">216.27%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INTEGRITY</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,533</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1,619</td>
-                    <td className="px-4 py-2 text-center text-gray-900">86</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">5.61%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 312,773,035</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 543,840,130</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 231,067,095</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">73.88%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO</td>
-                    <td className="px-4 py-2 text-center text-gray-900">70</td>
-                    <td className="px-4 py-2 text-center text-gray-900">62</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-8</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-11.43%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,838,282</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,875,658</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 9,037,376</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">132.16%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LIBRA</td>
-                    <td className="px-4 py-2 text-center text-gray-900">793</td>
-                    <td className="px-4 py-2 text-center text-gray-900">490</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-303</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-38.21%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG</td>
+                    <td className="px-4 py-2 text-center text-gray-900">27,059</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25,746</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,313')}`}>-1,313</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.85%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 7,188,385,151</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 12,404,213,055</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('5,215,827,904')}`}>$ 5,215,827,904</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">72.56%</td>
                   </tr>
                   <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LMA</td>
                     <td className="px-4 py-2 text-center text-gray-900">24,266</td>
                     <td className="px-4 py-2 text-center text-gray-900">23,454</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-812</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-812')}`}>-812</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-3.35%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 3,366,394,962</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 9,590,435,724</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,224,040,762</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('6,224,040,762')}`}>$ 6,224,040,762</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">184.89%</td>
                   </tr>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NACIÓN</td>
-                    <td className="px-4 py-2 text-center text-gray-900">1</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-100.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 12,922</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -12,922</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-100.00%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NOBLE</td>
-                    <td className="px-4 py-2 text-center text-gray-900">12</td>
-                    <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-8.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,352,831</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 13,304,418</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 6,951,587</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">109.43%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PRUDENCIA</td>
-                    <td className="px-4 py-2 text-center text-gray-900">265</td>
-                    <td className="px-4 py-2 text-center text-gray-900">333</td>
-                    <td className="px-4 py-2 text-center text-gray-900">68</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">25.66%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 46,599,032</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 129,736,655</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 83,137,623</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">178.41%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RIVADAVIA</td>
-                    <td className="px-4 py-2 text-center text-gray-900">10</td>
-                    <td className="px-4 py-2 text-center text-gray-900">48</td>
-                    <td className="px-4 py-2 text-center text-gray-900">38</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">380.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,596,687</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 22,280,185</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 19,683,498</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">758.02%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RUS</td>
-                    <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">9</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-2</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-18.18%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,497,250</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,311,881</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,814,631</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">121.20%</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG LIFE</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,379</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13,295</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-84')}`}>-84</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-0.63%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 528,038,385</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 684,862,351</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('156,823,967')}`}>$ 156,823,967</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">29.70%</td>
                   </tr>
                   <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SANCOR</td>
                     <td className="px-4 py-2 text-center text-gray-900">4,675</td>
                     <td className="px-4 py-2 text-center text-gray-900">3,256</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1,419</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,419')}`}>-1,419</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-30.35%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 988,772,441</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 2,826,362,279</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,837,589,837</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('1,837,589,837')}`}>$ 1,837,589,837</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">185.85%</td>
                   </tr>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG</td>
-                    <td className="px-4 py-2 text-center text-gray-900">27,059</td>
-                    <td className="px-4 py-2 text-center text-gray-900">25,746</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-1,313</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-4.85%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,188,385,151</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 12,404,213,055</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,215,827,904</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">72.56%</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ALLIANZ</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,564</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2,325</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('761')}`}>761</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">48.66%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 313,484,478</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,041,865,659</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('728,381,180')}`}>$ 728,381,180</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">232.35%</td>
                   </tr>
                   <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG LIFE</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,379</td>
-                    <td className="px-4 py-2 text-center text-gray-900">13,295</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-84</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-0.63%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 528,038,385</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 684,862,351</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 156,823,967</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">29.70%</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">INTEGRITY</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,533</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1,619</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('86')}`}>86</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">5.61%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 312,773,035</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 543,840,130</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('231,067,095')}`}>$ 231,067,095</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">73.88%</td>
                   </tr>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TPC</td>
-                    <td className="px-4 py-2 text-center text-gray-900">20</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-20</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-100.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 81,052</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 20,927</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -60,125</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-74.18%</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
+                    <td className="px-4 py-2 text-center text-gray-900">791</td>
+                    <td className="px-4 py-2 text-center text-gray-900">959</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('168')}`}>168</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">21.24%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 305,661,335</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 531,237,711</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('225,576,376')}`}>$ 225,576,376</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">73.80%</td>
                   </tr>
                   <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA</td>
-                    <td className="px-4 py-2 text-center text-gray-900">46</td>
-                    <td className="px-4 py-2 text-center text-gray-900">214</td>
-                    <td className="px-4 py-2 text-center text-gray-900">168</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">365.22%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 7,172,892</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 55,348,609</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 48,175,717</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">671.64%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ZURICH</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center text-gray-900">2</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-6</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-75.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,291,112</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 96,455</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -2,194,657</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-95.79%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">COSENA</td>
-                    <td className="px-4 py-2 text-center text-gray-900">136</td>
-                    <td className="px-4 py-2 text-center text-gray-900">218</td>
-                    <td className="px-4 py-2 text-center text-gray-900">82</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">60.29%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 61,962,312</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 52,853,317</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -9,108,995</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-14.70%</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ATM</td>
+                    <td className="px-4 py-2 text-center text-gray-900">513</td>
+                    <td className="px-4 py-2 text-center text-gray-900">716</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('203')}`}>203</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">39.57%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 46,181,438</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 138,493,339</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('92,311,901')}`}>$ 92,311,901</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">199.89%</td>
                   </tr>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SAN CRISTOBAL</td>
                     <td className="px-4 py-2 text-center text-gray-900">40</td>
                     <td className="px-4 py-2 text-center text-gray-900">621</td>
-                    <td className="px-4 py-2 text-center text-gray-900">581</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('581')}`}>581</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">1452.50%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 5,688,723</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 296,318,204</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 290,629,481</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('290,629,481')}`}>$ 290,629,481</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">5108.87%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LIBRA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">793</td>
+                    <td className="px-4 py-2 text-center text-gray-900">490</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-303')}`}>-303</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-38.21%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,769,511</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('0')}`}>$ 0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">0.00%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PRUDENCIA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">265</td>
+                    <td className="px-4 py-2 text-center text-gray-900">333</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('68')}`}>68</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">25.66%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 46,599,032</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 129,736,655</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('83,137,623')}`}>$ 83,137,623</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">178.41%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">COSENA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">136</td>
+                    <td className="px-4 py-2 text-center text-gray-900">218</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('82')}`}>82</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">60.29%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 61,962,312</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 52,853,317</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-9,108,995')}`}>$ -9,108,995</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-14.70%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">46</td>
+                    <td className="px-4 py-2 text-center text-gray-900">214</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('168')}`}>168</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">365.22%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 7,172,892</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 55,348,609</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('48,175,717')}`}>$ 48,175,717</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">671.64%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">AFIANZADORA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">121</td>
+                    <td className="px-4 py-2 text-center text-gray-900">213</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('92')}`}>92</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">76.03%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 23,275,510</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 30,786,112</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('7,510,602')}`}>$ 7,510,602</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">32.27%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">70</td>
+                    <td className="px-4 py-2 text-center text-gray-900">62</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-8')}`}>-8</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-11.43%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,838,282</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 15,875,658</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('9,037,376')}`}>$ 9,037,376</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">132.16%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RIVADAVIA</td>
+                    <td className="px-4 py-2 text-center text-gray-900">10</td>
+                    <td className="px-4 py-2 text-center text-gray-900">48</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('38')}`}>38</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">380.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,596,687</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 22,280,185</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('19,683,498')}`}>$ 19,683,498</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">758.02%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CHUBB</td>
+                    <td className="px-4 py-2 text-center text-gray-900">96</td>
+                    <td className="px-4 py-2 text-center text-gray-900">15</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-81')}`}>-81</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-84.38%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 15,861,757</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 18,972,684</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('3,110,927')}`}>$ 3,110,927</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">19.61%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">CAUCIONES</td>
+                    <td className="px-4 py-2 text-center text-gray-900">19</td>
+                    <td className="px-4 py-2 text-center text-gray-900">13</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-6')}`}>-6</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-31.58%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,344,606</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,390,887</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-3,953,720')}`}>$ -3,953,720</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-73.98%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">NOBLE</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1')}`}>-1</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-8.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 6,352,831</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 13,304,418</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('6,951,587')}`}>$ 6,951,587</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">109.43%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">RUS</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-2')}`}>-2</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-18.18%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,497,250</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,311,881</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('1,814,631')}`}>$ 1,814,631</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">121.20%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">HDI</td>
+                    <td className="px-4 py-2 text-center text-gray-900">9</td>
+                    <td className="px-4 py-2 text-center text-gray-900">7</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-2')}`}>-2</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-22.22%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 734,095</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,321,757</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('1,587,663')}`}>$ 1,587,663</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">216.27%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TRIUNFO</td>
+                    <td className="px-4 py-2 text-center text-gray-900">25</td>
+                    <td className="px-4 py-2 text-center text-gray-900">18</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-7')}`}>-7</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-28.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 3,250,000</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,500,000</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-750,000')}`}>$ -750,000</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-23.08%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ZURICH</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8</td>
+                    <td className="px-4 py-2 text-center text-gray-900">2</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-6')}`}>-6</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-75.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,291,112</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 96,455</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-2,194,657')}`}>$ -2,194,657</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-95.79%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">BOSTON</td>
+                    <td className="px-4 py-2 text-center text-gray-900">18</td>
+                    <td className="px-4 py-2 text-center text-gray-900">1</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-17')}`}>-17</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-94.44%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,952,959</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 74,379</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-8,878,580')}`}>$ -8,878,580</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-99.17%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">TPC</td>
+                    <td className="px-4 py-2 text-center text-gray-900">20</td>
+                    <td className="px-4 py-2 text-center text-gray-900">-</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-20')}`}>-20</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-100.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 81,052</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 20,927</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-60,125')}`}>$ -60,125</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-74.18%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
                     <td className="px-4 py-2 text-center">73,631</td>
-                    <td className="px-4 py-2 text-center">-1,824</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,824')}`}>-1,824</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">-2.42%</td>
                     <td className="px-4 py-2 text-center">$ 13,250,722,758</td>
                     <td className="px-4 py-2 text-center">$ 28,410,171,357</td>
@@ -4821,7 +4840,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,244</td>
                     <td className="px-4 py-2 text-center">3,345</td>
-                    <td className="px-4 py-2 text-center">101</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('101')}`}>101</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">3.11%</td>
                     <td className="px-4 py-2 text-center">$ 7,550,273,010</td>
                     <td className="px-4 py-2 text-center">$ 12,369,878,053</td>
@@ -4865,131 +4884,131 @@ export default function EvolucionCartera() {
                 </thead>
                 <tbody>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ANDINA ART</td>
-                    <td className="px-4 py-2 text-center text-gray-900">73</td>
-                    <td className="px-4 py-2 text-center text-gray-900">244</td>
-                    <td className="px-4 py-2 text-center text-gray-900">171</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">234.25%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 166,842,533</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,479,829,623</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,312,987,090</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">786.96%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ASOCIART ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">323</td>
                     <td className="px-4 py-2 text-center text-gray-900">361</td>
-                    <td className="px-4 py-2 text-center text-gray-900">38</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('38')}`}>38</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">11.76%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,629,349,277</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 2,575,358,075</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 946,008,798</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('946,008,798')}`}>$ 946,008,798</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">58.06%</td>
                   </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">EXPERTA ART</td>
-                    <td className="px-4 py-2 text-center text-gray-900">28</td>
-                    <td className="px-4 py-2 text-center text-gray-900">23</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-5</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-17.86%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 138,734,835</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 309,246,420</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 170,511,586</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">122.90%</td>
-                  </tr>
                   <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
-                    <td className="px-4 py-2 text-center text-gray-900">132</td>
-                    <td className="px-4 py-2 text-center text-gray-900">106</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-26</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-19.70%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 2,349,559,046</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,069,467,626</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -1,280,091,420</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-54.48%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">GALENO ART</td>
-                    <td className="px-4 py-2 text-center text-gray-900">12</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-4</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-33.33%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 66,536,918</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 10,885,655</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ -55,651,263</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">-83.64%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO ART</td>
-                    <td className="px-4 py-2 text-center text-gray-900">8</td>
-                    <td className="px-4 py-2 text-center text-gray-900">11</td>
-                    <td className="px-4 py-2 text-center text-gray-900">3</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">37.50%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 21,561,415</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 248,271,635</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 226,710,220</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">1051.46%</td>
-                  </tr>
-                  <tr className="bg-white border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">OMINT ART</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">0</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 5,009,147</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 8,405,747</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 3,396,600</td>
-                    <td className="px-4 py-2 text-center font-bold text-gray-900">67.81%</td>
-                  </tr>
-                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
-                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PREVENCIÓN ART</td>
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PREVENCION ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,579</td>
                     <td className="px-4 py-2 text-center text-gray-900">1,590</td>
-                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('11')}`}>11</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.70%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,215,706,171</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 2,745,633,959</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,529,927,788</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('1,529,927,788')}`}>$ 1,529,927,788</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.85%</td>
                   </tr>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">PROVINCIA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">534</td>
                     <td className="px-4 py-2 text-center text-gray-900">574</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-40</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-40')}`}>-40</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-6.97%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,074,334,312</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 2,361,201,528</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 1,286,867,216</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('1,286,867,216')}`}>$ 1,286,867,216</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">119.78%</td>
                   </tr>
                   <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">FED PAT</td>
+                    <td className="px-4 py-2 text-center text-gray-900">132</td>
+                    <td className="px-4 py-2 text-center text-gray-900">106</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-26')}`}>-26</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-19.70%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 2,349,559,046</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,069,467,626</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-1,280,091,420')}`}>$ -1,280,091,420</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-54.48%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">SMG ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">511</td>
                     <td className="px-4 py-2 text-center text-gray-900">460</td>
-                    <td className="px-4 py-2 text-center text-gray-900">-51</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-51')}`}>-51</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-9.98%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 882,639,356</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 1,546,534,132</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 663,894,776</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('663,894,776')}`}>$ 663,894,776</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">75.22%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">ANDINA ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">73</td>
+                    <td className="px-4 py-2 text-center text-gray-900">244</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('171')}`}>171</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">234.25%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 166,842,533</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 1,479,829,623</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('1,312,987,090')}`}>$ 1,312,987,090</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">786.96%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">EXPERTA ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">28</td>
+                    <td className="px-4 py-2 text-center text-gray-900">23</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-5')}`}>-5</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-17.86%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 138,734,835</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 309,246,420</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('170,511,586')}`}>$ 170,511,586</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">122.90%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">LA HOLANDO ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8</td>
+                    <td className="px-4 py-2 text-center text-gray-900">11</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('3')}`}>3</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">37.50%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 21,561,415</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 248,271,635</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('226,710,220')}`}>$ 226,710,220</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">1051.46%</td>
+                  </tr>
+                  <tr className="bg-white border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">GALENO ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">12</td>
+                    <td className="px-4 py-2 text-center text-gray-900">8</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-4')}`}>-4</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">-33.33%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 66,536,918</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 10,885,655</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('-55,651,263')}`}>$ -55,651,263</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">-83.64%</td>
+                  </tr>
+                  <tr className="bg-gray-50 border-b hover:bg-[#3382af85]">
+                    <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">OMINT ART</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('0')}`}>0</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">0.00%</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 5,009,147</td>
+                    <td className="px-4 py-2 text-center text-gray-900">$ 8,405,747</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('3,396,600')}`}>$ 3,396,600</td>
+                    <td className="px-4 py-2 text-center font-bold text-gray-900">67.81%</td>
                   </tr>
                   <tr className="bg-white border-b hover:bg-[#3382af85]">
                     <td className="px-4 py-2 font-medium text-gray-900 border-r-2 border-black">VICTORIA ART</td>
                     <td className="px-4 py-2 text-center text-gray-900">-</td>
                     <td className="px-4 py-2 text-center text-gray-900">4</td>
-                    <td className="px-4 py-2 text-center text-gray-900">4</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('4')}`}>4</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900 border-r-2 border-black">100.00%</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ -</td>
                     <td className="px-4 py-2 text-center text-gray-900">$ 15,043,652</td>
-                    <td className="px-4 py-2 text-center text-gray-900">$ 15,043,652</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('15,043,652')}`}>$ 15,043,652</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">100.00%</td>
                   </tr>
                   <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,244</td>
                     <td className="px-4 py-2 text-center">3,345</td>
-                    <td className="px-4 py-2 text-center">101</td>
+                    <td className={`px-4 py-2 text-center ${getDifColor('101')}`}>101</td>
                     <td className="px-4 py-2 text-center border-r-2 border-black">3.11%</td>
                     <td className="px-4 py-2 text-center">$ 7,550,273,010</td>
                     <td className="px-4 py-2 text-center">$ 12,369,878,053</td>
