@@ -200,7 +200,13 @@ export default function EvolucionPorTipoOperacion() {
             selectedData['Refacturación'][selectedMonth1 as keyof typeof selectedData['Refacturación']] || 0,
             selectedData['Otros Endosos'][selectedMonth1 as keyof typeof selectedData['Otros Endosos']] || 0
           ],
-          color: '#28a745'
+          color: {
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            stops: [
+              [0, '#004376'],
+              [1, '#002244']
+            ]
+          }
         },
         {
           name: period2Label,
@@ -211,7 +217,13 @@ export default function EvolucionPorTipoOperacion() {
             selectedData['Refacturación'][selectedMonth2 as keyof typeof selectedData['Refacturación']] || 0,
             selectedData['Otros Endosos'][selectedMonth2 as keyof typeof selectedData['Otros Endosos']] || 0
           ],
-          color: '#dc3545'
+          color: {
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            stops: [
+              [0, '#007DC5'],
+              [1, '#004376']
+            ]
+          }
         },
         {
           name: period3Label,
@@ -222,7 +234,13 @@ export default function EvolucionPorTipoOperacion() {
             selectedData['Refacturación'][selectedMonth3 as keyof typeof selectedData['Refacturación']] || 0,
             selectedData['Otros Endosos'][selectedMonth3 as keyof typeof selectedData['Otros Endosos']] || 0
           ],
-          color: '#007DC5'
+          color: {
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            stops: [
+              [0, '#00AEEF'],
+              [1, '#007DC5']
+            ]
+          }
         }
       ],
       credits: { enabled: false },
