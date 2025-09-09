@@ -10,7 +10,7 @@ export default function Home() {
       if (!isAuth) {
         router.push('/login');
       } else {
-        router.push('/evolucion-de-la-cartera');
+        router.push('/cartera-vigente');
       }
     }
   }, [router]);

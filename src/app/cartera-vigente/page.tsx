@@ -140,6 +140,15 @@ export default function CarteraVigente() {
       { nombre: 'CERAR', qPol: 5, r12: 1000 },
       { nombre: 'GALARZA RODOLFO GABRIEL', qPol: 3, r12: 500 },
       { nombre: 'BORDIGONI ADRIANA / OTAMENDI JORGE', qPol: 1, r12: 100 }
+    ],
+    EJECUTIVO: [
+      { nombre: 'CAMPOS', qPol: 1850, r12: 285000000 },
+      { nombre: 'SIN EJECUTIVO', qPol: 1750, r12: 275000000 },
+      { nombre: 'CERVANTES', qPol: 1650, r12: 265000000 },
+      { nombre: 'TORELLI', qPol: 1550, r12: 255000000 },
+      { nombre: 'BALSIS', qPol: 1450, r12: 245000000 },
+      { nombre: 'DENNIN', qPol: 1350, r12: 235000000 },
+      { nombre: 'CAP', qPol: 1250, r12: 225000000 }
     ]
   };
 
@@ -390,6 +399,7 @@ export default function CarteraVigente() {
               <option value="RAMO">RAMO</option>
               <option value="CIA">CIA</option>
               <option value="PRODUCTORES">PRODUCTORES</option>
+              <option value="EJECUTIVO">EJECUTIVO</option>
             </select>
           </div>
 
