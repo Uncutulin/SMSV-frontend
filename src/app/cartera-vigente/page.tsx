@@ -148,20 +148,7 @@ export default function CarteraVigente() {
       { nombre: 'TORELLI', qPol: 1550, r12: 255000000 },
       { nombre: 'BALSIS', qPol: 1450, r12: 245000000 },
       { nombre: 'DENNIN', qPol: 1350, r12: 235000000 },
-      { nombre: 'CAP', qPol: 1250, r12: 225000000 },
-      { nombre: 'SALIENTE / DIRECTO', qPol: 1150, r12: 215000000 },
-      { nombre: 'ARAMBEL MARIA GRACIELA', qPol: 1050, r12: 205000000 },
-      { nombre: 'ARCE JULIO DANIEL', qPol: 950, r12: 195000000 },
-      { nombre: 'ARENA ALBERTO SEBASTIAN', qPol: 850, r12: 185000000 },
-      { nombre: 'ARMELLA, JULIA DEL VALLE', qPol: 750, r12: 175000000 },
-      { nombre: 'ARTAZCOZ SANDRA', qPol: 650, r12: 165000000 },
-      { nombre: 'AUTERI VICTOR', qPol: 550, r12: 155000000 },
-      { nombre: 'AYAS VIVIANA ANDREA', qPol: 450, r12: 145000000 },
-      { nombre: 'AYERZA PATRICIO', qPol: 350, r12: 135000000 },
-      { nombre: 'BACCIT MARIANO', qPol: 250, r12: 125000000 },
-      { nombre: 'BALMACEDA PAOLA', qPol: 150, r12: 115000000 },
-      { nombre: 'BALVERDI, RICARDO LEOPOLDO JESUS', qPol: 100, r12: 105000000 },
-      { nombre: 'BARRERA LILIANA EDITH NICOLASA', qPol: 50, r12: 95000000 }
+      { nombre: 'CAP', qPol: 1250, r12: 225000000 }
     ]
   };
 

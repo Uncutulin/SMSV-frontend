@@ -19,6 +19,8 @@ export default function EvolucionCartera() {
   const [selectedMonth1, setSelectedMonth1] = useState('01');
   const [selectedMonth2, setSelectedMonth2] = useState('01');
   const [tipoVista, setTipoVista] = useState('TOTAL X CÍA');
+  const [filtroProductor, setFiltroProductor] = useState('TODOS');
+  const [filtroEjecutivo, setFiltroEjecutivo] = useState('TODOS');
   const [filterApplied, setFilterApplied] = useState(false);
 
   // useEffect para aplicar el filtro automáticamente
@@ -3349,34 +3351,87 @@ export default function EvolucionCartera() {
             </div>
                      </div>
 
-          {/* Tipo de Vista */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
-            <select 
-              value={tipoVista}
-              onChange={(e) => setTipoVista(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <optgroup label="Vistas Generales">
-                <option value="TOTAL X CANAL">TOTAL X CANAL</option>
-                <option value="TOTAL X RAMO">TOTAL X RAMO</option>
-                <option value="TOTAL X CÍA">TOTAL X CÍA</option>
-              </optgroup>
-              <optgroup label="Vistas CAS">
-                <option value="CAS X CANAL">CAS X CANAL</option>
-                <option value="CAS X RAMO">CAS X RAMO</option>
-              </optgroup>
-              <optgroup label="Vistas ASSA">
-                <option value="ASSA X CANAL">ASSA X CANAL</option>
-                <option value="ASSA X RAMO">ASSA X RAMO</option>
-                <option value="ASSA X CÍA">ASSA X CÍA</option>
-              </optgroup>
-              <optgroup label="Vistas ART">
-                <option value="ART X CANAL">ART X CANAL</option>
-                <option value="ART X CÍA">ART X CÍA</option>
-              </optgroup>
-            </select>
-        </div>
+          {/* Filtros en fila horizontal */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+            {/* Tipo de Vista */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
+              <select 
+                value={tipoVista}
+                onChange={(e) => setTipoVista(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <optgroup label="Vistas Generales">
+                  <option value="TOTAL X CANAL">TOTAL X CANAL</option>
+                  <option value="TOTAL X RAMO">TOTAL X RAMO</option>
+                  <option value="TOTAL X CÍA">TOTAL X CÍA</option>
+                </optgroup>
+                <optgroup label="Vistas CAS">
+                  <option value="CAS X CANAL">CAS X CANAL</option>
+                  <option value="CAS X RAMO">CAS X RAMO</option>
+                </optgroup>
+                <optgroup label="Vistas ASSA">
+                  <option value="ASSA X CANAL">ASSA X CANAL</option>
+                  <option value="ASSA X RAMO">ASSA X RAMO</option>
+                  <option value="ASSA X CÍA">ASSA X CÍA</option>
+                </optgroup>
+                <optgroup label="Vistas ART">
+                  <option value="ART X CANAL">ART X CANAL</option>
+                  <option value="ART X CÍA">ART X CÍA</option>
+                </optgroup>
+              </select>
+            </div>
+
+            {/* Filtro Productores */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Productores</label>
+              <select 
+                value={filtroProductor}
+                onChange={(e) => setFiltroProductor(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="TODOS">TODOS</option>
+                <option value="CAMPOS">CAMPOS</option>
+                <option value="SIN EJECUTIVO">SIN EJECUTIVO</option>
+                <option value="CERVANTES">CERVANTES</option>
+                <option value="TORELLI">TORELLI</option>
+                <option value="BALSIS">BALSIS</option>
+                <option value="DENNIN">DENNIN</option>
+                <option value="CAP">CAP</option>
+              </select>
+            </div>
+
+            {/* Filtro Ejecutivo */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Ejecutivo</label>
+              <select 
+                value={filtroEjecutivo}
+                onChange={(e) => setFiltroEjecutivo(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="TODOS">TODOS</option>
+                <option value="SIN EJECUTIVO">SIN EJECUTIVO</option>
+                <option value="CERVANTES">CERVANTES</option>
+                <option value="TORELLI">TORELLI</option>
+                <option value="BALSIS">BALSIS</option>
+                <option value="DENNIN">DENNIN</option>
+                <option value="CAP">CAP</option>
+                <option value="SALIENTE / DIRECTO">SALIENTE / DIRECTO</option>
+                <option value="ARAMBEL MARIA GRACIELA">ARAMBEL MARIA GRACIELA</option>
+                <option value="ARCE JULIO DANIEL">ARCE JULIO DANIEL</option>
+                <option value="ARENA ALBERTO SEBASTIAN">ARENA ALBERTO SEBASTIAN</option>
+                <option value="ARMELLA, JULIA DEL VALLE">ARMELLA, JULIA DEL VALLE</option>
+                <option value="ARTAZCOZ SANDRA">ARTAZCOZ SANDRA</option>
+                <option value="AUTERI VICTOR">AUTERI VICTOR</option>
+                <option value="AYAS VIVIANA ANDREA">AYAS VIVIANA ANDREA</option>
+                <option value="AYERZA PATRICIO">AYERZA PATRICIO</option>
+                <option value="BACCIT MARIANO">BACCIT MARIANO</option>
+                <option value="BALMACEDA PAOLA">BALMACEDA PAOLA</option>
+                <option value="BALVERDI, RICARDO LEOPOLDO JESUS">BALVERDI, RICARDO LEOPOLDO JESUS</option>
+                <option value="BARRERA LILIANA EDITH NICOLASA">BARRERA LILIANA EDITH NICOLASA</option>
+              </select>
+            </div>
+          </div>
 
           {/* Botón Aplicar Filtros */}
           <div className="flex justify-end hidden">
