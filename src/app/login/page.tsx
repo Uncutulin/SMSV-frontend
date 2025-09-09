@@ -25,7 +25,7 @@ export default function Login() {
         if (typeof document !== 'undefined') {
           document.cookie = 'smsv-auth=true; path=/;';
         }
-        router.push('/');
+        router.push('/cartera-vigente');
       } else {
         setLoading(false);
         setError('Usuario o contraseña incorrectos.');

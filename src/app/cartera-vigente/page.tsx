@@ -140,6 +140,28 @@ export default function CarteraVigente() {
       { nombre: 'CERAR', qPol: 5, r12: 1000 },
       { nombre: 'GALARZA RODOLFO GABRIEL', qPol: 3, r12: 500 },
       { nombre: 'BORDIGONI ADRIANA / OTAMENDI JORGE', qPol: 1, r12: 100 }
+    ],
+    EJECUTIVO: [
+      { nombre: 'CAMPOS', qPol: 1850, r12: 285000000 },
+      { nombre: 'SIN EJECUTIVO', qPol: 1750, r12: 275000000 },
+      { nombre: 'CERVANTES', qPol: 1650, r12: 265000000 },
+      { nombre: 'TORELLI', qPol: 1550, r12: 255000000 },
+      { nombre: 'BALSIS', qPol: 1450, r12: 245000000 },
+      { nombre: 'DENNIN', qPol: 1350, r12: 235000000 },
+      { nombre: 'CAP', qPol: 1250, r12: 225000000 },
+      { nombre: 'SALIENTE / DIRECTO', qPol: 1150, r12: 215000000 },
+      { nombre: 'ARAMBEL MARIA GRACIELA', qPol: 1050, r12: 205000000 },
+      { nombre: 'ARCE JULIO DANIEL', qPol: 950, r12: 195000000 },
+      { nombre: 'ARENA ALBERTO SEBASTIAN', qPol: 850, r12: 185000000 },
+      { nombre: 'ARMELLA, JULIA DEL VALLE', qPol: 750, r12: 175000000 },
+      { nombre: 'ARTAZCOZ SANDRA', qPol: 650, r12: 165000000 },
+      { nombre: 'AUTERI VICTOR', qPol: 550, r12: 155000000 },
+      { nombre: 'AYAS VIVIANA ANDREA', qPol: 450, r12: 145000000 },
+      { nombre: 'AYERZA PATRICIO', qPol: 350, r12: 135000000 },
+      { nombre: 'BACCIT MARIANO', qPol: 250, r12: 125000000 },
+      { nombre: 'BALMACEDA PAOLA', qPol: 150, r12: 115000000 },
+      { nombre: 'BALVERDI, RICARDO LEOPOLDO JESUS', qPol: 100, r12: 105000000 },
+      { nombre: 'BARRERA LILIANA EDITH NICOLASA', qPol: 50, r12: 95000000 }
     ]
   };
 
@@ -390,6 +412,7 @@ export default function CarteraVigente() {
               <option value="RAMO">RAMO</option>
               <option value="CIA">CIA</option>
               <option value="PRODUCTORES">PRODUCTORES</option>
+              <option value="EJECUTIVO">EJECUTIVO</option>
             </select>
           </div>
 

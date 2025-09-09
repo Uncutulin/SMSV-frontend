@@ -3072,9 +3072,9 @@ export default function PresupuestoComercial() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <optgroup label="Vistas Generales">
-                <option value="TOTAL X CÍA">TOTAL X CÍA</option>
                 <option value="TOTAL X CANAL">TOTAL X CANAL</option>
                 <option value="TOTAL X RAMO">TOTAL X RAMO</option>
+                <option value="TOTAL X CÍA">TOTAL X CÍA</option>
               </optgroup>
               <optgroup label="Vistas CAS">
                 <option value="CAS X CANAL">CAS X CANAL</option>
