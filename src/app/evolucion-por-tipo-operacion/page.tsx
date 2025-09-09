@@ -12,9 +12,9 @@ export default function EvolucionPorTipoOperacion() {
   const [selectedMonth2, setSelectedMonth2] = useState('08');
   const [selectedMonth3, setSelectedMonth3] = useState('08');
   const [tipoVista, setTipoVista] = useState('TODOS');
-  const [filtroCanal, setFiltroCanal] = useState('CANAL DIRECTO');
-  const [filtroCia, setFiltroCia] = useState('SMG');
-  const [filtroRamo, setFiltroRamo] = useState('AP');
+  const [filtroCanal, setFiltroCanal] = useState('TODOS');
+  const [filtroCia, setFiltroCia] = useState('TODOS');
+  const [filtroRamo, setFiltroRamo] = useState('TODOS');
   const [filterApplied, setFilterApplied] = useState(false);
 
   // useEffect para aplicar el filtro automáticamente
