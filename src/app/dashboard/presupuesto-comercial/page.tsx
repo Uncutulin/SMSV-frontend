@@ -35,6 +35,15 @@ export default function PresupuestoComercial() {
     return months[month as keyof typeof months] || month;
   };
 
+  // Función para generar títulos dinámicos de las tablas
+  const getTableTitles = () => {
+    const yearMonth = selectedYear2 + selectedMonth2;
+    return {
+      ytd: `CUMP. PPTO YTD ${yearMonth}`,
+      total: `CUMP. PPTO TOTAL ${yearMonth}`
+    };
+  };
+
   // Función para generar datos dinámicos basados en los filtros
   const generateDynamicData = (year1: string, month1: string, year2: string, month2: string) => {
     const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
@@ -3112,8 +3121,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}> </th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -3226,8 +3235,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}> </th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -3340,8 +3349,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -3454,8 +3463,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -3834,8 +3843,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -4214,8 +4223,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -4328,8 +4337,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -4784,8 +4793,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -5316,8 +5325,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
@@ -5430,8 +5439,8 @@ export default function PresupuestoComercial() {
                 <thead>
                   <tr className="text-white" style={{backgroundColor: '#003871'}}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black" style={{backgroundColor: '#6c757d'}}></th>
-                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO YTD 202506</th>
-                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>CUMP. PPTO TOTAL 202506</th>
+                    <th className="px-4 py-3 text-center font-bold border-r-2 border-black" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().ytd}</th>
+                    <th className="px-4 py-3 text-center font-bold" colSpan={8} style={{backgroundColor: '#6c757d'}}>{getTableTitles().total}</th>
                   </tr>
                   <tr style={{backgroundColor: '#00AEEF'}}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black"></th>
