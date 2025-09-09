@@ -92,6 +92,54 @@ export default function CarteraVigente() {
       { nombre: 'SEGUROS DEL ESTADO', qPol: 3800, r12: 480000000 },
       { nombre: 'FASECOLDA', qPol: 3400, r12: 420000000 },
       { nombre: 'OTRAS COMPAÑÍAS', qPol: 3000, r12: 380000000 }
+    ],
+    PRODUCTORES: [
+      { nombre: 'AYAS VIVIANA ANDREA', qPol: 1250, r12: 185000000 },
+      { nombre: 'CANAL DIRECTO', qPol: 1180, r12: 175000000 },
+      { nombre: 'SOSA JOSE', qPol: 1120, r12: 165000000 },
+      { nombre: 'TRUCCO, GUILLERMO', qPol: 1080, r12: 155000000 },
+      { nombre: 'FILIAL LIBERTADOR', qPol: 1050, r12: 145000000 },
+      { nombre: 'JUAREZ MATORRAS GUSTAVO', qPol: 1020, r12: 135000000 },
+      { nombre: 'BORSELLA JORGE LUIS', qPol: 980, r12: 125000000 },
+      { nombre: 'GALLARDO HECTOR', qPol: 950, r12: 115000000 },
+      { nombre: 'FILIAL MENDOZA', qPol: 920, r12: 105000000 },
+      { nombre: 'TOSOLINI PAMELA', qPol: 890, r12: 95000000 },
+      { nombre: 'BLANCO RODRIGO LUIS', qPol: 860, r12: 85000000 },
+      { nombre: 'FERNANDEZ BRAVO OSCAR ANDRES', qPol: 830, r12: 75000000 },
+      { nombre: 'FIALA DARIO', qPol: 800, r12: 65000000 },
+      { nombre: 'FILIAL MAR DEL PLATA', qPol: 770, r12: 55000000 },
+      { nombre: 'CASTIELLA, LUIS RICARDO GUSTAVO', qPol: 740, r12: 45000000 },
+      { nombre: 'FILIAL BAHIA BLANCA / PUNTA ALTA', qPol: 710, r12: 35000000 },
+      { nombre: 'SZOCKI', qPol: 680, r12: 25000000 },
+      { nombre: 'MONTAÑEZ MARCELO', qPol: 650, r12: 15000000 },
+      { nombre: 'COMAS SANTIAGO', qPol: 620, r12: 12000000 },
+      { nombre: 'ANDREA SIMIAN', qPol: 590, r12: 10000000 },
+      { nombre: 'PALAZZO JOSE IGNACIO', qPol: 560, r12: 8000000 },
+      { nombre: 'FILIAL OLIVOS', qPol: 530, r12: 6000000 },
+      { nombre: 'RODRIGUEZ JOSE', qPol: 500, r12: 4000000 },
+      { nombre: 'FILIAL LA PLATA', qPol: 470, r12: 3000000 },
+      { nombre: 'CAROSSINO TOJO MANUEL', qPol: 440, r12: 2000000 },
+      { nombre: 'FILIAL CORDOBA', qPol: 410, r12: 1500000 },
+      { nombre: 'REYES', qPol: 380, r12: 1000000 },
+      { nombre: 'FILIAL CAMPO DE MAYO', qPol: 350, r12: 800000 },
+      { nombre: 'FILIAL PALERMO', qPol: 320, r12: 600000 },
+      { nombre: 'VAN ZANDWEGHE PABLO', qPol: 290, r12: 400000 },
+      { nombre: 'FILIAL MONTSERRAT', qPol: 260, r12: 300000 },
+      { nombre: 'JAACKS', qPol: 230, r12: 200000 },
+      { nombre: 'FILIAL MORON', qPol: 200, r12: 150000 },
+      { nombre: 'FILIAL CONDOR', qPol: 170, r12: 100000 },
+      { nombre: 'RODRIGUEZ MATIAS', qPol: 140, r12: 80000 },
+      { nombre: 'MONZO', qPol: 110, r12: 60000 },
+      { nombre: 'FILIAL EL PALOMAR', qPol: 80, r12: 40000 },
+      { nombre: 'NEVA CLAUDIA', qPol: 50, r12: 20000 },
+      { nombre: 'FILIAL LOMAS DE ZAMORA', qPol: 30, r12: 10000 },
+      { nombre: 'SALVATORE RUBEN', qPol: 20, r12: 5000 },
+      { nombre: 'FILIAL ROSARIO', qPol: 15, r12: 3000 },
+      { nombre: 'FILIAL CENTINELA / GUARDACOSTAS', qPol: 10, r12: 2000 },
+      { nombre: 'DI PAOLA', qPol: 8, r12: 1500 },
+      { nombre: 'CERAR', qPol: 5, r12: 1000 },
+      { nombre: 'GALARZA RODOLFO GABRIEL', qPol: 3, r12: 500 },
+      { nombre: 'BORDIGONI ADRIANA / OTAMENDI JORGE', qPol: 1, r12: 100 }
     ]
   };
 
@@ -341,6 +389,7 @@ export default function CarteraVigente() {
               <option value="CANAL">CANAL</option>
               <option value="RAMO">RAMO</option>
               <option value="CIA">CIA</option>
+              <option value="PRODUCTORES">PRODUCTORES</option>
             </select>
           </div>
 
