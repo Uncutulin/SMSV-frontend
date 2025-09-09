@@ -3390,13 +3390,7 @@ export default function EvolucionCartera() {
                 onChange={(e) => setFiltroProductor(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="TODOS">TODOS</option>
-                <option value="SIN EJECUTIVO">SIN EJECUTIVO</option>
-                <option value="CERVANTES">CERVANTES</option>
-                <option value="TORELLI">TORELLI</option>
-                <option value="BALSIS">BALSIS</option>
-                <option value="DENNIN">DENNIN</option>
-                <option value="CAP">CAP</option>
+                <option value="TODOS">TODOS</option>               
                 <option value="SALIENTE / DIRECTO">SALIENTE / DIRECTO</option>
                 <option value="ARAMBEL MARIA GRACIELA">ARAMBEL MARIA GRACIELA</option>
                 <option value="ARCE JULIO DANIEL">ARCE JULIO DANIEL</option>
