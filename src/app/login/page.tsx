@@ -121,7 +121,7 @@ export default function Login() {
               </div>
             )}
             {/* Cartel de credenciales de prueba */}
-            <div className="mt-4 p-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded text-sm">
+            <div className="mt-4 p-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded text-sm hidden">
               <strong>Credenciales de prueba:</strong><br />
               Usuario: <span className="font-mono">admin@smsv.com</span><br />
               Contraseña: <span className="font-mono">demo1234</span>
