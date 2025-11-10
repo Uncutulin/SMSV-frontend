@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -16,21 +17,39 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setTimeout(() => {
-      if (
-        credentials.email === 'admin@smsv.com' &&
-        credentials.password === 'demo1234'
-      ) {
-        setLoading(false);
-        if (typeof document !== 'undefined') {
-          document.cookie = 'smsv-auth=true; path=/;';
+
+    try {
+      console.log(API_BASE_URL)
+      const response = await fetch(`${API_BASE_URL}`+'/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      console.log(response);
+      if (response.ok) {
+        const data = await response.json();
+        const { access_token } = data;
+
+        if (access_token && typeof document !== 'undefined') {
+          // Guardamos el token en una cookie para usarlo en futuras peticiones a la API.
+          // Se establece una duración de 1 día (86400 segundos).
+          document.cookie = `token=${access_token}; path=/; max-age=86400; SameSite=Lax`;
+          router.push('/cartera-vigente');
+        } else {
+          setError('Respuesta de inicio de sesión inválida.');
         }
-        router.push('/cartera-vigente');
       } else {
-        setLoading(false);
-        setError('Usuario o contraseña incorrectos.');
+        const errorData = await response.json().catch(() => null); // Evita error si la respuesta no es JSON
+        setError(errorData?.message || 'Usuario o contraseña incorrectos.');
       }
-    }, 1000);
+    } catch (error) {
+      setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
