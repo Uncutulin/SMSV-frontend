@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import path from 'path';
@@ -18,7 +18,7 @@ function getCookie(name: string): string | undefined {
   }
 }
 
-export default function FtpPage() {
+function FtpContent() {
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,86 +62,94 @@ export default function FtpPage() {
   const parentPath = currentPath ? path.dirname(currentPath) : '';
 
   return (
-    <DashboardLayout>
-      <div className="p-3">
-        <div className="text-center mt-10">
-          <h1 className="text-3xl font-bold text-gray-900">Explorador de Archivos</h1>
-          <p className="text-gray-600 mt-2 pb-6">Navega por los archivos y carpetas del servidor.</p>
-        </div>
+    <div className="p-3">
+      <div className="text-center mt-10">
+        <h1 className="text-3xl font-bold text-gray-900">Explorador de Archivos</h1>
+        <p className="text-gray-600 mt-2 pb-6">Navega por los archivos y carpetas del servidor.</p>
+      </div>
 
-        <div className="mb-4">
-          <Link href="/api/ftp" className="text-blue-500 hover:underline">Raíz</Link>
-          {currentPath && (
-            <>
-              {' / '}
-              <Link href={`/api/ftp?path=${parentPath}`} className="text-blue-500 hover:underline">
-                Volver
-              </Link>
-            </>
-          )}
-        </div>
+      <div className="mb-4">
+        <Link href="/api/ftp" className="text-blue-500 hover:underline">Raíz</Link>
+        {currentPath && (
+          <>
+            {' / '}
+            <Link href={`/api/ftp?path=${parentPath}`} className="text-blue-500 hover:underline">
+              Volver
+            </Link>
+          </>
+        )}
+      </div>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Contenido de: /{currentPath}</h2>
-          </div>
-          
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900">Contenido de: /{currentPath}</h2>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Tipo
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nombre
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {loading ? (
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Tipo
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Nombre
-                  </th>
+                  <td colSpan={2} className="px-6 py-4 text-center text-gray-500">
+                    Cargando...
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {loading ? (
-                  <tr>
-                    <td colSpan={2} className="px-6 py-4 text-center text-gray-500">
-                      Cargando...
+              ) : error ? (
+                <tr>
+                  <td colSpan={2} className="px-6 py-4 text-center text-red-500">
+                    {error}
+                  </td>
+                </tr>
+              ) : files.length === 0 ? (
+                <tr>
+                  <td colSpan={2} className="px-6 py-4 text-center text-gray-500">
+                    La carpeta está vacía.
+                  </td>
+                </tr>
+              ) : (
+                files.map((file) => (
+                  <tr key={file.name} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {file.isDirectory ? '📁' : '📄'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {file.isDirectory ? (
+                        <Link href={`/api/ftp?path=${encodeURIComponent(path.join(currentPath, file.name))}`} className="text-blue-700 hover:underline">
+                          {file.name}
+                        </Link>
+                      ) : (
+                        <a href={`/api/ftp-files?path=${encodeURIComponent(path.join(currentPath, file.name))}`} download className="text-gray-800 hover:underline">
+                          {file.name}
+                        </a>
+                      )}
                     </td>
                   </tr>
-                ) : error ? (
-                  <tr>
-                    <td colSpan={2} className="px-6 py-4 text-center text-red-500">
-                      {error}
-                    </td>
-                  </tr>
-                ) : files.length === 0 ? (
-                  <tr>
-                    <td colSpan={2} className="px-6 py-4 text-center text-gray-500">
-                      La carpeta está vacía.
-                    </td>
-                  </tr>
-                ) : (
-                  files.map((file) => (
-                    <tr key={file.name} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {file.isDirectory ? '📁' : '📄'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {file.isDirectory ? (
-                          <Link href={`/api/ftp?path=${encodeURIComponent(path.join(currentPath, file.name))}`} className="text-blue-700 hover:underline">
-                            {file.name}
-                          </Link>
-                        ) : (
-                          <a href={`/api/ftp-files?path=${encodeURIComponent(path.join(currentPath, file.name))}`} download className="text-gray-800 hover:underline">
-                            {file.name}
-                          </a>
-                        )}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function FtpPage() {
+  return (
+    <DashboardLayout>
+      <Suspense fallback={<div>Cargando explorador de archivos...</div>}>
+        <FtpContent />
+      </Suspense>
     </DashboardLayout>
   );
 }
