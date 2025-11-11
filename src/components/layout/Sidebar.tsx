@@ -73,7 +73,7 @@ export default function Sidebar() {
       href: '/dashboard/campanas-mkt',
       icon: 'fa-solid fa-ad',
       active: pathname === '/dashboard/campanas-mkt'
-    },
+    },   
     {
       name: 'Administración',
       icon: 'fa-solid fa-cog',
@@ -93,6 +93,23 @@ export default function Sidebar() {
           name: 'Roles',
           href: '/admin/roles',
           active: pathname === '/admin/roles'
+        }
+      ]
+    },
+     {
+      name: 'Api',
+      icon: 'fa-solid fa-rocket',
+      active: pathname.startsWith('/api'),
+      submenu: [
+        {
+          name: 'QSTOM Api',
+          href: '/api/qstom',
+          active: pathname === '/api/qstom'
+        },
+        {
+          name: 'FTP',
+          href: '/api/ftp',
+          active: pathname === '/api/ftp'
         }
       ]
     }
