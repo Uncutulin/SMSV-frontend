@@ -22,6 +22,7 @@ function FtpContent() {
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   
   const searchParams = useSearchParams();
   const currentPath = searchParams.get('path') || '';
@@ -61,6 +62,10 @@ function FtpContent() {
 
   const parentPath = currentPath ? path.dirname(currentPath) : '';
 
+  const filteredFiles = files.filter(file =>
+    file.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="p-3">
       <div className="text-center mt-10">
@@ -81,63 +86,47 @@ function FtpContent() {
       </div>
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
+        <div className="px-6 py-4">
           <h2 className="text-lg font-semibold text-gray-900">Contenido de: /{currentPath}</h2>
+          <input
+            type="text"
+            placeholder="Buscar archivos..."
+            className="mt-4 p-2 border border-gray-300 rounded-md w-full"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tipo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Nombre
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {loading ? (
-                <tr>
-                  <td colSpan={2} className="px-6 py-4 text-center text-gray-500">
-                    Cargando...
-                  </td>
-                </tr>
-              ) : error ? (
-                <tr>
-                  <td colSpan={2} className="px-6 py-4 text-center text-red-500">
-                    {error}
-                  </td>
-                </tr>
-              ) : files.length === 0 ? (
-                <tr>
-                  <td colSpan={2} className="px-6 py-4 text-center text-gray-500">
-                    La carpeta está vacía.
-                  </td>
-                </tr>
-              ) : (
-                files.map((file) => (
-                  <tr key={file.name} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {file.isDirectory ? '📁' : '📄'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {file.isDirectory ? (
-                        <Link href={`/api/ftp?path=${encodeURIComponent(path.join(currentPath, file.name))}`} className="text-blue-700 hover:underline">
-                          {file.name}
-                        </Link>
-                      ) : (
-                        <a href={`/api/ftp-files?path=${encodeURIComponent(path.join(currentPath, file.name))}`} download className="text-gray-800 hover:underline">
-                          {file.name}
-                        </a>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+          {loading ? (
+            <div className="p-6 text-center text-gray-500">Cargando...</div>
+          ) : error ? (
+            <div className="p-6 text-center text-red-500">{error}</div>
+          ) : filteredFiles.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              {searchQuery ? 'No se encontraron archivos que coincidan con la búsqueda.' : 'La carpeta está vacía.'}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
+              {filteredFiles.map((file) => (
+                <div key={file.name} className="flex flex-col items-center p-4 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-200 transition-colors duration-200">
+                  {file.isDirectory ? (
+                    <Link href={`/api/ftp?path=${encodeURIComponent(path.join(currentPath, file.name))}`} className="flex flex-col items-center text-blue-700 hover:underline">
+                      <span className="text-5xl mb-2">📁</span>
+                      <span className="text-sm text-center break-all">{file.name}</span>
+                    </Link>
+                  ) : (
+                    <a href={`/api/ftp-files?path=${encodeURIComponent(path.join(currentPath, file.name))}`} download className="flex flex-col items-center text-gray-800 hover:underline">
+                      <span className="text-5xl mb-2">
+                        {file.name.endsWith('.csv') ? '📊' : file.name.endsWith('.xls') || file.name.endsWith('.xlsx') ? '📄' : '📄'}
+                      </span>
+                      <span className="text-sm text-center break-all">{file.name}</span>
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
