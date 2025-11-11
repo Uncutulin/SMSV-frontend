@@ -75,6 +75,23 @@ export default function Sidebar() {
       active: pathname === '/dashboard/campanas-mkt'
     },
     {
+      name: 'Api',
+      icon: 'fa-solid fa-rocket',
+      active: pathname.startsWith('/api'),
+      submenu: [
+        {
+          name: 'QSTOM Api',
+          href: '/api/qstom',
+          active: pathname === '/api/qstom'
+        },
+        {
+          name: 'FTP',
+          href: '/api/ftp',
+          active: pathname === '/api/ftp'
+        }
+      ]
+    },
+    {
       name: 'Administración',
       icon: 'fa-solid fa-cog',
       active: pathname.startsWith('/admin'),
