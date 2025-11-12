@@ -74,7 +74,7 @@ export default function QstomApiPage() {
         if (!token) {
             throw new Error('No se encontró el token de autenticación.');
         }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/webhook/solicitar-reporte`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/webhook/solicitar-reporte`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -178,29 +178,29 @@ export default function QstomApiPage() {
                   logs.map((log) => (
                     <tr key={log.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {log.reportId}
+                        {log.reportId ?? 'sin datos'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(log.date).toLocaleString()}
+                        {log.date ? new Date(log.date).toLocaleString() : 'sin datos'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          log.result === 200 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          log.result === 200 ? 'bg-green-100 text-green-800' : log.result === 201 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
                         }`}>
-                          {log.result === 200 ? 'Exitoso' : 'Fallido'}
+                          {log.result === 200 ? 'Exitoso' : log.result === 201 ? 'Pendiente' : log.result ? 'Fallido' : 'sin datos'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {log.errors.length > 0 ? log.errors.join(', ') : 'Ninguno'}
+                        {log.errors && log.errors.length > 0 ? log.errors.join(', ') : 'Ninguno'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {log.produccion_realizada}
+                        {log.produccion_realizada ?? 'sin datos'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {log.personal_asegurado}
+                        {log.personal_asegurado ?? 'sin datos'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {log.polizas_en_vigencia}
+                        {log.polizas_en_vigencia ?? 'sin datos'}
                       </td>
                     </tr>
                   ))
