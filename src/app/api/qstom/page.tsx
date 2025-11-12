@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import Swal from 'sweetalert2';
 
 interface WebhookLog {
   id: number;
@@ -32,6 +33,7 @@ function getCookie(name: string): string | undefined {
 export default function QstomApiPage() {
   const [logs, setLogs] = useState<WebhookLog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [reportLoading, setReportLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -65,6 +67,46 @@ export default function QstomApiPage() {
     fetchLogs();
   }, []);
 
+  const handleRequestReport = async () => {
+    setReportLoading(true);
+    try {
+        const token = getCookie('token');
+        if (!token) {
+            throw new Error('No se encontró el token de autenticación.');
+        }
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/webhook/solicitar-reporte`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Error al solicitar el reporte');
+        }
+        Swal.fire({
+          title: '¡Éxito!',
+          text: 'Reporte solicitado exitosamente',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          window.location.reload();
+        });
+    } catch (err) {
+        let message = 'An unexpected error occurred';
+        if (err instanceof Error) {
+            message = err.message;
+        }
+        Swal.fire({
+            title: 'Error',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    } finally {
+        setReportLoading(false);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="p-3">
@@ -75,8 +117,15 @@ export default function QstomApiPage() {
 
         {/* Tabla */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">Registros</h2>
+            <button 
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 cursor-pointer font-bold"
+              onClick={handleRequestReport}
+              disabled={reportLoading}
+            >
+              {reportLoading ? 'Solicitando...' : 'Solicitar Reporte'}
+            </button>
           </div>
           
           <div className="overflow-x-auto">
