@@ -97,16 +97,21 @@ export default function Sidebar() {
       ]
     },
      {
-      name: 'Api',
+      name: 'Logs',
       icon: 'fa-solid fa-rocket',
       active: pathname.startsWith('/api'),
       submenu: [
         {
-          name: 'QSTOM Api',
+          name: 'QSTOM - Logs',
           href: '/api/qstom',
           active: pathname === '/api/qstom'
-        },
+        },       
         {
+          name: 'Jerarquia - Logs',
+          href: '/api/jerarquia',
+          active: pathname === '/api/jerarquia'
+        },
+         {
           name: 'FTP',
           href: '/api/ftp',
           active: pathname === '/api/ftp'
@@ -130,7 +135,7 @@ export default function Sidebar() {
         <div key={item.name}>
           <button
             onClick={() => toggleSubmenu(item.name)}
-            className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+            className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
               item.active
                 ? 'bg-white/10 text-white font-bold'
                 : 'text-gray-200 hover:bg-white/5 hover:text-white'
@@ -145,20 +150,27 @@ export default function Sidebar() {
           
           {isExpanded && (
             <div className="ml-6 mt-2 space-y-1">
-              {item.submenu.map((subItem) => (
-                <Link
-                  key={subItem.href}
-                  href={subItem.href}
-                  className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    subItem.active
-                      ? 'bg-white/10 text-white font-bold'
-                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  <i className="fa-solid fa-circle text-xs mr-3 flex-shrink-0"></i>
-                  {subItem.name}
-                </Link>
-              ))}
+              {item.submenu.flatMap((subItem, index) => {
+                const renderedSubItem = (
+                  <Link
+                    key={subItem.href}
+                    href={subItem.href}
+                    className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      subItem.active
+                        ? 'bg-white/10 text-white font-bold'
+                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    }`}
+                  >
+                    <i className="fa-solid fa-circle text-xs mr-3 flex-shrink-0"></i>
+                    {subItem.name}
+                  </Link>
+                );
+
+                if (subItem.name === 'Jerarquia - Logs') {
+                  return [renderedSubItem, <hr key={`sub-sep-${index}`} className="my-2 border-white/10" />];
+                }
+                return renderedSubItem;
+              })}
             </div>
           )}
         </div>
@@ -200,7 +212,13 @@ export default function Sidebar() {
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-4 py-6 space-y-2">
                 <div className="space-y-1">
-                  {menuItems.map(renderMenuItem)}
+                  {menuItems.flatMap((item, index) => {
+                    const renderedItem = renderMenuItem(item);
+                    if (item.name === 'Administración') {
+                      return [renderedItem, <hr key={`sep-desktop-${index}`} className="my-2 border-white/10" />];
+                    }
+                    return renderedItem;
+                  })}
                 </div>
               </nav>
             </div>
@@ -232,7 +250,13 @@ export default function Sidebar() {
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-4 py-6 space-y-2">
               <div className="space-y-1">
-                {menuItems.map(renderMenuItem)}
+                {menuItems.flatMap((item, index) => {
+                  const renderedItem = renderMenuItem(item);
+                  if (item.name === 'Administración') {
+                    return [renderedItem, <hr key={`sep-mobile-${index}`} className="my-2 border-white/10" />];
+                  }
+                  return renderedItem;
+                })}
               </div>
             </nav>
           </div>
