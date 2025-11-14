@@ -97,16 +97,21 @@ export default function Sidebar() {
       ]
     },
      {
-      name: 'Api',
+      name: 'Logs',
       icon: 'fa-solid fa-rocket',
       active: pathname.startsWith('/api'),
       submenu: [
         {
-          name: 'QSTOM Api',
+          name: 'QSTOM - Logs',
           href: '/api/qstom',
           active: pathname === '/api/qstom'
-        },
+        },       
         {
+          name: 'Jerarquia - Logs',
+          href: '/api/jerarquia',
+          active: pathname === '/api/jerarquia'
+        },
+         {
           name: 'FTP',
           href: '/api/ftp',
           active: pathname === '/api/ftp'
@@ -130,7 +135,7 @@ export default function Sidebar() {
         <div key={item.name}>
           <button
             onClick={() => toggleSubmenu(item.name)}
-            className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+            className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
               item.active
                 ? 'bg-white/10 text-white font-bold'
                 : 'text-gray-200 hover:bg-white/5 hover:text-white'
