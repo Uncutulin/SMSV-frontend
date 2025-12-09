@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { stat } from 'fs/promises';
 
-const basePath = path.resolve(process.env.FTP_ROOT || 'C:/Users/jorge/Desktop/test');
+const basePath = path.resolve(process.env.FTP_ROOT || path.join(process.cwd(), 'public', 'uploads'));
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

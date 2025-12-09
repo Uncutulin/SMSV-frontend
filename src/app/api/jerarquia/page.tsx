@@ -13,17 +13,6 @@ interface JerarquiaLog {
   updated_at: string;
 }
 
-function getCookie(name: string): string | undefined {
-    if (typeof document === 'undefined') {
-      return undefined;
-    }
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      return parts.pop()?.split(';').shift();
-    }
-  }
-
 export default function JerarquiaPage() {
   const [logs, setLogs] = useState<JerarquiaLog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -33,15 +22,7 @@ export default function JerarquiaPage() {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const token = getCookie('token');
-        if (!token) {
-          throw new Error('No se encontró el token de autenticación.');
-        }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jerarquia`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/internal/jerarquia');
         if (!response.ok) {
           throw new Error('Error al obtener los logs de jerarquía');
         }
@@ -49,9 +30,9 @@ export default function JerarquiaPage() {
         setLogs(data);
       } catch (err) {
         if (err instanceof Error) {
-            setError(err.message);
+          setError(err.message);
         } else {
-            setError('An unexpected error occurred');
+          setError('An unexpected error occurred');
         }
       } finally {
         setLoading(false);
@@ -64,40 +45,33 @@ export default function JerarquiaPage() {
   const handleRequestReport = async () => {
     setReportLoading(true);
     try {
-        const token = getCookie('token');
-        if (!token) {
-            throw new Error('No se encontró el token de autenticación.');
-        }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jerarquia/obtener-archivo`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Error al solicitar el archivo de jerarquía');
-        }
-        Swal.fire({
-          title: '¡Éxito!',
-          text: 'Archivo de jerarquía solicitado exitosamente',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          window.location.reload();
-        });
+      const response = await fetch('/api/internal/jerarquia/file', {
+        method: 'POST'
+      });
+      if (!response.ok) {
+        throw new Error('Error al solicitar el archivo de jerarquía');
+      }
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Archivo de jerarquía solicitado exitosamente',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.reload();
+      });
     } catch (err) {
-        let message = 'An unexpected error occurred';
-        if (err instanceof Error) {
-            message = err.message;
-        }
-        Swal.fire({
-            title: 'Error',
-            text: message,
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
+      let message = 'An unexpected error occurred';
+      if (err instanceof Error) {
+        message = err.message;
+      }
+      Swal.fire({
+        title: 'Error',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     } finally {
-        setReportLoading(false);
+      setReportLoading(false);
     }
   };
 
@@ -120,7 +94,7 @@ export default function JerarquiaPage() {
               {reportLoading ? 'Solicitando...' : 'Solicitar Jerarquia'}
             </button>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -168,9 +142,8 @@ export default function JerarquiaPage() {
                         {log.id}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          log.status === 'Exitoso' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${log.status === 'Exitoso' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
                           {log.status}
                         </span>
                       </td>

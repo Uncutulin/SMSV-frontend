@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { listFiles } from '@/lib/files';
 import path from 'path';
 
-const FTP_ROOT = process.env.FTP_ROOT || 'C:\\Users\\jorge\\Downloads';
+const FTP_ROOT = process.env.FTP_ROOT || path.join(process.cwd(), 'public', 'uploads');
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

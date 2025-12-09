@@ -13,12 +13,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const router = useRouter();
   // Eliminar lógica relacionada a theme, toggleTheme y el switch de modo oscuro
 
-  const handleLogout = () => {
-    // Limpiar datos de sesión
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+
+    // Limpiar storage local por si acaso
     if (typeof window !== 'undefined') {
       localStorage.clear();
       sessionStorage.clear();
-      document.cookie = 'smsv-auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
     router.push('/login');
   };
@@ -82,17 +87,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <p className="text-sm font-medium text-gray-900">Usuario</p>
                   <p className="text-xs text-gray-500">usuario@smsv.com</p>
                 </div>
-                
+
                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                   <i className="fa-solid fa-user mr-3"></i>
                   Perfil
                 </button>
-                
+
                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                   <i className="fa-solid fa-cog mr-3"></i>
                   Configuración
                 </button>
-                
+
                 <div className="border-t border-gray-100">
                   <button
                     onClick={handleLogout}

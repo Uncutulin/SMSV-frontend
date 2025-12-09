@@ -19,8 +19,8 @@ export default function Login() {
     setError('');
 
     try {
-      console.log(API_BASE_URL)
-      const response = await fetch(`${API_BASE_URL}`+'/api/login', {
+      // Call internal API route to handle secure cookie setting
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,22 +28,12 @@ export default function Login() {
         body: JSON.stringify(credentials),
       });
 
-      console.log(response);
-      if (response.ok) {
-        const data = await response.json();
-        const { access_token } = data;
+      const data = await response.json();
 
-        if (access_token && typeof document !== 'undefined') {
-          // Guardamos el token en una cookie para usarlo en futuras peticiones a la API.
-          // Se establece una duración de 1 día (86400 segundos).
-          document.cookie = `token=${access_token}; path=/; max-age=86400; SameSite=Lax`;
-          router.push('/cartera-vigente');
-        } else {
-          setError('Respuesta de inicio de sesión inválida.');
-        }
+      if (response.ok) {
+        router.push('/cartera-vigente');
       } else {
-        const errorData = await response.json().catch(() => null); // Evita error si la respuesta no es JSON
-        setError(errorData?.message || 'Usuario o contraseña incorrectos.');
+        setError(data.message || 'Usuario o contraseña incorrectos.');
       }
     } catch (error) {
       setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
@@ -74,7 +64,7 @@ export default function Login() {
                 <Image src="/logo.png" alt="Logo SMSV" width={160} height={160} className="mx-auto" />
               </div>
               <p className="mt-1 text-lg text-gray-600">
-               
+
               </p>
               <p className="mt-1 text-sm text-gray-500">
                 Inicia sesión en tu cuenta
@@ -139,12 +129,7 @@ export default function Login() {
                 {error}
               </div>
             )}
-            {/* Cartel de credenciales de prueba */}
-            <div className="mt-4 p-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded text-sm hidden">
-              <strong>Credenciales de prueba:</strong><br />
-              Usuario: <span className="font-mono">admin@smsv.com</span><br />
-              Contraseña: <span className="font-mono">demo1234</span>
-            </div>
+            {/* Credenciales eliminadas por seguridad */}
           </div>
         </div>
         {/* Footer */}
