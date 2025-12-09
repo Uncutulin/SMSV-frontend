@@ -19,17 +19,6 @@ interface QSTOMReport {
   updated_at: string;
 }
 
-function getCookie(name: string): string | undefined {
-    if (typeof document === 'undefined') {
-      return undefined;
-    }
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      return parts.pop()?.split(';').shift();
-    }
-  }
-
 export default function QstomApiPage() {
   const [logs, setLogs] = useState<QSTOMReport[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,15 +28,7 @@ export default function QstomApiPage() {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const token = getCookie('token');
-        if (!token) {
-          throw new Error('No se encontró el token de autenticación.');
-        }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/qstom`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/internal/qstom');
         if (!response.ok) {
           throw new Error('Error al obtener los logs');
         }
@@ -55,9 +36,9 @@ export default function QstomApiPage() {
         setLogs(data);
       } catch (err) {
         if (err instanceof Error) {
-            setError(err.message);
+          setError(err.message);
         } else {
-            setError('An unexpected error occurred');
+          setError('An unexpected error occurred');
         }
       } finally {
         setLoading(false);
@@ -70,40 +51,35 @@ export default function QstomApiPage() {
   const handleRequestReport = async () => {
     setReportLoading(true);
     try {
-        const token = getCookie('token');
-        if (!token) {
-            throw new Error('No se encontró el token de autenticación.');
-        }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/qstom/solicitar-reporte`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Error al solicitar el reporte');
-        }
-        Swal.fire({
-          title: '¡Éxito!',
-          text: 'Reporte solicitado exitosamente',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          window.location.reload();
-        });
+      const response = await fetch('/api/internal/qstom/report', {
+        method: 'POST'
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al solicitar el reporte');
+      }
+
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Reporte solicitado exitosamente',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.reload();
+      });
     } catch (err) {
-        let message = 'An unexpected error occurred';
-        if (err instanceof Error) {
-            message = err.message;
-        }
-        Swal.fire({
-            title: 'Error',
-            text: message,
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
+      let message = 'An unexpected error occurred';
+      if (err instanceof Error) {
+        message = err.message;
+      }
+      Swal.fire({
+        title: 'Error',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     } finally {
-        setReportLoading(false);
+      setReportLoading(false);
     }
   };
 
@@ -119,7 +95,7 @@ export default function QstomApiPage() {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">Registros</h2>
-            <button 
+            <button
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 cursor-pointer font-bold"
               onClick={handleRequestReport}
               disabled={reportLoading}
@@ -127,7 +103,7 @@ export default function QstomApiPage() {
               {reportLoading ? 'Solicitando...' : 'Solicitar Reporte'}
             </button>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -184,9 +160,8 @@ export default function QstomApiPage() {
                         {log.date ? new Date(log.date).toLocaleString() : 'sin datos'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          log.result === 200 ? 'bg-green-100 text-green-800' : log.result === 201 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
-                        }`}>
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${log.result === 200 ? 'bg-green-100 text-green-800' : log.result === 201 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
+                          }`}>
                           {log.result === 200 ? 'Exitoso' : log.result === 201 ? 'Pendiente' : log.result ? 'Fallido' : 'sin datos'}
                         </span>
                       </td>

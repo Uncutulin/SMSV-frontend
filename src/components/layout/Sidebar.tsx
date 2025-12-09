@@ -73,7 +73,7 @@ export default function Sidebar() {
       href: '/dashboard/campanas-mkt',
       icon: 'fa-solid fa-ad',
       active: pathname === '/dashboard/campanas-mkt'
-    },   
+    },
     {
       name: 'Administración',
       icon: 'fa-solid fa-cog',
@@ -96,7 +96,7 @@ export default function Sidebar() {
         }
       ]
     },
-     {
+    {
       name: 'Logs',
       icon: 'fa-solid fa-rocket',
       active: pathname.startsWith('/api'),
@@ -105,13 +105,18 @@ export default function Sidebar() {
           name: 'QSTOM - Logs',
           href: '/api/qstom',
           active: pathname === '/api/qstom'
-        },       
+        },
         {
           name: 'Jerarquia - Logs',
           href: '/api/jerarquia',
           active: pathname === '/api/jerarquia'
         },
-         {
+        {
+          name: 'Asegurados - Logs',
+          href: '/api/asegurados',
+          active: pathname === '/api/asegurados'
+        },
+        {
           name: 'FTP',
           href: '/api/ftp',
           active: pathname === '/api/ftp'
@@ -121,8 +126,8 @@ export default function Sidebar() {
   ];
 
   const toggleSubmenu = (menuName: string) => {
-    setExpandedMenus(prev => 
-      prev.includes(menuName) 
+    setExpandedMenus(prev =>
+      prev.includes(menuName)
         ? prev.filter(name => name !== menuName)
         : [...prev, menuName]
     );
@@ -135,11 +140,10 @@ export default function Sidebar() {
         <div key={item.name}>
           <button
             onClick={() => toggleSubmenu(item.name)}
-            className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
-              item.active
+            className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${item.active
                 ? 'bg-white/10 text-white font-bold'
                 : 'text-gray-200 hover:bg-white/5 hover:text-white'
-            }`}
+              }`}
           >
             <div className="flex items-center">
               <i className={`${item.icon} mr-3 flex-shrink-0 h-5 w-5`}></i>
@@ -147,7 +151,7 @@ export default function Sidebar() {
             </div>
             <i className={`fa-solid fa-chevron-down transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}></i>
           </button>
-          
+
           {isExpanded && (
             <div className="ml-6 mt-2 space-y-1">
               {item.submenu.flatMap((subItem, index) => {
@@ -155,11 +159,10 @@ export default function Sidebar() {
                   <Link
                     key={subItem.href}
                     href={subItem.href}
-                    className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                      subItem.active
+                    className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${subItem.active
                         ? 'bg-white/10 text-white font-bold'
                         : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                    }`}
+                      }`}
                   >
                     <i className="fa-solid fa-circle text-xs mr-3 flex-shrink-0"></i>
                     {subItem.name}
@@ -181,11 +184,10 @@ export default function Sidebar() {
       <Link
         key={item.href}
         href={item.href!}
-        className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-          item.active
+        className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${item.active
             ? 'bg-white/10 text-white font-bold'
             : 'text-gray-200 hover:bg-white/5 hover:text-white'
-        }`}
+          }`}
       >
         <i className={`${item.icon} mr-3 flex-shrink-0 h-5 w-5`}></i>
         {item.name}
@@ -207,7 +209,7 @@ export default function Sidebar() {
                 </div>
               </div>
             </div>
-            
+
             {/* Navegación */}
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-4 py-6 space-y-2">
@@ -227,7 +229,7 @@ export default function Sidebar() {
       </div>
 
       {/* Sidebar móvil */}
-      <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? 'block' : 'hidden'}`}> 
+      <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? 'block' : 'hidden'}`}>
         <div className="fixed inset-0 bg-black bg-opacity-60" onClick={() => setSidebarOpen(false)}></div>
         <div className="absolute left-0 top-0 h-full max-w-xs w-full bg-[#036] shadow-xl">
           <div className="absolute top-0 right-0 -mr-12 pt-2">
@@ -238,7 +240,7 @@ export default function Sidebar() {
               <i className="fa-solid fa-times text-white"></i>
             </button>
           </div>
-          
+
           <div className="flex items-center h-16 flex-shrink-0 px-6 border-b border-black/40 shadow-md shadow-black/30">
             <div className="flex items-center space-x-3">
               <div className="flex flex-col items-center w-full">
@@ -246,7 +248,7 @@ export default function Sidebar() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-4 py-6 space-y-2">
               <div className="space-y-1">

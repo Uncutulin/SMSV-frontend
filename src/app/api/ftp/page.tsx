@@ -7,23 +7,14 @@ import path from 'path';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { FileEntry } from '@/lib/files';
 
-function getCookie(name: string): string | undefined {
-  if (typeof document === 'undefined') {
-    return undefined;
-  }
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop()?.split(';').shift();
-  }
-}
+
 
 function FtpContent() {
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  
+
   const searchParams = useSearchParams();
   const currentPath = searchParams.get('path') || '';
 
@@ -32,15 +23,7 @@ function FtpContent() {
       setLoading(true);
       setError(null);
       try {
-        const token = getCookie('token');
-        if (!token) {
-          throw new Error('No se encontró el token de autenticación.');
-        }
-        const response = await fetch(`/api/ftp-list?path=${encodeURIComponent(currentPath)}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch(`/api/ftp-list?path=${encodeURIComponent(currentPath)}`);
         if (!response.ok) {
           throw new Error('Error al obtener la lista de archivos');
         }
@@ -48,9 +31,9 @@ function FtpContent() {
         setFiles(data);
       } catch (err) {
         if (err instanceof Error) {
-            setError(err.message);
+          setError(err.message);
         } else {
-            setError('An unexpected error occurred');
+          setError('An unexpected error occurred');
         }
       } finally {
         setLoading(false);
@@ -96,7 +79,7 @@ function FtpContent() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        
+
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6 text-center text-gray-500">Cargando...</div>
