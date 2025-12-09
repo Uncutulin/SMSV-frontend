@@ -22,11 +22,11 @@ export async function GET(request: NextRequest) {
         if (!response.ok) {
             // Propagate error status and text if possible
             const status = response.status;
+            const text = await response.text();
             try {
-                const data = await response.json();
+                const data = JSON.parse(text);
                 return NextResponse.json(data, { status });
             } catch {
-                const text = await response.text();
                 return new NextResponse(text, { status });
             }
         }

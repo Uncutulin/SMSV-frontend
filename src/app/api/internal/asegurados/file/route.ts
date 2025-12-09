@@ -13,20 +13,23 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: 'No autenticado' }, { status: 401 });
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/asegurados/obtener-archivo`, {
+        const response = await fetch(`${API_BASE_URL}/api/qstom-asegurados/obtener-archivo`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
 
+        console.log(`[Proxy] POST Fetching: ${API_BASE_URL}/api/qstom-asegurados/obtener-archivo`);
+        console.log(`[Proxy] Response status: ${response.status}, ok: ${response.ok}`);
+
         if (!response.ok) {
             const status = response.status;
+            const text = await response.text();
             try {
-                const data = await response.json();
+                const data = JSON.parse(text);
                 return NextResponse.json(data, { status });
             } catch {
-                const text = await response.text();
                 return new NextResponse(text, { status });
             }
         }

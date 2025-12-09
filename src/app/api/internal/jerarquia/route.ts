@@ -21,11 +21,12 @@ export async function GET(request: NextRequest) {
 
         if (!response.ok) {
             const status = response.status;
+            const text = await response.text();
             try {
-                const data = await response.json();
+                const data = JSON.parse(text);
                 return NextResponse.json(data, { status });
             } catch {
-                return new NextResponse(response.statusText, { status });
+                return new NextResponse(text, { status }); // Return text if JSON parse fails
             }
         }
 

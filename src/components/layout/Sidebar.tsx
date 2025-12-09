@@ -141,8 +141,8 @@ export default function Sidebar() {
           <button
             onClick={() => toggleSubmenu(item.name)}
             className={`group w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${item.active
-                ? 'bg-white/10 text-white font-bold'
-                : 'text-gray-200 hover:bg-white/5 hover:text-white'
+              ? 'bg-white/10 text-white font-bold'
+              : 'text-gray-200 hover:bg-white/5 hover:text-white'
               }`}
           >
             <div className="flex items-center">
@@ -160,8 +160,8 @@ export default function Sidebar() {
                     key={subItem.href}
                     href={subItem.href}
                     className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${subItem.active
-                        ? 'bg-white/10 text-white font-bold'
-                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                      ? 'bg-white/10 text-white font-bold'
+                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
                       }`}
                   >
                     <i className="fa-solid fa-circle text-xs mr-3 flex-shrink-0"></i>
@@ -169,7 +169,7 @@ export default function Sidebar() {
                   </Link>
                 );
 
-                if (subItem.name === 'Jerarquia - Logs') {
+                if (subItem.name === 'Asegurados - Logs') {
                   return [renderedSubItem, <hr key={`sub-sep-${index}`} className="my-2 border-white/10" />];
                 }
                 return renderedSubItem;
@@ -185,8 +185,8 @@ export default function Sidebar() {
         key={item.href}
         href={item.href!}
         className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${item.active
-            ? 'bg-white/10 text-white font-bold'
-            : 'text-gray-200 hover:bg-white/5 hover:text-white'
+          ? 'bg-white/10 text-white font-bold'
+          : 'text-gray-200 hover:bg-white/5 hover:text-white'
           }`}
       >
         <i className={`${item.icon} mr-3 flex-shrink-0 h-5 w-5`}></i>
