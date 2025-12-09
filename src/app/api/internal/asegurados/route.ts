@@ -13,19 +13,22 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ message: 'No autenticado' }, { status: 401 });
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/asegurados`, {
+        const response = await fetch(`${API_BASE_URL}/api/qstom-asegurados`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
         });
 
+        console.log(`[Proxy] Fetching: ${API_BASE_URL}/api/qstom-asegurados`);
+        console.log(`[Proxy] Response status: ${response.status}, ok: ${response.ok}`);
+
         if (!response.ok) {
             const status = response.status;
+            const text = await response.text();
             try {
-                const data = await response.json();
+                const data = JSON.parse(text);
                 return NextResponse.json(data, { status });
             } catch {
-                const text = await response.text();
                 return new NextResponse(text, { status });
             }
         }
