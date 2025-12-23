@@ -27,26 +27,25 @@ const iconBg = {
 
 export default function StatCard({ title, value, icon, color, detail, onVerClick }: StatCardProps) {
   return (
-    <div className={`rounded-lg shadow-md p-6 border-t-4 bg-white text-gray-900 ${colorClasses[color]}`}> 
+    <div className={`rounded-lg shadow-md p-6 border-t-4 bg-white text-gray-900 ${colorClasses[color]}`}>
       <div className="flex items-center justify-between w-full">
         <div className="flex flex-col items-start">
-          <span className={`text-3xl font-bold ${colorClasses[color]}`}>{value}</span>
+          <span className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</span>
           <span className="text-sm text-gray-700 mt-2 font-medium">{title}</span>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <div className={`rounded-full w-12 h-12 flex items-center justify-center ${iconBg[color]}`}> 
+          <div className={`rounded-full w-12 h-12 flex items-center justify-center ${iconBg[color]}`}>
             <i className={`${icon} text-4xl`}></i>
           </div>
           {onVerClick && (
             <button
               onClick={onVerClick}
-              className={`px-3 py-1 text-xs font-medium rounded-md transition-colors duration-200 ${
-                color === 'green' ? 'bg-green-100 text-green-700 hover:bg-green-200' :
+              className={`px-3 py-1 text-xs font-medium rounded-md transition-colors duration-200 ${color === 'green' ? 'bg-green-100 text-green-700 hover:bg-green-200' :
                 color === 'blue' ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' :
-                color === 'red' ? 'bg-red-100 text-red-700 hover:bg-red-200' :
-                color === 'yellow' ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' :
-                'bg-purple-100 text-purple-700 hover:bg-purple-200'
-              }`}
+                  color === 'red' ? 'bg-red-100 text-red-700 hover:bg-red-200' :
+                    color === 'yellow' ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' :
+                      'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                }`}
             >
               Ver
             </button>
