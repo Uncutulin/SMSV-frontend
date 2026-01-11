@@ -1,26 +1,27 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
-  // Permitir acceso libre a /login y recursos estáticos
-  if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/_next') || request.nextUrl.pathname.startsWith('/favicon.ico') || request.nextUrl.pathname.startsWith('/public') || request.nextUrl.pathname.startsWith('/api/auth')) {
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  // 🔥 PERMITIR recursos internos de Next
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/favicon.ico')
+  ) {
     return NextResponse.next();
   }
 
-  // Verificar si el usuario está autenticado (existencia de token)
-  // Nota: Para mayor seguridad, idealmente se debería validar la firma del JWT aquí o en las API routes.
-  const token = request.cookies.get('token');
-  const isAuthenticated = !!token;
+  const token = req.cookies.get('token');
 
-  if (!isAuthenticated) {
-    const loginUrl = new URL('/login', request.url);
-
-    return NextResponse.redirect(loginUrl);
+  if (!token && pathname !== '/login') {
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!_next|favicon.ico|public).*)'],
-}; 
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+};
