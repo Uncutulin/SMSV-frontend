@@ -52,7 +52,7 @@ export default function Login() {
           width={500}
           height={500}
           className="object-contain"
-          priority
+          unoptimized priority
         />
       </div>
       {/* Sección Derecha: Formulario de Login y Footer */}
@@ -61,7 +61,7 @@ export default function Login() {
           <div className="max-w-sm w-full space-y-8 bg-white rounded-xl shadow-lg p-8">
             <div className="text-center">
               <div className="flex justify-center mt-2 mb-2">
-                <Image src="/logo.png" alt="Logo SMSV" width={160} height={160} className="mx-auto" />
+                <Image src="/logo.png" alt="Logo SMSV" width={160} height={160} className="mx-auto" unoptimized priority />
               </div>
               <p className="mt-1 text-lg text-gray-600">
 
