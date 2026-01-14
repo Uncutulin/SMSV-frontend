@@ -13,6 +13,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: 'No autenticado' }, { status: 401 });
         }
 
+        const body = await request.json();
+
+        console.log(body)
         // Forward the POST request to the actual backend
         const response = await fetch(`${API_BASE_URL}/api/qstom/solicitar-reporte`, {
             method: 'POST',
@@ -20,10 +23,8 @@ export async function POST(request: NextRequest) {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            // If the original request has a body, forward it. In this case, it might be empty.
-            // body: request.body 
+            body: JSON.stringify(body)
         });
-
         if (!response.ok) {
             const status = response.status;
             const text = await response.text();
