@@ -25,6 +25,18 @@ export default function QstomApiPage() {
   const [reportLoading, setReportLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  /* State for date picker, default to current date (local) */
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  });
+
+  /* State for report type */
+  const [selectedType, setSelectedType] = useState<number>(1);
+
   useEffect(() => {
     const fetchLogs = async () => {
       try {
@@ -52,7 +64,14 @@ export default function QstomApiPage() {
     setReportLoading(true);
     try {
       const response = await fetch('/api/internal/qstom/report', {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          date: selectedDate,
+          type: selectedType
+        })
       });
 
       if (!response.ok) {
@@ -95,38 +114,59 @@ export default function QstomApiPage() {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">Registros</h2>
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 cursor-pointer font-bold"
-              onClick={handleRequestReport}
-              disabled={reportLoading}
-            >
-              {reportLoading ? 'Solicitando...' : 'Solicitar Reporte'}
-            </button>
+            <div className="flex items-center">
+              <select
+                className="mr-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                value={selectedType}
+                onChange={(e) => setSelectedType(Number(e.target.value))}
+              >
+                <option value={1}>1. TODOS</option>
+                <option value={2}>2. PRODUCCION REALIZADA</option>
+                <option value={3}>3. POLIZAS EN VIGENCIA</option>
+                <option value={4}>4. PERSONAL ASEGURADO</option>
+              </select>
+              <input
+                type="date"
+                className="mr-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 cursor-pointer font-bold"
+                onClick={handleRequestReport}
+                disabled={reportLoading}
+              >
+                {reportLoading ? 'Solicitando...' : 'Solicitar Reporte'}
+              </button>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Report ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Fecha
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                    Fecha Actualizado
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Resultado
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Errores
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Producción
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Asegurados
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                     Pólizas Vigentes
                   </th>
                 </tr>
@@ -160,21 +200,24 @@ export default function QstomApiPage() {
                         {log.date ? new Date(log.date).toLocaleString() : 'sin datos'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {log.updated_at ? new Date(log.updated_at).toLocaleString() : 'sin datos'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${log.result === 200 ? 'bg-green-100 text-green-800' : log.result === 201 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
                           }`}>
                           {log.result === 200 ? 'Exitoso' : log.result === 201 ? 'Pendiente' : log.result ? 'Fallido' : 'sin datos'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         {log.errors && log.errors.length > 0 ? log.errors.join(', ') : 'Ninguno'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         {log.produccion_realizada ?? 'sin datos'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         {log.personal_asegurado ?? 'sin datos'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         {log.polizas_en_vigencia ?? 'sin datos'}
                       </td>
                     </tr>

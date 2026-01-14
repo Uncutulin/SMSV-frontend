@@ -12,13 +12,24 @@ interface HighchartsChartProps {
 
 export default function HighchartsChart({ id, type, title, data, options = {} }: HighchartsChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstanceRef = useRef<Highcharts.Chart | null>(null);
 
   useEffect(() => {
-    const loadHighcharts = async () => {
+    // Cleanup on unmount
+    return () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+        chartInstanceRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const loadAndRenderChart = async () => {
       if (typeof window !== 'undefined' && chartRef.current) {
         const Highcharts = await import('highcharts');
-        
-        // Configuración global de Highcharts
+
+        // Configuración global de Highcharts (solo si no se ha aplicado antes, aunque setOptions mergea)
         Highcharts.default.setOptions({
           colors: ['#007cc5', '#004376', '#74671f', '#e74c3c', '#9b59b6', '#f39c12'],
           chart: {
@@ -68,7 +79,6 @@ export default function HighchartsChart({ id, type, title, data, options = {} }:
           }
         });
 
-        // Configuración específica del gráfico
         const chartOptions = {
           chart: {
             type: type,
@@ -83,11 +93,17 @@ export default function HighchartsChart({ id, type, title, data, options = {} }:
           ...data
         };
 
-        Highcharts.default.chart(chartRef.current, chartOptions);
+        if (chartInstanceRef.current) {
+          chartInstanceRef.current.update(chartOptions, true, true);
+        } else {
+          if (chartRef.current) {
+            chartInstanceRef.current = Highcharts.default.chart(chartRef.current, chartOptions);
+          }
+        }
       }
     };
 
-    loadHighcharts();
+    loadAndRenderChart();
   }, [id, type, data, options]);
 
   return (
