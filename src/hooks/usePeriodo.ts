@@ -1,34 +1,54 @@
-// src/hooks/useCarteraVigente.ts
 import { useState, useEffect } from 'react';
-import { fetchCarteraVigenteData } from '@/services/carteraVigenteService';
-import { CarteraVigenteTotales, CarteraVigenteListado } from '@/types/carteraVigente';
+import { fetchAnios, fetchMesesByAnio } from '@/services/periodoService';
 
-export const useCarteraVigente = (filters: any) => {
-    const [totalesData, setTotalesData] = useState<CarteraVigenteTotales | null>(null);
-    const [listadoData, setListadoData] = useState<CarteraVigenteListado[] | null>(null);
+// Definimos las interfaces según tu JSON
+interface AnioData {
+    anio: number;
+}
+
+interface MesData {
+    mes_numero: number;
+    mes_nombre: string;
+}
+
+export const usePeriodos = (selectedAnio?: string | number) => {
+    const [anios, setAnios] = useState<AnioData[]>([]);
+    const [meses, setMeses] = useState<MesData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const getData = async () => {
+        const getAnios = async () => {
             setLoading(true);
-            setError(null);
             try {
-                const queryParams = new URLSearchParams(filters).toString();
-                const { totales, tabla } = await fetchCarteraVigenteData(queryParams);
-
-                if (totales.status === 'success') setTotalesData(totales.data); //Totales
-                if (tabla.status === 'success') setListadoData(tabla.data); //Listado
-
+                const data = await fetchAnios(); // Tu fetch ya retorna response.data.anios
+                setAnios(data);
             } catch (err) {
-                setError('Error al cargar los datos');
+                setError('Error al cargar los años');
+            } finally {
+                setLoading(false);
+            }
+        };
+        getAnios();
+    }, []);
+
+    useEffect(() => {
+        if (!selectedAnio) return;
+
+        const getMeses = async () => {
+            setLoading(true);
+            try {
+                const data = await fetchMesesByAnio(Number(selectedAnio));
+                setMeses(data);
+            } catch (err) {
+                setError('Error al cargar los meses');
             } finally {
                 setLoading(false);
             }
         };
 
-        getData();
-    }, [filters.anio, filters.mes, filters.compania, filters.tipo_filtro]);
+        getMeses();
+    }, [selectedAnio]);
 
-    return { listadoData, totalesData, loading, error };
+    return { anios, meses, loading, error };
 };

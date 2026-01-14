@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCarteraVigente } from '@/hooks/useCarteraVigente';
 import StatCard from '@/components/dashboard/StatCard';
+import { usePeriodos } from '@/hooks/usePeriodo';
 
 export default function CarteraVigente() {
   // 1. Estados para manejar los Filtros
@@ -16,7 +17,29 @@ export default function CarteraVigente() {
   // 2. Custom Hook para obtener datos (Contiene la lógica de fetch y estados)
   const { listadoData, totalesData, loading, error } = useCarteraVigente(filters);
 
-  console.log(totalesData);
+  // 2. Hooks de Datos
+  // Obtenemos años y meses dinámicos basados en el año seleccionado
+  const { anios, meses, loading: loadingPeriodos } = usePeriodos(Number(filters.anio));
+
+  // Actualizar mes automáticamente si el seleccionado no es válido para el nuevo año
+  useEffect(() => {
+    if (!loadingPeriodos && meses.length > 0) {
+      const mesActual = filters.mes;
+      const existeMes = meses.some(m => m.mes_numero.toString().padStart(2, '0') === mesActual);
+
+      // Si el mes no es válido o está vacío, seleccionar el último disponible (o el primero)
+      // Usualmente al cambiar de año querrás ver el último mes disponible
+      if (!existeMes || mesActual === '') {
+        const ultimoMes = meses[meses.length - 1]; // Asumiendo que vienen ordenados
+        if (ultimoMes) {
+          setFilters(prev => ({
+            ...prev,
+            mes: ultimoMes.mes_numero.toString().padStart(2, '0')
+          }));
+        }
+      }
+    }
+  }, [meses, loadingPeriodos, filters.mes]);
 
   // 3. Helpers para la Interfaz
   const getMonthName = (month: string) => {
@@ -29,7 +52,15 @@ export default function CarteraVigente() {
   };
 
   const handleFilterChange = (key: string, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters(prev => {
+      const newState = { ...prev, [key]: value };
+      // Si cambia el año, limpiamos el mes para evitar consultas con mes incorrecto
+      // El useEffect se encargará de asignar un mes válido cuando carguen los meses
+      if (key === 'anio') {
+        newState.mes = '';
+      }
+      return newState;
+    });
   };
 
   // Mapeo de indicadores (vienen formateados como string desde el Backend)
@@ -103,27 +134,36 @@ export default function CarteraVigente() {
             </select>
           </div>
 
-          {/* Período */}
+          {/* Período Dinámico */}
           <div className="flex-1 p-4 bg-green-50 rounded-lg border border-green-200">
             <h4 className="text-md font-medium text-green-800 mb-3">Período</h4>
             <div className="grid grid-cols-2 gap-4">
+              {/* Select de Año */}
               <select
                 value={filters.anio}
                 onChange={(e) => handleFilterChange('anio', e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-gray-300 rounded-md disabled:bg-gray-100"
+                disabled={loadingPeriodos}
               >
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
+                {anios.map((item) => (
+                  <option key={item.anio} value={item.anio}>
+                    {item.anio}
+                  </option>
+                ))}
               </select>
+
+              {/* Select de Mes */}
               <select
                 value={filters.mes}
                 onChange={(e) => handleFilterChange('mes', e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-gray-300 rounded-md disabled:bg-gray-100"
+                disabled={loadingPeriodos || meses.length === 0}
               >
-                <option value="01">Enero</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
+                {meses.map((m) => (
+                  <option key={m.mes_numero} value={m.mes_numero.toString().padStart(2, '0')}>
+                    {getMonthName(m.mes_numero.toString().padStart(2, '0'))}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

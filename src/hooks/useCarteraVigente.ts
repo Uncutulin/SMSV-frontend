@@ -13,6 +13,13 @@ export const useCarteraVigente = (filters: any) => {
         const getData = async () => {
             setLoading(true);
             setError(null);
+
+            // Evitar fetch si falta año o mes (por ejemplo al cambiar de año)
+            if (!filters.anio || !filters.mes) {
+                setLoading(false);
+                return;
+            }
+
             try {
                 const queryParams = new URLSearchParams(filters).toString();
                 const { totales, tabla } = await fetchCarteraVigenteData(queryParams);
