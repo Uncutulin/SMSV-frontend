@@ -3,6 +3,7 @@ import HighchartsChart from '@/components/dashboard/HighchartsChart';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { useRouter } from 'next/navigation';
 import { useState, useMemo, useEffect } from 'react';
+import { usePeriodos } from '@/hooks/usePeriodo';
 
 export default function EvolucionCartera() {
   const router = useRouter();
@@ -23,9 +24,48 @@ export default function EvolucionCartera() {
   const [filtroEjecutivo, setFiltroEjecutivo] = useState('TODOS');
   const [filterApplied, setFilterApplied] = useState(false);
 
+  // Hooks para obtener periodos dinámicos
+  const { anios, meses: meses1 } = usePeriodos(Number(selectedYear1));
+  const { meses: meses2 } = usePeriodos(Number(selectedYear2));
+
+  // Efecto para actualizar mes1 cuando cambian los meses disponibles
+  useEffect(() => {
+    if (meses1.length > 0) {
+      const mesExiste = meses1.some(m => m.mes_numero.toString().padStart(2, '0') === selectedMonth1);
+      if (!mesExiste || selectedMonth1 === '') {
+        const lastMonth = meses1[meses1.length - 1].mes_numero.toString().padStart(2, '0');
+        setSelectedMonth1(lastMonth);
+      }
+    }
+  }, [meses1, selectedMonth1]);
+
+  // Efecto para actualizar mes2 cuando cambian los meses disponibles
+  useEffect(() => {
+    if (meses2.length > 0) {
+      const mesExiste = meses2.some(m => m.mes_numero.toString().padStart(2, '0') === selectedMonth2);
+      if (!mesExiste || selectedMonth2 === '') {
+        const lastMonth = meses2[meses2.length - 1].mes_numero.toString().padStart(2, '0');
+        setSelectedMonth2(lastMonth);
+      }
+    }
+  }, [meses2, selectedMonth2]);
+
+  // Manejadores para cambio de año (resetean el mes)
+  const handleYear1Change = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear1(e.target.value);
+    setSelectedMonth1('');
+  };
+
+  const handleYear2Change = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear2(e.target.value);
+    setSelectedMonth2('');
+  };
+
   // useEffect para aplicar el filtro automáticamente
   useEffect(() => {
-    setFilterApplied(true);
+    if (selectedMonth1 !== '' && selectedMonth2 !== '') {
+      setFilterApplied(true);
+    }
   }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
 
   // Función para obtener el nombre del mes
@@ -55,7 +95,7 @@ export default function EvolucionCartera() {
   const generateDynamicData = (year1: string, month1: string, year2: string, month2: string) => {
     const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
     const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
-    
+
     return {
       CAS: {
         R12: {
@@ -106,7 +146,7 @@ export default function EvolucionCartera() {
   const generateAssaPorRiesgoData = (year1: string, month1: string, year2: string, month2: string) => {
     const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
     const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
-    
+
     return [
       {
         riesgo: 'AP',
@@ -170,7 +210,7 @@ export default function EvolucionCartera() {
   const generateFilialesData = (year1: string, month1: string, year2: string, month2: string) => {
     const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
     const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
-    
+
     return [
       {
         filial: 'FILIAL NORTE',
@@ -223,7 +263,7 @@ export default function EvolucionCartera() {
   const generatePasData = (year1: string, month1: string, year2: string, month2: string) => {
     const baseMultiplier = (parseInt(year1) - 2022) * 0.1 + (parseInt(month1) - 6) * 0.02;
     const comparisonMultiplier = (parseInt(year2) - 2022) * 0.1 + (parseInt(month2) - 6) * 0.02;
-    
+
     return [
       {
         riesgo: 'AP',
@@ -278,49 +318,49 @@ export default function EvolucionCartera() {
       return generateDynamicData(selectedYear1, selectedMonth1, selectedYear2, selectedMonth2);
     } else {
       return {
-    CAS: {
-      R12: {
-        junio23: 1250000,
-        julio23: 1320000,
-        crecimiento: 70000,
-        porcentaje: 5.6
-      },
-      Q_POL: {
-        junio23: 850,
-        julio23: 920,
-        crecimiento: 70,
-        porcentaje: 8.2
-      }
-    },
-    ASSA: {
-      R12: {
-        junio23: 980000,
-        julio23: 1050000,
-        crecimiento: 70000,
-        porcentaje: 7.1
-      },
-      Q_POL: {
-        junio23: 650,
-        julio23: 720,
-        crecimiento: 70,
-        porcentaje: 10.8
-      }
-    },
-    ART: {
-      R12: {
-        junio23: 750000,
-        julio23: 820000,
-        crecimiento: 70000,
-        porcentaje: 9.3
-      },
-      Q_POL: {
-        junio23: 480,
-        julio23: 550,
-        crecimiento: 70,
-        porcentaje: 14.6
-      }
-    }
-  };
+        CAS: {
+          R12: {
+            junio23: 1250000,
+            julio23: 1320000,
+            crecimiento: 70000,
+            porcentaje: 5.6
+          },
+          Q_POL: {
+            junio23: 850,
+            julio23: 920,
+            crecimiento: 70,
+            porcentaje: 8.2
+          }
+        },
+        ASSA: {
+          R12: {
+            junio23: 980000,
+            julio23: 1050000,
+            crecimiento: 70000,
+            porcentaje: 7.1
+          },
+          Q_POL: {
+            junio23: 650,
+            julio23: 720,
+            crecimiento: 70,
+            porcentaje: 10.8
+          }
+        },
+        ART: {
+          R12: {
+            junio23: 750000,
+            julio23: 820000,
+            crecimiento: 70000,
+            porcentaje: 9.3
+          },
+          Q_POL: {
+            junio23: 480,
+            julio23: 550,
+            crecimiento: 70,
+            porcentaje: 14.6
+          }
+        }
+      };
     }
   }, [filterApplied, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
 
@@ -1483,23 +1523,23 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               totalXCiaData.CAS.r12202408,
               totalXCiaData.ASSA.r12202408,
               totalXCiaData.ART.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               totalXCiaData.CAS.r12202508,
               totalXCiaData.ASSA.r12202508,
               totalXCiaData.ART.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1532,23 +1572,23 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               totalXCanalData.CANAL_DIRECTO.r12202408,
               totalXCanalData.CANAL_FILIALES.r12202408,
               totalXCanalData.CANAL_PAS.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               totalXCanalData.CANAL_DIRECTO.r12202508,
               totalXCanalData.CANAL_FILIALES.r12202508,
               totalXCanalData.CANAL_PAS.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1581,23 +1621,23 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               casXCanalData.CANAL_DIRECTO.r12202408,
               casXCanalData.CANAL_FILIALES.r12202408,
               casXCanalData.CANAL_PAS.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               casXCanalData.CANAL_DIRECTO.r12202508,
               casXCanalData.CANAL_FILIALES.r12202508,
               casXCanalData.CANAL_PAS.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1609,9 +1649,9 @@ export default function EvolucionCartera() {
         chart: { type: 'column', height: 400 },
         xAxis: {
           categories: [
-            'AP', 'AP BOLSO', 'ARMAS', 'BOLSO PROTEGIDO', 'ESCOLTA', 'ESCOLTA EJERCITO', 
-            'ROBO', 'SALDO DEUDOR', 'SDJM', 'SEPELIO COLECTIVO', 'SEPELIO INDIVIDUAL', 
-            'VIDA COLECTIVO', 'VIDA COLECTIVO CON AHORRO', 'VIDA DIBA', 'VIDA INDIVIDUAL', 
+            'AP', 'AP BOLSO', 'ARMAS', 'BOLSO PROTEGIDO', 'ESCOLTA', 'ESCOLTA EJERCITO',
+            'ROBO', 'SALDO DEUDOR', 'SDJM', 'SEPELIO COLECTIVO', 'SEPELIO INDIVIDUAL',
+            'VIDA COLECTIVO', 'VIDA COLECTIVO CON AHORRO', 'VIDA DIBA', 'VIDA INDIVIDUAL',
             'VIDA INDIVIDUAL CON AHORRO', 'VIDA OBLIGATORIO'
           ],
           title: { text: 'Ramo' },
@@ -1641,8 +1681,8 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               casXRamoData.AP.r12202408,
               casXRamoData.AP_BOLSO.r12202408,
@@ -1661,11 +1701,11 @@ export default function EvolucionCartera() {
               casXRamoData.VIDA_INDIVIDUAL.r12202408,
               casXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.r12202408,
               casXRamoData.VIDA_OBLIGATORIO.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               casXRamoData.AP.r12202508,
               casXRamoData.AP_BOLSO.r12202508,
@@ -1684,8 +1724,8 @@ export default function EvolucionCartera() {
               casXRamoData.VIDA_INDIVIDUAL.r12202508,
               casXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.r12202508,
               casXRamoData.VIDA_OBLIGATORIO.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1697,9 +1737,9 @@ export default function EvolucionCartera() {
         chart: { type: 'column', height: 400 },
         xAxis: {
           categories: [
-            'AP', 'AP BOLSO', 'ARMAS', 'BOLSO PROTEGIDO', 'ESCOLTA', 'ESCOLTA EJERCITO', 
-            'ROBO', 'SALDO DEUDOR', 'SDJM', 'SEPELIO COLECTIVO', 'SEPELIO INDIVIDUAL', 
-            'VIDA COLECTIVO', 'VIDA COLECTIVO CON AHORRO', 'VIDA DIBA', 'VIDA INDIVIDUAL', 
+            'AP', 'AP BOLSO', 'ARMAS', 'BOLSO PROTEGIDO', 'ESCOLTA', 'ESCOLTA EJERCITO',
+            'ROBO', 'SALDO DEUDOR', 'SDJM', 'SEPELIO COLECTIVO', 'SEPELIO INDIVIDUAL',
+            'VIDA COLECTIVO', 'VIDA COLECTIVO CON AHORRO', 'VIDA DIBA', 'VIDA INDIVIDUAL',
             'VIDA INDIVIDUAL CON AHORRO', 'VIDA OBLIGATORIO'
           ],
           title: { text: 'Ramo' },
@@ -1729,8 +1769,8 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               totalXRamoData.AP.r12202408,
               totalXRamoData.AP_BOLSO.r12202408,
@@ -1749,11 +1789,11 @@ export default function EvolucionCartera() {
               totalXRamoData.VIDA_INDIVIDUAL.r12202408,
               totalXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.r12202408,
               totalXRamoData.VIDA_OBLIGATORIO.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               totalXRamoData.AP.r12202508,
               totalXRamoData.AP_BOLSO.r12202508,
@@ -1772,8 +1812,8 @@ export default function EvolucionCartera() {
               totalXRamoData.VIDA_INDIVIDUAL.r12202508,
               totalXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.r12202508,
               totalXRamoData.VIDA_OBLIGATORIO.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1806,23 +1846,23 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               assaXCanalData.CANAL_DIRECTO.r12202408,
               assaXCanalData.CANAL_FILIALES.r12202408,
               assaXCanalData.CANAL_PAS.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               assaXCanalData.CANAL_DIRECTO.r12202508,
               assaXCanalData.CANAL_FILIALES.r12202508,
               assaXCanalData.CANAL_PAS.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1834,9 +1874,9 @@ export default function EvolucionCartera() {
         chart: { type: 'column', height: 400 },
         xAxis: {
           categories: [
-            'AERONAVEGACIÓN', 'AP', 'AUTOMOTORES', 'CASCOS', 'CAUCIÓN', 'COMBINADO FAMILIAR', 
-            'INCENDIO', 'INT. COMERCIO', 'INT. CONSORCIO', 'MOTOS', 'PRAXIS', 'RC', 
-            'ROBO', 'RS. VS.', 'SALUD', 'SEGURO TÉCNICO', 'SEPELIO INDIVIDUAL', 'TRANSPORTES', 
+            'AERONAVEGACIÓN', 'AP', 'AUTOMOTORES', 'CASCOS', 'CAUCIÓN', 'COMBINADO FAMILIAR',
+            'INCENDIO', 'INT. COMERCIO', 'INT. CONSORCIO', 'MOTOS', 'PRAXIS', 'RC',
+            'ROBO', 'RS. VS.', 'SALUD', 'SEGURO TÉCNICO', 'SEPELIO INDIVIDUAL', 'TRANSPORTES',
             'VIDA COLECTIVO', 'VIDA INDIVIDUAL', 'VIDA OBLIGATORIO'
           ],
           title: { text: 'Ramo' },
@@ -1866,8 +1906,8 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               assaXRamoData.AERONAVEGACION.r12202408,
               assaXRamoData.AP.r12202408,
@@ -1890,11 +1930,11 @@ export default function EvolucionCartera() {
               assaXRamoData.VIDA_COLECTIVO.r12202408,
               assaXRamoData.VIDA_INDIVIDUAL.r12202408,
               assaXRamoData.VIDA_OBLIGATORIO.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               assaXRamoData.AERONAVEGACION.r12202508,
               assaXRamoData.AP.r12202508,
@@ -1917,8 +1957,8 @@ export default function EvolucionCartera() {
               assaXRamoData.VIDA_COLECTIVO.r12202508,
               assaXRamoData.VIDA_INDIVIDUAL.r12202508,
               assaXRamoData.VIDA_OBLIGATORIO.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -1930,8 +1970,8 @@ export default function EvolucionCartera() {
         chart: { type: 'column', height: 400 },
         xAxis: {
           categories: [
-            'AFIANZADORA', 'ALLIANZ', 'ATM', 'BOSTON', 'CAUCIONES', 'CHUBB', 'FED PAT', 'HDI', 
-            'INTEGRITY', 'LA HOLANDO', 'LIBRA', 'LMA', 'NACIÓN', 'NOBLE', 'PRUDENCIA', 'RIVADAVIA', 
+            'AFIANZADORA', 'ALLIANZ', 'ATM', 'BOSTON', 'CAUCIONES', 'CHUBB', 'FED PAT', 'HDI',
+            'INTEGRITY', 'LA HOLANDO', 'LIBRA', 'LMA', 'NACIÓN', 'NOBLE', 'PRUDENCIA', 'RIVADAVIA',
             'RUS', 'SANCOR', 'SMG', 'SMG LIFE', 'TPC', 'VICTORIA', 'ZURICH', 'COSENA', 'SAN CRISTOBAL'
           ],
           title: { text: 'Compañía' },
@@ -1961,8 +2001,8 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               assaXCiaData.AFIANZADORA.r12202408,
               assaXCiaData.ALLIANZ.r12202408,
@@ -1989,11 +2029,11 @@ export default function EvolucionCartera() {
               assaXCiaData.ZURICH.r12202408,
               assaXCiaData.COSENA.r12202408,
               assaXCiaData.SAN_CRISTOBAL.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               assaXCiaData.AFIANZADORA.r12202508,
               assaXCiaData.ALLIANZ.r12202508,
@@ -2020,8 +2060,8 @@ export default function EvolucionCartera() {
               assaXCiaData.ZURICH.r12202508,
               assaXCiaData.COSENA.r12202508,
               assaXCiaData.SAN_CRISTOBAL.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -2054,23 +2094,23 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               artXCanalData.CANAL_DIRECTO.r12202408,
               artXCanalData.CANAL_FILIALES.r12202408,
               artXCanalData.CANAL_PAS.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               artXCanalData.CANAL_DIRECTO.r12202508,
               artXCanalData.CANAL_FILIALES.r12202508,
               artXCanalData.CANAL_PAS.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -2082,7 +2122,7 @@ export default function EvolucionCartera() {
         chart: { type: 'column', height: 400 },
         xAxis: {
           categories: [
-            'ANDINA ART', 'ASOCIART ART', 'EXPERTA ART', 'FED PAT', 'GALENO ART', 
+            'ANDINA ART', 'ASOCIART ART', 'EXPERTA ART', 'FED PAT', 'GALENO ART',
             'LA HOLANDO ART', 'OMINT ART', 'PREVENCIÓN ART', 'PROVINCIA ART', 'SMG ART', 'VICTORIA ART'
           ],
           title: { text: 'Compañía' },
@@ -2112,8 +2152,8 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: '202408', 
+          {
+            name: '202408',
             data: [
               artXCiaData.ANDINA_ART.r12202408,
               artXCiaData.ASOCIART_ART.r12202408,
@@ -2126,11 +2166,11 @@ export default function EvolucionCartera() {
               artXCiaData.PROVINCIA_ART.r12202408,
               artXCiaData.SMG_ART.r12202408,
               artXCiaData.VICTORIA_ART.r12202408
-            ], 
-            color: '#007DC5' 
+            ],
+            color: '#007DC5'
           },
-          { 
-            name: '202508', 
+          {
+            name: '202508',
             data: [
               artXCiaData.ANDINA_ART.r12202508,
               artXCiaData.ASOCIART_ART.r12202508,
@@ -2143,8 +2183,8 @@ export default function EvolucionCartera() {
               artXCiaData.PROVINCIA_ART.r12202508,
               artXCiaData.SMG_ART.r12202508,
               artXCiaData.VICTORIA_ART.r12202508
-            ], 
-            color: '#003871' 
+            ],
+            color: '#003871'
           },
         ],
         credits: { enabled: false },
@@ -2157,51 +2197,51 @@ export default function EvolucionCartera() {
     const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
 
     return {
-    chart: { type: 'column', height: 320 },
-    xAxis: {
-      categories: ['CAS', 'ASSA', 'ART'],
-      title: { text: 'Compañía' },
-    },
-    yAxis: {
-      title: { text: 'R12 (Millones $)' },
-      min: 0,
-      labels: {
-        formatter: function (this: { value: number }) {
-          if (this.value >= 1000000) return (this.value / 1000000) + ' M';
-          if (this.value >= 1000) return (this.value / 1000) + ' mil';
-          return this.value;
+      chart: { type: 'column', height: 320 },
+      xAxis: {
+        categories: ['CAS', 'ASSA', 'ART'],
+        title: { text: 'Compañía' },
+      },
+      yAxis: {
+        title: { text: 'R12 (Millones $)' },
+        min: 0,
+        labels: {
+          formatter: function (this: { value: number }) {
+            if (this.value >= 1000000) return (this.value / 1000000) + ' M';
+            if (this.value >= 1000) return (this.value / 1000) + ' mil';
+            return this.value;
+          }
         }
-      }
-    },
-    tooltip: {
-      pointFormatter: function (this: { y: number }) {
-        if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
-        if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
-        return '<b>' + this.y + '</b>';
-      }
-    },
-    series: [
-      { 
-          name: period2Label, 
-        data: [
+      },
+      tooltip: {
+        pointFormatter: function (this: { y: number }) {
+          if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
+          if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
+          return '<b>' + this.y + '</b>';
+        }
+      },
+      series: [
+        {
+          name: period2Label,
+          data: [
             indicadoresData.CAS.R12[period2Key],
             indicadoresData.ASSA.R12[period2Key],
             indicadoresData.ART.R12[period2Key]
-        ], 
-        color: '#004376' 
-      },
-      { 
-          name: period1Label, 
-        data: [
+          ],
+          color: '#004376'
+        },
+        {
+          name: period1Label,
+          data: [
             indicadoresData.CAS.R12[period1Key],
             indicadoresData.ASSA.R12[period1Key],
             indicadoresData.ART.R12[period1Key]
-        ], 
-        color: '#007cc5' 
-      },
-    ],
-    credits: { enabled: false },
-  };
+          ],
+          color: '#007cc5'
+        },
+      ],
+      credits: { enabled: false },
+    };
   }, [indicadoresData, filterApplied, selectedMonth1, selectedYear1, selectedMonth2, selectedYear2, tipoVista, totalXCiaData]);
 
   // Gráfico de torta de Q PÓL por compañía
@@ -2280,7 +2320,7 @@ export default function EvolucionCartera() {
           },
         ],
         credits: { enabled: false },
-        legend: { 
+        legend: {
           enabled: true,
           layout: 'vertical',
           align: 'right',
@@ -2312,7 +2352,7 @@ export default function EvolucionCartera() {
           },
         ],
         credits: { enabled: false },
-        legend: { 
+        legend: {
           enabled: true,
           layout: 'vertical',
           align: 'right',
@@ -2363,7 +2403,7 @@ export default function EvolucionCartera() {
           },
         ],
         credits: { enabled: false },
-        legend: { 
+        legend: {
           enabled: true,
           layout: 'vertical',
           align: 'right',
@@ -2396,7 +2436,7 @@ export default function EvolucionCartera() {
           },
         ],
         credits: { enabled: false },
-        legend: { 
+        legend: {
           enabled: true,
           layout: 'vertical',
           align: 'right',
@@ -2422,7 +2462,7 @@ export default function EvolucionCartera() {
           },
         ],
         credits: { enabled: false },
-        legend: { 
+        legend: {
           enabled: true,
           layout: 'vertical',
           align: 'right',
@@ -2454,7 +2494,7 @@ export default function EvolucionCartera() {
           },
         ],
         credits: { enabled: false },
-        legend: { 
+        legend: {
           enabled: true,
           layout: 'vertical',
           align: 'right',
@@ -2470,20 +2510,20 @@ export default function EvolucionCartera() {
     const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
 
     return {
-    chart: { type: 'pie', height: 320 },
-    series: [
-      {
+      chart: { type: 'pie', height: 320 },
+      series: [
+        {
           name: `Q PÓL ${period2Label}`,
-        data: [
+          data: [
             { name: 'CAS', y: indicadoresData.CAS.Q_POL[period2Key], color: '#004376' },
             { name: 'ASSA', y: indicadoresData.ASSA.Q_POL[period2Key], color: '#007cc5' },
             { name: 'ART', y: indicadoresData.ART.Q_POL[period2Key], color: '#74671f' },
-        ],
-      },
-    ],
-    credits: { enabled: false },
-    legend: { enabled: true },
-  };
+          ],
+        },
+      ],
+      credits: { enabled: false },
+      legend: { enabled: true },
+    };
   }, [indicadoresData, filterApplied, selectedMonth2, selectedYear2, tipoVista, totalXCiaData, totalXCanalData, totalXRamoData, casXCanalData, casXRamoData, assaXCanalData, assaXRamoData, assaXCiaData, artXCanalData, artXCiaData]);
 
   // Gráfico de evolución de R12
@@ -2514,20 +2554,20 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'CAS', 
-            data: [totalXCiaData.CAS.qPol202408, totalXCiaData.CAS.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'CAS',
+            data: [totalXCiaData.CAS.qPol202408, totalXCiaData.CAS.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'ASSA', 
-            data: [totalXCiaData.ASSA.qPol202408, totalXCiaData.ASSA.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'ASSA',
+            data: [totalXCiaData.ASSA.qPol202408, totalXCiaData.ASSA.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'ART', 
-            data: [totalXCiaData.ART.qPol202408, totalXCiaData.ART.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'ART',
+            data: [totalXCiaData.ART.qPol202408, totalXCiaData.ART.qPol202508],
+            color: '#00AEEF'
           },
         ],
         credits: { enabled: false },
@@ -2560,20 +2600,20 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'CANAL DIRECTO', 
-            data: [totalXCanalData.CANAL_DIRECTO.qPol202408, totalXCanalData.CANAL_DIRECTO.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'CANAL DIRECTO',
+            data: [totalXCanalData.CANAL_DIRECTO.qPol202408, totalXCanalData.CANAL_DIRECTO.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'CANAL FILIALES', 
-            data: [totalXCanalData.CANAL_FILIALES.qPol202408, totalXCanalData.CANAL_FILIALES.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'CANAL FILIALES',
+            data: [totalXCanalData.CANAL_FILIALES.qPol202408, totalXCanalData.CANAL_FILIALES.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'CANAL PAS', 
-            data: [totalXCanalData.CANAL_PAS.qPol202408, totalXCanalData.CANAL_PAS.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'CANAL PAS',
+            data: [totalXCanalData.CANAL_PAS.qPol202408, totalXCanalData.CANAL_PAS.qPol202508],
+            color: '#00AEEF'
           },
         ],
         credits: { enabled: false },
@@ -2606,20 +2646,20 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'CANAL DIRECTO', 
-            data: [casXCanalData.CANAL_DIRECTO.qPol202408, casXCanalData.CANAL_DIRECTO.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'CANAL DIRECTO',
+            data: [casXCanalData.CANAL_DIRECTO.qPol202408, casXCanalData.CANAL_DIRECTO.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'CANAL FILIALES', 
-            data: [casXCanalData.CANAL_FILIALES.qPol202408, casXCanalData.CANAL_FILIALES.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'CANAL FILIALES',
+            data: [casXCanalData.CANAL_FILIALES.qPol202408, casXCanalData.CANAL_FILIALES.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'CANAL PAS', 
-            data: [casXCanalData.CANAL_PAS.qPol202408, casXCanalData.CANAL_PAS.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'CANAL PAS',
+            data: [casXCanalData.CANAL_PAS.qPol202408, casXCanalData.CANAL_PAS.qPol202508],
+            color: '#00AEEF'
           },
         ],
         credits: { enabled: false },
@@ -2657,55 +2697,55 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'VIDA COLECTIVO', 
-            data: [casXRamoData.VIDA_COLECTIVO.qPol202408, casXRamoData.VIDA_COLECTIVO.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'VIDA COLECTIVO',
+            data: [casXRamoData.VIDA_COLECTIVO.qPol202408, casXRamoData.VIDA_COLECTIVO.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'VIDA INDIVIDUAL CON AHORRO', 
-            data: [casXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202408, casXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'VIDA INDIVIDUAL CON AHORRO',
+            data: [casXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202408, casXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'SEPELIO COLECTIVO', 
-            data: [casXRamoData.SEPELIO_COLECTIVO.qPol202408, casXRamoData.SEPELIO_COLECTIVO.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'SEPELIO COLECTIVO',
+            data: [casXRamoData.SEPELIO_COLECTIVO.qPol202408, casXRamoData.SEPELIO_COLECTIVO.qPol202508],
+            color: '#00AEEF'
           },
-          { 
-            name: 'VIDA DIBA', 
-            data: [casXRamoData.VIDA_DIBA.qPol202408, casXRamoData.VIDA_DIBA.qPol202508], 
-            color: '#FF6B6B' 
+          {
+            name: 'VIDA DIBA',
+            data: [casXRamoData.VIDA_DIBA.qPol202408, casXRamoData.VIDA_DIBA.qPol202508],
+            color: '#FF6B6B'
           },
-          { 
-            name: 'ESCOLTA EJERCITO', 
-            data: [casXRamoData.ESCOLTA_EJERCITO.qPol202408, casXRamoData.ESCOLTA_EJERCITO.qPol202508], 
-            color: '#4ECDC4' 
+          {
+            name: 'ESCOLTA EJERCITO',
+            data: [casXRamoData.ESCOLTA_EJERCITO.qPol202408, casXRamoData.ESCOLTA_EJERCITO.qPol202508],
+            color: '#4ECDC4'
           },
-          { 
-            name: 'BOLSO PROTEGIDO', 
-            data: [casXRamoData.BOLSO_PROTEGIDO.qPol202408, casXRamoData.BOLSO_PROTEGIDO.qPol202508], 
-            color: '#45B7D1' 
+          {
+            name: 'BOLSO PROTEGIDO',
+            data: [casXRamoData.BOLSO_PROTEGIDO.qPol202408, casXRamoData.BOLSO_PROTEGIDO.qPol202508],
+            color: '#45B7D1'
           },
-          { 
-            name: 'SALDO DEUDOR', 
-            data: [casXRamoData.SALDO_DEUDOR.qPol202408, casXRamoData.SALDO_DEUDOR.qPol202508], 
-            color: '#96CEB4' 
+          {
+            name: 'SALDO DEUDOR',
+            data: [casXRamoData.SALDO_DEUDOR.qPol202408, casXRamoData.SALDO_DEUDOR.qPol202508],
+            color: '#96CEB4'
           },
-          { 
-            name: 'ESCOLTA', 
-            data: [casXRamoData.ESCOLTA.qPol202408, casXRamoData.ESCOLTA.qPol202508], 
-            color: '#FFEAA7' 
+          {
+            name: 'ESCOLTA',
+            data: [casXRamoData.ESCOLTA.qPol202408, casXRamoData.ESCOLTA.qPol202508],
+            color: '#FFEAA7'
           },
-          { 
-            name: 'AP', 
-            data: [casXRamoData.AP.qPol202408, casXRamoData.AP.qPol202508], 
-            color: '#DDA0DD' 
+          {
+            name: 'AP',
+            data: [casXRamoData.AP.qPol202408, casXRamoData.AP.qPol202508],
+            color: '#DDA0DD'
           },
-          { 
-            name: 'SEPELIO INDIVIDUAL', 
-            data: [casXRamoData.SEPELIO_INDIVIDUAL.qPol202408, casXRamoData.SEPELIO_INDIVIDUAL.qPol202508], 
-            color: '#98D8C8' 
+          {
+            name: 'SEPELIO INDIVIDUAL',
+            data: [casXRamoData.SEPELIO_INDIVIDUAL.qPol202408, casXRamoData.SEPELIO_INDIVIDUAL.qPol202508],
+            color: '#98D8C8'
           },
         ],
         credits: { enabled: false },
@@ -2747,55 +2787,55 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'VIDA COLECTIVO', 
-            data: [totalXRamoData.VIDA_COLECTIVO.qPol202408, totalXRamoData.VIDA_COLECTIVO.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'VIDA COLECTIVO',
+            data: [totalXRamoData.VIDA_COLECTIVO.qPol202408, totalXRamoData.VIDA_COLECTIVO.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'VIDA INDIVIDUAL CON AHORRO', 
-            data: [totalXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202408, totalXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'VIDA INDIVIDUAL CON AHORRO',
+            data: [totalXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202408, totalXRamoData.VIDA_INDIVIDUAL_CON_AHORRO.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'SEPELIO COLECTIVO', 
-            data: [totalXRamoData.SEPELIO_COLECTIVO.qPol202408, totalXRamoData.SEPELIO_COLECTIVO.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'SEPELIO COLECTIVO',
+            data: [totalXRamoData.SEPELIO_COLECTIVO.qPol202408, totalXRamoData.SEPELIO_COLECTIVO.qPol202508],
+            color: '#00AEEF'
           },
-          { 
-            name: 'VIDA DIBA', 
-            data: [totalXRamoData.VIDA_DIBA.qPol202408, totalXRamoData.VIDA_DIBA.qPol202508], 
-            color: '#FF6B6B' 
+          {
+            name: 'VIDA DIBA',
+            data: [totalXRamoData.VIDA_DIBA.qPol202408, totalXRamoData.VIDA_DIBA.qPol202508],
+            color: '#FF6B6B'
           },
-          { 
-            name: 'ESCOLTA EJERCITO', 
-            data: [totalXRamoData.ESCOLTA_EJERCITO.qPol202408, totalXRamoData.ESCOLTA_EJERCITO.qPol202508], 
-            color: '#4ECDC4' 
+          {
+            name: 'ESCOLTA EJERCITO',
+            data: [totalXRamoData.ESCOLTA_EJERCITO.qPol202408, totalXRamoData.ESCOLTA_EJERCITO.qPol202508],
+            color: '#4ECDC4'
           },
-          { 
-            name: 'BOLSO PROTEGIDO', 
-            data: [totalXRamoData.BOLSO_PROTEGIDO.qPol202408, totalXRamoData.BOLSO_PROTEGIDO.qPol202508], 
-            color: '#45B7D1' 
+          {
+            name: 'BOLSO PROTEGIDO',
+            data: [totalXRamoData.BOLSO_PROTEGIDO.qPol202408, totalXRamoData.BOLSO_PROTEGIDO.qPol202508],
+            color: '#45B7D1'
           },
-          { 
-            name: 'SALDO DEUDOR', 
-            data: [totalXRamoData.SALDO_DEUDOR.qPol202408, totalXRamoData.SALDO_DEUDOR.qPol202508], 
-            color: '#96CEB4' 
+          {
+            name: 'SALDO DEUDOR',
+            data: [totalXRamoData.SALDO_DEUDOR.qPol202408, totalXRamoData.SALDO_DEUDOR.qPol202508],
+            color: '#96CEB4'
           },
-          { 
-            name: 'ESCOLTA', 
-            data: [totalXRamoData.ESCOLTA.qPol202408, totalXRamoData.ESCOLTA.qPol202508], 
-            color: '#FFEAA7' 
+          {
+            name: 'ESCOLTA',
+            data: [totalXRamoData.ESCOLTA.qPol202408, totalXRamoData.ESCOLTA.qPol202508],
+            color: '#FFEAA7'
           },
-          { 
-            name: 'AP', 
-            data: [totalXRamoData.AP.qPol202408, totalXRamoData.AP.qPol202508], 
-            color: '#DDA0DD' 
+          {
+            name: 'AP',
+            data: [totalXRamoData.AP.qPol202408, totalXRamoData.AP.qPol202508],
+            color: '#DDA0DD'
           },
-          { 
-            name: 'SEPELIO INDIVIDUAL', 
-            data: [totalXRamoData.SEPELIO_INDIVIDUAL.qPol202408, totalXRamoData.SEPELIO_INDIVIDUAL.qPol202508], 
-            color: '#98D8C8' 
+          {
+            name: 'SEPELIO INDIVIDUAL',
+            data: [totalXRamoData.SEPELIO_INDIVIDUAL.qPol202408, totalXRamoData.SEPELIO_INDIVIDUAL.qPol202508],
+            color: '#98D8C8'
           },
         ],
         credits: { enabled: false },
@@ -2837,20 +2877,20 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'CANAL PAS', 
-            data: [assaXCanalData.CANAL_PAS.qPol202408, assaXCanalData.CANAL_PAS.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'CANAL PAS',
+            data: [assaXCanalData.CANAL_PAS.qPol202408, assaXCanalData.CANAL_PAS.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'CANAL FILIALES', 
-            data: [assaXCanalData.CANAL_FILIALES.qPol202408, assaXCanalData.CANAL_FILIALES.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'CANAL FILIALES',
+            data: [assaXCanalData.CANAL_FILIALES.qPol202408, assaXCanalData.CANAL_FILIALES.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'CANAL DIRECTO', 
-            data: [assaXCanalData.CANAL_DIRECTO.qPol202408, assaXCanalData.CANAL_DIRECTO.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'CANAL DIRECTO',
+            data: [assaXCanalData.CANAL_DIRECTO.qPol202408, assaXCanalData.CANAL_DIRECTO.qPol202508],
+            color: '#00AEEF'
           },
         ],
         credits: { enabled: false },
@@ -2883,55 +2923,55 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'AUTOMOTORES', 
-            data: [assaXRamoData.AUTOMOTORES.qPol202408, assaXRamoData.AUTOMOTORES.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'AUTOMOTORES',
+            data: [assaXRamoData.AUTOMOTORES.qPol202408, assaXRamoData.AUTOMOTORES.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'COMBINADO FAMILIAR', 
-            data: [assaXRamoData.COMBINADO_FAMILIAR.qPol202408, assaXRamoData.COMBINADO_FAMILIAR.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'COMBINADO FAMILIAR',
+            data: [assaXRamoData.COMBINADO_FAMILIAR.qPol202408, assaXRamoData.COMBINADO_FAMILIAR.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'SALUD', 
-            data: [assaXRamoData.SALUD.qPol202408, assaXRamoData.SALUD.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'SALUD',
+            data: [assaXRamoData.SALUD.qPol202408, assaXRamoData.SALUD.qPol202508],
+            color: '#00AEEF'
           },
-          { 
-            name: 'AP', 
-            data: [assaXRamoData.AP.qPol202408, assaXRamoData.AP.qPol202508], 
-            color: '#FF6B6B' 
+          {
+            name: 'AP',
+            data: [assaXRamoData.AP.qPol202408, assaXRamoData.AP.qPol202508],
+            color: '#FF6B6B'
           },
-          { 
-            name: 'MOTOS', 
-            data: [assaXRamoData.MOTOS.qPol202408, assaXRamoData.MOTOS.qPol202508], 
-            color: '#4ECDC4' 
+          {
+            name: 'MOTOS',
+            data: [assaXRamoData.MOTOS.qPol202408, assaXRamoData.MOTOS.qPol202508],
+            color: '#4ECDC4'
           },
-          { 
-            name: 'PRAXIS', 
-            data: [assaXRamoData.PRAXIS.qPol202408, assaXRamoData.PRAXIS.qPol202508], 
-            color: '#45B7D1' 
+          {
+            name: 'PRAXIS',
+            data: [assaXRamoData.PRAXIS.qPol202408, assaXRamoData.PRAXIS.qPol202508],
+            color: '#45B7D1'
           },
-          { 
-            name: 'RC', 
-            data: [assaXRamoData.RC.qPol202408, assaXRamoData.RC.qPol202508], 
-            color: '#96CEB4' 
+          {
+            name: 'RC',
+            data: [assaXRamoData.RC.qPol202408, assaXRamoData.RC.qPol202508],
+            color: '#96CEB4'
           },
-          { 
-            name: 'CAUCIÓN', 
-            data: [assaXRamoData.CAUCION.qPol202408, assaXRamoData.CAUCION.qPol202508], 
-            color: '#FFEAA7' 
+          {
+            name: 'CAUCIÓN',
+            data: [assaXRamoData.CAUCION.qPol202408, assaXRamoData.CAUCION.qPol202508],
+            color: '#FFEAA7'
           },
-          { 
-            name: 'VIDA OBLIGATORIO', 
-            data: [assaXRamoData.VIDA_OBLIGATORIO.qPol202408, assaXRamoData.VIDA_OBLIGATORIO.qPol202508], 
-            color: '#DDA0DD' 
+          {
+            name: 'VIDA OBLIGATORIO',
+            data: [assaXRamoData.VIDA_OBLIGATORIO.qPol202408, assaXRamoData.VIDA_OBLIGATORIO.qPol202508],
+            color: '#DDA0DD'
           },
-          { 
-            name: 'INCENDIO', 
-            data: [assaXRamoData.INCENDIO.qPol202408, assaXRamoData.INCENDIO.qPol202508], 
-            color: '#98D8C8' 
+          {
+            name: 'INCENDIO',
+            data: [assaXRamoData.INCENDIO.qPol202408, assaXRamoData.INCENDIO.qPol202508],
+            color: '#98D8C8'
           },
         ],
         credits: { enabled: false },
@@ -2973,55 +3013,55 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'SMG', 
-            data: [assaXCiaData.SMG.r12202408, assaXCiaData.SMG.r12202508], 
-            color: '#003871' 
+          {
+            name: 'SMG',
+            data: [assaXCiaData.SMG.r12202408, assaXCiaData.SMG.r12202508],
+            color: '#003871'
           },
-          { 
-            name: 'LMA', 
-            data: [assaXCiaData.LMA.r12202408, assaXCiaData.LMA.r12202508], 
-            color: '#007DC5' 
+          {
+            name: 'LMA',
+            data: [assaXCiaData.LMA.r12202408, assaXCiaData.LMA.r12202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'SANCOR', 
-            data: [assaXCiaData.SANCOR.r12202408, assaXCiaData.SANCOR.r12202508], 
-            color: '#00AEEF' 
+          {
+            name: 'SANCOR',
+            data: [assaXCiaData.SANCOR.r12202408, assaXCiaData.SANCOR.r12202508],
+            color: '#00AEEF'
           },
-          { 
-            name: 'ALLIANZ', 
-            data: [assaXCiaData.ALLIANZ.r12202408, assaXCiaData.ALLIANZ.r12202508], 
-            color: '#FF6B6B' 
+          {
+            name: 'ALLIANZ',
+            data: [assaXCiaData.ALLIANZ.r12202408, assaXCiaData.ALLIANZ.r12202508],
+            color: '#FF6B6B'
           },
-          { 
-            name: 'INTEGRITY', 
-            data: [assaXCiaData.INTEGRITY.r12202408, assaXCiaData.INTEGRITY.r12202508], 
-            color: '#4ECDC4' 
+          {
+            name: 'INTEGRITY',
+            data: [assaXCiaData.INTEGRITY.r12202408, assaXCiaData.INTEGRITY.r12202508],
+            color: '#4ECDC4'
           },
-          { 
-            name: 'FED PAT', 
-            data: [assaXCiaData.FED_PAT.r12202408, assaXCiaData.FED_PAT.r12202508], 
-            color: '#45B7D1' 
+          {
+            name: 'FED PAT',
+            data: [assaXCiaData.FED_PAT.r12202408, assaXCiaData.FED_PAT.r12202508],
+            color: '#45B7D1'
           },
-          { 
-            name: 'SMG LIFE', 
-            data: [assaXCiaData.SMG_LIFE.r12202408, assaXCiaData.SMG_LIFE.r12202508], 
-            color: '#96CEB4' 
+          {
+            name: 'SMG LIFE',
+            data: [assaXCiaData.SMG_LIFE.r12202408, assaXCiaData.SMG_LIFE.r12202508],
+            color: '#96CEB4'
           },
-          { 
-            name: 'SAN CRISTOBAL', 
-            data: [assaXCiaData.SAN_CRISTOBAL.r12202408, assaXCiaData.SAN_CRISTOBAL.r12202508], 
-            color: '#FFEAA7' 
+          {
+            name: 'SAN CRISTOBAL',
+            data: [assaXCiaData.SAN_CRISTOBAL.r12202408, assaXCiaData.SAN_CRISTOBAL.r12202508],
+            color: '#FFEAA7'
           },
-          { 
-            name: 'VICTORIA', 
-            data: [assaXCiaData.VICTORIA.r12202408, assaXCiaData.VICTORIA.r12202508], 
-            color: '#DDA0DD' 
+          {
+            name: 'VICTORIA',
+            data: [assaXCiaData.VICTORIA.r12202408, assaXCiaData.VICTORIA.r12202508],
+            color: '#DDA0DD'
           },
-          { 
-            name: 'ATM', 
-            data: [assaXCiaData.ATM.r12202408, assaXCiaData.ATM.r12202508], 
-            color: '#98D8C8' 
+          {
+            name: 'ATM',
+            data: [assaXCiaData.ATM.r12202408, assaXCiaData.ATM.r12202508],
+            color: '#98D8C8'
           },
         ],
         credits: { enabled: false },
@@ -3063,20 +3103,20 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'CANAL PAS', 
-            data: [artXCanalData.CANAL_PAS.qPol202408, artXCanalData.CANAL_PAS.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'CANAL PAS',
+            data: [artXCanalData.CANAL_PAS.qPol202408, artXCanalData.CANAL_PAS.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'CANAL FILIALES', 
-            data: [artXCanalData.CANAL_FILIALES.qPol202408, artXCanalData.CANAL_FILIALES.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'CANAL FILIALES',
+            data: [artXCanalData.CANAL_FILIALES.qPol202408, artXCanalData.CANAL_FILIALES.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'CANAL DIRECTO', 
-            data: [artXCanalData.CANAL_DIRECTO.qPol202408, artXCanalData.CANAL_DIRECTO.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'CANAL DIRECTO',
+            data: [artXCanalData.CANAL_DIRECTO.qPol202408, artXCanalData.CANAL_DIRECTO.qPol202508],
+            color: '#00AEEF'
           },
         ],
         credits: { enabled: false },
@@ -3119,60 +3159,60 @@ export default function EvolucionCartera() {
           }
         },
         series: [
-          { 
-            name: 'ASOCIART ART', 
-            data: [artXCiaData.ASOCIART_ART.qPol202408, artXCiaData.ASOCIART_ART.qPol202508], 
-            color: '#003871' 
+          {
+            name: 'ASOCIART ART',
+            data: [artXCiaData.ASOCIART_ART.qPol202408, artXCiaData.ASOCIART_ART.qPol202508],
+            color: '#003871'
           },
-          { 
-            name: 'PREVENCION ART', 
-            data: [artXCiaData.PREVENCION_ART.qPol202408, artXCiaData.PREVENCION_ART.qPol202508], 
-            color: '#007DC5' 
+          {
+            name: 'PREVENCION ART',
+            data: [artXCiaData.PREVENCION_ART.qPol202408, artXCiaData.PREVENCION_ART.qPol202508],
+            color: '#007DC5'
           },
-          { 
-            name: 'PROVINCIA ART', 
-            data: [artXCiaData.PROVINCIA_ART.qPol202408, artXCiaData.PROVINCIA_ART.qPol202508], 
-            color: '#00AEEF' 
+          {
+            name: 'PROVINCIA ART',
+            data: [artXCiaData.PROVINCIA_ART.qPol202408, artXCiaData.PROVINCIA_ART.qPol202508],
+            color: '#00AEEF'
           },
-          { 
-            name: 'FED PAT', 
-            data: [artXCiaData.FED_PAT.qPol202408, artXCiaData.FED_PAT.qPol202508], 
-            color: '#FF6B6B' 
+          {
+            name: 'FED PAT',
+            data: [artXCiaData.FED_PAT.qPol202408, artXCiaData.FED_PAT.qPol202508],
+            color: '#FF6B6B'
           },
-          { 
-            name: 'SMG ART', 
-            data: [artXCiaData.SMG_ART.qPol202408, artXCiaData.SMG_ART.qPol202508], 
-            color: '#4ECDC4' 
+          {
+            name: 'SMG ART',
+            data: [artXCiaData.SMG_ART.qPol202408, artXCiaData.SMG_ART.qPol202508],
+            color: '#4ECDC4'
           },
-          { 
-            name: 'ANDINA ART', 
-            data: [artXCiaData.ANDINA_ART.qPol202408, artXCiaData.ANDINA_ART.qPol202508], 
-            color: '#45B7D1' 
+          {
+            name: 'ANDINA ART',
+            data: [artXCiaData.ANDINA_ART.qPol202408, artXCiaData.ANDINA_ART.qPol202508],
+            color: '#45B7D1'
           },
-          { 
-            name: 'EXPERTA ART', 
-            data: [artXCiaData.EXPERTA_ART.qPol202408, artXCiaData.EXPERTA_ART.qPol202508], 
-            color: '#96CEB4' 
+          {
+            name: 'EXPERTA ART',
+            data: [artXCiaData.EXPERTA_ART.qPol202408, artXCiaData.EXPERTA_ART.qPol202508],
+            color: '#96CEB4'
           },
-          { 
-            name: 'LA HOLANDO ART', 
-            data: [artXCiaData.LA_HOLANDO_ART.qPol202408, artXCiaData.LA_HOLANDO_ART.qPol202508], 
-            color: '#FFEAA7' 
+          {
+            name: 'LA HOLANDO ART',
+            data: [artXCiaData.LA_HOLANDO_ART.qPol202408, artXCiaData.LA_HOLANDO_ART.qPol202508],
+            color: '#FFEAA7'
           },
-          { 
-            name: 'GALENO ART', 
-            data: [artXCiaData.GALENO_ART.qPol202408, artXCiaData.GALENO_ART.qPol202508], 
-            color: '#DDA0DD' 
+          {
+            name: 'GALENO ART',
+            data: [artXCiaData.GALENO_ART.qPol202408, artXCiaData.GALENO_ART.qPol202508],
+            color: '#DDA0DD'
           },
-          { 
-            name: 'OMINT ART', 
-            data: [artXCiaData.OMINT_ART.qPol202408, artXCiaData.OMINT_ART.qPol202508], 
-            color: '#98D8C8' 
+          {
+            name: 'OMINT ART',
+            data: [artXCiaData.OMINT_ART.qPol202408, artXCiaData.OMINT_ART.qPol202508],
+            color: '#98D8C8'
           },
-          { 
-            name: 'VICTORIA ART', 
-            data: [artXCiaData.VICTORIA_ART.qPol202408, artXCiaData.VICTORIA_ART.qPol202508], 
-            color: '#F7DC6F' 
+          {
+            name: 'VICTORIA ART',
+            data: [artXCiaData.VICTORIA_ART.qPol202408, artXCiaData.VICTORIA_ART.qPol202508],
+            color: '#F7DC6F'
           },
         ],
         credits: { enabled: false },
@@ -3194,48 +3234,48 @@ export default function EvolucionCartera() {
     const period2Label = filterApplied ? `${getMonthName(selectedMonth2)} ${selectedYear2}` : 'Julio 23';
 
     return {
-    chart: { type: 'line', height: 320 },
-    xAxis: {
+      chart: { type: 'line', height: 320 },
+      xAxis: {
         categories: [period1Label, period2Label],
-      title: { text: 'Período' },
-    },
-    yAxis: {
-      title: { text: 'R12 (Millones $)' },
-      min: 0,
-      labels: {
-        formatter: function (this: { value: number }) {
-          if (this.value >= 1000000) return (this.value / 1000000) + ' M';
-          if (this.value >= 1000) return (this.value / 1000) + ' mil';
-          return this.value;
+        title: { text: 'Período' },
+      },
+      yAxis: {
+        title: { text: 'R12 (Millones $)' },
+        min: 0,
+        labels: {
+          formatter: function (this: { value: number }) {
+            if (this.value >= 1000000) return (this.value / 1000000) + ' M';
+            if (this.value >= 1000) return (this.value / 1000) + ' mil';
+            return this.value;
+          }
         }
-      }
-    },
-    tooltip: {
-      pointFormatter: function (this: { y: number }) {
-        if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
-        if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
-        return '<b>' + this.y + '</b>';
-      }
-    },
-    series: [
-      { 
-        name: 'CAS', 
-          data: [indicadoresData.CAS.R12[period1Key], indicadoresData.CAS.R12[period2Key]], 
-        color: '#004376' 
       },
-      { 
-        name: 'ASSA', 
-          data: [indicadoresData.ASSA.R12[period1Key], indicadoresData.ASSA.R12[period2Key]], 
-        color: '#007cc5' 
+      tooltip: {
+        pointFormatter: function (this: { y: number }) {
+          if (this.y >= 1000000) return '<b>' + (this.y / 1000000) + ' Millones</b>';
+          if (this.y >= 1000) return '<b>' + (this.y / 1000) + ' mil</b>';
+          return '<b>' + this.y + '</b>';
+        }
       },
-      { 
-        name: 'ART', 
-          data: [indicadoresData.ART.R12[period1Key], indicadoresData.ART.R12[period2Key]], 
-        color: '#74671f' 
-      },
-    ],
-    credits: { enabled: false },
-  };
+      series: [
+        {
+          name: 'CAS',
+          data: [indicadoresData.CAS.R12[period1Key], indicadoresData.CAS.R12[period2Key]],
+          color: '#004376'
+        },
+        {
+          name: 'ASSA',
+          data: [indicadoresData.ASSA.R12[period1Key], indicadoresData.ASSA.R12[period2Key]],
+          color: '#007cc5'
+        },
+        {
+          name: 'ART',
+          data: [indicadoresData.ART.R12[period1Key], indicadoresData.ART.R12[period2Key]],
+          color: '#74671f'
+        },
+      ],
+      credits: { enabled: false },
+    };
   }, [indicadoresData, filterApplied, selectedMonth1, selectedYear1, selectedMonth2, selectedYear2, tipoVista, totalXCiaData, totalXCanalData, totalXRamoData, casXCanalData, casXRamoData, assaXCanalData, assaXRamoData, assaXCiaData, artXCanalData, artXCiaData]);
 
   // Obtener etiquetas de períodos para las tablas
@@ -3266,7 +3306,7 @@ export default function EvolucionCartera() {
         {/* Bloque de filtro */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtro</h3>
-          
+
           <div className="flex flex-col md:flex-row gap-6 mb-6">
             {/* Fecha Inicio */}
             <div className="flex-1 p-4 bg-blue-50 rounded-lg border border-blue-200">
@@ -3274,36 +3314,31 @@ export default function EvolucionCartera() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
-                  <select 
+                  <select
                     value={selectedYear1}
-                    onChange={(e) => setSelectedYear1(e.target.value)}
+                    onChange={handleYear1Change}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
+                    {anios.map((anio) => (
+                      <option key={anio.anio} value={anio.anio.toString()}>
+                        {anio.anio}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Mes</label>
-                  <select 
-                    value={"08"}
+                  <select
+                    value={selectedMonth1}
                     onChange={(e) => setSelectedMonth1(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    disabled={selectedMonth1 === ''}
                   >
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
+                    {meses1.map((mes) => (
+                      <option key={mes.mes_numero} value={mes.mes_numero.toString().padStart(2, '0')}>
+                        {mes.mes_nombre}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -3315,48 +3350,43 @@ export default function EvolucionCartera() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Año</label>
-                  <select 
+                  <select
                     value={selectedYear2}
-                    onChange={(e) => setSelectedYear2(e.target.value)}
+                    onChange={handleYear2Change}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   >
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
+                    {anios.map((anio) => (
+                      <option key={anio.anio} value={anio.anio.toString()}>
+                        {anio.anio}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Mes</label>
-                  <select 
-                    value={"08"}
+                  <select
+                    value={selectedMonth2}
                     onChange={(e) => setSelectedMonth2(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    disabled={selectedMonth2 === ''}
                   >
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
+                    {meses2.map((mes) => (
+                      <option key={mes.mes_numero} value={mes.mes_numero.toString().padStart(2, '0')}>
+                        {mes.mes_nombre}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
             </div>
-                     </div>
+          </div>
 
           {/* Filtros en fila horizontal */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
             {/* Tipo de Vista */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
-              <select 
+              <select
                 value={tipoVista}
                 onChange={(e) => setTipoVista(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -3385,12 +3415,12 @@ export default function EvolucionCartera() {
             {/* Filtro Productores */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Productores</label>
-              <select 
+              <select
                 value={filtroProductor}
                 onChange={(e) => setFiltroProductor(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="TODOS">TODOS</option>               
+                <option value="TODOS">TODOS</option>
                 <option value="SALIENTE / DIRECTO">SALIENTE / DIRECTO</option>
                 <option value="ARAMBEL MARIA GRACIELA">ARAMBEL MARIA GRACIELA</option>
                 <option value="ARCE JULIO DANIEL">ARCE JULIO DANIEL</option>
@@ -3410,7 +3440,7 @@ export default function EvolucionCartera() {
             {/* Filtro Ejecutivo */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Ejecutivo</label>
-              <select 
+              <select
                 value={filtroEjecutivo}
                 onChange={(e) => setFiltroEjecutivo(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -3429,14 +3459,14 @@ export default function EvolucionCartera() {
 
           {/* Botón Aplicar Filtros */}
           <div className="flex justify-end hidden">
-              <button
+            <button
               onClick={() => setFilterApplied(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md flex items-center gap-2"
-              >
+            >
               <i className="fa-solid fa-check text-white"></i>
               Aplicar Filtros
-              </button>
-            </div>
+            </button>
+          </div>
         </div>
 
         {/* Tabla TOTAL X CÍA */}
@@ -3445,7 +3475,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black">  </th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -3456,7 +3486,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">COMPAÑÍA</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -3502,7 +3532,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,819,605,043</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">63.83%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">106,598</td>
                     <td className="px-4 py-2 text-center">103,645</td>
@@ -3525,7 +3555,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black">  </th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -3536,7 +3566,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CANAL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -3582,7 +3612,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 17,242,984,085</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">100.24%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">106,598</td>
                     <td className="px-4 py-2 text-center">103,645</td>
@@ -3605,7 +3635,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -3616,7 +3646,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CANAL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -3662,7 +3692,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 3,578,708,959</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">75.45%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
                     <td className="px-4 py-2 text-center">26,669</td>
@@ -3685,7 +3715,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -3696,7 +3726,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">RAMO</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -3896,7 +3926,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 10,913,535</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.51%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
                     <td className="px-4 py-2 text-center">26,669</td>
@@ -3919,7 +3949,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -3930,7 +3960,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">RAMO</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -4130,7 +4160,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 10,913,535</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">125.51%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">27,899</td>
                     <td className="px-4 py-2 text-center">26,669</td>
@@ -4153,7 +4183,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -4164,7 +4194,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CANAL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -4210,7 +4240,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 8,741,037,271</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">128.23%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
                     <td className="px-4 py-2 text-center">73,631</td>
@@ -4223,8 +4253,8 @@ export default function EvolucionCartera() {
                   </tr>
                 </tbody>
               </table>
-              </div>
             </div>
+          </div>
         )}
 
         {/* Tabla ASSA X RAMO */}
@@ -4233,7 +4263,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>                    
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"></th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -4244,7 +4274,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">RAMO</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -4488,7 +4518,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 10,831,421</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">237.98%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
                     <td className="px-4 py-2 text-center">73,631</td>
@@ -4501,7 +4531,7 @@ export default function EvolucionCartera() {
                   </tr>
                 </tbody>
               </table>
-        </div>
+            </div>
           </div>
         )}
 
@@ -4511,7 +4541,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -4522,7 +4552,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CÍA</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -4810,7 +4840,7 @@ export default function EvolucionCartera() {
                     <td className={`px-4 py-2 text-center ${getDifColor('-60,125')}`}>$ -60,125</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">-74.18%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">75,455</td>
                     <td className="px-4 py-2 text-center">73,631</td>
@@ -4833,7 +4863,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -4844,7 +4874,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">Canal</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -4890,7 +4920,7 @@ export default function EvolucionCartera() {
                     <td className="px-4 py-2 text-center text-gray-900">$ 4,923,237,856</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">87.25%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,244</td>
                     <td className="px-4 py-2 text-center">3,345</td>
@@ -4913,7 +4943,7 @@ export default function EvolucionCartera() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-white" style={{backgroundColor: '#003871'}}>
+                  <tr className="text-white" style={{ backgroundColor: '#003871' }}>
                     <th className="px-4 py-3 text-left font-bold border-r-2 border-black"> </th>
                     <th className="px-4 py-3 text-center font-bold">202408</th>
                     <th className="px-4 py-3 text-center font-bold">202508</th>
@@ -4924,7 +4954,7 @@ export default function EvolucionCartera() {
                     <th className="px-4 py-3 text-center font-bold">DIF</th>
                     <th className="px-4 py-3 text-center font-bold">C REAL 202508</th>
                   </tr>
-                  <tr style={{backgroundColor: '#00AEEF'}}>
+                  <tr style={{ backgroundColor: '#00AEEF' }}>
                     <th className="px-4 py-2 text-left font-semibold text-white border-r-2 border-black">CÍA</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
                     <th className="px-4 py-2 text-center font-semibold text-white">Q PÓL</th>
@@ -5058,7 +5088,7 @@ export default function EvolucionCartera() {
                     <td className={`px-4 py-2 text-center ${getDifColor('15,043,652')}`}>$ 15,043,652</td>
                     <td className="px-4 py-2 text-center font-bold text-gray-900">100.00%</td>
                   </tr>
-                  <tr className="text-white font-bold" style={{backgroundColor: '#007DC5'}}>
+                  <tr className="text-white font-bold" style={{ backgroundColor: '#007DC5' }}>
                     <td className="px-4 py-2 border-r-2 border-black">Total general</td>
                     <td className="px-4 py-2 text-center">3,244</td>
                     <td className="px-4 py-2 text-center">3,345</td>
@@ -5351,87 +5381,87 @@ export default function EvolucionCartera() {
                 </tbody>
               </table>
             </div>
-            
-                                    {/* Gráfico de barras de Highcharts */}
-                        <div className="mt-8">
-                          <HighchartsChart
-                            id="call-center-chart"
-                            type="column"
-                            title="Evolución de Ventas por Mes - Call Center + Casa Central"
-                            data={{
-                              chart: { type: 'column', height: 400 },
-                              xAxis: {
-                                categories: ['feb-23', 'mar-23', 'abr-23', 'may-23', 'jun-23', 'jul-23'],
-                                title: { text: 'Meses' },
-                              },
-                              yAxis: {
-                                title: { text: 'Ventas ($)' },
-                                min: 0,
-                                labels: {
-                                  formatter: function (this: { value: number }) {
-                                    if (this.value >= 1000000) return (this.value / 1000000) + ' M';
-                                    if (this.value >= 1000) return (this.value / 1000) + ' K';
-                                    return this.value;
-                                  }
-                                }
-                              },
-                              tooltip: {
-                                pointFormatter: function (this: { y: number }) {
-                                  return '<b>' + this.y.toLocaleString() + '</b>';
-                                }
-                              },
-                              series: [
-                                { 
-                                  name: 'Auto', 
-                                  data: [45200, 48500, 52100, 55800, 59200, 62500], 
-                                  color: '#FF6B35' 
-                                },
-                                { 
-                                  name: 'Hogar', 
-                                  data: [32800, 35200, 37900, 40500, 43100, 45800], 
-                                  color: '#F7931E' 
-                                },
-                                { 
-                                  name: 'Salud', 
-                                  data: [28500, 30200, 32100, 34000, 36200, 38500], 
-                                  color: '#FFD23F' 
-                                },
-                                { 
-                                  name: 'Vida', 
-                                  data: [25100, 26800, 28500, 30200, 32000, 33800], 
-                                  color: '#6BCF7F' 
-                                },
-                                { 
-                                  name: 'Bolso', 
-                                  data: [18200, 19500, 20800, 22100, 23500, 24800], 
-                                  color: '#4ECDC4' 
-                                },
-                                { 
-                                  name: 'Sepelio', 
-                                  data: [15800, 16500, 17200, 18000, 18800, 19600], 
-                                  color: '#45B7D1' 
-                                },
-                                { 
-                                  name: 'Otros', 
-                                  data: [12400, 13200, 14000, 14800, 15600, 16400], 
-                                  color: '#96CEB4' 
-                                }
-                              ],
-                              plotOptions: {
-                                column: {
-                                  stacking: 'normal',
-                                  dataLabels: {
-                                    enabled: true,
-                                    formatter: function (this: { y: number }) {
-                                      if (this.y >= 1000) return (this.y / 1000) + 'K';
-                                      return this.y;
-                                    }
-                                  }
-                                }
-                              }
-                            }}
-                          />
-                        </div>
+
+            {/* Gráfico de barras de Highcharts */}
+            <div className="mt-8">
+              <HighchartsChart
+                id="call-center-chart"
+                type="column"
+                title="Evolución de Ventas por Mes - Call Center + Casa Central"
+                data={{
+                  chart: { type: 'column', height: 400 },
+                  xAxis: {
+                    categories: ['feb-23', 'mar-23', 'abr-23', 'may-23', 'jun-23', 'jul-23'],
+                    title: { text: 'Meses' },
+                  },
+                  yAxis: {
+                    title: { text: 'Ventas ($)' },
+                    min: 0,
+                    labels: {
+                      formatter: function (this: { value: number }) {
+                        if (this.value >= 1000000) return (this.value / 1000000) + ' M';
+                        if (this.value >= 1000) return (this.value / 1000) + ' K';
+                        return this.value;
+                      }
+                    }
+                  },
+                  tooltip: {
+                    pointFormatter: function (this: { y: number }) {
+                      return '<b>' + this.y.toLocaleString() + '</b>';
+                    }
+                  },
+                  series: [
+                    {
+                      name: 'Auto',
+                      data: [45200, 48500, 52100, 55800, 59200, 62500],
+                      color: '#FF6B35'
+                    },
+                    {
+                      name: 'Hogar',
+                      data: [32800, 35200, 37900, 40500, 43100, 45800],
+                      color: '#F7931E'
+                    },
+                    {
+                      name: 'Salud',
+                      data: [28500, 30200, 32100, 34000, 36200, 38500],
+                      color: '#FFD23F'
+                    },
+                    {
+                      name: 'Vida',
+                      data: [25100, 26800, 28500, 30200, 32000, 33800],
+                      color: '#6BCF7F'
+                    },
+                    {
+                      name: 'Bolso',
+                      data: [18200, 19500, 20800, 22100, 23500, 24800],
+                      color: '#4ECDC4'
+                    },
+                    {
+                      name: 'Sepelio',
+                      data: [15800, 16500, 17200, 18000, 18800, 19600],
+                      color: '#45B7D1'
+                    },
+                    {
+                      name: 'Otros',
+                      data: [12400, 13200, 14000, 14800, 15600, 16400],
+                      color: '#96CEB4'
+                    }
+                  ],
+                  plotOptions: {
+                    column: {
+                      stacking: 'normal',
+                      dataLabels: {
+                        enabled: true,
+                        formatter: function (this: { y: number }) {
+                          if (this.y >= 1000) return (this.y / 1000) + 'K';
+                          return this.y;
+                        }
+                      }
+                    }
+                  }
+                }}
+              />
+            </div>
           </div>
         ) : showFilialesPasTable ? (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -5440,21 +5470,19 @@ export default function EvolucionCartera() {
               <div className="flex space-x-2">
                 <button
                   onClick={() => setRankingFilter('con-art')}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                    rankingFilter === 'con-art'
-                      ? 'bg-white text-teal-600'
-                      : 'bg-teal-500 text-white hover:bg-teal-400'
-                  }`}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${rankingFilter === 'con-art'
+                    ? 'bg-white text-teal-600'
+                    : 'bg-teal-500 text-white hover:bg-teal-400'
+                    }`}
                 >
                   Con ART
                 </button>
                 <button
                   onClick={() => setRankingFilter('sin-art')}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                    rankingFilter === 'sin-art'
-                      ? 'bg-white text-teal-600'
-                      : 'bg-teal-500 text-white hover:bg-teal-400'
-                  }`}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${rankingFilter === 'sin-art'
+                    ? 'bg-white text-teal-600'
+                    : 'bg-teal-500 text-white hover:bg-teal-400'
+                    }`}
                 >
                   Sin ART
                 </button>
@@ -5507,7 +5535,7 @@ export default function EvolucionCartera() {
                           <td className="px-4 py-3 text-gray-900">$2,483,600</td>
                         </tr>
                       ))}
-                      
+
                       {/* Totals */}
                       <tr className="bg-teal-100 text-gray-900">
                         <td className="px-4 py-3 font-semibold" colSpan={3}>TOTAL 20 MEJORES</td>
@@ -5551,7 +5579,7 @@ export default function EvolucionCartera() {
                           { qPolizas: 156, r12: 320000 },
                           { qPolizas: 134, r12: 270000 }
                         ];
-                        
+
                         return (
                           <tr key={`pas-filiales-sin-art-${i}`} className={i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                             <td className="px-4 py-3 text-gray-900"></td>
@@ -5585,7 +5613,7 @@ export default function EvolucionCartera() {
                           </tr>
                         );
                       })}
-                      
+
                       {/* Totals */}
                       <tr className="bg-teal-100 text-gray-900">
                         <td className="px-4 py-3 font-semibold" colSpan={3}>TOTAL 20 MEJORES</td>
@@ -5617,16 +5645,16 @@ export default function EvolucionCartera() {
                 type="column"
                 title={
                   tipoVista === 'TOTAL X CÍA' ? 'Comparativa R12 - 202408 vs 202508' :
-                  tipoVista === 'TOTAL X CANAL' ? 'Comparativa R12 por Canal - 202408 vs 202508' :
-                  tipoVista === 'TOTAL X RAMO' ? 'Comparativa R12 por Ramo - 202408 vs 202508' :
-                  tipoVista === 'CAS X CANAL' ? 'Comparativa R12 CAS por Canal - 202408 vs 202508' :
-                  tipoVista === 'CAS X RAMO' ? 'Comparativa R12 CAS por Ramo - 202408 vs 202508' :
-                  tipoVista === 'ASSA X CANAL' ? 'Comparativa R12 ASSA por Canal - 202408 vs 202508' :
-                  tipoVista === 'ASSA X RAMO' ? 'Comparativa R12 ASSA por Ramo - 202408 vs 202508' :
-                  tipoVista === 'ASSA X CÍA' ? 'Comparativa R12 ASSA por Compañía - 202408 vs 202508' :
-                  tipoVista === 'ART X CANAL' ? 'Comparativa R12 ART por Canal - 202408 vs 202508' :
-                  tipoVista === 'ART X CÍA' ? 'Comparativa R12 ART por Compañía - 202408 vs 202508' :
-                  `Comparativa R12 - ${periodLabels.period1} vs ${periodLabels.period2}`
+                    tipoVista === 'TOTAL X CANAL' ? 'Comparativa R12 por Canal - 202408 vs 202508' :
+                      tipoVista === 'TOTAL X RAMO' ? 'Comparativa R12 por Ramo - 202408 vs 202508' :
+                        tipoVista === 'CAS X CANAL' ? 'Comparativa R12 CAS por Canal - 202408 vs 202508' :
+                          tipoVista === 'CAS X RAMO' ? 'Comparativa R12 CAS por Ramo - 202408 vs 202508' :
+                            tipoVista === 'ASSA X CANAL' ? 'Comparativa R12 ASSA por Canal - 202408 vs 202508' :
+                              tipoVista === 'ASSA X RAMO' ? 'Comparativa R12 ASSA por Ramo - 202408 vs 202508' :
+                                tipoVista === 'ASSA X CÍA' ? 'Comparativa R12 ASSA por Compañía - 202408 vs 202508' :
+                                  tipoVista === 'ART X CANAL' ? 'Comparativa R12 ART por Canal - 202408 vs 202508' :
+                                    tipoVista === 'ART X CÍA' ? 'Comparativa R12 ART por Compañía - 202408 vs 202508' :
+                                      `Comparativa R12 - ${periodLabels.period1} vs ${periodLabels.period2}`
                 }
                 data={r12ChartData}
               />
@@ -5635,21 +5663,21 @@ export default function EvolucionCartera() {
                 type="pie"
                 title={
                   tipoVista === 'TOTAL X CÍA' ? 'Distribución Q PÓL 202508' :
-                  tipoVista === 'TOTAL X CANAL' ? 'Distribución Q PÓL por Canal 202508' :
-                  tipoVista === 'TOTAL X RAMO' ? 'Distribución Q PÓL por Ramo 202508' :
-                  tipoVista === 'CAS X CANAL' ? 'Distribución Q PÓL CAS por Canal 202508' :
-                  tipoVista === 'CAS X RAMO' ? 'Distribución Q PÓL CAS por Ramo 202508' :
-                  tipoVista === 'ASSA X CANAL' ? 'Distribución Q PÓL ASSA por Canal 202508' :
-                  tipoVista === 'ASSA X RAMO' ? 'Distribución Q PÓL ASSA por Ramo 202508' :
-                  tipoVista === 'ASSA X CÍA' ? 'Distribución Q PÓL ASSA por Compañía 202508' :
-                  tipoVista === 'ART X CANAL' ? 'Distribución Q PÓL ART por Canal 202508' :
-                  tipoVista === 'ART X CÍA' ? 'Distribución Q PÓL ART por Compañía 202508' :
-                  `Distribución Q PÓL ${periodLabels.period2}`
+                    tipoVista === 'TOTAL X CANAL' ? 'Distribución Q PÓL por Canal 202508' :
+                      tipoVista === 'TOTAL X RAMO' ? 'Distribución Q PÓL por Ramo 202508' :
+                        tipoVista === 'CAS X CANAL' ? 'Distribución Q PÓL CAS por Canal 202508' :
+                          tipoVista === 'CAS X RAMO' ? 'Distribución Q PÓL CAS por Ramo 202508' :
+                            tipoVista === 'ASSA X CANAL' ? 'Distribución Q PÓL ASSA por Canal 202508' :
+                              tipoVista === 'ASSA X RAMO' ? 'Distribución Q PÓL ASSA por Ramo 202508' :
+                                tipoVista === 'ASSA X CÍA' ? 'Distribución Q PÓL ASSA por Compañía 202508' :
+                                  tipoVista === 'ART X CANAL' ? 'Distribución Q PÓL ART por Canal 202508' :
+                                    tipoVista === 'ART X CÍA' ? 'Distribución Q PÓL ART por Compañía 202508' :
+                                      `Distribución Q PÓL ${periodLabels.period2}`
                 }
                 data={qPolPieData}
               />
             </div>
-            
+
             {/* Gráfico de evolución R12 */}
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <HighchartsChart
@@ -5657,16 +5685,16 @@ export default function EvolucionCartera() {
                 type="line"
                 title={
                   tipoVista === 'TOTAL X CÍA' ? 'Evolución Q PÓL - 202408 vs 202508' :
-                  tipoVista === 'TOTAL X CANAL' ? 'Evolución Q PÓL por Canal - 202408 vs 202508' :
-                  tipoVista === 'TOTAL X RAMO' ? 'Evolución Q PÓL por Ramo - 202408 vs 202508' :
-                  tipoVista === 'CAS X CANAL' ? 'Evolución Q PÓL CAS por Canal - 202408 vs 202508' :
-                  tipoVista === 'CAS X RAMO' ? 'Evolución Q PÓL CAS por Ramo - 202408 vs 202508' :
-                  tipoVista === 'ASSA X CANAL' ? 'Evolución Q PÓL ASSA por Canal - 202408 vs 202508' :
-                  tipoVista === 'ASSA X RAMO' ? 'Evolución Q PÓL ASSA por Ramo - 202408 vs 202508' :
-                  tipoVista === 'ASSA X CÍA' ? 'Evolución Q PÓL ASSA por Compañía - 202408 vs 202508' :
-                  tipoVista === 'ART X CANAL' ? 'Evolución Q PÓL ART por Canal - 202408 vs 202508' :
-                  tipoVista === 'ART X CÍA' ? 'Evolución Q PÓL ART por Compañía - 202408 vs 202508' :
-                  `Evolución R12 - ${periodLabels.period1} vs ${periodLabels.period2}`
+                    tipoVista === 'TOTAL X CANAL' ? 'Evolución Q PÓL por Canal - 202408 vs 202508' :
+                      tipoVista === 'TOTAL X RAMO' ? 'Evolución Q PÓL por Ramo - 202408 vs 202508' :
+                        tipoVista === 'CAS X CANAL' ? 'Evolución Q PÓL CAS por Canal - 202408 vs 202508' :
+                          tipoVista === 'CAS X RAMO' ? 'Evolución Q PÓL CAS por Ramo - 202408 vs 202508' :
+                            tipoVista === 'ASSA X CANAL' ? 'Evolución Q PÓL ASSA por Canal - 202408 vs 202508' :
+                              tipoVista === 'ASSA X RAMO' ? 'Evolución Q PÓL ASSA por Ramo - 202408 vs 202508' :
+                                tipoVista === 'ASSA X CÍA' ? 'Evolución Q PÓL ASSA por Compañía - 202408 vs 202508' :
+                                  tipoVista === 'ART X CANAL' ? 'Evolución Q PÓL ART por Canal - 202408 vs 202508' :
+                                    tipoVista === 'ART X CÍA' ? 'Evolución Q PÓL ART por Compañía - 202408 vs 202508' :
+                                      `Evolución R12 - ${periodLabels.period1} vs ${periodLabels.period2}`
                 }
                 data={r12EvolutionData}
               />

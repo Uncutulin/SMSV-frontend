@@ -14,48 +14,29 @@ export default function CarteraVigente() {
     tipo_filtro: 'CANAL'
   });
 
-  // 2. Custom Hook para obtener datos (Contiene la lógica de fetch y estados)
+  // Datos de la Cartera
   const { listadoData, totalesData, loading, error } = useCarteraVigente(filters);
 
-  // 2. Hooks de Datos
-  // Obtenemos años y meses dinámicos basados en el año seleccionado
+  // Obtenemos años y meses
   const { anios, meses, loading: loadingPeriodos } = usePeriodos(Number(filters.anio));
 
-  // Actualizar mes automáticamente si el seleccionado no es válido para el nuevo año
-  useEffect(() => {
-    if (!loadingPeriodos && meses.length > 0) {
-      const mesActual = filters.mes;
-      const existeMes = meses.some(m => m.mes_numero.toString().padStart(2, '0') === mesActual);
 
-      // Si el mes no es válido o está vacío, seleccionar el último disponible (o el primero)
-      // Usualmente al cambiar de año querrás ver el último mes disponible
-      if (!existeMes || mesActual === '') {
-        const ultimoMes = meses[meses.length - 1]; // Asumiendo que vienen ordenados
-        if (ultimoMes) {
-          setFilters(prev => ({
-            ...prev,
-            mes: ultimoMes.mes_numero.toString().padStart(2, '0')
-          }));
-        }
-      }
-    }
-  }, [meses, loadingPeriodos, filters.mes]);
-
-  // 3. Helpers para la Interfaz
-  const getMonthName = (month: string) => {
-    const months: Record<string, string> = {
-      '01': 'Enero', '02': 'Febrero', '03': 'Marzo', '04': 'Abril',
-      '05': 'Mayo', '06': 'Junio', '07': 'Julio', '08': 'Agosto',
-      '09': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
-    };
-    return months[month] || month;
+  const getFecha = (monthCode: string, yearCode: string) => {
+    const mesEncontrado = meses.find(
+      (m) => m.mes_numero.toString().padStart(2, '0') === monthCode
+    );
+    const yearEncontrado = anios.find(
+      (m) => m.anio.toString().padStart(2, '0') === yearCode
+    );
+    const year = yearEncontrado ? yearEncontrado.anio : null;
+    const month = mesEncontrado ? mesEncontrado.mes_nombre : null;
+    return month ? month + ' ' + year : "Cargando...";
   };
+
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters(prev => {
       const newState = { ...prev, [key]: value };
-      // Si cambia el año, limpiamos el mes para evitar consultas con mes incorrecto
-      // El useEffect se encargará de asignar un mes válido cuando carguen los meses
       if (key === 'anio') {
         newState.mes = '';
       }
@@ -95,7 +76,7 @@ export default function CarteraVigente() {
     <div className="space-y-6 p-4">
       <div className="text-center mt-6">
         <h1 className="text-3xl font-bold text-gray-900">Cartera Vigente</h1>
-        <p className="text-gray-600 mt-2">{getMonthName(filters.mes)} {filters.anio}</p>
+        <p className="text-gray-600 mt-2">{getFecha(filters.mes, filters.anio)}</p>
       </div>
 
       {/* --- BLOQUE DE FILTROS --- */}
@@ -161,7 +142,7 @@ export default function CarteraVigente() {
               >
                 {meses.map((m) => (
                   <option key={m.mes_numero} value={m.mes_numero.toString().padStart(2, '0')}>
-                    {getMonthName(m.mes_numero.toString().padStart(2, '0'))}
+                    {m.mes_nombre}
                   </option>
                 ))}
               </select>
