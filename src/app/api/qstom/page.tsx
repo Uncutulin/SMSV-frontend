@@ -1,29 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Swal from 'sweetalert2';
-
-interface QSTOMReport {
-  id: number;
-  reportId: string;
-  date: string;
-  startDate: string;
-  endDate: string;
-  errors: string[];
-  result: number;
-  produccion_realizada: number;
-  personal_asegurado: number;
-  polizas_en_vigencia: number;
-  created_at: string;
-  updated_at: string;
-}
+import { useQstom } from '@/hooks/useQstom';
 
 export default function QstomApiPage() {
-  const [logs, setLogs] = useState<QSTOMReport[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [reportLoading, setReportLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const { logs, loading, error, reportLoading, requestReport } = useQstom();
 
   /* State for date picker, default to current date (local) */
   const [selectedDate, setSelectedDate] = useState<string>(() => {
@@ -37,46 +20,9 @@ export default function QstomApiPage() {
   /* State for report type */
   const [selectedType, setSelectedType] = useState<number>(1);
 
-  useEffect(() => {
-    const fetchLogs = async () => {
-      try {
-        const response = await fetch('/api/internal/qstom');
-        if (!response.ok) {
-          throw new Error('Error al obtener los logs');
-        }
-        const data = await response.json();
-        setLogs(data);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('An unexpected error occurred');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLogs();
-  }, []);
-
   const handleRequestReport = async () => {
-    setReportLoading(true);
     try {
-      const response = await fetch('/api/internal/qstom/report', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          date: selectedDate,
-          type: selectedType
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al solicitar el reporte');
-      }
+      await requestReport({ date: selectedDate, type: selectedType });
 
       Swal.fire({
         title: '¡Éxito!',
@@ -97,8 +43,6 @@ export default function QstomApiPage() {
         icon: 'error',
         confirmButtonText: 'OK'
       });
-    } finally {
-      setReportLoading(false);
     }
   };
 
@@ -174,19 +118,19 @@ export default function QstomApiPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
                       Cargando...
                     </td>
                   </tr>
                 ) : error ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-4 text-center text-red-500">
+                    <td colSpan={8} className="px-6 py-4 text-center text-red-500">
                       {error}
                     </td>
                   </tr>
                 ) : logs.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
                       No hay logs para mostrar.
                     </td>
                   </tr>
