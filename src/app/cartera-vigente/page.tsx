@@ -44,6 +44,17 @@ export default function CarteraVigente() {
     });
   };
 
+  // Efecto para actualizar mes cuando cambian los meses disponibles (por cambio de año)
+  useEffect(() => {
+    if (meses.length > 0) {
+      const mesExiste = meses.some(m => m.mes_numero.toString().padStart(2, '0') === filters.mes);
+      if (!mesExiste || filters.mes === '') {
+        const lastMonth = meses[meses.length - 1].mes_numero.toString().padStart(2, '0');
+        setFilters(prev => ({ ...prev, mes: lastMonth }));
+      }
+    }
+  }, [meses, filters.mes]);
+
   // Mapeo de indicadores (vienen formateados como string desde el Backend)
   const statsCards = [
     {
