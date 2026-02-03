@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -88,12 +88,12 @@ export default function Sidebar() {
           name: 'Usuarios',
           href: '/admin/usuarios',
           active: pathname === '/admin/usuarios'
-        },
-        {
+        }
+        /*{
           name: 'Roles',
           href: '/admin/roles',
           active: pathname === '/admin/roles'
-        }
+        }*/
       ]
     },
     {
@@ -124,6 +124,55 @@ export default function Sidebar() {
       ]
     }
   ];
+
+  const [userRoles, setUserRoles] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Cargar roles del localStorage
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        if (user.roles && Array.isArray(user.roles)) {
+          const roles = user.roles.map((r: any) => r.name);
+          setUserRoles(roles);
+        }
+      } catch (e) {
+        console.error("Error parsing user from localStorage", e);
+      }
+    }
+  }, []);
+
+  const hasAccess = (item: MenuItem) => {
+    // Admin ve todo
+    if (userRoles.includes('admin')) return true;
+
+    // Logica especifica por item
+    // 'cartera-vigente' -> menu Cartera Vigente
+    if (item.name === 'Cartera Vigente' && userRoles.includes('cartera-vigente')) return true;
+
+    // 'evolucion-cartera' -> menu Evolucion de la Cartera
+    if (item.name === 'Evolución de la Cartera' && userRoles.includes('evolucion-cartera')) return true;
+
+    // 'evolucion-tipo-operacion' -> menu Evolucion por tipo de Operacion
+    if (item.name === 'Evolución por Tipo de Operación' && userRoles.includes('evolucion-tipo-operacion')) return true;
+
+    // 'presupuesto-comercial' -> menu Presupuesto Comercial
+    if (item.name === 'Presupuesto Comercial' && userRoles.includes('presupuesto-comercial')) return true;
+
+    // 'campanias-marketing' -> menu Campañas de Marketing
+    if (item.name === 'Campañas de Marketing' && userRoles.includes('campanias-marketing')) return true;
+
+    // 'administracion' -> menu Administracion
+    if (item.name === 'Administración' && userRoles.includes('administracion')) return true;
+
+    // 'logs' -> menu Logs
+    if (item.name === 'Logs' && userRoles.includes('logs')) return true;
+
+    return false;
+  };
+
+  const filteredMenuItems = menuItems.filter(hasAccess);
 
   const toggleSubmenu = (menuName: string) => {
     setExpandedMenus(prev =>
@@ -214,7 +263,7 @@ export default function Sidebar() {
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-4 py-6 space-y-2">
                 <div className="space-y-1">
-                  {menuItems.flatMap((item, index) => {
+                  {filteredMenuItems.flatMap((item, index) => {
                     const renderedItem = renderMenuItem(item);
                     if (item.name === 'Administración') {
                       return [renderedItem, <hr key={`sep-desktop-${index}`} className="my-2 border-white/10" />];
@@ -252,7 +301,7 @@ export default function Sidebar() {
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-4 py-6 space-y-2">
               <div className="space-y-1">
-                {menuItems.flatMap((item, index) => {
+                {filteredMenuItems.flatMap((item, index) => {
                   const renderedItem = renderMenuItem(item);
                   if (item.name === 'Administración') {
                     return [renderedItem, <hr key={`sep-mobile-${index}`} className="my-2 border-white/10" />];
