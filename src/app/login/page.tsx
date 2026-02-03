@@ -31,6 +31,12 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
+        // Guardar datos del usuario y roles en localStorage para uso en el cliente (Sidebar, Header, etc.)
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+          // También podríamos guardar solo los roles si es más conveniente
+          // localStorage.setItem('userRoles', JSON.stringify(data.user.roles));
+        }
         router.push('/cartera-vigente');
       } else {
         setError(data.message || 'Usuario o contraseña incorrectos.');

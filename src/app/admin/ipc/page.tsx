@@ -55,7 +55,7 @@ function MultiSelectWithSearch({ options, value, onChange, placeholder = "Selecc
     option.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const displayText = value.length > 0 
+  const displayText = value.length > 0
     ? `${value.length} opción(es) seleccionada(s)`
     : placeholder;
 
@@ -64,9 +64,9 @@ function MultiSelectWithSearch({ options, value, onChange, placeholder = "Selecc
       <label className="block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>
-      
+
       {/* Campo principal que muestra las opciones seleccionadas */}
-      <div 
+      <div
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer bg-white min-h-[42px]"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -74,7 +74,7 @@ function MultiSelectWithSearch({ options, value, onChange, placeholder = "Selecc
           <div className="flex flex-wrap gap-1 min-h-[20px]">
             {value.length > 0 ? (
               value.map(option => (
-                <span 
+                <span
                   key={option}
                   className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800"
                 >
@@ -96,10 +96,10 @@ function MultiSelectWithSearch({ options, value, onChange, placeholder = "Selecc
             )}
           </div>
           <div className="flex items-center">
-            <svg 
-              className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -146,13 +146,13 @@ function MultiSelectWithSearch({ options, value, onChange, placeholder = "Selecc
               Deseleccionar Todos
             </button>
           </div>
-          
+
           {/* Lista de opciones */}
           <div className="max-h-48 overflow-y-auto">
             {filteredOptions.length > 0 ? (
               filteredOptions.map(option => (
-                <label 
-                  key={option} 
+                <label
+                  key={option}
                   className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
                 >
                   <input
@@ -286,28 +286,28 @@ export default function IPCPage() {
   const handleUpdate = () => {
     if (!editingId) return;
 
-    setIpcData(ipcData.map(item => 
-      item.id === editingId 
+    setIpcData(ipcData.map(item =>
+      item.id === editingId
         ? {
-            ...item,
-            mes: formData.mes,
-            ipcMes: parseFloat(formData.ipcMes),
-            ipcYtd: parseFloat(formData.ipcYtd),
-            ipcInteranual: parseFloat(formData.ipcInteranual),
-            // Nuevos campos de clasificación
-            assaCasArt: formData.assaCasArt,
-            ramaUnificada: formData.ramaUnificada,
-            ramDes: formData.ramDes,
-            artCod: formData.artCod,
-            descProducto: formData.descProducto,
-            cia: formData.cia,
-            canal: formData.canal,
-            segmento: formData.segmento,
-            ecEjecutivo: formData.ecEjecutivo,
-            // Nuevos campos de porcentajes
-            discrecionalAnualQ: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
-            discrecionalAnualPrima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
-          }
+          ...item,
+          mes: formData.mes,
+          ipcMes: parseFloat(formData.ipcMes),
+          ipcYtd: parseFloat(formData.ipcYtd),
+          ipcInteranual: parseFloat(formData.ipcInteranual),
+          // Nuevos campos de clasificación
+          assaCasArt: formData.assaCasArt,
+          ramaUnificada: formData.ramaUnificada,
+          ramDes: formData.ramDes,
+          artCod: formData.artCod,
+          descProducto: formData.descProducto,
+          cia: formData.cia,
+          canal: formData.canal,
+          segmento: formData.segmento,
+          ecEjecutivo: formData.ecEjecutivo,
+          // Nuevos campos de porcentajes
+          discrecionalAnualQ: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
+          discrecionalAnualPrima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
+        }
         : item
     ));
 
@@ -349,7 +349,7 @@ export default function IPCPage() {
           <h2 className="text-lg font-semibold mb-4">
             {editingId ? 'Editar Registro IPC' : 'Agregar Nuevo Registro IPC'}
           </h2>
-          
+
           {/* Campos básicos IPC */}
           <div className="mb-6">
             <h3 className="text-md font-medium text-gray-700 mb-3 border-b pb-2">Datos Básicos IPC</h3>
@@ -362,11 +362,11 @@ export default function IPCPage() {
                   type="text"
                   placeholder="202501"
                   value={formData.mes}
-                  onChange={(e) => setFormData({...formData, mes: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, mes: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   % IPC Mes *
@@ -376,11 +376,11 @@ export default function IPCPage() {
                   step="0.01"
                   placeholder="1.90"
                   value={formData.ipcMes}
-                  onChange={(e) => setFormData({...formData, ipcMes: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, ipcMes: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   % IPC YTD *
@@ -390,11 +390,11 @@ export default function IPCPage() {
                   step="0.01"
                   placeholder="1.90"
                   value={formData.ipcYtd}
-                  onChange={(e) => setFormData({...formData, ipcYtd: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, ipcYtd: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   % IPC Interanual *
@@ -404,7 +404,7 @@ export default function IPCPage() {
                   step="0.01"
                   placeholder="36.55"
                   value={formData.ipcInteranual}
-                  onChange={(e) => setFormData({...formData, ipcInteranual: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, ipcInteranual: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -418,11 +418,11 @@ export default function IPCPage() {
                   step="0.01"
                   placeholder="0.00"
                   value={formData.discrecionalAnualQ}
-                  onChange={(e) => setFormData({...formData, discrecionalAnualQ: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, discrecionalAnualQ: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   % Discreción Anual PRIMA
@@ -432,7 +432,7 @@ export default function IPCPage() {
                   step="0.01"
                   placeholder="0.00"
                   value={formData.discrecionalAnualPrima}
-                  onChange={(e) => setFormData({...formData, discrecionalAnualPrima: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, discrecionalAnualPrima: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -449,7 +449,7 @@ export default function IPCPage() {
                 </label>
                 <select
                   value={formData.assaCasArt[0] || ''}
-                  onChange={(e) => setFormData({...formData, assaCasArt: e.target.value ? [e.target.value] : []})}
+                  onChange={(e) => setFormData({ ...formData, assaCasArt: e.target.value ? [e.target.value] : [] })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Seleccionar</option>
@@ -473,7 +473,7 @@ export default function IPCPage() {
                     "VIDA INDIVIDUAL CON AHORRO", "TRANSPORTES", "CAUCIÓN", "ASISTENCIA AL VIAJERO"
                   ]}
                   value={formData.ramaUnificada}
-                  onChange={(value) => setFormData({...formData, ramaUnificada: value})}
+                  onChange={(value) => setFormData({ ...formData, ramaUnificada: value })}
                 />
               </div>
 
@@ -491,7 +491,7 @@ export default function IPCPage() {
                     "VIDA INDIVIDUAL CON AHORRO", "TRANSPORTES", "CAUCIÓN", "ASISTENCIA AL VIAJERO"
                   ]}
                   value={formData.ramDes}
-                  onChange={(value) => setFormData({...formData, ramDes: value})}
+                  onChange={(value) => setFormData({ ...formData, ramDes: value })}
                 />
               </div>
 
@@ -503,7 +503,7 @@ export default function IPCPage() {
                   type="text"
                   placeholder="Código de artículo"
                   value={formData.artCod[0] || ''}
-                  onChange={(e) => setFormData({...formData, artCod: e.target.value ? [e.target.value] : []})}
+                  onChange={(e) => setFormData({ ...formData, artCod: e.target.value ? [e.target.value] : [] })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -522,7 +522,7 @@ export default function IPCPage() {
                     "VIDA INDIVIDUAL CON AHORRO", "TRANSPORTES", "CAUCIÓN", "ASISTENCIA AL VIAJERO"
                   ]}
                   value={formData.descProducto}
-                  onChange={(value) => setFormData({...formData, descProducto: value})}
+                  onChange={(value) => setFormData({ ...formData, descProducto: value })}
                 />
               </div>
 
@@ -539,7 +539,7 @@ export default function IPCPage() {
                     "TRIUNFO", "VICTORIA ART"
                   ]}
                   value={formData.cia}
-                  onChange={(value) => setFormData({...formData, cia: value})}
+                  onChange={(value) => setFormData({ ...formData, cia: value })}
                 />
               </div>
 
@@ -548,7 +548,7 @@ export default function IPCPage() {
                   label="CANAL"
                   options={["Canal PAS", "Canal Filiales", "Canal Directo", "Otros"]}
                   value={formData.canal}
-                  onChange={(value) => setFormData({...formData, canal: value})}
+                  onChange={(value) => setFormData({ ...formData, canal: value })}
                 />
               </div>
 
@@ -560,7 +560,7 @@ export default function IPCPage() {
                     "ALIADO - LEGADO", "CALL CENTER", "CASA CENTRAL", "CANAL DIRECTO"
                   ]}
                   value={formData.segmento}
-                  onChange={(value) => setFormData({...formData, segmento: value})}
+                  onChange={(value) => setFormData({ ...formData, segmento: value })}
                 />
               </div>
 
@@ -569,24 +569,24 @@ export default function IPCPage() {
                   label="EC (EJECUTIVO)"
                   options={["CAMPOS", "BALSIS", "CERVANTES", "DENNIN", "TORELLI", "SIN EJECUTIVO"]}
                   value={formData.ecEjecutivo}
-                  onChange={(value) => setFormData({...formData, ecEjecutivo: value})}
+                  onChange={(value) => setFormData({ ...formData, ecEjecutivo: value })}
                 />
               </div>
             </div>
           </div>
-          
+
           <div className="flex gap-3 mt-4">
             {editingId ? (
               <>
                 <button
                   onClick={handleUpdate}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
                 >
                   Actualizar
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 cursor-pointer"
                 >
                   Cancelar
                 </button>
@@ -594,7 +594,7 @@ export default function IPCPage() {
             ) : (
               <button
                 onClick={handleAdd}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
               >
                 Agregar
               </button>
@@ -607,7 +607,7 @@ export default function IPCPage() {
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-semibold text-gray-900">Datos IPC</h2>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">

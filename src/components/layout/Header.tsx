@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -11,6 +11,28 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const router = useRouter();
+  const [userInfo, setUserInfo] = useState({
+    name: 'Usuario',
+    email: '',
+    role: 'Administrador'
+  });
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        const role = user.roles && user.roles.length > 0 ? user.roles[0].name : '';
+        setUserInfo({
+          name: `${user.name} ${user.apellido || ''}`,
+          email: user.email,
+          role: role
+        });
+      } catch (e) {
+        console.error('Error parsing user data', e);
+      }
+    }
+  }, []);
   // Eliminar lógica relacionada a theme, toggleTheme y el switch de modo oscuro
 
   const handleLogout = async () => {
@@ -56,9 +78,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
         {/* Menú de usuario */}
         <div className="flex items-center space-x-4">
           {/* Notificaciones */}
-          <button className="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-full">
+          {/*<button className="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-full">
             <i className="fa-solid fa-bell h-5 w-5"></i>
-          </button>
+          </button>*/}
 
           {/* Perfil de usuario */}
           <div className="relative">
@@ -68,14 +90,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
             >
               <Image
                 className="h-8 w-8 rounded-full border-2 border-gray-200"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src="/user-logo.png"
                 alt="Usuario"
                 width={32}
                 height={32}
               />
               <div className="hidden md:block text-left">
-                <p className="text-sm font-medium text-gray-700">Usuario</p>
-                <p className="text-xs text-gray-500">Administrador</p>
+                <p className="text-sm font-medium text-gray-700">{userInfo.name}</p>
+                <p className="text-xs text-gray-500 uppercase">{userInfo.role}</p>
               </div>
               <i className="fa-solid fa-chevron-down text-gray-400"></i>
             </button>
@@ -84,19 +106,24 @@ export default function Header({ onMenuClick }: HeaderProps) {
             {userMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
                 <div className="px-4 py-2 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900">Usuario</p>
-                  <p className="text-xs text-gray-500">usuario@smsv.com</p>
+                  <p className="text-sm font-medium text-gray-900">{userInfo.name}</p>
+                  <p className="text-xs text-gray-500">{userInfo.email}</p>
                 </div>
 
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                <button
+                  onClick={() => router.push('/profile')}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                >
                   <i className="fa-solid fa-user mr-3"></i>
                   Perfil
                 </button>
 
+                {/*
                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                   <i className="fa-solid fa-cog mr-3"></i>
                   Configuración
                 </button>
+                */}
 
                 <div className="border-t border-gray-100">
                   <button
