@@ -70,7 +70,7 @@ export default function CarteraVigente() {
       color: 'blue' as const,
     },
     {
-      title: 'Prima Mensual emitida',
+      title: 'Prima Último Mes',
       value: totalesData?.total_mensual || '-',
       icon: 'fa-solid fa-calendar-day',
       color: 'purple' as const,
@@ -189,34 +189,40 @@ export default function CarteraVigente() {
                 </tr>
               </thead>
               <tbody>
-                {listadoData?.map((item: any, index: number) => (
-                  <tr
-                    key={index}
-                    className={`border-b hover:bg-[#3382af85] ${index < 3
-                      ? 'bg-yellow-50 font-semibold'
-                      : index % 2 === 0
-                        ? 'bg-white'
-                        : 'bg-gray-50'
-                      }`}
-                  >
-                    <td className={`px-4 py-2 text-center font-bold border-r-2 border-black ${index < 3 ? 'text-yellow-600' : 'text-gray-900'
-                      }`}>
-                      {index + 1}
-                    </td>
-                    <td className={`px-4 py-2 font-medium border-r-2 border-black ${index < 3 ? 'text-yellow-800' : 'text-gray-900'
-                      }`}>
-                      {item.nombre_grupo}
-                    </td>
-                    <td className={`px-4 py-2 text-center border-r-2 border-black ${index < 3 ? 'text-yellow-800 font-semibold' : 'text-gray-900'
-                      }`}>
-                      {item.q_pol}
-                    </td>
-                    <td className={`px-4 py-2 text-center ${index < 3 ? 'text-yellow-800 font-semibold' : 'text-gray-900'
-                      }`}>
-                      {item.r12}
-                    </td>
-                  </tr>
-                ))}
+                {listadoData?.map((item: any, index: number) => {
+                  const isLast = index === listadoData.length - 1;
+
+                  return (
+                    <tr
+                      key={index}
+                      className={`border-b hover:bg-[#3382af85] ${isLast
+                        ? 'bg-blue-100 font-bold' // <--- Se agrega font-bold aquí para toda la fila
+                        : index < 3
+                          ? 'bg-yellow-50 font-semibold'
+                          : index % 2 === 0
+                            ? 'bg-white'
+                            : 'bg-gray-50'
+                        }`}
+                    >
+                      <td className={`px-4 py-2 text-center border-r-2 border-black ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-600' : 'text-gray-900'
+                        }`}>
+                        {index + 1}
+                      </td>
+                      <td className={`px-4 py-2 border-r-2 border-black ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-800' : 'text-gray-900'
+                        }`}>
+                        {item.nombre_grupo}
+                      </td>
+                      <td className={`px-4 py-2 text-center border-r-2 border-black ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-800' : 'text-gray-900'
+                        }`}>
+                        {item.q_pol}
+                      </td>
+                      <td className={`px-4 py-2 text-center ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-800' : 'text-gray-900'
+                        }`}>
+                        {item.r12}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
