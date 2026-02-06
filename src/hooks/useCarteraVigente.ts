@@ -23,7 +23,8 @@ export const useCarteraVigente = (filters: any) => {
             try {
                 const queryParams = new URLSearchParams(filters).toString();
                 const { totales, tabla } = await fetchCarteraVigenteData(queryParams);
-
+                console.log(totales);
+                console.log(tabla);
                 if (totales.status === 'success') setTotalesData(totales.data); //Totales
                 if (tabla.status === 'success') setListadoData(tabla.data); //Listado
 
