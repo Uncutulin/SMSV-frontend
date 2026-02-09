@@ -10,7 +10,8 @@ export const useEvolucionCarteraVigente = (
     anioFin: string,
     mesFin: string,
     filtroProductor: string,
-    filtroEjecutivo: string
+    filtroEjecutivo: string,
+    shouldFetch: boolean = true
 ) => {
     const [listaProductores, setListaProductores] = useState<ProductorEjecutivo[]>([]);
     const [listaEjecutivos, setListaEjecutivos] = useState<ProductorEjecutivo[]>([]);
@@ -34,7 +35,6 @@ export const useEvolucionCarteraVigente = (
 
                 if (productores.status === 'success') setListaProductores(productores.data);
                 if (ejecutivos.status === 'success') setListaEjecutivos(ejecutivos.data);
-
             } catch (error) {
                 console.error("Error cargando selectores:", error);
             } finally {
@@ -47,7 +47,7 @@ export const useEvolucionCarteraVigente = (
 
     // Nuevo efecto para cargar los datos comparativos (podría unificarse, pero lo separo por claridad y porque podría depender de otros filtros a futuro)
     useEffect(() => {
-        if (!tipoVista || !anioInicio || !mesInicio || !anioFin || !mesFin) return;
+        if (!shouldFetch || !tipoVista || !anioInicio || !mesInicio || !anioFin || !mesFin) return;
 
         const loadComparativo = async () => {
             setLoadingComparativa(true);
@@ -70,8 +70,10 @@ export const useEvolucionCarteraVigente = (
                 const params = new URLSearchParams(paramsObj).toString();
 
                 const response = await fetchEvolucionCarteraComparativo(params);
-
+                console.log(response);
                 if (response.status === 'success') {
+                    console.log(response.data);
+                    console.log(response.labels);
                     setListaComparativa(response.data);
                     setComparativaLabels(response.labels);
                 }
@@ -83,7 +85,7 @@ export const useEvolucionCarteraVigente = (
         };
 
         loadComparativo();
-    }, [tipoVista, anioInicio, mesInicio, anioFin, mesFin, filtroProductor, filtroEjecutivo]);
+    }, [tipoVista, anioInicio, mesInicio, anioFin, mesFin, filtroProductor, filtroEjecutivo, shouldFetch]);
 
     return { listaProductores, listaEjecutivos, loadingDropdowns, listaComparativa, comparativaLabels, loadingComparativa };
 };

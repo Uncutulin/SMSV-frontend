@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import { storeIPC } from '@/services/ipcService';
 
 // Componente de Select Múltiple con Búsqueda
 interface MultiSelectWithSearchProps {
@@ -221,40 +222,61 @@ export default function IPCPage() {
     discrecionalAnualPrima: ''
   });
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.mes || !formData.ipcMes || !formData.ipcYtd || !formData.ipcInteranual) {
       alert('Por favor complete todos los campos obligatorios');
       return;
     }
 
-    const newData: IPCData = {
-      id: Date.now().toString(),
-      mes: formData.mes,
-      ipcMes: parseFloat(formData.ipcMes),
-      ipcYtd: parseFloat(formData.ipcYtd),
-      ipcInteranual: parseFloat(formData.ipcInteranual),
-      // Nuevos campos de clasificación
-      assaCasArt: formData.assaCasArt,
-      ramaUnificada: formData.ramaUnificada,
-      ramDes: formData.ramDes,
-      artCod: formData.artCod,
-      descProducto: formData.descProducto,
-      cia: formData.cia,
-      canal: formData.canal,
-      segmento: formData.segmento,
-      ecEjecutivo: formData.ecEjecutivo,
-      // Nuevos campos de porcentajes
-      discrecionalAnualQ: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
-      discrecionalAnualPrima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
-    };
+    try {
+      await storeIPC({
+        periodo_yyyymm: parseInt(formData.mes),
+        fuente: formData.assaCasArt[0] || '',
+        nombre_compania: formData.cia.join(','), // Uniendo con comas si hay múltiples
+        nombre_ramo: formData.ramaUnificada.join(','),
+        cod_canal: formData.canal.join(','),
+        nombre_segmento: formData.segmento.join(','),
+        ipc_mensual: parseFloat(formData.ipcMes),
+        ipc_ytd: parseFloat(formData.ipcYtd),
+        ipc_interanual: parseFloat(formData.ipcInteranual),
+        disc_anual_q: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
+        disc_anual_prima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0,
+        fuente_registro: 'Manual'
+      });
 
-    setIpcData([...ipcData, newData]);
-    setFormData({
-      mes: '', ipcMes: '', ipcYtd: '', ipcInteranual: '',
-      assaCasArt: [], ramaUnificada: [], ramDes: [], artCod: [], descProducto: [],
-      cia: [], canal: [], segmento: [], ecEjecutivo: [],
-      discrecionalAnualQ: '', discrecionalAnualPrima: ''
-    });
+      const newData: IPCData = {
+        id: Date.now().toString(),
+        mes: formData.mes,
+        ipcMes: parseFloat(formData.ipcMes),
+        ipcYtd: parseFloat(formData.ipcYtd),
+        ipcInteranual: parseFloat(formData.ipcInteranual),
+        // Nuevos campos de clasificación
+        assaCasArt: formData.assaCasArt,
+        ramaUnificada: formData.ramaUnificada,
+        ramDes: formData.ramDes,
+        artCod: formData.artCod,
+        descProducto: formData.descProducto,
+        cia: formData.cia,
+        canal: formData.canal,
+        segmento: formData.segmento,
+        ecEjecutivo: formData.ecEjecutivo,
+        // Nuevos campos de porcentajes
+        discrecionalAnualQ: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
+        discrecionalAnualPrima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
+      };
+
+      setIpcData([...ipcData, newData]);
+      setFormData({
+        mes: '', ipcMes: '', ipcYtd: '', ipcInteranual: '',
+        assaCasArt: [], ramaUnificada: [], ramDes: [], artCod: [], descProducto: [],
+        cia: [], canal: [], segmento: [], ecEjecutivo: [],
+        discrecionalAnualQ: '', discrecionalAnualPrima: ''
+      });
+      alert('Registro guardado exitosamente');
+    } catch (error) {
+      console.error(error);
+      alert('Error al guardar el registro: ' + (error instanceof Error ? error.message : 'Error desconocido'));
+    }
   };
 
   const handleEdit = (id: string) => {
@@ -334,6 +356,15 @@ export default function IPCPage() {
       discrecionalAnualQ: '', discrecionalAnualPrima: ''
     });
     setEditingId(null);
+  };
+
+  const handleClean = () => {
+    setFormData({
+      mes: '', ipcMes: '', ipcYtd: '', ipcInteranual: '',
+      assaCasArt: [], ramaUnificada: [], ramDes: [], artCod: [], descProducto: [],
+      cia: [], canal: [], segmento: [], ecEjecutivo: [],
+      discrecionalAnualQ: '', discrecionalAnualPrima: ''
+    });
   };
 
   return (
@@ -592,12 +623,20 @@ export default function IPCPage() {
                 </button>
               </>
             ) : (
-              <button
-                onClick={handleAdd}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
-              >
-                Agregar
-              </button>
+              <>
+                <button
+                  onClick={handleAdd}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
+                >
+                  Agregar
+                </button>
+                <button
+                  onClick={handleClean}
+                  className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 cursor-pointer"
+                >
+                  Limpiar Filtros
+                </button>
+              </>
             )}
           </div>
         </div>
