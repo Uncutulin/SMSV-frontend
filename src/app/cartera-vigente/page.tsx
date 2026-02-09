@@ -9,8 +9,8 @@ export default function CarteraVigente() {
   // 1. Estados para manejar los Filtros
   const [filters, setFilters] = useState({
     compania: 'TODOS',
-    anio: '2025',
-    mes: '10',
+    anio: '',
+    mes: '',
     tipo_filtro: 'CANAL'
   });
 
@@ -45,10 +45,19 @@ export default function CarteraVigente() {
   };
 
   // Efecto para actualizar mes cuando cambian los meses disponibles (por cambio de año)
+  // Efecto para inicializar Año
+  useEffect(() => {
+    if (anios.length > 0 && !filters.anio) {
+      // Seleccionar el primer año (asumiendo que viene ordenado o es el más reciente)
+      setFilters(prev => ({ ...prev, anio: anios[0].anio.toString() }));
+    }
+  }, [anios, filters.anio]);
+
+  // Efecto para actualizar mes cuando cambian los meses disponibles (por cambio de año) o inicializar
   useEffect(() => {
     if (meses.length > 0) {
       const mesExiste = meses.some(m => m.mes_numero.toString().padStart(2, '0') === filters.mes);
-      if (!mesExiste || filters.mes === '') {
+      if (!mesExiste || !filters.mes) {
         const lastMonth = meses[meses.length - 1].mes_numero.toString().padStart(2, '0');
         setFilters(prev => ({ ...prev, mes: lastMonth }));
       }
@@ -82,6 +91,18 @@ export default function CarteraVigente() {
       color: 'red' as const,
     },
   ];
+
+  if (loadingPeriodos || !filters.anio || !filters.mes) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-700">Cargando Periodos...</h2>
+          <p className="text-gray-500 mt-2">Por favor espere mientras configuramos los filtros</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 p-4">
@@ -165,7 +186,7 @@ export default function CarteraVigente() {
       {/* --- CARDS DE ESTADÍSTICAS --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statsCards.map((stat, i) => (
-          <StatCard key={i} {...stat} />
+          <StatCard key={i} {...stat} loading={loading} />
         ))}
       </div>
 
@@ -206,7 +227,8 @@ export default function CarteraVigente() {
                     >
                       <td className={`px-4 py-2 text-center border-r-2 border-black ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-600' : 'text-gray-900'
                         }`}>
-                        {index + 1}
+                        {/* Si es la última fila (TOTAL), no mostramos el número */}
+                        {!isLast && index + 1}
                       </td>
                       <td className={`px-4 py-2 border-r-2 border-black ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-800' : 'text-gray-900'
                         }`}>
@@ -214,7 +236,7 @@ export default function CarteraVigente() {
                       </td>
                       <td className={`px-4 py-2 text-center border-r-2 border-black ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-800' : 'text-gray-900'
                         }`}>
-                        {item.q_pol}
+                        {Number(item.q_pol).toLocaleString('es-AR')}
                       </td>
                       <td className={`px-4 py-2 text-center ${isLast ? 'text-blue-900' : index < 3 ? 'text-yellow-800' : 'text-gray-900'
                         }`}>

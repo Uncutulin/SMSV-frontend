@@ -7,6 +7,7 @@ interface StatCardProps {
   color: 'green' | 'blue' | 'red' | 'yellow' | 'purple';
   detail?: string;
   onVerClick?: () => void;
+  loading?: boolean;
 }
 
 const colorClasses = {
@@ -25,12 +26,16 @@ const iconBg = {
   purple: 'bg-purple-50 text-purple-500',
 };
 
-export default function StatCard({ title, value, icon, color, detail, onVerClick }: StatCardProps) {
+export default function StatCard({ title, value, icon, color, detail, onVerClick, loading = false }: StatCardProps) {
   return (
     <div className={`rounded-lg shadow-md p-6 border-t-4 bg-white text-gray-900 ${colorClasses[color]}`}>
       <div className="flex items-center justify-between w-full">
         <div className="flex flex-col items-start">
-          <span className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</span>
+          {loading ? (
+            <div className="h-8 w-24 bg-gray-200 animate-pulse rounded mb-1"></div>
+          ) : (
+            <span className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</span>
+          )}
           <span className="text-sm text-gray-700 mt-2 font-medium">{title}</span>
         </div>
         <div className="flex flex-col items-end gap-2">
