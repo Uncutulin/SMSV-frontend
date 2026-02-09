@@ -27,23 +27,40 @@ export default function EvolucionTable({ data, labels, loading }: Props) {
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr><td colSpan={9} className="text-center py-10">Cargando datos...</td></tr>
+                            <tr>
+                                <td colSpan={9} className="text-center py-10">Cargando datos...</td>
+                            </tr>
                         ) : data.length > 0 ? (
-                            data.map((item, index) => (
-                                <tr key={index} className="border-b hover:bg-gray-50">
-                                    <td className="px-4 py-2 font-bold border-r-2 border-black">{item.entidad}</td>
-                                    <td className="px-4 py-2 text-center">{item.q_pol_periodo_ini}</td>
-                                    <td className="px-4 py-2 text-center">{item.q_pol_periodo_fin}</td>
-                                    <td className="px-4 py-2 text-center">{item.dif_q_pol}</td>
-                                    <td className={`px-4 py-2 text-center border-r-2 border-black ${getDifColor(item.pct_q_pol)}`}>{item.pct_q_pol}</td>
-                                    <td className="px-4 py-2 text-center">{item.r12_periodo_ini}</td>
-                                    <td className="px-4 py-2 text-center">{item.r12_periodo_fin}</td>
-                                    <td className="px-4 py-2 text-center">{item.dif_r12}</td>
-                                    <td className={`px-4 py-2 text-center ${getDifColor(item.pct_r12)}`}>{item.pct_r12}</td>
-                                </tr>
-                            ))
+                            data.map((item, index) => {
+                                // 1. Definimos si es la última fila (la de TOTAL)
+                                const isLast = index === data.length - 1;
+
+                                return (
+                                    <tr
+                                        key={index}
+                                        // 2. Aplicamos el color condicional a toda la fila si es la última
+                                        className={`border-b hover:bg-gray-50 ${isLast ? 'bg-blue-100 font-bold' : ''}`}
+                                    >
+                                        <td className="px-4 py-2 font-bold border-r-2 border-black">{item.entidad}</td>
+                                        <td className="px-4 py-2 text-center">{item.q_pol_periodo_ini}</td>
+                                        <td className="px-4 py-2 text-center">{item.q_pol_periodo_fin}</td>
+                                        <td className="px-4 py-2 text-center">{item.dif_q_pol}</td>
+                                        <td className={`px-4 py-2 text-center border-r-2 border-black ${getDifColor(item.pct_q_pol)}`}>
+                                            {item.pct_q_pol}
+                                        </td>
+                                        <td className="px-4 py-2 text-center">{item.r12_periodo_ini}</td>
+                                        <td className="px-4 py-2 text-center">{item.r12_periodo_fin}</td>
+                                        <td className="px-4 py-2 text-center">{item.dif_r12}</td>
+                                        <td className={`px-4 py-2 text-center ${getDifColor(item.pct_r12)}`}>
+                                            {item.pct_r12}
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         ) : (
-                            <tr><td colSpan={9} className="text-center py-10">No hay datos disponibles</td></tr>
+                            <tr>
+                                <td colSpan={9} className="text-center py-10">No hay datos disponibles</td>
+                            </tr>
                         )}
                     </tbody>
                 </table>
