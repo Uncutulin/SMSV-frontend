@@ -61,6 +61,40 @@ export default function EvolucionCartera() {
   const { anios: aniosInicio, meses: mesesInicio, loading: loadingInicio } = usePeriodos(allFilters.inicio.anio);
   const { anios: aniosFin, meses: mesesFin, loading: loadingFin } = usePeriodos(allFilters.fin.anio);
 
+  // Auto-select last available month if current selection is invalid
+  useEffect(() => {
+    if (mesesInicio.length > 0) {
+      const currentMonth = allFilters.inicio.mes;
+      const monthExists = mesesInicio.some(m => m.mes_numero.toString().padStart(2, '0') === currentMonth);
+
+      if (!monthExists || currentMonth === '') {
+        const lastMonth = mesesInicio[mesesInicio.length - 1].mes_numero.toString().padStart(2, '0');
+        // Update directly to avoid dependency issues with handleFilterChange
+        setAllFilters(prev => ({
+          ...prev,
+          inicio: { ...prev.inicio, mes: lastMonth }
+        }));
+      }
+    }
+  }, [mesesInicio, allFilters.inicio.mes]);
+
+  useEffect(() => {
+    if (mesesFin.length > 0) {
+      const currentMonth = allFilters.fin.mes;
+      const monthExists = mesesFin.some(m => m.mes_numero.toString().padStart(2, '0') === currentMonth);
+
+      if (!monthExists || currentMonth === '') {
+        const lastMonth = mesesFin[mesesFin.length - 1].mes_numero.toString().padStart(2, '0');
+        // Update directly to avoid dependency issues with handleFilterChange
+        setAllFilters(prev => ({
+          ...prev,
+          fin: { ...prev.fin, mes: lastMonth }
+        }));
+      }
+    }
+  }, [mesesFin, allFilters.fin.mes]);
+
+
   // Si quieres centralizar la lógica de carga para usarla en un solo Spinner global:
   const isAnyPeriodLoading = loadingInicio || loadingFin;
 
@@ -90,7 +124,13 @@ export default function EvolucionCartera() {
     allFilters.fin.anio,
     allFilters.fin.mes,
     filtroProductor,
-    filtroEjecutivo
+    filtroEjecutivo,
+    // Solo permitir fetch si los meses inicio y fin están cargados Y el mes seleccionado es válido
+    (mesesInicio.length > 0 &&
+      mesesFin.length > 0 &&
+      mesesInicio.some(m => m.mes_numero.toString().padStart(2, '0') === allFilters.inicio.mes) &&
+      mesesFin.some(m => m.mes_numero.toString().padStart(2, '0') === allFilters.fin.mes)
+    )
   );
 
   // 2. Reseteas las selecciones cuando cambia la vista

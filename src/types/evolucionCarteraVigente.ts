@@ -22,6 +22,7 @@ export interface DatoComparativo {
 
 export interface ComparativoResponse extends ApiResponse<DatoComparativo[]> {
     labels: {
+        status: string;
         inicio: string;
         fin: string;
     };

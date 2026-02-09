@@ -15,7 +15,10 @@ export const useEvolucionCharts = (
 
     const r12ChartData = useMemo(() => {
         if (listaComparativa && listaComparativa.length > 0) {
-            // 1. Extraemos los nombres de las entidades para el eje X
+            // 1. Filtramos para quitar el TOTAL antes de mapear
+            listaComparativa = listaComparativa.filter(item => item.entidad !== 'TOTAL');
+
+            // 2. Extraemos los nombres de las entidades para el eje X usando el array filtrado
             const nombresEntidades = listaComparativa.map(item => item.entidad);
 
             return {
@@ -79,6 +82,8 @@ export const useEvolucionCharts = (
         };
 
         if (listaComparativa && listaComparativa.length > 0) {
+
+            listaComparativa = listaComparativa.filter(item => item.entidad !== 'TOTAL');
             return {
                 chart: { type: 'pie', height: 320 },
                 series: [
