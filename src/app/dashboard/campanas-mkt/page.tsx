@@ -56,14 +56,14 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
     option.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const displayText = value.length > 0 
-    ? value.join(', ') 
+  const displayText = value.length > 0
+    ? value.join(', ')
     : placeholder;
 
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Campo principal que muestra las opciones seleccionadas */}
-      <div 
+      <div
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer bg-white"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -71,7 +71,7 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
           <div className="flex flex-wrap gap-1 min-h-[20px]">
             {value.length > 0 ? (
               value.map(option => (
-                <span 
+                <span
                   key={option}
                   className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800"
                 >
@@ -93,10 +93,10 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
             )}
           </div>
           <div className="flex items-center">
-            <svg 
-              className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -119,7 +119,7 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
               onClick={(e) => e.stopPropagation()}
             />
           </div>
-          
+
           {/* Botones de Seleccionar Todos / Deseleccionar Todos */}
           <div className="sticky top-0 bg-gray-50 border-b border-gray-200 p-2 flex gap-2">
             <button
@@ -137,12 +137,12 @@ function MultiSelect({ options, value, onChange, placeholder = "Seleccionar opci
               Deseleccionar Todos
             </button>
           </div>
-          
+
           {/* Lista de opciones */}
           <div className="max-h-48 overflow-y-auto">
             {filteredOptions.map(option => (
-              <label 
-                key={option} 
+              <label
+                key={option}
                 className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
               >
                 <input
@@ -249,7 +249,7 @@ export default function CampanasMKTPage() {
   const chartCrossSell = useMemo(() => {
     // Si no hay filtros aplicados o no hay provincias seleccionadas, usar datos por defecto
     const provinciasSeleccionadas = filters.provincia.length > 0 ? filters.provincia : ['Gran Buenos Aires', 'Ciudad Autónoma de Buenos Aires', 'Córdoba', 'Santa Fe', 'Mendoza'];
-    
+
     // Generar datos aleatorios para cada provincia seleccionada
     const datosVentaCruzada = provinciasSeleccionadas.map(() => ({
       clientes2Productos: Math.floor(Math.random() * 50) + 10,
@@ -314,30 +314,58 @@ export default function CampanasMKTPage() {
   let listadoData: any;
   // Función para aplicar filtros
   const applyFilters = async () => {
-    setLoading(true)
-    setError(null)
-    setResult(null)
+    setLoading(true);
+    setError(null);
+
+    // Formateamos los filtros para que Laravel los entienda
+    const payload = {
+      ...filters,
+      // Convertimos los arrays a strings separados por comas
+      sexo: filters.sexo.join(','),
+      provincia: filters.provincia.join(','),
+      canal: filters.canal.join(','),
+      estadoCivil: filters.estadoCivil.join(','),
+      productoVigente: filters.productoVigente.join(','),
+      compania: filters.compania.join(','),
+      productoNoTiene: filters.productoNoTiene.join(','),
+      socioMutual: filters.socioMutual.join(','),
+      antiguedad: filters.antiguedad.join(','),
+      tieneMail: filters.tieneMail.join(','),
+      tieneTelefono: filters.tieneTelefono.join(','),
+      fuerzaEmpresa: filters.fuerzaEmpresa.join(','),
+      situacionRevista: filters.situacionRevista.join(','),
+      origenDato: filters.origenDato.join(','),
+
+      // Convertimos las edades a números enteros
+      edadDesde: filters.edadDesde[0] ? parseInt(filters.edadDesde[0], 10) : null,
+      edadHasta: filters.edadHasta[0] ? parseInt(filters.edadHasta[0], 10) : null,
+    };
 
     try {
       const res = await fetch(`/api/campanas-mkt`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(filters),
-      })
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
 
       if (!res.ok) {
-        const text = await res.text()
-        throw new Error(text || `HTTP ${res.status}`)
+        throw new Error(data.message || `Error ${res.status}`);
       }
 
-      const data = await res.json()
-      setResult(data)
+      // Según tu Postman, la data real viene en data.data
+      setResult(data.data || data);
+      setFiltersApplied(true);
     } catch (e: any) {
-      setError(e?.message ?? 'Error desconocido')
+      setError(e?.message ?? 'Error desconocido');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // Función para limpiar filtros
   const clearFilters = () => {
@@ -370,7 +398,7 @@ export default function CampanasMKTPage() {
   // Función para exportar a Excel
   const exportToExcel = () => {
     const results = generateSearchResults();
-    
+
     // Preparar los datos para la exportación con solo las columnas especificadas
     const exportData = results.map(cliente => ({
       'NOMBRE': cliente.nombre,
@@ -459,17 +487,17 @@ export default function CampanasMKTPage() {
   const getColumnUniqueValues = (field: string) => {
     const results = generateSearchResults();
     const valueCounts: { [key: string]: number } = {};
-    
+
     // Contar la cantidad de cada valor
     results.forEach(r => {
       const value = String((r as Record<string, unknown>)[field] || '');
       valueCounts[value] = (valueCounts[value] || 0) + 1;
     });
-    
+
     // Mantener el orden original de aparición en la tabla
     const uniqueValues: string[] = [];
     const seen = new Set<string>();
-    
+
     results.forEach(r => {
       const value = String((r as Record<string, unknown>)[field] || '');
       if (!seen.has(value)) {
@@ -477,7 +505,7 @@ export default function CampanasMKTPage() {
         uniqueValues.push(value);
       }
     });
-    
+
     return uniqueValues.map(value => ({
       value,
       count: valueCounts[value]
@@ -486,10 +514,10 @@ export default function CampanasMKTPage() {
 
   return (
     <div className="flex-1 pb-6 px-4 w-full h-full">
-         <div className="text-center mt-10">
-          <h1 className="text-3xl font-bold text-gray-900">Campañas de Marketing</h1>
-          <p className="text-gray-600 mt-2 pb-7"> </p>
-        </div>
+      <div className="text-center mt-10">
+        <h1 className="text-3xl font-bold text-gray-900">Campañas de Marketing</h1>
+        <p className="text-gray-600 mt-2 pb-7"> </p>
+      </div>
 
       {/* Sistema de Filtros */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
@@ -498,17 +526,17 @@ export default function CampanasMKTPage() {
           <i className="fa-solid fa-info-circle mr-1"></i>
           Haga clic en cada filtro para desplegar las opciones y seleccionar múltiples valores
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                     {/* Sexo */}
-           <div>
-             <label className="block text-sm font-medium text-gray-700 mb-2">Sexo</label>
-             <MultiSelect
-               options={["Masculino", "Femenino"]}
-               value={filters.sexo}
-               onChange={(value) => handleFilterChange("sexo", value)}
-             />
-           </div>
+          {/* Sexo */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Sexo</label>
+            <MultiSelect
+              options={["Masculino", "Femenino"]}
+              value={filters.sexo}
+              onChange={(value) => handleFilterChange("sexo", value)}
+            />
+          </div>
 
           {/* Edad Desde */}
           <div>
@@ -651,18 +679,18 @@ export default function CampanasMKTPage() {
           {/* Socio Mutual */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Socio Mutual</label>
-                         <MultiSelect
-               options={["SI", "NO"]}
-               value={filters.socioMutual}
-               onChange={(value) => handleFilterChange("socioMutual", value)}
-             />
+            <MultiSelect
+              options={["SI", "NO"]}
+              value={filters.socioMutual}
+              onChange={(value) => handleFilterChange("socioMutual", value)}
+            />
           </div>
 
           {/* Antigüedad en ASSA o CAS */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Antigüedad en ASSA o CAS</label>
             <MultiSelect
-                             options={["0 a 2 AÑOS", "2 a 5 AÑOS", "5 o más AÑOS"]}
+              options={["0 a 2 AÑOS", "2 a 5 AÑOS", "5 o más AÑOS"]}
               value={filters.antiguedad}
               onChange={(value) => handleFilterChange("antiguedad", value)}
             />
@@ -672,7 +700,7 @@ export default function CampanasMKTPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Tiene Mail</label>
             <MultiSelect
-                             options={["SI", "NO"]}
+              options={["SI", "NO"]}
               value={filters.tieneMail}
               onChange={(value) => handleFilterChange("tieneMail", value)}
             />
@@ -682,7 +710,7 @@ export default function CampanasMKTPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Tiene Teléfono</label>
             <MultiSelect
-                             options={["SI", "NO"]}
+              options={["SI", "NO"]}
               value={filters.tieneTelefono}
               onChange={(value) => handleFilterChange("tieneTelefono", value)}
             />
@@ -692,7 +720,7 @@ export default function CampanasMKTPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">FUERZA/Empresa</label>
             <MultiSelect
-                             options={["Ejército", "Armada", "Naval", "Prefectura", "Gendarmería", "Policia", "Mutual", "Otro"]}
+              options={["Ejército", "Armada", "Naval", "Prefectura", "Gendarmería", "Policia", "Mutual", "Otro"]}
               value={filters.fuerzaEmpresa}
               onChange={(value) => handleFilterChange("fuerzaEmpresa", value)}
             />
@@ -702,7 +730,7 @@ export default function CampanasMKTPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Situación de Revista</label>
             <MultiSelect
-                             options={["En actividad", "Retirado", "No aplica"]}
+              options={["En actividad", "Retirado", "No aplica"]}
               value={filters.situacionRevista}
               onChange={(value) => handleFilterChange("situacionRevista", value)}
             />
@@ -712,7 +740,7 @@ export default function CampanasMKTPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Origen del Dato (Desol)</label>
             <MultiSelect
-                             options={["Campaña comercial", "Referidos", "BBDD", "Newsletter", "Socio SMSV", "WEB", "Casa central - Presencial", "Productor"]}
+              options={["Campaña comercial", "Referidos", "BBDD", "Newsletter", "Socio SMSV", "WEB", "Casa central - Presencial", "Productor"]}
               value={filters.origenDato}
               onChange={(value) => handleFilterChange("origenDato", value)}
             />
@@ -771,262 +799,287 @@ export default function CampanasMKTPage() {
               data={chartCrossSell}
             />
           </div>
-    
+
 
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-gray-900">Resultados de Búsqueda</h2>
-                <p className="text-sm text-gray-600 mt-1">Se encontraron {generateSearchResults().length} resultados</p>
+            <div className="px-6 py-4 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">Resultados de Búsqueda</h2>
+                  <p className="text-sm text-gray-600 mt-1">Se encontraron {generateSearchResults().length} resultados</p>
+                </div>
+                <button
+                  onClick={exportToExcel}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors flex items-center"
+                >
+                  <i className="fa-solid fa-file-excel mr-2"></i>
+                  Exportar a Excel
+                </button>
               </div>
-              <button
-                onClick={exportToExcel}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors flex items-center"
-              >
-                <i className="fa-solid fa-file-excel mr-2"></i>
-                Exportar a Excel
-              </button>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Nombre
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Apellido
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      DNI
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Edad
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Provincia
+                      <div className="relative inline-block ml-1">
+                        <button
+                          onClick={() => toggleColumnFilter('provincia')}
+                          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                          title="Ver estadísticas de columna"
+                        >
+                          <i className="fa-solid fa-info-circle text-xs"></i>
+                        </button>
+                        {activeColumnFilter === 'provincia' && (
+                          <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                            <div className="p-2 border-b border-gray-200">
+                              <input
+                                type="text"
+                                placeholder="Buscar..."
+                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                              />
+                            </div>
+                            <div className="max-h-48 overflow-y-auto">
+                              {getColumnUniqueValues('provincia')
+                                .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                                .map((item) => (
+                                  <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                    <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Canal
+                      <div className="relative inline-block ml-1">
+                        <button
+                          onClick={() => toggleColumnFilter('canal')}
+                          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                          title="Ver estadísticas de columna"
+                        >
+                          <i className="fa-solid fa-info-circle text-xs"></i>
+                        </button>
+                        {activeColumnFilter === 'canal' && (
+                          <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                            <div className="p-2 border-b border-gray-200">
+                              <input
+                                type="text"
+                                placeholder="Buscar..."
+                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                              />
+                            </div>
+                            <div className="max-h-48 overflow-y-auto">
+                              {getColumnUniqueValues('canal')
+                                .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                                .map((item) => (
+                                  <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                    <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Producto
+                      <div className="relative inline-block ml-1">
+                        <button
+                          onClick={() => toggleColumnFilter('producto')}
+                          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                          title="Ver estadísticas de columna"
+                        >
+                          <i className="fa-solid fa-info-circle text-xs"></i>
+                        </button>
+                        {activeColumnFilter === 'producto' && (
+                          <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                            <div className="p-2 border-b border-gray-200">
+                              <input
+                                type="text"
+                                placeholder="Buscar..."
+                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                              />
+                            </div>
+                            <div className="max-h-48 overflow-y-auto">
+                              {getColumnUniqueValues('producto')
+                                .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                                .map((item) => (
+                                  <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                    <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Compañía
+                      <div className="relative inline-block ml-1">
+                        <button
+                          onClick={() => toggleColumnFilter('compania')}
+                          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                          title="Ver estadísticas de columna"
+                        >
+                          <i className="fa-solid fa-info-circle text-xs"></i>
+                        </button>
+                        {activeColumnFilter === 'compania' && (
+                          <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                            <div className="p-2 border-b border-gray-200">
+                              <input
+                                type="text"
+                                placeholder="Buscar..."
+                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                              />
+                            </div>
+                            <div className="max-h-48 overflow-y-auto">
+                              {getColumnUniqueValues('compania')
+                                .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                                .map((item) => (
+                                  <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                    <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Teléfono
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Socio Mutual
+                      <div className="relative inline-block ml-1">
+                        <button
+                          onClick={() => toggleColumnFilter('socioMutual')}
+                          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                          title="Ver estadísticas de columna"
+                        >
+                          <i className="fa-solid fa-info-circle text-xs"></i>
+                        </button>
+                        {activeColumnFilter === 'socioMutual' && (
+                          <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
+                            <div className="p-2 border-b border-gray-200">
+                              <input
+                                type="text"
+                                placeholder="Buscar..."
+                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                              />
+                            </div>
+                            <div className="max-h-48 overflow-y-auto">
+                              {getColumnUniqueValues('socioMutual')
+                                .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+                                .map((item) => (
+                                  <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
+                                    <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {result && result.length > 0 ? (
+                    result.map((cliente: any, index: number) => (
+                      <tr key={cliente.IDPersona || index} className="hover:bg-gray-50">
+                        {/* Nombre */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
+                          {cliente.nombre || 'N/A'}
+                        </td>
+                        {/* Apellido */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
+                          {cliente.apellido || '—'}
+                        </td>
+                        {/* DNI (nro_documento en tu JSON) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
+                          {cliente.nro_documento || 'N/A'}
+                        </td>
+                        {/* Edad */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
+                          {cliente.edad ? `${cliente.edad} años` : '—'}
+                        </td>
+                        {/* Provincia (usando productor_lugar o localidad) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                          {cliente.productor_lugar || cliente.localidad || 'N/A'}
+                        </td>
+                        {/* Canal (productor_segmento en tu JSON) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                          {cliente.productor_segmento || 'N/A'}
+                        </td>
+                        {/* Producto (ramo_nombre en tu JSON) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                          {cliente.ramo_nombre || 'N/A'}
+                        </td>
+                        {/* Compañía (compania_nombre en tu JSON) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                          {cliente.compania_nombre || 'N/A'}
+                        </td>
+                        {/* Teléfono */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                          {cliente.telefono || 'Sin teléfono'}
+                        </td>
+                        {/* Email (mail en tu JSON) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
+                          {cliente.mail || 'Sin mail'}
+                        </td>
+                        {/* Socio Mutual (es_socio_mutual es booleano en tu JSON) */}
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 text-center">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${cliente.es_socio_mutual
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-red-100 text-red-700'
+                            }`}>
+                            {cliente.es_socio_mutual ? 'SI' : 'NO'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={11} className="px-6 py-10 text-center text-sm text-gray-500">
+                        {loading ? (
+                          <div className="flex justify-center items-center gap-2">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                            Buscando en la base de datos...
+                          </div>
+                        ) : (
+                          "No se encontraron resultados para los filtros aplicados"
+                        )}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
-          
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Nombre
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Apellido
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    DNI
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Edad
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Provincia
-                    <div className="relative inline-block ml-1">
-                      <button
-                        onClick={() => toggleColumnFilter('provincia')}
-                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                        title="Ver estadísticas de columna"
-                      >
-                        <i className="fa-solid fa-info-circle text-xs"></i>
-                      </button>
-                      {activeColumnFilter === 'provincia' && (
-                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
-                          <div className="p-2 border-b border-gray-200">
-                            <input
-                              type="text"
-                              placeholder="Buscar..."
-                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          <div className="max-h-48 overflow-y-auto">
-                            {getColumnUniqueValues('provincia')
-                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
-                              .map((item) => (
-                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
-                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Canal
-                    <div className="relative inline-block ml-1">
-                      <button
-                        onClick={() => toggleColumnFilter('canal')}
-                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                        title="Ver estadísticas de columna"
-                      >
-                        <i className="fa-solid fa-info-circle text-xs"></i>
-                      </button>
-                      {activeColumnFilter === 'canal' && (
-                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
-                          <div className="p-2 border-b border-gray-200">
-                            <input
-                              type="text"
-                              placeholder="Buscar..."
-                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          <div className="max-h-48 overflow-y-auto">
-                            {getColumnUniqueValues('canal')
-                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
-                              .map((item) => (
-                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
-                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Producto
-                    <div className="relative inline-block ml-1">
-                      <button
-                        onClick={() => toggleColumnFilter('producto')}
-                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                        title="Ver estadísticas de columna"
-                      >
-                        <i className="fa-solid fa-info-circle text-xs"></i>
-                      </button>
-                      {activeColumnFilter === 'producto' && (
-                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
-                          <div className="p-2 border-b border-gray-200">
-                            <input
-                              type="text"
-                              placeholder="Buscar..."
-                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          <div className="max-h-48 overflow-y-auto">
-                            {getColumnUniqueValues('producto')
-                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
-                              .map((item) => (
-                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
-                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Compañía
-                    <div className="relative inline-block ml-1">
-                      <button
-                        onClick={() => toggleColumnFilter('compania')}
-                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                        title="Ver estadísticas de columna"
-                      >
-                        <i className="fa-solid fa-info-circle text-xs"></i>
-                      </button>
-                      {activeColumnFilter === 'compania' && (
-                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
-                          <div className="p-2 border-b border-gray-200">
-                            <input
-                              type="text"
-                              placeholder="Buscar..."
-                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          <div className="max-h-48 overflow-y-auto">
-                            {getColumnUniqueValues('compania')
-                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
-                              .map((item) => (
-                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
-                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Teléfono
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Socio Mutual
-                    <div className="relative inline-block ml-1">
-                      <button
-                        onClick={() => toggleColumnFilter('socioMutual')}
-                        className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                        title="Ver estadísticas de columna"
-                      >
-                        <i className="fa-solid fa-info-circle text-xs"></i>
-                      </button>
-                      {activeColumnFilter === 'socioMutual' && (
-                        <div className="absolute z-20 mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg column-filter-dropdown">
-                          <div className="p-2 border-b border-gray-200">
-                            <input
-                              type="text"
-                              placeholder="Buscar..."
-                              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          <div className="max-h-48 overflow-y-auto">
-                            {getColumnUniqueValues('socioMutual')
-                              .filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()))
-                              .map((item) => (
-                                <div key={item.value} className="flex items-center px-2 py-1 hover:bg-gray-50 cursor-pointer">
-                                  <span className="text-xs text-gray-700">{item.value} ({item.count})</span>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {listadoData?.map((cliente) => (
-                  <tr key={cliente.id} className="hover:bg-gray-50">
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
-                      {cliente.nombre}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
-                      {cliente.apellido}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
-                      {cliente.dni}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
-                      {cliente.edad} años
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      {cliente.provincia}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      {cliente.canal}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      {cliente.producto}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      {cliente.compania}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      {cliente.telefono}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      {cliente.email}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
-                      <span className={`px-1.5 py-0.5 text-xs rounded-full ${
-                        cliente.socioMutual === 'SI' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {cliente.socioMutual}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
         </>
       ) : (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 text-center">

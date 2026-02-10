@@ -139,6 +139,72 @@ export default function EvolucionCartera() {
     setFiltroEjecutivo('TODOS');
   }, [tipoVista]);
 
+  // Estado para el ordenamiento
+  const [configOrden, setConfigOrden] = useState<{ columna: string, direccion: 'asc' | 'desc' } | null>(null);
+
+  const manejarOrden = (columna: string) => {
+    let direccion: 'asc' | 'desc' = 'asc';
+    if (configOrden && configOrden.columna === columna && configOrden.direccion === 'asc') {
+      direccion = 'desc';
+    }
+    setConfigOrden({ columna, direccion });
+  };
+
+  const datosOrdenados = useMemo(() => {
+    if (!listaComparativa || listaComparativa.length === 0) return [];
+
+    // Separar la fila de TOTAL si existe
+    const datos = [...listaComparativa];
+    const indiceTotal = datos.findIndex(d => d.entidad === 'TOTAL');
+    let filaTotal = null;
+
+    if (indiceTotal !== -1) {
+      filaTotal = datos.splice(indiceTotal, 1)[0];
+    }
+
+    if (configOrden) {
+      datos.sort((a: any, b: any) => {
+        let valorA = a[configOrden.columna];
+        let valorB = b[configOrden.columna];
+
+        // Manejo especial para números formateados como strings (ej: "1.234,56") o porcentajes
+        const limpiarValor = (val: string | number) => {
+          if (typeof val === 'string') {
+            // Si es porcentaje, quitar %
+            val = val.replace(/\$/g, '').replace(/%/g, '');
+            // Asumiendo formato español: punto para miles, coma para decimales
+            // Eliminamos TODOS los puntos.
+            val = val.replace(/\./g, '');
+            // Reemplazamos la coma por punto.
+            val = val.replace(',', '.');
+
+            const num = parseFloat(val);
+            return isNaN(num) ? val : num;
+          }
+          return val;
+        }
+
+        valorA = limpiarValor(valorA);
+        valorB = limpiarValor(valorB);
+
+        if (valorA < valorB) {
+          return configOrden.direccion === 'asc' ? -1 : 1;
+        }
+        if (valorA > valorB) {
+          return configOrden.direccion === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    // Reinsertar TOTAL al final
+    if (filaTotal) {
+      datos.push(filaTotal);
+    }
+
+    return datos;
+  }, [listaComparativa, configOrden]);
+
   // Hooks para obtener periodos dinámicos (Legacy/Unused logic for 'selectedYear' variables)
   const { meses: meses1 } = usePeriodos(Number(selectedYear1));
   const { meses: meses2 } = usePeriodos(Number(selectedYear2));
@@ -242,11 +308,15 @@ export default function EvolucionCartera() {
           setFilterApplied={setFilterApplied}
         />
 
+
+
         {/* Tabla TOTAL X CÍA */}
         <EvolucionTable
-          data={listaComparativa}
+          data={datosOrdenados}
           labels={{ inicio: comparativaLabels.inicio, fin: comparativaLabels.fin }}
           loading={loadingComparativa}
+          alOrdenar={manejarOrden}
+          configOrden={configOrden}
         />
 
         <hr className="my-8 border-gray-300" />
