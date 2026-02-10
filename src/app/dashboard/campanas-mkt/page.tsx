@@ -307,10 +307,37 @@ export default function CampanasMKTPage() {
     }));
   };
 
+
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState<string | null>(null)
+  let listadoData: any;
   // Función para aplicar filtros
-  const applyFilters = () => {
-    setFiltersApplied(true);
-  };
+  const applyFilters = async () => {
+    setLoading(true)
+    setError(null)
+    setResult(null)
+
+    try {
+      const res = await fetch(`/api/campanas-mkt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(filters),
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        throw new Error(text || `HTTP ${res.status}`)
+      }
+
+      const data = await res.json()
+      setResult(data)
+    } catch (e: any) {
+      setError(e?.message ?? 'Error desconocido')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Función para limpiar filtros
   const clearFilters = () => {
@@ -953,7 +980,7 @@ export default function CampanasMKTPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {generateSearchResults().map((cliente) => (
+                {listadoData?.map((cliente) => (
                   <tr key={cliente.id} className="hover:bg-gray-50">
                     <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">
                       {cliente.nombre}
