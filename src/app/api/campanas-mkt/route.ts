@@ -7,8 +7,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'JSON inválido' }, { status: 400 })
     }
 
-    // Cambia NEXT_PUBLIC_API_URL por una variable de servidor como API_BASE_URL
-    const apiBase = process.env.API_BASE_URL
+    const apiBase = process.env.NEXT_PUBLIC_API_URL
     if (!apiBase) {
         return NextResponse.json({ error: 'Configuración de API faltante' }, { status: 500 })
     }
