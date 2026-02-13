@@ -1,7 +1,10 @@
-// src/hooks/useCarteraVigente.ts
 import { useState, useEffect } from 'react';
-import { fetchCarteraVigenteData } from '@/services/carteraVigenteService';
-import { CarteraVigenteTotales, CarteraVigenteListado } from '@/types/carteraVigente';
+import {
+    CarteraVigenteTotales,
+    CarteraVigenteListado,
+    CarteraVigenteTotalesResponse,
+    CarteraVigenteListadoResponse
+} from '@/types/carteraVigente';
 
 export const useCarteraVigente = (filters: any) => {
     const [totalesData, setTotalesData] = useState<CarteraVigenteTotales | null>(null);
@@ -11,25 +14,35 @@ export const useCarteraVigente = (filters: any) => {
 
     useEffect(() => {
         const getData = async () => {
+            if (!filters.anio || !filters.mes) return;
+
             setLoading(true);
             setError(null);
 
-            // Evitar fetch si falta año o mes (por ejemplo al cambiar de año)
-            if (!filters.anio || !filters.mes) {
-                setLoading(false);
-                return;
-            }
-
             try {
                 const queryParams = new URLSearchParams(filters).toString();
-                const { totales, tabla } = await fetchCarteraVigenteData(queryParams);
-                console.log(totales);
-                console.log(tabla);
-                if (totales.status === 'success') setTotalesData(totales.data); //Totales
-                if (tabla.status === 'success') setListadoData(tabla.data); //Listado
+                const response = await fetch(`/api/cartera-vigente?${queryParams}`);
+
+                if (!response.ok) throw new Error('Error al conectar con la API interna');
+
+                // Tipamos la respuesta que viene del Handler
+                const { totales, tabla }: {
+                    totales: CarteraVigenteTotalesResponse,
+                    tabla: CarteraVigenteListadoResponse
+                } = await response.json();
+
+                // Verificamos el status según tu ApiResponse
+                if (totales.status === 'success') {
+                    setTotalesData(totales.data);
+                }
+
+                if (tabla.status === 'success') {
+                    setListadoData(tabla.data);
+                }
 
             } catch (err) {
-                setError('Error al cargar los datos');
+                console.error("Hook Error:", err);
+                setError('Error al cargar los datos de la cartera');
             } finally {
                 setLoading(false);
             }

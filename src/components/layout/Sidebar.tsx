@@ -70,9 +70,9 @@ export default function Sidebar() {
     },
     {
       name: 'Campañas de Marketing',
-      href: '/dashboard/campanas-mkt',
+      href: '/campanas-mkt',
       icon: 'fa-solid fa-ad',
-      active: pathname === '/dashboard/campanas-mkt'
+      active: pathname === '/campanas-mkt'
     },
     {
       name: 'Administración',
