@@ -11,7 +11,7 @@ export const useMarketing = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('/api/campanas-mkt', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/campanas-mkt`, {
                 method: 'POST',
                 body: JSON.stringify({ ...filters, page }),
             });
