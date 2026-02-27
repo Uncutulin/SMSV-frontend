@@ -31,12 +31,16 @@ export default function CampanasMKTPage() {
   const [filtersApplied, setFiltersApplied] = useState(false);
 
   // 2. Hook de datos paginados
-  const { data, pagination, loading, error, loadMarketing } = useMarketing();
+  let { data, pagination, loading, error, loadMarketing } = useMarketing();
 
   // 3. Handlers de filtros
   const handleFilterChange = (field: string, value: string[]) => {
     setFilters(prev => ({ ...prev, [field]: value }));
   };
+
+  const [graphData, setGraphData] = useState({
+    sexo:[],age:[],
+  });
 
   const applyFilters = async (page: number = 1, limit: number = rowsPerPage) => {
     // Se envía el objeto de filtros junto con la página y el límite al proxy
@@ -54,6 +58,30 @@ export default function CampanasMKTPage() {
     setFiltersApplied(false);
   };
 
+  const [filtersData, setFiltersData] = useState({
+    sexo: [], edadDesde: [], edadHasta: [], localidad: [], canal: [],
+    estadoCivil: [], productoVigente: [], productoNoTiene: [], compania: [],
+    socioMutual: [], antiguedad: [], tieneMail: [], tieneTelefono: [],
+    fuerzaEmpresa: [], situacionRevista: [], origenDato: []
+  });
+
+  const getFiltersData = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/campanas-mkt/combos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    setFiltersData(data);
+  };
+
+  useEffect(() => {
+    getFiltersData();
+  }, []);
+
   return (
     <div className="flex-1 pb-6 px-4 w-full h-full">
       <div className="text-center mt-10">
@@ -68,12 +96,11 @@ export default function CampanasMKTPage() {
           <i className="fa-solid fa-circle-info mr-1"></i>
           Haga clic en cada filtro para desplegar las opciones y seleccionar múltiples valores
         </p>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Fila 1 */}
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Sexo</label>
-            <MultiSelect options={["Masculino", "Femenino"]} value={filters.sexo} onChange={(v) => handleFilterChange("sexo", v)} />
+            <MultiSelect options={filtersData.sexo} value={filters.sexo} onChange={(v) => handleFilterChange("sexo", v)} />
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Edad Desde</label>
@@ -85,13 +112,13 @@ export default function CampanasMKTPage() {
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Provincia/Localidad</label>
-            <MultiSelect options={["CABA", "Gran Buenos Aires", "Córdoba", "Santa Fe", "Mendoza", "Neuquén", "Salta", "Misiones"]} value={filters.provincia} onChange={(v) => handleFilterChange("provincia", v)} />
+            <MultiSelect options={filtersData.localidad} value={filters.provincia} onChange={(v) => handleFilterChange("provincia", v)} />
           </div>
 
           {/* Fila 2 */}
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Canal</label>
-            <MultiSelect options={["CANAL PAS", "CANAL FILIALES", "CANAL DIRECTO", "DIGITAL"]} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} />
+            <MultiSelect options={filtersData.canal} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} />
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Estado Civil</label>
@@ -99,17 +126,17 @@ export default function CampanasMKTPage() {
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Producto Vigente</label>
-            <MultiSelect options={["AUTOMOTORES", "VIDA", "HOGAR", "CAUCIÓN", "ART", "AP", "MOTOS", "SALUD"]} value={filters.productoVigente} onChange={(v) => handleFilterChange("productoVigente", v)} />
+            <MultiSelect options={filtersData.productoVigente} value={filters.productoVigente} onChange={(v) => handleFilterChange("productoVigente", v)} />
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Sin el Producto</label>
-            <MultiSelect options={["AUTOMOTORES", "VIDA", "HOGAR", "CAUCIÓN", "ART", "AP", "MOTOS", "SALUD"]} value={filters.productoNoTiene} onChange={(v) => handleFilterChange("productoNoTiene", v)} />
+            <MultiSelect options={filtersData.productoVigente} value={filters.productoNoTiene} onChange={(v) => handleFilterChange("productoNoTiene", v)} />
           </div>
 
           {/* Fila 3 */}
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Compañía</label>
-            <MultiSelect options={["AFIANZADORA", "NACION", "SANCOR", "ZURICH", "ALLIANZ", "FED PAT", "RUS"]} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} />
+            <MultiSelect options={filtersData.compania} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} />
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Socio Mutual</label>
@@ -139,7 +166,7 @@ export default function CampanasMKTPage() {
           </div>
           <div>
             <label className="block font-bold mb-1 uppercase text-gray-700">Origen Dato</label>
-            <MultiSelect options={["WEB", "CAMPANA", "REFERIDOS", "BBDD", "NEWSLETTER"]} value={filters.origenDato} onChange={(v) => handleFilterChange("origenDato", v)} />
+            <MultiSelect options={filtersData.origenDato} value={filters.origenDato} onChange={(v) => handleFilterChange("origenDato", v)} />
           </div>
         </div>
 
@@ -164,10 +191,10 @@ export default function CampanasMKTPage() {
       {/* RESULTADOS Y GRÁFICOS */}
       {filtersApplied && (
         <div className="animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <HighchartsChart id="sexo-mkt" type="pie" title="Segmentación por Sexo" data={{ series: [{ name: 'Clientes', data: [{ name: 'Masculino', y: 55 }, { name: 'Femenino', y: 45 }] }] }} />
             <HighchartsChart id="edad-mkt" type="pie" title="Segmentación por Edad" data={{ series: [{ name: 'Clientes', data: [{ name: '18-35', y: 30 }, { name: '36-60', y: 50 }, { name: '60+', y: 20 }] }] }} />
-          </div>
+          </div> */}
 
           <TablaMarketing
             result={data}
