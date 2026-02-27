@@ -23,17 +23,19 @@ export default function PresupuestoComercial() {
   const [tipoVista, setTipoVista] = useState('TOTAL X CÍA');
   const [filterApplied, setFilterApplied] = useState(false);
 
-  const [data, setData] = useState({
-    q_pol_ppto: 0,
-    q_pol_base: 0,
-    r12_ppto: 0,
-    r12_base: 0,
-    ytd_q_pol_ppto: 0,
-    ytd_q_pol_base: 0,
-    ytd_r12_ppto: 0,
-    ytd_r12_base: 0,
-    fuente: '',
-  });
+type MiEstado = {
+  q_pol_ppto: number;
+  q_pol_base: number;
+  r12_ppto: number;
+  r12_base: number;
+  ytd_q_pol_ppto: number;
+  ytd_q_pol_base: number;
+  ytd_r12_ppto: number;
+  ytd_r12_base: number;
+  fuente: string;
+};
+
+  const [data, setData] = useState<MiEstado[]>([])
 
   const [totals, setTotals] = useState({
     q_pol_ppto: 0,
