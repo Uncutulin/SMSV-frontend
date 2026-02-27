@@ -11,9 +11,9 @@ export const useMarketing = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/campanas-mkt`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/campanas-mkt?page=${page}`, {
                 method: 'POST',
-                body: JSON.stringify({ ...filters, page }),
+                body: JSON.stringify(filters),
             });
 
             if (!response.ok) throw new Error('Error en la API');

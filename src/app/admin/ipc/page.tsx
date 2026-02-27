@@ -272,6 +272,15 @@ export default function IPCPage() {
         cia: [], canal: [], segmento: [], ecEjecutivo: [],
         discrecionalAnualQ: '', discrecionalAnualPrima: ''
       });
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ipc/store`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(newData),
+    });
       alert('Registro guardado exitosamente');
     } catch (error) {
       console.error(error);
