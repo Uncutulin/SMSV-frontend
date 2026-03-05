@@ -6284,20 +6284,7 @@ type MiEstado = {
         ) : (tipoVista === 'TOTAL X CÍA' || tipoVista === 'TOTAL X CANAL' || tipoVista === 'TOTAL X RAMO' || tipoVista === 'CAS X CANAL' || tipoVista === 'CAS X RAMO' || tipoVista === 'ASSA X CANAL' || tipoVista === 'ASSA X RAMO' || tipoVista === 'ASSA X CÍA' || tipoVista === 'ART X CANAL' || tipoVista === 'ART X CÍA' || (!showAssaTable && !showFilialesTable && !showPasTable && !showCallCenterTable && !showFilialesPasTable)) ? (
           <>
             {/* Gráficos de cumplimiento presupuestario */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <HighchartsChart
-                id="cumplimiento-r12"
-                type="column"
-                title=""
-                data={cumplimientoR12Data}
-              />
-              <HighchartsChart
-                id="cumplimiento-qpol"
-                type="line"
-                title=""
-                data={cumplimientoQPolData}
-              />
-            </div>
+            
           </>
         ) : null}
       </div>
