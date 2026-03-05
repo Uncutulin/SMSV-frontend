@@ -63,7 +63,8 @@ export default function EvolucionCartera() {
 
   // Auto-select last available month if current selection is invalid
   useEffect(() => {
-    if (mesesInicio.length > 0) {
+    // Only execute if not loading and we have months
+    if (!loadingInicio && mesesInicio.length > 0) {
       const currentMonth = allFilters.inicio.mes;
       const monthExists = mesesInicio.some(m => m.mes_numero.toString().padStart(2, '0') === currentMonth);
 
@@ -76,10 +77,11 @@ export default function EvolucionCartera() {
         }));
       }
     }
-  }, [mesesInicio, allFilters.inicio.mes]);
+  }, [loadingInicio, mesesInicio, allFilters.inicio.mes]);
 
   useEffect(() => {
-    if (mesesFin.length > 0) {
+    // Only execute if not loading and we have months
+    if (!loadingFin && mesesFin.length > 0) {
       const currentMonth = allFilters.fin.mes;
       const monthExists = mesesFin.some(m => m.mes_numero.toString().padStart(2, '0') === currentMonth);
 
@@ -92,7 +94,7 @@ export default function EvolucionCartera() {
         }));
       }
     }
-  }, [mesesFin, allFilters.fin.mes]);
+  }, [loadingFin, mesesFin, allFilters.fin.mes]);
 
 
   // Si quieres centralizar la lógica de carga para usarla en un solo Spinner global:
@@ -125,9 +127,12 @@ export default function EvolucionCartera() {
     allFilters.fin.mes,
     filtroProductor,
     filtroEjecutivo,
-    // Solo permitir fetch si los meses inicio y fin están cargados Y el mes seleccionado es válido
-    (mesesInicio.length > 0 &&
+    // Solo permitir fetch si los periodos NO están cargando Y meses inicio y fin están cargados Y el mes seleccionado es válido
+    (!loadingInicio && !loadingFin &&
+      mesesInicio.length > 0 &&
       mesesFin.length > 0 &&
+      allFilters.inicio.mes !== '' &&
+      allFilters.fin.mes !== '' &&
       mesesInicio.some(m => m.mes_numero.toString().padStart(2, '0') === allFilters.inicio.mes) &&
       mesesFin.some(m => m.mes_numero.toString().padStart(2, '0') === allFilters.fin.mes)
     )

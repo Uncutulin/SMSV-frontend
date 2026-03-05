@@ -38,6 +38,7 @@ export const usePeriodos = (selectedAnio?: string | number) => {
 
         const getMeses = async () => {
             setLoading(true);
+            setMeses([]); // Clear previous months to avoid stale data while loading
             try {
                 const data = await fetchMesesByAnio(Number(selectedAnio));
                 setMeses(data);
