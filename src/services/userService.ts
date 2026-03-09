@@ -34,7 +34,9 @@ export const createUser = async (userData: any): Promise<boolean> => {
 
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || 'Error al crear usuario');
+            const error = new Error(errorData.message || 'Error al crear usuario');
+            (error as any).errors = errorData.errors;
+            throw error;
         }
 
         return true;
@@ -57,7 +59,9 @@ export const updateUser = async (id: number, userData: any): Promise<boolean> =>
 
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || 'Error al actualizar usuario');
+            const error = new Error(errorData.message || 'Error al actualizar usuario');
+            (error as any).errors = errorData.errors;
+            throw error;
         }
 
         return true;
