@@ -54,7 +54,22 @@ export default function UsuariosPage() {
       }
       closeModal();
     } catch (error: any) {
-      Swal.fire('Error', error.message || 'Error al guardar usuario', 'error');
+      if (error.errors) {
+        const errorMessages = Object.entries(error.errors)
+          .map(([field, messages]: [string, any]) => {
+            const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
+            return `${fieldName}: ${messages.join(', ')}`;
+          })
+          .join('<br>');
+
+        Swal.fire({
+          title: 'Error de validación',
+          html: errorMessages,
+          icon: 'error'
+        });
+      } else {
+        Swal.fire('Error', error.message || 'Error al guardar usuario', 'error');
+      }
     }
   };
 
