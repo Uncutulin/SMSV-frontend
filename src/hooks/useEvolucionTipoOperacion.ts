@@ -1,11 +1,14 @@
 // src/hooks/useEvolucionTipoOperacion.ts
 import { useState, useEffect } from 'react';
 import {
-    fetchEvolucion,
+    fetchR12Data,
+    fetchQPOLData,
     fetchCanales,
     fetchCompanias,
     fetchRamos,
-    EvolucionData
+    EvolucionData,
+    Compania,
+    Ramo
 } from '@/services/evolucionTipoOperacionService';
 
 interface Props {
@@ -28,14 +31,16 @@ export const useEvolucionTipoOperacion = ({
     filtroCia,
     filtroRamo
 }: Props) => {
-    const [data, setData] = useState<EvolucionData[]>([]);
+    const [r12Data, setR12Data] = useState<EvolucionData[]>([]);
+    const [qpolData, setQpolData] = useState<EvolucionData[]>([]);
     const [labels, setLabels] = useState({ p1: '', p2: '', p3: '' });
     const [loading, setLoading] = useState(false);
+    const [hasFetched, setHasFetched] = useState(false);
 
     // Listas para filtros
     const [canales, setCanales] = useState<string[]>([]);
-    const [companias, setCompanias] = useState<string[]>([]);
-    const [ramos, setRamos] = useState<string[]>([]);
+    const [companias, setCompanias] = useState<Compania[]>([]);
+    const [ramos, setRamos] = useState<Ramo[]>([]);
     const [loadingFilters, setLoadingFilters] = useState(true);
 
     // Cargar listas de filtros al montar
@@ -64,28 +69,38 @@ export const useEvolucionTipoOperacion = ({
         const loadData = async () => {
             setLoading(true);
             try {
-                const paramsObj: any = {
-                    anio_1: anio1, mes_1: mes1,
-                    anio_2: anio2, mes_2: mes2,
-                    anio_3: anio3, mes_3: mes3,
-                    tipo_vista: tipoVista
+                const finalRequest = {
+                    anio_1: anio1,
+                    mes_1: mes1,
+                    anio_2: anio2,
+                    mes_2: mes2,
+                    anio_3: anio3,
+                    mes_3: mes3,
+                    tipo_vista: tipoVista,
+                    canal: filtroCanal || 'TODOS',
+                    compania: filtroCia || 'TODOS',
+                    ramo: filtroRamo || 'TODOS'
                 };
 
-                if (filtroCanal && filtroCanal !== 'TODOS') paramsObj.canal = filtroCanal;
-                if (filtroCia && filtroCia !== 'TODOS') paramsObj.cia = filtroCia;
-                if (filtroRamo && filtroRamo !== 'TODOS') paramsObj.ramo = filtroRamo;
+                const [r12Res, qpolRes] = await Promise.all([
+                    fetchR12Data(finalRequest),
+                    fetchQPOLData(finalRequest)
+                ]);
 
-                const params = new URLSearchParams(paramsObj).toString();
-                const response = await fetchEvolucion(params);
+                if (r12Res.status === 'success') {
+                    setR12Data(r12Res.data);
+                    // Asumimos que los labels son consistentes entre ambos, tomamos los de R12
+                    setLabels(r12Res.labels);
+                }
 
-                if (response.status === 'success') {
-                    setData(response.data);
-                    setLabels(response.labels);
+                if (qpolRes.status === 'success') {
+                    setQpolData(qpolRes.data);
                 }
             } catch (error) {
                 console.error("Error loading evolucion data", error);
             } finally {
                 setLoading(false);
+                setHasFetched(true);
             }
         };
 
@@ -95,9 +110,11 @@ export const useEvolucionTipoOperacion = ({
     }, [anio1, mes1, anio2, mes2, anio3, mes3, tipoVista, filtroCanal, filtroCia, filtroRamo]);
 
     return {
-        data,
+        r12Data,
+        qpolData,
         labels,
         loading,
+        hasFetched,
         canales,
         companias,
         ramos,

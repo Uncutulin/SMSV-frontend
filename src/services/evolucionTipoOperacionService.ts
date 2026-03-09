@@ -1,28 +1,26 @@
 // src/services/evolucionTipoOperacionService.ts
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// Backend API URL (for server-side calls)
+const BACKEND_API_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL;
 
 export interface EvolucionData {
     entidad: string;
-    
-    q_1: number;
-    r_1: string;
-    
-    q_2: number;
-    r_2: string;
-    
-    q_3: number;
-    r_3: string;
-    
-    dif_q_12: number;
-    pct_q_12: string;
-    dif_r_12: string;
-    pct_r_12: string;
+    p1: number;
+    p2: number;
+    p3: number;
+}
 
-    dif_q_23: number;
-    pct_q_23: string;
-    dif_r_23: string;
-    pct_r_23: string;
+export interface EvolucionRequest {
+    anio_1: string;
+    mes_1: string;
+    anio_2: string;
+    mes_2: string;
+    anio_3: string;
+    mes_3: string;
+    tipo_vista: string;
+    canal: string;
+    compania: string;
+    ramo: string;
 }
 
 export interface EvolucionResponse {
@@ -35,9 +33,50 @@ export interface EvolucionResponse {
     };
 }
 
-export const fetchEvolucion = async (params: string): Promise<EvolucionResponse> => {
+// Datos de prueba (Mock)
+export const MOCK_EVOLUCION_DATA: EvolucionData[] = [
+    { entidad: 'Nuevos Negocios', p1: 1200000, p2: 1450000, p3: 1600000 },
+    { entidad: 'Anulaciones', p1: 180000, p2: 120000, p3: 90000 },
+    { entidad: 'Renovaciones', p1: 800000, p2: 950000, p3: 1100000 },
+    { entidad: 'Refacturación', p1: 200000, p2: 280000, p3: 350000 },
+    { entidad: 'Otros Endosos', p1: 120000, p2: 150000, p3: 180000 }
+];
+
+// --- FUNCIONES PARA LLAMAR AL BACKEND (Laravel) ---
+
+/**
+ * Utility to fetch data from the Laravel backend using POST with JSON body.
+ */
+export const fetchFromBackend = async (subpath: string, params: EvolucionRequest): Promise<EvolucionResponse> => {
     try {
-        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion?${params}`, {
+        const url = `${BACKEND_API_URL}/api/evolucion-tipo-operacion${subpath}`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            cache: 'no-store',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error Laravel (${subpath}): ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error(`Error en fetchFromBackend (${subpath}):`, error);
+        throw error;
+    }
+};
+
+export const fetchEvolucionFromBackend = async (params: string): Promise<EvolucionResponse> => {
+    try {
+        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion?${params}`, {
             cache: 'no-store',
             headers: {
                 'Accept': 'application/json',
@@ -46,19 +85,63 @@ export const fetchEvolucion = async (params: string): Promise<EvolucionResponse>
         });
 
         if (!response.ok) {
-            throw new Error('Error en la comunicación con el servidor');
+            throw new Error(`Error Laravel: ${response.status}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.error("Error en fetchEvolucion:", error);
+        console.error("Error en fetchEvolucionFromBackend:", error);
         throw error;
     }
 };
 
+export const fetchR12Data = async (params: EvolucionRequest): Promise<EvolucionResponse> => {
+    try {
+        const response = await fetch('/api/evolucion-tipo-operacion/r12', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+            cache: 'no-store'
+        });
+
+        if (!response.ok) throw new Error('Error al conectar con la API R12');
+        return await response.json();
+    } catch (error) {
+        console.error("Error en fetchR12Data:", error);
+        throw error;
+    }
+};
+
+export const fetchQPOLData = async (params: EvolucionRequest): Promise<EvolucionResponse> => {
+    try {
+        const response = await fetch('/api/evolucion-tipo-operacion/qpol', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+            cache: 'no-store'
+        });
+
+        if (!response.ok) throw new Error('Error al conectar con la API QPOL');
+        return await response.json();
+    } catch (error) {
+        console.error("Error en fetchQPOLData:", error);
+        throw error;
+    }
+};
+
+// Deprecated: keeping it briefly to avoid breaking the build while updating hooks
+export const fetchEvolucionCharts = async (params: EvolucionRequest): Promise<EvolucionResponse> => {
+    return fetchR12Data(params);
+};
+
+// Filtros (Siguen llamando al backend directamente o podrías crear rutas API para ellos también)
 export const fetchCanales = async (): Promise<string[]> => {
     try {
-        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/canales`, { cache: 'no-store' });
+        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion/canales`, { cache: 'no-store' });
         if (!response.ok) throw new Error('Error fetching canales');
         return await response.json();
     } catch (error) {
@@ -67,9 +150,14 @@ export const fetchCanales = async (): Promise<string[]> => {
     }
 };
 
-export const fetchCompanias = async (): Promise<string[]> => {
+export interface Compania {
+    id: number;
+    nombre: string;
+}
+
+export const fetchCompanias = async (): Promise<Compania[]> => {
     try {
-        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/companias`, { cache: 'no-store' });
+        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion/companias`, { cache: 'no-store' });
         if (!response.ok) throw new Error('Error fetching companias');
         return await response.json();
     } catch (error) {
@@ -78,9 +166,14 @@ export const fetchCompanias = async (): Promise<string[]> => {
     }
 };
 
-export const fetchRamos = async (): Promise<string[]> => {
+export interface Ramo {
+    id: number;
+    nombre: string;
+}
+
+export const fetchRamos = async (): Promise<Ramo[]> => {
     try {
-        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/ramos`, { cache: 'no-store' });
+        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion/ramos`, { cache: 'no-store' });
         if (!response.ok) throw new Error('Error fetching ramos');
         return await response.json();
     } catch (error) {
