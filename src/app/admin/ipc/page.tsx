@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import { storeIPC } from '@/services/ipcService';
+import { storeIPC, getIPCList, getIpcAnios, getIpcMeses, updateIPC, deleteIPC, type IpcMes, type Pagination } from '@/services/ipcService';
 
 // Componente de Select Múltiple con Búsqueda
 interface MultiSelectWithSearchProps {
@@ -178,7 +178,7 @@ function MultiSelectWithSearch({ options, value, onChange, placeholder = "Selecc
   );
 }
 
-interface IPCData {
+export interface IPCData {
   id: string;
   mes: string;
   ipcMes: number;
@@ -201,7 +201,60 @@ interface IPCData {
 
 export default function IPCPage() {
   const [ipcData, setIpcData] = useState<IPCData[]>([]);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Filtros
+  const [anios, setAnios] = useState<number[]>([]);
+  const [meses, setMeses] = useState<IpcMes[]>([]);
+  const [selectedAnio, setSelectedAnio] = useState<number | ''>('');
+  const [selectedMes, setSelectedMes] = useState<number | ''>('');
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAnio, selectedMes]);
+
+  useEffect(() => {
+    const loadFilters = async () => {
+      try {
+        const [aniosData, mesesData] = await Promise.all([
+          getIpcAnios(),
+          getIpcMeses()
+        ]);
+        setAnios(aniosData);
+        setMeses(mesesData);
+
+        // Auto-seleccionar el año más reciente si está disponible
+        if (aniosData && aniosData.length > 0) {
+          const maxAnio = Math.max(...aniosData);
+          setSelectedAnio(maxAnio);
+        }
+      } catch (error) {
+        console.error('Error loading filters:', error);
+      }
+    };
+    loadFilters();
+  }, []);
+
+  useEffect(() => {
+    const fetchIPCList = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getIPCList(selectedAnio, selectedMes, currentPage);
+        setIpcData(response.data);
+        setPagination(response.pagination);
+      } catch (error) {
+        console.error('Error fetching IPC data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchIPCList();
+  }, [selectedAnio, selectedMes, currentPage]);
+
   const [formData, setFormData] = useState({
     mes: '',
     ipcMes: '',
@@ -244,28 +297,6 @@ export default function IPCPage() {
         fuente_registro: 'Manual'
       });
 
-      const newData: IPCData = {
-        id: Date.now().toString(),
-        mes: formData.mes,
-        ipcMes: parseFloat(formData.ipcMes),
-        ipcYtd: parseFloat(formData.ipcYtd),
-        ipcInteranual: parseFloat(formData.ipcInteranual),
-        // Nuevos campos de clasificación
-        assaCasArt: formData.assaCasArt,
-        ramaUnificada: formData.ramaUnificada,
-        ramDes: formData.ramDes,
-        artCod: formData.artCod,
-        descProducto: formData.descProducto,
-        cia: formData.cia,
-        canal: formData.canal,
-        segmento: formData.segmento,
-        ecEjecutivo: formData.ecEjecutivo,
-        // Nuevos campos de porcentajes
-        discrecionalAnualQ: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
-        discrecionalAnualPrima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
-      };
-
-      setIpcData([...ipcData, newData]);
       setFormData({
         mes: '', ipcMes: '', ipcYtd: '', ipcInteranual: '',
         assaCasArt: [], ramaUnificada: [], ramDes: [], artCod: [], descProducto: [],
@@ -273,14 +304,12 @@ export default function IPCPage() {
         discrecionalAnualQ: '', discrecionalAnualPrima: ''
       });
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ipc/store`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(newData),
-    });
+      setIsLoading(true);
+      const response = await getIPCList(selectedAnio, selectedMes, currentPage);
+      setIpcData(response.data);
+      setPagination(response.pagination);
+      setIsLoading(false);
+
       alert('Registro guardado exitosamente');
     } catch (error) {
       console.error(error);
@@ -314,46 +343,55 @@ export default function IPCPage() {
     }
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     if (!editingId) return;
 
-    setIpcData(ipcData.map(item =>
-      item.id === editingId
-        ? {
-          ...item,
-          mes: formData.mes,
-          ipcMes: parseFloat(formData.ipcMes),
-          ipcYtd: parseFloat(formData.ipcYtd),
-          ipcInteranual: parseFloat(formData.ipcInteranual),
-          // Nuevos campos de clasificación
-          assaCasArt: formData.assaCasArt,
-          ramaUnificada: formData.ramaUnificada,
-          ramDes: formData.ramDes,
-          artCod: formData.artCod,
-          descProducto: formData.descProducto,
-          cia: formData.cia,
-          canal: formData.canal,
-          segmento: formData.segmento,
-          ecEjecutivo: formData.ecEjecutivo,
-          // Nuevos campos de porcentajes
-          discrecionalAnualQ: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
-          discrecionalAnualPrima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
-        }
-        : item
-    ));
+    try {
+      await updateIPC(editingId, {
+        periodo_yyyymm: parseInt(formData.mes),
+        fuente: formData.assaCasArt[0] || '',
+        ipc_mensual: parseFloat(formData.ipcMes),
+        ipc_ytd: parseFloat(formData.ipcYtd),
+        ipc_interanual: parseFloat(formData.ipcInteranual),
+        disc_anual_q: formData.discrecionalAnualQ ? parseFloat(formData.discrecionalAnualQ) : 0,
+        disc_anual_prima: formData.discrecionalAnualPrima ? parseFloat(formData.discrecionalAnualPrima) : 0
+      });
 
-    setFormData({
-      mes: '', ipcMes: '', ipcYtd: '', ipcInteranual: '',
-      assaCasArt: [], ramaUnificada: [], ramDes: [], artCod: [], descProducto: [],
-      cia: [], canal: [], segmento: [], ecEjecutivo: [],
-      discrecionalAnualQ: '', discrecionalAnualPrima: ''
-    });
-    setEditingId(null);
+      setFormData({
+        mes: '', ipcMes: '', ipcYtd: '', ipcInteranual: '',
+        assaCasArt: [], ramaUnificada: [], ramDes: [], artCod: [], descProducto: [],
+        cia: [], canal: [], segmento: [], ecEjecutivo: [],
+        discrecionalAnualQ: '', discrecionalAnualPrima: ''
+      });
+      setEditingId(null);
+
+      setIsLoading(true);
+      const response = await getIPCList(selectedAnio, selectedMes, currentPage);
+      setIpcData(response.data);
+      setPagination(response.pagination);
+      setIsLoading(false);
+
+      alert('Registro actualizado exitosamente');
+    } catch (error) {
+      console.error(error);
+      alert('Error al actualizar el registro: ' + (error instanceof Error ? error.message : 'Error desconocido'));
+    }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('¿Está seguro de que desea eliminar este registro?')) {
-      setIpcData(ipcData.filter(item => item.id !== id));
+      try {
+        await deleteIPC(id);
+        
+        setIsLoading(true);
+        const response = await getIPCList(selectedAnio, selectedMes, currentPage);
+        setIpcData(response.data);
+        setPagination(response.pagination);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        alert('Error al eliminar el registro: ' + (error instanceof Error ? error.message : 'Error desconocido'));
+      }
     }
   };
 
@@ -652,8 +690,36 @@ export default function IPCPage() {
 
         {/* Tabla */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <h2 className="text-lg font-semibold text-gray-900">Datos IPC</h2>
+            <div className="flex gap-4">
+              <div className="flex items-center">
+                <label className="text-sm text-gray-700 mr-2 font-medium">Año:</label>
+                <select
+                  value={selectedAnio}
+                  onChange={(e) => setSelectedAnio(e.target.value === '' ? '' : parseInt(e.target.value))}
+                  className="px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                >
+                  <option value="">Todos</option>
+                  {anios.map(a => (
+                    <option key={a} value={a}>{a}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center">
+                <label className="text-sm text-gray-700 mr-2 font-medium">Mes:</label>
+                <select
+                  value={selectedMes}
+                  onChange={(e) => setSelectedMes(e.target.value === '' ? '' : parseInt(e.target.value))}
+                  className="px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                >
+                  <option value="">Todos</option>
+                  {meses.map(m => (
+                    <option key={m.id} value={m.id}>{m.nombre}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
@@ -693,13 +759,19 @@ export default function IPCPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     % Disc. Prima
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Acciones
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {ipcData.length === 0 ? (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={12} className="px-6 py-4 text-center text-gray-500">
+                      Cargando datos...
+                    </td>
+                  </tr>
+                ) : ipcData.length === 0 ? (
                   <tr>
                     <td colSpan={12} className="px-6 py-4 text-center text-gray-500">
                       No hay datos cargados. Agregue el primer registro.
@@ -742,18 +814,24 @@ export default function IPCPage() {
                         {item.discrecionalAnualPrima > 0 ? `${item.discrecionalAnualPrima.toFixed(2)}%` : '-'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-2">
+                        <div className="flex items-center justify-center space-x-3">
                           <button
                             onClick={() => handleEdit(item.id)}
-                            className="text-blue-600 hover:text-blue-900"
+                            className="text-blue-600 hover:text-blue-800 transition-colors"
+                            title="Editar"
                           >
-                            Editar
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L5.314 18l.77-3.14a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
                           </button>
                           <button
                             onClick={() => handleDelete(item.id)}
-                            className="text-gray-900 hover:text-red-900"
+                            className="text-red-500 hover:text-red-700 transition-colors"
+                            title="Eliminar"
                           >
-                            Eliminar
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
                           </button>
                         </div>
                       </td>
@@ -763,6 +841,83 @@ export default function IPCPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination UI */}
+          {pagination && pagination.last_page > 1 && (
+            <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+              <div className="flex-1 flex justify-between sm:hidden">
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400"
+                >
+                  Anterior
+                </button>
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(pagination.last_page, prev + 1))}
+                  disabled={currentPage === pagination.last_page}
+                  className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400"
+                >
+                  Siguiente
+                </button>
+              </div>
+              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-gray-700">
+                    Mostrando página <span className="font-medium">{currentPage}</span> de{' '}
+                    <span className="font-medium">{pagination.last_page}</span> (Total: {pagination.total} registros)
+                  </p>
+                </div>
+                <div>
+                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:bg-gray-100 cursor-pointer"
+                    >
+                      <span className="sr-only">Anterior</span>
+                      <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    
+                    {Array.from({ length: pagination.last_page }, (_, i) => i + 1)
+                      .filter(p => p === 1 || p === pagination.last_page || Math.abs(p - currentPage) <= 2)
+                      .map((p, index, array) => (
+                        <span key={p}>
+                          {index > 0 && array[index - 1] !== p - 1 ? (
+                            <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                              ...
+                            </span>
+                          ) : null}
+                          <button
+                            onClick={() => setCurrentPage(p)}
+                            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium cursor-pointer ${
+                              currentPage === p
+                                ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
+                                : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                            }`}
+                          >
+                            {p}
+                          </button>
+                        </span>
+                      ))}
+
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.min(pagination.last_page, prev + 1))}
+                      disabled={currentPage === pagination.last_page}
+                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:bg-gray-100 cursor-pointer"
+                    >
+                      <span className="sr-only">Siguiente</span>
+                      <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>
