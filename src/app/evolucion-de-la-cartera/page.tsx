@@ -303,12 +303,12 @@ export default function EvolucionCartera() {
           mesesFin={mesesFin}
           tipoVista={tipoVista}
           setTipoVista={setTipoVista}
-          filtroProductor={filtroProductor}
-          setFiltroProductor={setFiltroProductor}
           filtroEjecutivo={filtroEjecutivo}
           setFiltroEjecutivo={setFiltroEjecutivo}
-          listaProductores={listaProductores}
           listaEjecutivos={listaEjecutivos}
+          filtroProductor={filtroProductor}
+          setFiltroProductor={setFiltroProductor}
+          listaProductores={listaProductores}
           loadingDropdowns={loadingDropdowns}
           setFilterApplied={setFilterApplied}
         />
