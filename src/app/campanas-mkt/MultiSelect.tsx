@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect } from 'react';
 
+export type SelectOption = string | { id: string | number; nombre: string };
+
 interface MultiSelectProps {
-    options: string[];
+    options: SelectOption[];
     value: string[];
     onChange: (value: string[]) => void;
     placeholder?: string;
@@ -25,15 +27,23 @@ export function MultiSelect({ options, value, onChange, placeholder = "Seleccion
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleToggleOption = (option: string) => {
-        const newValue = value.includes(option)
-            ? value.filter(v => v !== option)
-            : [...value, option];
+    const getOptionValue = (option: SelectOption) => typeof option === 'string' ? option : String(option.id);
+    const getOptionLabel = (option: SelectOption) => typeof option === 'string' ? option : option.nombre;
+
+    const handleToggleOption = (option: SelectOption) => {
+        const val = getOptionValue(option);
+        const newValue = value.includes(val)
+            ? value.filter(v => v !== val)
+            : [...value, val];
         onChange(newValue);
     };
 
+    const handleSelectAll = () => {
+        onChange(options.map(getOptionValue));
+    };
+
     const filteredOptions = options.filter(option =>
-        option.toLowerCase().includes(searchTerm.toLowerCase())
+        getOptionLabel(option).toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -67,27 +77,31 @@ export function MultiSelect({ options, value, onChange, placeholder = "Seleccion
                     <div className="flex gap-2 p-2 bg-gray-50 border-b">
                         <button
                             type="button"
-                            className="text-[10px] bg-blue-600 text-white px-2 py-1 rounded"
-                            onClick={(e) => { e.stopPropagation(); onChange([...options]); }}
+                            className="text-[10px] bg-blue-600 text-white px-2 py-1 rounded cursor-pointer hover:bg-blue-700"
+                            onClick={(e) => { e.stopPropagation(); handleSelectAll(); }}
                         >Todos</button>
                         <button
                             type="button"
-                            className="text-[10px] bg-gray-400 text-white px-2 py-1 rounded"
+                            className="text-[10px] bg-gray-400 text-white px-2 py-1 rounded cursor-pointer hover:bg-gray-500"
                             onClick={(e) => { e.stopPropagation(); onChange([]); }}
                         >Ninguno</button>
                     </div>
                     <div className="max-h-48 overflow-y-auto">
-                        {filteredOptions.map(option => (
-                            <label key={option} className="flex items-center px-3 py-2 hover:bg-blue-50 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={value.includes(option)}
-                                    onChange={() => handleToggleOption(option)}
-                                    className="mr-2"
-                                />
-                                <span className="text-xs">{option}</span>
-                            </label>
-                        ))}
+                        {filteredOptions.map(option => {
+                            const val = getOptionValue(option);
+                            const label = getOptionLabel(option);
+                            return (
+                                <label key={val} className="flex items-center px-3 py-2 hover:bg-blue-50 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={value.includes(val)}
+                                        onChange={() => handleToggleOption(option)}
+                                        className="mr-2 cursor-pointer"
+                                    />
+                                    <span className="text-xs">{label}</span>
+                                </label>
+                            );
+                        })}
                     </div>
                 </div>
             )}

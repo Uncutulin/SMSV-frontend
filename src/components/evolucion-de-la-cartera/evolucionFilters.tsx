@@ -57,12 +57,12 @@ export default function EvolucionFilters({
     mesesFin,
     tipoVista,
     setTipoVista,
-    filtroProductor,
-    setFiltroProductor,
     filtroEjecutivo,
     setFiltroEjecutivo,
-    listaProductores,
     listaEjecutivos,
+    filtroProductor,
+    setFiltroProductor,
+    listaProductores,
     loadingDropdowns,
     setFilterApplied
 }: Props) {
@@ -173,6 +173,27 @@ export default function EvolucionFilters({
                         </optgroup>
                     </select>
                 </div>
+                {/* Filtro Ejecutivo */}
+                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Ejecutivo</label>
+                    <select
+                        value={filtroEjecutivo}
+                        onChange={(e) => {
+                            setFiltroEjecutivo(e.target.value);
+                            if (e.target.value !== 'TODOS') setFiltroProductor('TODOS');
+                        }}
+                        disabled={loadingDropdowns}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                        <option value="TODOS">TODOS</option>
+                        {listaEjecutivos.map((ejecutivo) => (
+                            <option key={ejecutivo.nombre} value={ejecutivo.nombre}>
+                                {ejecutivo.nombre}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
 
                 {/* Filtro Productores */}
                 <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -195,26 +216,7 @@ export default function EvolucionFilters({
                     </select>
                 </div>
 
-                {/* Filtro Ejecutivo */}
-                <div className="bg-white rounded-lg border border-gray-200 p-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Ejecutivo</label>
-                    <select
-                        value={filtroEjecutivo}
-                        onChange={(e) => {
-                            setFiltroEjecutivo(e.target.value);
-                            if (e.target.value !== 'TODOS') setFiltroProductor('TODOS');
-                        }}
-                        disabled={loadingDropdowns}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                        <option value="TODOS">TODOS</option>
-                        {listaEjecutivos.map((ejecutivo) => (
-                            <option key={ejecutivo.nombre} value={ejecutivo.nombre}>
-                                {ejecutivo.nombre}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+
             </div>
 
             {/* Botón Aplicar Filtros */}
