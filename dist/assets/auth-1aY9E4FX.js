@@ -1,0 +1,1 @@
+var e=e=>{let t={Accept:`application/json`,"Content-Type":`application/json`};if(e)t.Authorization=`Bearer ${e}`;else if(typeof window<`u`){let e=localStorage.getItem(`token`);e&&(t.Authorization=`Bearer ${e}`)}return t};export{e as t};

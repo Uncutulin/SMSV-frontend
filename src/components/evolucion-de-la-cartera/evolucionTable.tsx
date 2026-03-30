@@ -1,5 +1,5 @@
-// src/app/evolucion-de-la-cartera/evolucionTable.tsx
-import { getDifColor } from '@/app/evolucion-de-la-cartera/evolucionUtils';
+// src/pages/evolucion-de-la-cartera/evolucionTable.tsx
+import { getDifColor } from '@/pages/evolucion-de-la-cartera/evolucionUtils';
 
 interface Props {
     data: any[];

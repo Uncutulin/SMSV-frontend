@@ -1,17 +1,19 @@
 import { CarteraVigenteTotalesResponse, CarteraVigenteListadoResponse } from '../types/carteraVigente';
+import { getAuthHeaders } from '@/utils/auth';
+
 
 const API_URL = process.env.API_BASE_URL;
 
-export const fetchCarteraVigenteData = async (params: string) => {
+export const fetchCarteraVigenteData = async (params: string, serverToken?: string) => {
     try {
         const [resStats, resTabla] = await Promise.all([
             fetch(`${API_URL}/api/cartera-vigente/indicadores?${params}`, {
                 cache: 'no-store',
-                headers: { 'Accept': 'application/json' }
+                headers: getAuthHeaders(serverToken)
             }),
             fetch(`${API_URL}/api/cartera-vigente/listado?${params}`, {
                 cache: 'no-store',
-                headers: { 'Accept': 'application/json' }
+                headers: getAuthHeaders(serverToken)
             })
         ]);
 

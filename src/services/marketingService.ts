@@ -1,8 +1,9 @@
 import { MarketingResponse } from '../types/marketing';
+import { getAuthHeaders } from '@/utils/auth';
 
 const API_URL = process.env.API_BASE_URL;
 
-export const fetchMarketingData = async (filters: any, page: number = 1): Promise<MarketingResponse> => {
+export const fetchMarketingData = async (filters: any, page: number = 1, serverToken?: string): Promise<MarketingResponse> => {
 
     // Función auxiliar para unir arrays de forma segura
     const safeJoin = (val: any) => (Array.isArray(val) && val.length > 0 ? val.join(',') : '');
@@ -37,10 +38,7 @@ export const fetchMarketingData = async (filters: any, page: number = 1): Promis
 
     const response = await fetch(`${API_URL}/api/campanas-mkt`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
+        headers: getAuthHeaders(serverToken),
         body: JSON.stringify(payload),
     });
 
