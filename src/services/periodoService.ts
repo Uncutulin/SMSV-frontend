@@ -1,7 +1,6 @@
 import { getAuthHeaders } from '@/utils/auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+const API_URL = import.meta.env.VITE_API_URL;
 // Obtener la lista de años únicos
 export const fetchAnios = async (serverToken?: string) => {
     const res = await fetch(`${API_URL}/api/periodo/anios`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });

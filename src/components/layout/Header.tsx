@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuthHeaders } from '@/utils/auth';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+import { logout } from '@/services/authService';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -14,7 +12,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [userInfo, setUserInfo] = useState({
     name: 'Usuario',
     email: '',
-    role: 'Administrador'
+    role: 'Administrador',
+    avatar: null as string | null
   });
 
   useEffect(() => {
@@ -26,7 +25,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
         setUserInfo({
           name: `${user.name} ${user.apellido || ''}`,
           email: user.email,
-          role: role
+          role: role,
+          avatar: user.profile_photo_url || user.avatar_url || user.photo_url || null
         });
       } catch (e) {
         console.error('Error parsing user data', e);
@@ -37,10 +37,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${API_BASE_URL}/api/logout`, { 
-        method: 'POST',
-        headers: getAuthHeaders()
-      });
+      await logout();
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -89,20 +86,35 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
             >
-              <img
-                className="h-8 w-8 rounded-full border-2 border-gray-200"
-                src="/user-logo.png"
-                alt="Usuario"
-                width="32"
-                height="32"
-              />
-              <div className="hidden md:block text-left">
-                <p className="text-sm font-medium text-gray-700">{userInfo.name}</p>
-                <p className="text-xs text-gray-500 uppercase">{userInfo.role}</p>
+              <div className="h-9 w-9 rounded-full border-2 border-white shadow-sm overflow-hidden bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                {userInfo.avatar ? (
+                  <img
+                    className="h-full w-full object-cover"
+                    src={userInfo.avatar}
+                    alt={userInfo.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                      (e.target as HTMLImageElement).parentElement!.classList.remove('bg-transparent');
+                    }}
+                  />
+                ) : (
+                  <span>
+                    {userInfo.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')
+                      .toUpperCase()
+                      .slice(0, 2)}
+                  </span>
+                )}
               </div>
-              <i className="fa-solid fa-chevron-down text-gray-400"></i>
+              <div className="hidden md:block text-left">
+                <p className="text-sm font-semibold text-gray-800 leading-tight">{userInfo.name}</p>
+                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">{userInfo.role}</p>
+              </div>
+              <i className="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
             </button>
 
             {/* Menú desplegable */}

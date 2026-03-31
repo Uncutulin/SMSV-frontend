@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MarketingResponse, MarketingItem } from '@/types/marketing';
+import { fetchMarketingData } from '@/services/marketingService';
 
 export const useMarketing = () => {
     const [data, setData] = useState<MarketingItem[]>([]);
@@ -11,18 +12,7 @@ export const useMarketing = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/campanas-mkt`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(filters),
-            });
-
-            if (!response.ok) throw new Error('Error en la API');
-
-            const result: MarketingResponse = await response.json();
+            const result = await fetchMarketingData(filters, page);
 
             setData(result.data); // Los 10 o 50 registros de la página actual
             setPagination(result); // Guardamos meta-datos (total, last_page, etc.)

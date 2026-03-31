@@ -1,7 +1,7 @@
 import { type IPCData } from '@/pages/admin/ipc';
 import { getAuthHeaders } from '@/utils/auth';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export interface IPCRequest {
     periodo_yyyymm: number;

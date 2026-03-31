@@ -2,6 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import { 
+    enableTwoFactor, 
+    getTwoFactorQrCode, 
+    confirmTwoFactor, 
+    getRecoveryCodes, 
+    disableTwoFactor 
+} from '@/services/authService';
 
 export default function SeguridadAdmin() {
     const [status, setStatus] = useState<'loading' | 'disabled' | 'pending' | 'enabled'>('loading');
@@ -41,33 +48,27 @@ export default function SeguridadAdmin() {
     const enable2FA = async () => {
         setError('');
         try {
-            const res = await fetch('/api/auth/2fa/two-factor-authentication', { method: 'POST' });
-            if (res.ok) {
-                // Update local user state
-                const userStr = localStorage.getItem('user');
-                if (userStr) {
-                    const user = JSON.parse(userStr);
-                    user.two_factor_secret = true; // placeholder to trigger pending state
-                    localStorage.setItem('user', JSON.stringify(user));
-                }
-                setStatus('pending');
-                fetchQrCode();
-            } else {
-                setError('Error al habilitar 2FA.');
+            await enableTwoFactor();
+            
+            // Update local user state
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                user.two_factor_secret = true; // placeholder to trigger pending state
+                localStorage.setItem('user', JSON.stringify(user));
             }
-        } catch (e) {
-            setError('Error de conexión.');
+            setStatus('pending');
+            fetchQrCode();
+        } catch (e: any) {
+            setError(e.message || 'Error al habilitar 2FA.');
         }
     };
 
     const fetchQrCode = async () => {
         try {
-            const res = await fetch('/api/auth/2fa/two-factor-qr-code');
-            if (res.ok) {
-                const data = await res.json();
-                if (data.svg) {
-                    setQrCodeSvg(data.svg);
-                }
+            const data = await getTwoFactorQrCode();
+            if (data.svg) {
+                setQrCodeSvg(data.svg);
             }
         } catch (e) {
             console.error('Failed to fetch QR code', e);
@@ -80,41 +81,29 @@ export default function SeguridadAdmin() {
         if (!setupCode) return;
 
         try {
-            const res = await fetch('/api/auth/2fa/confirmed-two-factor-authentication', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code: setupCode })
-            });
+            await confirmTwoFactor(setupCode);
 
-            if (res.ok) {
-                setSuccess('Autenticación de dos factores activada con éxito.');
-                setStatus('enabled');
-                
-                // Update local user
-                const userStr = localStorage.getItem('user');
-                if (userStr) {
-                    const user = JSON.parse(userStr);
-                    user.two_factor_confirmed_at = new Date().toISOString();
-                    localStorage.setItem('user', JSON.stringify(user));
-                }
-
-                fetchRecoveryCodes();
-            } else {
-                const data = await res.json();
-                setError(data.message || 'El código ingresado es incorrecto.');
+            setSuccess('Autenticación de dos factores activada con éxito.');
+            setStatus('enabled');
+            
+            // Update local user
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                user.two_factor_confirmed_at = new Date().toISOString();
+                localStorage.setItem('user', JSON.stringify(user));
             }
-        } catch (e) {
-            setError('Error de conexión al confirmar.');
+
+            fetchRecoveryCodes();
+        } catch (e: any) {
+            setError(e.message || 'Error al confirmar 2FA.');
         }
     };
 
     const fetchRecoveryCodes = async () => {
         try {
-            const res = await fetch('/api/auth/2fa/two-factor-recovery-codes');
-            if (res.ok) {
-                const data = await res.json();
-                setRecoveryCodes(data);
-            }
+            const data = await getRecoveryCodes();
+            setRecoveryCodes(data);
         } catch (e) {
             console.error('Failed to fetch recovery codes', e);
         }
@@ -125,26 +114,23 @@ export default function SeguridadAdmin() {
         
         setError('');
         try {
-            const res = await fetch('/api/auth/2fa/two-factor-authentication', { method: 'DELETE' });
-            if (res.ok) {
-                setSuccess('Autenticación de dos factores desactivada.');
-                setStatus('disabled');
-                setQrCodeSvg('');
-                setRecoveryCodes([]);
+            await disableTwoFactor();
 
-                // Update local user
-                const userStr = localStorage.getItem('user');
-                if (userStr) {
-                    const user = JSON.parse(userStr);
-                    user.two_factor_secret = null;
-                    user.two_factor_confirmed_at = null;
-                    localStorage.setItem('user', JSON.stringify(user));
-                }
-            } else {
-                setError('Error al desactivar 2FA.');
+            setSuccess('Autenticación de dos factores desactivada.');
+            setStatus('disabled');
+            setQrCodeSvg('');
+            setRecoveryCodes([]);
+
+            // Update local user
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                user.two_factor_secret = null;
+                user.two_factor_confirmed_at = null;
+                localStorage.setItem('user', JSON.stringify(user));
             }
-        } catch (e) {
-            setError('Error de conexión.');
+        } catch (e: any) {
+            setError(e.message || 'Error al desactivar 2FA.');
         }
     };
 

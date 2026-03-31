@@ -1,8 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuthHeaders } from '@/utils/auth';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+import { 
+    login, 
+    twoFactorChallenge, 
+    enableTwoFactor, 
+    getTwoFactorQrCode, 
+    confirmTwoFactor 
+} from '@/services/authService';
 
 export default function Login() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -27,39 +31,26 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(credentials),
-      });
+      const data = await login(credentials);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        if (data.two_factor) {
-          setStep(2);
-        } else if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-          if (data.access_token) {
-              localStorage.setItem('token', data.access_token);
-          }
-          
-          // Fuerza configurar 2FA si no lo tiene confirmado
-          if (!data.user.two_factor_confirmed_at) {
-              setStep(3);
-              setup2FAForNewUser();
-          } else {
-              navigate('/cartera-vigente');
-          }
+      if (data.two_factor) {
+        setStep(2);
+      } else if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.access_token) {
+            localStorage.setItem('token', data.access_token);
         }
-      } else {
-        setError(data.message || 'Usuario o contraseña incorrectos.');
+        
+        // Fuerza configurar 2FA si no lo tiene confirmado
+        if (!data.user.two_factor_confirmed_at) {
+            setStep(3);
+            setup2FAForNewUser();
+        } else {
+            navigate('/cartera-vigente');
+        }
       }
-    } catch (error) {
-      setError('Error al intentar contactar con el servidor.');
+    } catch (error: any) {
+      setError(error.message || 'Error al intentar contactar con el servidor.');
     } finally {
       setLoading(false);
     }
@@ -68,18 +59,10 @@ export default function Login() {
   const setup2FAForNewUser = async () => {
       try {
           // Primero habilitamos la generación del hash secreto si no existe
-          await fetch(`${API_BASE_URL}/user/two-factor-authentication`, { 
-              method: 'POST',
-              headers: getAuthHeaders()
-          });
+          await enableTwoFactor();
           // Luego obtenemos el QR
-          const qrRes = await fetch(`${API_BASE_URL}/user/two-factor-qr-code`, {
-              headers: getAuthHeaders()
-          });
-          if (qrRes.ok) {
-              const data = await qrRes.json();
-              if (data.svg) setQrCodeSvg(data.svg);
-          }
+          const data = await getTwoFactorQrCode();
+          if (data.svg) setQrCodeSvg(data.svg);
       } catch (e) {
           console.error('Error generando QR', e);
       }
@@ -97,29 +80,17 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/user/confirmed-two-factor-authentication`, {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            ...getAuthHeaders()
-        },
-        body: JSON.stringify({ code: fullCode }),
-      });
+      await confirmTwoFactor(fullCode);
 
-      if (response.ok) {
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
-            const user = JSON.parse(userStr);
-            user.two_factor_confirmed_at = new Date().toISOString();
-            localStorage.setItem('user', JSON.stringify(user));
-        }
-        navigate('/cartera-vigente');
-      } else {
-        setError('El código ingresado es incorrecto.');
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+          const user = JSON.parse(userStr);
+          user.two_factor_confirmed_at = new Date().toISOString();
+          localStorage.setItem('user', JSON.stringify(user));
       }
-    } catch (error) {
-      setError('Error al verificar el código. Inténtalo de nuevo.');
+      navigate('/cartera-vigente');
+    } catch (error: any) {
+      setError(error.message || 'Error al verificar el código. Inténtalo de nuevo.');
     } finally {
       setLoading(false);
     }
@@ -167,33 +138,17 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/two-factor-challenge`, {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-            // NOTA: Si Fortify usa cookies para el challenge, 
-            // asegúrate que el backend tenga SANCTUM_STATEFUL_DOMAINS 
-            // configurado e incluye credentials: 'include'.
-        },
-        body: JSON.stringify({ code: fullCode }),
-      });
+      const data = await twoFactorChallenge(fullCode);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-          if (data.access_token) {
-            localStorage.setItem('token', data.access_token);
-          }
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
         }
-        navigate('/cartera-vigente');
-      } else {
-        setError(data.message || 'Código de autenticación inválido.');
       }
-    } catch (error) {
-      setError('No se pudo verificar el código.');
+      navigate('/cartera-vigente');
+    } catch (error: any) {
+      setError(error.message || 'No se pudo verificar el código.');
     } finally {
       setLoading(false);
     }

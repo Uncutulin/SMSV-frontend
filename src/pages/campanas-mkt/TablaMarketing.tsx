@@ -11,6 +11,9 @@ interface Props {
     rowsPerPage: number;
     onRowsPerPageChange: (limit: number) => void;
     onPageChange: (page: number) => void;
+    onExportAll: () => void;
+    isExporting: boolean;
+    exportProgress: number;
 }
 
 export function TablaMarketing({
@@ -20,7 +23,10 @@ export function TablaMarketing({
     error,
     rowsPerPage,
     onRowsPerPageChange,
-    onPageChange
+    onPageChange,
+    onExportAll,
+    isExporting,
+    exportProgress
 }: Props) {
     const [activeInfo, setActiveInfo] = useState<string | null>(null);
     const [localSearch, setLocalSearch] = useState('');
@@ -76,26 +82,6 @@ export function TablaMarketing({
         </th>
     );
 
-    // 3. Exportación a Excel
-    const exportToExcel = () => {
-        const exportData = result.map(c => ({
-            'NOMBRE': c.nombre,
-            'DNI': c.nro_documento,
-            'EDAD': c.edad,
-            'PROVINCIA': c.productor_lugar || c.localidad,
-            'CANAL': c.productor_segmento,
-            'PRODUCTO': c.ramo_nombre,
-            'COMPAÑIA': c.compania_nombre,
-            'TELEFONO': c.telefono,
-            'EMAIL': c.mail,
-            'SOCIO MUTUAL': c.es_socio_mutual ? 'SI' : 'NO'
-        }));
-        const ws = XLSX.utils.json_to_sheet(exportData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Página Actual');
-        XLSX.writeFile(wb, `Marketing_Export_${new Date().getTime()}.xlsx`);
-    };
-
     return (
         <div className="bg-white rounded-lg shadow-xl overflow-hidden mt-4 border border-gray-200">
             {/* HEADER DE LA TABLA: BUSCADOR Y SELECTOR */}
@@ -133,10 +119,12 @@ export function TablaMarketing({
                         />
                     </div>
                     <button
-                        onClick={exportToExcel}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-xs font-bold flex items-center transition-all shadow-md active:scale-95"
+                        onClick={onExportAll}
+                        disabled={isExporting}
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-xs font-bold flex items-center transition-all shadow-md active:scale-95 disabled:opacity-50 min-w-[140px] justify-center"
                     >
-                        <i className="fa-solid fa-file-excel mr-2"></i> EXPORTAR
+                        <i className={`fa-solid ${isExporting ? 'fa-spinner fa-spin' : 'fa-file-excel'} mr-2`}></i>
+                        {isExporting ? `EXPORTANDO ${exportProgress}%` : 'EXPORTAR'}
                     </button>
                 </div>
             </div>
@@ -151,7 +139,8 @@ export function TablaMarketing({
                             <th className="px-3 py-3 text-left font-bold uppercase border-r border-white/10">Edad</th>
                             <HeaderWithInfo label="Provincia" field="productor_lugar" />
                             <HeaderWithInfo label="Canal" field="productor_segmento" />
-                            <HeaderWithInfo label="Producto" field="ramo_nombre" />
+                            <HeaderWithInfo label="Ramo" field="ramo_nombre" />
+                            <HeaderWithInfo label="Producto" field="producto_nombre" />
                             <HeaderWithInfo label="Compañía" field="compania_nombre" />
                             <th className="px-3 py-3 text-left font-bold uppercase border-r border-white/10">Teléfono</th>
                             <th className="px-3 py-3 text-left font-bold uppercase border-r border-white/10">Email</th>
@@ -170,6 +159,7 @@ export function TablaMarketing({
                                     <td className="px-3 py-3 border-r border-gray-50">{item.productor_lugar || item.localidad}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.productor_segmento}</td>
                                     <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.ramo_nombre}</td>
+                                    <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.producto_nombre}</td>
                                     <td className="px-3 py-3 text-gray-600 border-r border-gray-50">{item.compania_nombre}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.telefono || '—'}</td>
                                     <td className="px-3 py-3 text-blue-600 underline border-r border-gray-50">{item.mail || '—'}</td>

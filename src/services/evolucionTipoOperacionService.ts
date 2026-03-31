@@ -2,8 +2,8 @@
 import { getAuthHeaders } from '@/utils/auth';
 
 
-// Backend API URL (for server-side calls)
-const BACKEND_API_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL;
+// Backend API URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 export interface EvolucionData {
     entidad: string;
@@ -51,7 +51,7 @@ export const MOCK_EVOLUCION_DATA: EvolucionData[] = [
  */
 export const fetchFromBackend = async (subpath: string, params: EvolucionRequest, serverToken?: string): Promise<EvolucionResponse> => {
     try {
-        const url = `${BACKEND_API_URL}/api/evolucion-tipo-operacion${subpath}`;
+        const url = `${API_URL}/api/evolucion-tipo-operacion${subpath}`;
 
         const response = await fetch(url, {
             method: 'POST',
@@ -75,7 +75,7 @@ export const fetchFromBackend = async (subpath: string, params: EvolucionRequest
 
 export const fetchEvolucionFromBackend = async (params: string, serverToken?: string): Promise<EvolucionResponse> => {
     try {
-        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion?${params}`, {
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion?${params}`, {
             cache: 'no-store',
             headers: getAuthHeaders(serverToken)
         });
@@ -93,11 +93,9 @@ export const fetchEvolucionFromBackend = async (params: string, serverToken?: st
 
 export const fetchR12Data = async (params: EvolucionRequest): Promise<EvolucionResponse> => {
     try {
-        const response = await fetch('/api/evolucion-tipo-operacion/r12', {
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/r12`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify(params),
             cache: 'no-store'
         });
@@ -112,11 +110,9 @@ export const fetchR12Data = async (params: EvolucionRequest): Promise<EvolucionR
 
 export const fetchQPOLData = async (params: EvolucionRequest): Promise<EvolucionResponse> => {
     try {
-        const response = await fetch('/api/evolucion-tipo-operacion/qpol', {
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/qpol`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify(params),
             cache: 'no-store'
         });
@@ -137,7 +133,7 @@ export const fetchEvolucionCharts = async (params: EvolucionRequest): Promise<Ev
 // Filtros (Siguen llamando al backend directamente o podrías crear rutas API para ellos también)
 export const fetchCanales = async (serverToken?: string): Promise<string[]> => {
     try {
-        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion/canales`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/canales`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
         if (!response.ok) throw new Error('Error fetching canales');
         return await response.json();
     } catch (error) {
@@ -153,7 +149,7 @@ export interface Compania {
 
 export const fetchCompanias = async (serverToken?: string): Promise<Compania[]> => {
     try {
-        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion/companias`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/companias`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
         if (!response.ok) throw new Error('Error fetching companias');
         return await response.json();
     } catch (error) {
@@ -169,7 +165,7 @@ export interface Ramo {
 
 export const fetchRamos = async (serverToken?: string): Promise<Ramo[]> => {
     try {
-        const response = await fetch(`${BACKEND_API_URL}/api/evolucion-tipo-operacion/ramos`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/ramos`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
         if (!response.ok) throw new Error('Error fetching ramos');
         return await response.json();
     } catch (error) {

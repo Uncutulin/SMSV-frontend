@@ -1,11 +1,12 @@
 import { Usuario } from '@/types/user';
+import { getAuthHeaders } from '@/utils/auth';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchUsers = async (): Promise<Usuario[]> => {
     try {
-        const response = await fetch('/api/internal/users', {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+        const response = await fetch(`${API_URL}/api/internal/users`, {
+            headers: getAuthHeaders(),
             cache: 'no-store'
         });
 
@@ -23,11 +24,9 @@ export const fetchUsers = async (): Promise<Usuario[]> => {
 
 export const createUser = async (userData: any): Promise<boolean> => {
     try {
-        const response = await fetch('/api/internal/register', {
+        const response = await fetch(`${API_URL}/api/internal/register`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify(userData),
             cache: 'no-store'
         });
@@ -48,11 +47,9 @@ export const createUser = async (userData: any): Promise<boolean> => {
 
 export const updateUser = async (id: number, userData: any): Promise<boolean> => {
     try {
-        const response = await fetch(`/api/internal/users/${id}`, {
+        const response = await fetch(`${API_URL}/api/internal/users/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify(userData),
             cache: 'no-store'
         });
@@ -73,11 +70,9 @@ export const updateUser = async (id: number, userData: any): Promise<boolean> =>
 
 export const deleteUser = async (id: number): Promise<boolean> => {
     try {
-        const response = await fetch(`/api/internal/users/${id}`, {
+        const response = await fetch(`${API_URL}/api/internal/users/${id}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders(),
             cache: 'no-store'
         });
 

@@ -2,7 +2,7 @@ import { CarteraVigenteTotalesResponse, CarteraVigenteListadoResponse } from '..
 import { getAuthHeaders } from '@/utils/auth';
 
 
-const API_URL = process.env.API_BASE_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchCarteraVigenteData = async (params: string, serverToken?: string) => {
     try {

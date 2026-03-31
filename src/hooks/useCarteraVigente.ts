@@ -5,6 +5,7 @@ import {
     CarteraVigenteTotalesResponse,
     CarteraVigenteListadoResponse
 } from '@/types/carteraVigente';
+import { fetchCarteraVigenteData } from '@/services/carteraVigenteService';
 
 export const useCarteraVigente = (filters: any) => {
     const [totalesData, setTotalesData] = useState<CarteraVigenteTotales | null>(null);
@@ -21,15 +22,7 @@ export const useCarteraVigente = (filters: any) => {
 
             try {
                 const queryParams = new URLSearchParams(filters).toString();
-                const response = await fetch(`/api/cartera-vigente?${queryParams}`);
-
-                if (!response.ok) throw new Error('Error al conectar con la API interna');
-
-                // Tipamos la respuesta que viene del Handler
-                const { totales, tabla }: {
-                    totales: CarteraVigenteTotalesResponse,
-                    tabla: CarteraVigenteListadoResponse
-                } = await response.json();
+                const { totales, tabla } = await fetchCarteraVigenteData(queryParams);
 
                 // Verificamos el status según tu ApiResponse
                 if (totales.status === 'success') {

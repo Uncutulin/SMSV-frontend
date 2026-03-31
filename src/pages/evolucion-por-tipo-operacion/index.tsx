@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import HighchartsChart from '@/components/dashboard/HighchartsChart';
 import { usePeriodos } from '@/hooks/usePeriodo';
 import { useEvolucionTipoOperacion } from '@/hooks/useEvolucionTipoOperacion';
@@ -229,66 +230,68 @@ export default function EvolucionPorTipoOperacion() {
   }, [qpolData, labels]);
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mt-10">
-        <h1 className="text-3xl font-bold text-gray-900">Evolución por Tipo de Operación</h1>
-        <p className="text-gray-600 mt-2">Visualice la Evolución de las Operaciones por su Tipo</p>
+    <DashboardLayout>
+      <div className="space-y-6">
+        <div className="text-center mt-10">
+          <h1 className="text-3xl font-bold text-gray-900">Evolución por Tipo de Operación</h1>
+          <p className="text-gray-600 mt-2">Visualice la Evolución de las Operaciones por su Tipo</p>
+        </div>
+
+        <EvolucionFilters
+          allFilters={allFilters}
+          handleFilterChange={handleFilterChange}
+          aniosList1={anios1}
+          mesesList1={meses1}
+          loadingList1={loading1}
+          aniosList2={anios2}
+          mesesList2={meses2}
+          loadingList2={loading2}
+          aniosList3={anios3}
+          mesesList3={meses3}
+          loadingList3={loading3}
+          companias={companias}
+          ramos={ramos}
+          loadingFilters={loadingFilters}
+        />
+
+        {/* Gráficos */}
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <span className="ml-3 text-primary font-medium">Cargando datos...</span>
+          </div>
+        ) : hasFetched && (r12Data.length > 0 || qpolData.length > 0) ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
+            {/* Gráfico de barras R12 */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              {chartData && (
+                <HighchartsChart
+                  id="evolucion-r12"
+                  type="column"
+                  title=""
+                  data={chartData}
+                />
+              )}
+            </div>
+
+            {/* Gráfico de líneas Q POL */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              {lineChartData && (
+                <HighchartsChart
+                  id="evolucion-qpol"
+                  type="line"
+                  title=""
+                  data={lineChartData}
+                />
+              )}
+            </div>
+          </div>
+        ) : hasFetched && !loading && (
+          <div className="bg-white rounded-lg shadow-md p-10 text-center">
+            <p className="text-gray-500">No se encontraron datos para los filtros seleccionados.</p>
+          </div>
+        )}
       </div>
-
-      <EvolucionFilters
-        allFilters={allFilters}
-        handleFilterChange={handleFilterChange}
-        aniosList1={anios1}
-        mesesList1={meses1}
-        loadingList1={loading1}
-        aniosList2={anios2}
-        mesesList2={meses2}
-        loadingList2={loading2}
-        aniosList3={anios3}
-        mesesList3={meses3}
-        loadingList3={loading3}
-        companias={companias}
-        ramos={ramos}
-        loadingFilters={loadingFilters}
-      />
-
-      {/* Gráficos */}
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          <span className="ml-3 text-primary font-medium">Cargando datos...</span>
-        </div>
-      ) : hasFetched && (r12Data.length > 0 || qpolData.length > 0) ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
-          {/* Gráfico de barras R12 */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            {chartData && (
-              <HighchartsChart
-                id="evolucion-r12"
-                type="column"
-                title=""
-                data={chartData}
-              />
-            )}
-          </div>
-
-          {/* Gráfico de líneas Q POL */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            {lineChartData && (
-              <HighchartsChart
-                id="evolucion-qpol"
-                type="line"
-                title=""
-                data={lineChartData}
-              />
-            )}
-          </div>
-        </div>
-      ) : hasFetched && !loading && (
-        <div className="bg-white rounded-lg shadow-md p-10 text-center">
-          <p className="text-gray-500">No se encontraron datos para los filtros seleccionados.</p>
-        </div>
-      )}
-    </div>
+    </DashboardLayout>
   );
 }

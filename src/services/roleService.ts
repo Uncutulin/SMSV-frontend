@@ -1,7 +1,7 @@
 import { Role } from '@/types/user';
 import { getAuthHeaders } from '@/utils/auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchRoles = async (): Promise<Role[]> => {
     try {

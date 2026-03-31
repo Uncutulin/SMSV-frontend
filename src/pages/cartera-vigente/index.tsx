@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import { useCarteraVigente } from '@/hooks/useCarteraVigente';
 import { usePeriodos } from '@/hooks/usePeriodo';
 import StatCard from '@/components/dashboard/StatCard';
@@ -87,36 +88,38 @@ export default function CarteraPage() {
   if (loadingPeriodos || !filters.anio) return <div className="p-10 text-center">Cargando Periodos...</div>;
 
   return (
-    <div className="space-y-6 p-4">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900">Cartera Vigente</h1>
-        <p className="text-gray-600 mt-2 font-medium">
-          {meses.find(m => m.mes_numero.toString().padStart(2, '0') === filters.mes)?.mes_nombre} {filters.anio}
-        </p>
+    <DashboardLayout>
+      <div className="space-y-6 p-4">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">Cartera Vigente</h1>
+          <p className="text-gray-600 mt-2 font-medium">
+            {meses.find(m => m.mes_numero.toString().padStart(2, '0') === filters.mes)?.mes_nombre} {filters.anio}
+          </p>
+        </div>
+
+        <FiltrosCartera
+          filters={filters}
+          anios={anios}
+          meses={meses}
+          onFilterChange={handleFilterChange}
+          loading={loadingPeriodos}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {statsCards.map((stat, i) => <StatCard key={i} {...stat} loading={loading} />)}
+        </div>
+
+        <TablaCartera
+          datos={datosFinales}
+          loading={loading}
+          error={error}
+          tipoFiltro={filters.tipo_filtro}
+          busquedaGrupo={busquedaGrupo}
+          setBusquedaGrupo={setBusquedaGrupo}
+          configOrden={configOrden}
+          onOrdenar={setConfigOrden}
+        />
       </div>
-
-      <FiltrosCartera
-        filters={filters}
-        anios={anios}
-        meses={meses}
-        onFilterChange={handleFilterChange}
-        loading={loadingPeriodos}
-      />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statsCards.map((stat, i) => <StatCard key={i} {...stat} loading={loading} />)}
-      </div>
-
-      <TablaCartera
-        datos={datosFinales}
-        loading={loading}
-        error={error}
-        tipoFiltro={filters.tipo_filtro}
-        busquedaGrupo={busquedaGrupo}
-        setBusquedaGrupo={setBusquedaGrupo}
-        configOrden={configOrden}
-        onOrdenar={setConfigOrden}
-      />
-    </div>
+    </DashboardLayout>
   );
 }

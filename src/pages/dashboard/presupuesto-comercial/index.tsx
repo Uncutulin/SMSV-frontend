@@ -1,6 +1,8 @@
-import HighchartsChart from '@/components/dashboard/HighchartsChart';
-import { useNavigate } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DashboardLayout from '@/components/layout/DashboardLayout';
+import HighchartsChart from '@/components/dashboard/HighchartsChart';
+import { fetchPresupuestoData } from '@/services/presupuestoService';
 
 export default function PresupuestoComercial() {
   const navigate = useNavigate();
@@ -55,39 +57,36 @@ type MiEstado = {
   }, [selectedYear1, selectedMonth1, selectedYear2, selectedMonth2]);
 
   const getData = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/presupuesto`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
+    try {
+      const json = await fetchPresupuestoData({
         startYear: selectedYear1,
         endYear: selectedYear2,
         startMonth: selectedMonth1,
         endMonth: selectedMonth2,
         tipoVista: tipoVista,
-      }),
-    });
-    const json = Object.values(await response.json());
-    setData(json.map((val: any) => {
-      if(val.total !== undefined){
-        val.q_pol_ppto = Number(val.total[0].q_pol_ppto ?? 0);
-        val.q_pol_base = Number(val.total[0].q_pol_base ?? 0);
-        val.r12_ppto = Number(val.total[0].r12_ppto ?? 0);
-        val.r12_base = Number(val.total[0].r12_base ?? 0);
-        val.fuente = val.total[0].fuente;
-      }
+      });
 
-      if(val.ytd !== undefined){
-        val.ytd_q_pol_ppto = Number(val?.ytd[0]?.q_pol_ppto ?? 0);
-        val.ytd_q_pol_base = Number(val?.ytd[0]?.q_pol_base ?? 0);
-        val.ytd_r12_ppto = Number(val?.ytd[0]?.r12_ppto ?? 0);
-        val.ytd_r12_base = Number(val?.ytd[0]?.r12_base ?? 0);
-      }
-
-      return val;
-    }));
+      setData(json.map((val: any) => {
+        if(val.total !== undefined){
+          val.q_pol_ppto = Number(val.total[0].q_pol_ppto ?? 0);
+          val.q_pol_base = Number(val.total[0].q_pol_base ?? 0);
+          val.r12_ppto = Number(val.total[0].r12_ppto ?? 0);
+          val.r12_base = Number(val.total[0].r12_base ?? 0);
+          val.fuente = val.total[0].fuente;
+        }
+  
+        if(val.ytd !== undefined){
+          val.ytd_q_pol_ppto = Number(val?.ytd[0]?.q_pol_ppto ?? 0);
+          val.ytd_q_pol_base = Number(val?.ytd[0]?.q_pol_base ?? 0);
+          val.ytd_r12_ppto = Number(val?.ytd[0]?.r12_ppto ?? 0);
+          val.ytd_r12_base = Number(val?.ytd[0]?.r12_base ?? 0);
+        }
+  
+        return val;
+      }));
+    } catch (error) {
+      console.error("Error fetching presupuesto data:", error);
+    }
   }
 
   useEffect(() => {
@@ -3061,7 +3060,8 @@ type MiEstado = {
   }, [tipoVista, selectedYear1, selectedMonth1, selectedYear2, selectedMonth2, assaXCiaData, artXCiaData, casXRamoData, assaXRamoData]);
 
   return (
-    <div className="space-y-6">
+    <DashboardLayout>
+      <div className="p-6">
         <div className="text-center mt-10">
           <h1 className="text-3xl font-bold text-gray-900">Presupuesto Comercial</h1>
           <p className="text-gray-600 mt-2">Visualice el Presupuesto Comercial</p>
@@ -6287,5 +6287,6 @@ type MiEstado = {
           </>
         ) : null}
       </div>
+    </DashboardLayout>
   );
 } 
