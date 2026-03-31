@@ -1,46 +1,44 @@
 import { MarketingResponse } from '../types/marketing';
+import { getAuthHeaders } from '@/utils/auth';
 
-const API_URL = process.env.API_BASE_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
-export const fetchMarketingData = async (filters: any, page: number = 1): Promise<MarketingResponse> => {
+export const fetchMarketingData = async (filters: any, page: number = 1, serverToken?: string): Promise<MarketingResponse> => {
 
-    // Función auxiliar para unir arrays de forma segura
-    const safeJoin = (val: any) => (Array.isArray(val) && val.length > 0 ? val.join(',') : '');
+    const cleanedFilters: any = {};
+    
+    // Lista de campos que manejamos como arrays de strings
+    const arrayFields = [
+        'sexo', 'provincia', 'canal', 'compania', 'productoVigente', 
+        'estadoCivil', 'productoNoTiene', 'socioMutual', 'antiguedad', 
+        'tieneMail', 'tieneTelefono', 'fuerzaEmpresa', 'situacionRevista', 'origenDato'
+    ];
+
+    arrayFields.forEach(field => {
+        if (filters[field] && Array.isArray(filters[field]) && filters[field].length > 0) {
+            cleanedFilters[field] = filters[field];
+        }
+    });
+
+    // Manejo especial de edades
+    if (filters.edadDesde?.[0]) cleanedFilters.edadDesde = [parseInt(filters.edadDesde[0], 10)];
+    if (filters.edadHasta?.[0]) cleanedFilters.edadHasta = [parseInt(filters.edadHasta[0], 10)];
+
+    // Otros parámetros (como per_page)
+    if (filters.per_page) cleanedFilters.per_page = filters.per_page;
 
     const payload = {
-        ...filters,
-        page,
-        // Usamos safeJoin para evitar errores si el filtro está vacío
-        sexo: safeJoin(filters.sexo),
-        provincia: safeJoin(filters.provincia),
-        canal: safeJoin(filters.canal),
-        compania: safeJoin(filters.compania),
-        productoVigente: safeJoin(filters.productoVigente),
-        estadoCivil: safeJoin(filters.estadoCivil),
-        productoNoTiene: safeJoin(filters.productoNoTiene),
-        socioMutual: safeJoin(filters.socioMutual),
-        antiguedad: safeJoin(filters.antiguedad),
-        tieneMail: safeJoin(filters.tieneMail),
-        tieneTelefono: safeJoin(filters.tieneTelefono),
-        fuerzaEmpresa: safeJoin(filters.fuerzaEmpresa),
-        situacionRevista: safeJoin(filters.situacionRevista),
-        origenDato: safeJoin(filters.origenDato),
-
-        // Parseo seguro de edades
-        edadDesde: filters.edadDesde?.[0] ? parseInt(filters.edadDesde[0], 10) : null,
-        edadHasta: filters.edadHasta?.[0] ? parseInt(filters.edadHasta[0], 10) : null,
+        ...cleanedFilters,
+        page
     };
 
     if (!API_URL) {
-        throw new Error('La URL de la API (API_BASE_URL) no está configurada en el .env');
+        throw new Error('La URL de la API (VITE_API_URL) no está configurada en el .env');
     }
 
     const response = await fetch(`${API_URL}/api/campanas-mkt`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
+        headers: getAuthHeaders(serverToken),
         body: JSON.stringify(payload),
     });
 
@@ -52,3 +50,20 @@ export const fetchMarketingData = async (filters: any, page: number = 1): Promis
 
     return response.json();
 };
+
+export const fetchMarketingCombos = async (serverToken?: string): Promise<any> => {
+    if (!API_URL) {
+        throw new Error('La URL de la API (VITE_API_URL) no está configurada en el .env');
+    }
+
+    const response = await fetch(`${API_URL}/api/campanas-mkt/combos`, {
+        method: 'GET',
+        headers: getAuthHeaders(serverToken),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error al obtener combos de marketing: ${response.status}`);
+    }
+
+    return response.json();
+};

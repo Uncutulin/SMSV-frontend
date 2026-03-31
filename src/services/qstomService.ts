@@ -1,12 +1,14 @@
 import { QSTOMReport, RequestReportParams } from '@/types/qstom';
+import { getAuthHeaders } from '@/utils/auth';
 
-// Note: Internal API routes are correctly called with relative paths in client components,
-// but if this services is used server-side or needs absolute URL, process.env.NEXT_PUBLIC_BASE_URL might be needed.
-// However, looking at the previous page.tsx, it was using relative '/api/internal/qstom'.
-// We will maintain relative paths for internal Next.js API routes called from client.
+const API_URL = import.meta.env.VITE_API_URL;
+
+// En Vite utilizamos la URL base configurada para todas las llamadas al backend.
 
 export const fetchQstomLogs = async (): Promise<QSTOMReport[]> => {
-    const response = await fetch('/api/internal/qstom');
+    const response = await fetch(`${API_URL}/api/internal/qstom`, {
+        headers: getAuthHeaders()
+    });
     if (!response.ok) {
         throw new Error('Error al obtener los logs');
     }
@@ -14,11 +16,9 @@ export const fetchQstomLogs = async (): Promise<QSTOMReport[]> => {
 };
 
 export const requestQstomReport = async (data: RequestReportParams): Promise<void> => {
-    const response = await fetch('/api/internal/qstom/report', {
+    const response = await fetch(`${API_URL}/api/internal/qstom/report`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(data)
     });
 

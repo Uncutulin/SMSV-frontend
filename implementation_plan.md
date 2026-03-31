@@ -21,7 +21,7 @@ Fix Path Traversal, Authentication Bypass, Hardcoded Credentials, and Insecure C
 **New File**: `src/app/api/auth/login/route.ts`, `src/app/api/auth/logout/route.ts`
 - **Change**:
     - Create a Next.js Route Handler (`POST /api/auth/login`) to handle login requests.
-        1. Proxies request to backend (`process.env.NEXT_PUBLIC_API_URL`).
+        1. Proxies request to backend (`process.env.VITE_API_URL`).
         2. On success, sets the `token` into a **Secure, HTTPOnly, SameSite** cookie using `next/headers`.
     - Update `src/app/login/page.tsx` to call this internal route instead of the backend directly.
     - Update `middleware.ts` to check for the correct `token` cookie (instead of `smsv-auth`).

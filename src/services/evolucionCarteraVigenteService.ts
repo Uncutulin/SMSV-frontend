@@ -1,14 +1,16 @@
 // src/services/evolucionCarteraService.ts
 import { ProductorEjecutivoResponse, ComparativoResponse } from '../types/evolucionCarteraVigente';
+import { getAuthHeaders } from '@/utils/auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchEvolucionCarteraData = async (params: string) => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+export const fetchEvolucionCarteraData = async (params: string, serverToken?: string) => {
     try {
         // En Promise.all, pasamos una tupla con los tipos esperados para cada posición
         const [resStats, resTabla] = await Promise.all([
-            fetch(`${API_URL}/api/evolucion-de-cartera/productores?${params}`, { cache: 'no-store' }),
-            fetch(`${API_URL}/api/evolucion-de-cartera/ejecutivos?${params}`, { cache: 'no-store' })
+            fetch(`${API_URL}/api/evolucion-de-cartera/productores?${params}`, { cache: 'no-store', headers: getAuthHeaders(serverToken) }),
+            fetch(`${API_URL}/api/evolucion-de-cartera/ejecutivos?${params}`, { cache: 'no-store', headers: getAuthHeaders(serverToken) })
         ]);
 
         if (!resStats.ok || !resTabla.ok) {
@@ -27,14 +29,11 @@ export const fetchEvolucionCarteraData = async (params: string) => {
     }
 };
 
-export const fetchEvolucionCarteraComparativo = async (params: string) => {
+export const fetchEvolucionCarteraComparativo = async (params: string, serverToken?: string) => {
     try {
         const response = await fetch(`${API_URL}/api/evolucion-de-cartera/comparativo?${params}`, {
             cache: 'no-store',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+            headers: getAuthHeaders(serverToken)
         });
 
         if (!response.ok) {

@@ -1,9 +1,5 @@
-'use client';
-
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Image from 'next/image';
+import { Link, useLocation } from 'react-router-dom';
 
 interface SubMenuItem {
   name: string;
@@ -22,7 +18,8 @@ interface MenuItem {
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const menuItems: MenuItem[] = [
     {
@@ -88,12 +85,12 @@ export default function Sidebar() {
           name: 'Usuarios',
           href: '/admin/usuarios',
           active: pathname === '/admin/usuarios'
+        },
+        {
+          name: 'Seguridad',
+          href: '/admin/seguridad',
+          active: pathname === '/admin/seguridad'
         }
-        /*{
-          name: 'Roles',
-          href: '/admin/roles',
-          active: pathname === '/admin/roles'
-        }*/
       ]
     },
     {
@@ -207,7 +204,7 @@ export default function Sidebar() {
                 const renderedSubItem = (
                   <Link
                     key={subItem.href}
-                    href={subItem.href}
+                    to={subItem.href}
                     className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${subItem.active
                       ? 'bg-white/10 text-white font-bold'
                       : 'text-gray-300 hover:bg-white/5 hover:text-white'
@@ -232,7 +229,7 @@ export default function Sidebar() {
     return (
       <Link
         key={item.href}
-        href={item.href!}
+        to={item.href!}
         className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${item.active
           ? 'bg-white/10 text-white font-bold'
           : 'text-gray-200 hover:bg-white/5 hover:text-white'
@@ -254,7 +251,7 @@ export default function Sidebar() {
             <div className="flex items-center justify-center h-16 flex-shrink-0 px-6 border-b border-black/40 shadow-md shadow-black/30">
               <div className="flex items-center space-x-3">
                 <div className="flex flex-col items-center w-full">
-                  <Image src="/logo.png" alt="Logo SMSV" width={140} height={140} />
+                  <img src="/logo.png" alt="Logo SMSV" width="140" height="140" />
                 </div>
               </div>
             </div>
@@ -293,7 +290,7 @@ export default function Sidebar() {
           <div className="flex items-center h-16 flex-shrink-0 px-6 border-b border-black/40 shadow-md shadow-black/30">
             <div className="flex items-center space-x-3">
               <div className="flex flex-col items-center w-full">
-                <Image src="/logo.png" alt="Logo SMSV" width={128} height={128} />
+                <img src="/logo.png" alt="Logo SMSV" width="128" height="128" />
               </div>
             </div>
           </div>

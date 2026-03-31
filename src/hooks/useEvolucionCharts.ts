@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { DatoComparativo } from '@/types/evolucionCarteraVigente';
-import { getXAxisTitle } from '@/app/evolucion-de-la-cartera/evolucionUtils';
+import { getXAxisTitle } from '@/pages/evolucion-de-la-cartera/evolucionUtils';
 
 export const useEvolucionCharts = (
     listaComparativa: DatoComparativo[],

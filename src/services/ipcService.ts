@@ -1,6 +1,7 @@
-import { type IPCData } from '@/app/admin/ipc/page';
+import { type IPCData } from '@/pages/admin/ipc';
+import { getAuthHeaders } from '@/utils/auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export interface IPCRequest {
     periodo_yyyymm: number;
@@ -20,10 +21,8 @@ export interface IPCRequest {
 export const storeIPC = async (data: IPCRequest) => {
     const response = await fetch(`${API_URL}/api/ipc/indice`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
+        headers: getAuthHeaders(),
+
         body: JSON.stringify(data),
     });
 
@@ -59,10 +58,8 @@ export const getIPCList = async (anio?: number | '', mes?: number | '', page: nu
 
     const response = await fetch(url, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
+        headers: getAuthHeaders(),
+
     });
 
     if (!response.ok) {
@@ -105,10 +102,8 @@ export const getIpcAnios = async (): Promise<number[]> => {
     try {
         const response = await fetch(`${API_URL}/api/ipc/anios`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
+            headers: getAuthHeaders(),
+
         });
         if (!response.ok) return [];
         const result = await response.json();
@@ -129,10 +124,8 @@ export const getIpcMeses = async (): Promise<IpcMes[]> => {
     try {
         const response = await fetch(`${API_URL}/api/ipc/meses`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
+            headers: getAuthHeaders(),
+
         });
         if (!response.ok) return [];
         const result = await response.json();
@@ -157,10 +150,8 @@ export interface IPCUpdateRequest {
 export const updateIPC = async (id: string | number, data: IPCUpdateRequest) => {
     const response = await fetch(`${API_URL}/api/ipc/${id}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
+        headers: getAuthHeaders(),
+
         body: JSON.stringify(data),
     });
 
@@ -175,9 +166,8 @@ export const updateIPC = async (id: string | number, data: IPCUpdateRequest) => 
 export const deleteIPC = async (id: string | number) => {
     const response = await fetch(`${API_URL}/api/ipc/${id}`, {
         method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-        },
+        headers: getAuthHeaders(),
+
     });
 
     if (!response.ok) {
