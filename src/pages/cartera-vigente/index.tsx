@@ -11,6 +11,8 @@ import { FiltrosCartera } from '@/pages/cartera-vigente/FiltrosCartera';
 import { TablaCartera } from '@/pages/cartera-vigente/TablaCartera';
 import { CarteraVigenteListado } from '@/types/carteraVigente';
 
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+
 export default function CarteraPage() {
   const [filters, setFilters] = useState({
     compania: 'TODOS',
@@ -85,11 +87,19 @@ export default function CarteraPage() {
     { title: 'Cantidad de Cápitas', value: totalesData?.total_capitas || '-', icon: 'fa-solid fa-user', color: 'red' as const },
   ];
 
-  if (loadingPeriodos || !filters.anio) return <div className="p-10 text-center">Cargando Periodos...</div>;
+  if (loadingPeriodos || !filters.anio) {
+    return (
+      <DashboardLayout>
+        <LoadingSpinner message="Inicializando Periodos..." />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
       <div className="space-y-6 p-4">
+        {loading && <LoadingSpinner fullPage />}
+        
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900">Cartera Vigente</h1>
           <p className="text-gray-600 mt-2 font-medium">
