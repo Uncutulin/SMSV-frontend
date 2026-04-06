@@ -49,10 +49,10 @@ export const twoFactorChallenge = async (code: string) => {
     return data;
 };
 
-export const enableTwoFactor = async () => {
+export const enableTwoFactor = async (tempToken?: string) => {
     const response = await fetch(`${API_URL}/user/two-factor-authentication`, {
         method: 'POST',
-        headers: getAuthHeaders()
+        headers: getAuthHeaders(tempToken)
     });
     if (!response.ok) {
         throw new Error('Error al habilitar 2FA');
@@ -60,9 +60,9 @@ export const enableTwoFactor = async () => {
     return response;
 };
 
-export const getTwoFactorQrCode = async () => {
+export const getTwoFactorQrCode = async (tempToken?: string) => {
     const response = await fetch(`${API_URL}/user/two-factor-qr-code`, {
-        headers: getAuthHeaders()
+        headers: getAuthHeaders(tempToken)
     });
     if (!response.ok) {
         throw new Error('Error al obtener QR de 2FA');
@@ -70,13 +70,13 @@ export const getTwoFactorQrCode = async () => {
     return await response.json();
 };
 
-export const confirmTwoFactor = async (code: string) => {
+export const confirmTwoFactor = async (code: string, tempToken?: string) => {
     const response = await fetch(`${API_URL}/user/confirmed-two-factor-authentication`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            ...getAuthHeaders()
+            ...getAuthHeaders(tempToken)
         },
         body: JSON.stringify({ code }),
     });
