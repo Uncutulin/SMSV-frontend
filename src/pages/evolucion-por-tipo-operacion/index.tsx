@@ -7,6 +7,7 @@ import { usePeriodos } from '@/hooks/usePeriodo';
 import { useEvolucionTipoOperacion } from '@/hooks/useEvolucionTipoOperacion';
 import { Compania } from '@/services/evolucionTipoOperacionService';
 import EvolucionFilters from '@/components/evolucion-por-tipo-operacion/EvolucionFilters';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function EvolucionPorTipoOperacion() {
   // Estado unificado para todos los periodos y filtros adicionales
@@ -232,6 +233,7 @@ export default function EvolucionPorTipoOperacion() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {loading && <LoadingSpinner fullPage />}
         <div className="text-center mt-10">
           <h1 className="text-3xl font-bold text-gray-900">Evolución por Tipo de Operación</h1>
           <p className="text-gray-600 mt-2">Visualice la Evolución de las Operaciones por su Tipo</p>

@@ -20,12 +20,7 @@ const initialFilterState = {
   tipo_filtro: 'CANAL'
 };
 
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center h-64">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-    <span className="ml-3 text-blue-600 font-medium">Cargando gráficos...</span>
-  </div>
-);
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function EvolucionCartera() {
   const navigate = useNavigate();
@@ -286,6 +281,7 @@ export default function EvolucionCartera() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {(isAnyPeriodLoading || loadingComparativa) && <LoadingSpinner fullPage />}
         <div className="text-center mt-10">
           <h1 className="text-3xl font-bold text-gray-900">Evolución de Cartera</h1>
           <p className="text-gray-600 mt-2">Visualice la Evolución de Cartera</p>
