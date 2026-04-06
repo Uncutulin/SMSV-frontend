@@ -11,6 +11,10 @@ const CampanasMkt = React.lazy(() => import('./pages/campanas-mkt'));
 const AdminSeguridad = React.lazy(() => import('./pages/admin/seguridad'));
 const AdminIPC = React.lazy(() => import('./pages/admin/ipc'));
 const AdminUsuarios = React.lazy(() => import('./pages/admin/usuarios'));
+const QSTOMLogs = React.lazy(() => import('./pages/admin/logs/qstom'));
+const JerarquiaLogs = React.lazy(() => import('./pages/admin/logs/jerarquia'));
+const AseguradosLogs = React.lazy(() => import('./pages/admin/logs/asegurados'));
+const FTPLogs = React.lazy(() => import('./pages/admin/logs/ftp'));
 
 // Import dashboard layout wrapper if it exists (assuming it was in app/layout.tsx or components)
 // Normally layouts in React Router simply render <Outlet /> for children, or wrap children
@@ -34,6 +38,12 @@ function App() {
         <Route path="/admin/seguridad" element={<AdminSeguridad />} />
         <Route path="/admin/ipc" element={<AdminIPC />} />
         <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+
+        {/* Rutas de Logs */}
+        <Route path="/admin/logs/qstom" element={<QSTOMLogs />} />
+        <Route path="/admin/logs/jerarquia" element={<JerarquiaLogs />} />
+        <Route path="/admin/logs/asegurados" element={<AseguradosLogs />} />
+        <Route path="/admin/logs/ftp" element={<FTPLogs />} />
 
         {/* Fallback vacio */}
         <Route path="*" element={<div className="p-10 text-center">404 - Página no encontrada</div>} />

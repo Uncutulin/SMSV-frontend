@@ -96,27 +96,27 @@ export default function Sidebar() {
     {
       name: 'Logs',
       icon: 'fa-solid fa-rocket',
-      active: pathname.startsWith('/api'),
+      active: pathname.startsWith('/admin/logs'),
       submenu: [
         {
           name: 'QSTOM - Logs',
-          href: '/api/qstom',
-          active: pathname === '/api/qstom'
+          href: '/admin/logs/qstom',
+          active: pathname === '/admin/logs/qstom'
         },
         {
           name: 'Jerarquia - Logs',
-          href: '/api/jerarquia',
-          active: pathname === '/api/jerarquia'
+          href: '/admin/logs/jerarquia',
+          active: pathname === '/admin/logs/jerarquia'
         },
         {
           name: 'Asegurados - Logs',
-          href: '/api/asegurados',
-          active: pathname === '/api/asegurados'
+          href: '/admin/logs/asegurados',
+          active: pathname === '/admin/logs/asegurados'
         },
         {
           name: 'FTP',
-          href: '/api/ftp',
-          active: pathname === '/api/ftp'
+          href: '/admin/logs/ftp',
+          active: pathname === '/admin/logs/ftp'
         }
       ]
     }

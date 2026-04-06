@@ -341,7 +341,7 @@ export default function EvolucionCartera() {
               <HighchartsChart
                 id="torta-q-pol"
                 type="pie"
-                title={'Distribución Q PÓL - ' + allFilters.inicio.anio + allFilters.inicio.mes + ' vs ' + allFilters.inicio.anio + allFilters.fin.mes}
+                title={'Distribución Q PÓL - ' + allFilters.inicio.anio + allFilters.fin.mes}
                 data={qPolPieData || {}}
               />
             </div>
