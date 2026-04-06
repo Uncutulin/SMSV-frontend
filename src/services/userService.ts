@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchUsers = async (): Promise<Usuario[]> => {
     try {
-        const response = await fetch(`${API_URL}/api/internal/users`, {
+        const response = await fetch(`${API_URL}/api/users`, {
             headers: getAuthHeaders(),
             cache: 'no-store'
         });
@@ -24,7 +24,7 @@ export const fetchUsers = async (): Promise<Usuario[]> => {
 
 export const createUser = async (userData: any): Promise<boolean> => {
     try {
-        const response = await fetch(`${API_URL}/api/internal/register`, {
+        const response = await fetch(`${API_URL}/api/register`, {
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify(userData),
@@ -47,7 +47,7 @@ export const createUser = async (userData: any): Promise<boolean> => {
 
 export const updateUser = async (id: number, userData: any): Promise<boolean> => {
     try {
-        const response = await fetch(`${API_URL}/api/internal/users/${id}`, {
+        const response = await fetch(`${API_URL}/api/users/${id}`, {
             method: 'PUT',
             headers: getAuthHeaders(),
             body: JSON.stringify(userData),
@@ -70,7 +70,7 @@ export const updateUser = async (id: number, userData: any): Promise<boolean> =>
 
 export const deleteUser = async (id: number): Promise<boolean> => {
     try {
-        const response = await fetch(`${API_URL}/api/internal/users/${id}`, {
+        const response = await fetch(`${API_URL}/api/users/${id}`, {
             method: 'DELETE',
             headers: getAuthHeaders(),
             cache: 'no-store'
