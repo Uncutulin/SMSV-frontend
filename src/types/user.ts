@@ -21,5 +21,7 @@ export interface Usuario {
     updated_at?: string;
     roles: Role[]; // Array of Role objects
     activo: boolean; // Note: API response didn't show 'activo', assuming it exists or mapped
+    force_2fa?: boolean;
+    two_factor_confirmed_at?: string | null;
     deleted_at?: string | null;
 }

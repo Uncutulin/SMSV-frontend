@@ -87,3 +87,24 @@ export const deleteUser = async (id: number): Promise<boolean> => {
         throw error;
     }
 };
+
+export const toggleUserForce2FA = async (id: number, force_2fa: boolean): Promise<any> => {
+    try {
+        const response = await fetch(`${API_URL}/api/users/${id}/force-2fa`, {
+            method: 'PATCH',
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ force_2fa }),
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error al actualizar 2FA Obligatorio');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error toggling force 2FA:", error);
+        throw error;
+    }
+};

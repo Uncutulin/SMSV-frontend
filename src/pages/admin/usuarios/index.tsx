@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Usuario } from '@/types/user';
-import { fetchUsers, createUser, updateUser, deleteUser } from '@/services/userService';
+import { fetchUsers, createUser, updateUser, deleteUser, toggleUserForce2FA } from '@/services/userService';
 import UserFormModal, { UserFormData } from './UserFormModal';
 import Swal from 'sweetalert2';
 
@@ -104,6 +104,34 @@ export default function UsuariosPage() {
     }
   };
 
+  const handleToggleForce2FA = async (usuario: Usuario) => {
+    try {
+      const newValue = !usuario.force_2fa;
+      await toggleUserForce2FA(usuario.id, newValue);
+      
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+
+      Toast.fire({
+        icon: 'success',
+        title: `2FA Obligatorio ${newValue ? 'activado' : 'desactivado'} para ${usuario.name}`
+      });
+
+      setUsuarios(usuarios.map(u => u.id === usuario.id ? { ...u, force_2fa: newValue } : u));
+    } catch (error: any) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'No se pudo actualizar el estado de 2FA',
+      });
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="p-3">
@@ -143,6 +171,9 @@ export default function UsuariosPage() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Estado
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Forzar 2FA
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Acciones
@@ -196,6 +227,17 @@ export default function UsuariosPage() {
                           }`}>
                           {!usuario.deleted_at && usuario.activo !== false ? 'Activo' : 'Inactivo'}
                         </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="sr-only peer" 
+                            checked={!!usuario.force_2fa}
+                            onChange={() => handleToggleForce2FA(usuario)}
+                          />
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         {!usuario.deleted_at && (

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { 
     login, 
     twoFactorChallenge, 
@@ -17,6 +18,7 @@ export default function Login() {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  const [tempSetupToken, setTempSetupToken] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -35,19 +37,16 @@ export default function Login() {
 
       if (data.two_factor) {
         setStep(2);
+      } else if (data.requires_2fa_setup) {
+        setTempSetupToken(data.access_token);
+        setStep(3);
+        setup2FAForNewUser(data.access_token);
       } else if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user));
         if (data.access_token) {
             localStorage.setItem('token', data.access_token);
         }
-        
-        // Fuerza configurar 2FA si no lo tiene confirmado
-        if (!data.user.two_factor_confirmed_at) {
-            setStep(3);
-            setup2FAForNewUser();
-        } else {
-            navigate('/cartera-vigente');
-        }
+        navigate('/cartera-vigente');
       }
     } catch (error: any) {
       setError(error.message || 'Error al intentar contactar con el servidor.');
@@ -56,12 +55,12 @@ export default function Login() {
     }
   };
 
-  const setup2FAForNewUser = async () => {
+  const setup2FAForNewUser = async (token: string) => {
       try {
           // Primero habilitamos la generación del hash secreto si no existe
-          await enableTwoFactor();
+          await enableTwoFactor(token);
           // Luego obtenemos el QR
-          const data = await getTwoFactorQrCode();
+          const data = await getTwoFactorQrCode(token);
           if (data.svg) setQrCodeSvg(data.svg);
       } catch (e) {
           console.error('Error generando QR', e);
@@ -80,15 +79,19 @@ export default function Login() {
     setError('');
 
     try {
-      await confirmTwoFactor(fullCode);
+      await confirmTwoFactor(fullCode, tempSetupToken);
 
-      const userStr = localStorage.getItem('user');
-      if (userStr) {
-          const user = JSON.parse(userStr);
-          user.two_factor_confirmed_at = new Date().toISOString();
-          localStorage.setItem('user', JSON.stringify(user));
-      }
-      navigate('/cartera-vigente');
+      setTempSetupToken('');
+      setCode(['', '', '', '', '', '']);
+      setStep(1);
+      setCredentials({ email: '', password: '' });
+      
+      Swal.fire({
+        icon: 'success',
+        title: '¡Configuración exitosa!',
+        text: 'El segundo factor de autenticación ha sido configurado correctamente. Por favor, inicie sesión nuevamente.',
+        confirmButtonColor: '#003366'
+      });
     } catch (error: any) {
       setError(error.message || 'Error al verificar el código. Inténtalo de nuevo.');
     } finally {
