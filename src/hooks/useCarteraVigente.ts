@@ -35,7 +35,7 @@ export const useCarteraVigente = (filters: any) => {
 
             } catch (err) {
                 console.error("Hook Error:", err);
-                setError('Error al cargar los datos de la cartera');
+                setError(err instanceof Error ? err.message : 'Error al cargar los datos de la cartera');
             } finally {
                 setLoading(false);
             }

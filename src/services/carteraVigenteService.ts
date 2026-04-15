@@ -17,14 +17,14 @@ export const fetchCarteraVigenteData = async (params: string, serverToken?: stri
             })
         ]);
 
-        if (!resStats.ok || !resTabla.ok) {
-            throw new Error(`Error Laravel: Stats ${resStats.status}, Tabla ${resTabla.status}`);
-        }
-
-        // Usamos tus interfaces específicas
         const totales: CarteraVigenteTotalesResponse = await resStats.json();
         const tabla: CarteraVigenteListadoResponse = await resTabla.json();
 
+        if (!resStats.ok || !resTabla.ok) {
+            throw new Error(totales.message || tabla.message || `Error del servidor: ${resStats.status} / ${resTabla.status}`);
+        }
+
+        console.log(tabla);
         return { totales, tabla };
 
     } catch (error) {
