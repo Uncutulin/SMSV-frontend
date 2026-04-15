@@ -15,6 +15,7 @@ const QSTOMLogs = React.lazy(() => import('./pages/admin/logs/qstom'));
 const JerarquiaLogs = React.lazy(() => import('./pages/admin/logs/jerarquia'));
 const AseguradosLogs = React.lazy(() => import('./pages/admin/logs/asegurados'));
 const FTPLogs = React.lazy(() => import('./pages/admin/logs/ftp'));
+const Profile = React.lazy(() => import('./pages/profile'));
 
 // Import dashboard layout wrapper if it exists (assuming it was in app/layout.tsx or components)
 // Normally layouts in React Router simply render <Outlet /> for children, or wrap children
@@ -44,6 +45,7 @@ function App() {
         <Route path="/admin/logs/jerarquia" element={<JerarquiaLogs />} />
         <Route path="/admin/logs/asegurados" element={<AseguradosLogs />} />
         <Route path="/admin/logs/ftp" element={<FTPLogs />} />
+        <Route path="/profile" element={<Profile />} />
 
         {/* Fallback vacio */}
         <Route path="*" element={<div className="p-10 text-center">404 - Página no encontrada</div>} />
