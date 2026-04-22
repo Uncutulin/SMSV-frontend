@@ -63,9 +63,9 @@ export default function EvolucionTable({ data, labels, loading, alOrdenar, confi
                                         className={`border-b hover:bg-gray-50 ${isLast ? 'bg-blue-100 font-bold' : ''}`}
                                     >
                                         <td className="px-4 py-2 font-bold border-r-2 border-black">{item.entidad}</td>
-                                        <td className="px-4 py-2 text-center">{item.q_pol_periodo_ini}</td>
-                                        <td className="px-4 py-2 text-center">{item.q_pol_periodo_fin}</td>
-                                        <td className="px-4 py-2 text-center">{item.dif_q_pol}</td>
+                                        <td className="px-4 py-2 text-center">{Number(item.q_pol_periodo_ini).toLocaleString('es-AR')}</td>
+                                        <td className="px-4 py-2 text-center">{Number(item.q_pol_periodo_fin).toLocaleString('es-AR')}</td>
+                                        <td className="px-4 py-2 text-center">{Number(item.dif_q_pol).toLocaleString('es-AR')}</td>
                                         <td className={`px-4 py-2 text-center border-r-2 border-black ${getDifColor(item.pct_q_pol)}`}>
                                             {item.pct_q_pol}
                                         </td>
