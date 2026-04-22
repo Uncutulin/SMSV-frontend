@@ -25,23 +25,49 @@ export default function EvolucionPorTipoOperacion() {
     setAllFilters(filters);
   };
 
-  // Hooks para obtener periodos dinámicos
-  const { anios: anios1, meses: meses1, loading: loading1 } = usePeriodos(allFilters.p1.anio ? Number(allFilters.p1.anio) : undefined);
-  const { anios: anios2, meses: meses2, loading: loading2 } = usePeriodos(allFilters.p2.anio ? Number(allFilters.p2.anio) : undefined);
-  const { anios: anios3, meses: meses3, loading: loading3 } = usePeriodos(allFilters.p3.anio ? Number(allFilters.p3.anio) : undefined);
+  // Hooks para obtener periodos dinámicos unificados
+  const { periodos, anios: aniosComunes, loading: loadingPeriodos } = usePeriodos();
+
+  const meses1 = useMemo(() => {
+    if (!allFilters.p1.anio) return [];
+    const anioNum = Number(allFilters.p1.anio);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, allFilters.p1.anio]);
+
+  const meses2 = useMemo(() => {
+    if (!allFilters.p2.anio) return [];
+    const anioNum = Number(allFilters.p2.anio);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, allFilters.p2.anio]);
+
+  const meses3 = useMemo(() => {
+    if (!allFilters.p3.anio) return [];
+    const anioNum = Number(allFilters.p3.anio);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, allFilters.p3.anio]);
+
+  const loading1 = loadingPeriodos;
+  const loading2 = loadingPeriodos;
+  const loading3 = loadingPeriodos;
+  const anios1 = aniosComunes;
+  const anios2 = aniosComunes;
+  const anios3 = aniosComunes;
 
   // Inicializar años con el último disponible
   useEffect(() => {
-    if (!loading1 && anios1.length > 0 && !allFilters.p1.anio) {
-      const latestYear = anios1[0].anio.toString();
+    if (periodos.length > 0 && !allFilters.p1.anio) {
+      const maxAnio = Math.max(...periodos.map(p => p.anio)).toString();
       setAllFilters(prev => ({
         ...prev,
-        p1: { ...prev.p1, anio: latestYear },
-        p2: { ...prev.p2, anio: latestYear },
-        p3: { ...prev.p3, anio: latestYear }
+        p1: { ...prev.p1, anio: maxAnio },
+        p2: { ...prev.p2, anio: maxAnio },
+        p3: { ...prev.p3, anio: maxAnio }
       }));
     }
-  }, [loading1, anios1]);
+  }, [periodos, allFilters.p1.anio]);
 
   // Función para manejar cambios en los filtros
   const handleFilterChange = (grupo: string, key: string, value: string) => {

@@ -16,3 +16,11 @@ export const fetchMesesByAnio = async (anio: number, serverToken?: string) => {
     const response = await res.json();
     return response.data.meses;
 };
+
+// Obtener todos los períodos (años y meses correspondientes)
+export const fetchAllPeriodos = async (serverToken?: string) => {
+    const res = await fetch(`${API_URL}/api/periodo/all`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
+    if (!res.ok) throw new Error('Error al cargar períodos');
+    const response = await res.json();
+    return response.data.periodos;
+};
