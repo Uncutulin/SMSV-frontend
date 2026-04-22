@@ -1,56 +1,47 @@
-import { useState, useEffect } from 'react';
-import { fetchAnios, fetchMesesByAnio } from '@/services/periodoService';
+import { useState, useEffect, useMemo } from 'react';
+import { fetchAllPeriodos } from '@/services/periodoService';
 
 // Definimos las interfaces según tu JSON
-interface AnioData {
-    anio: number;
-}
-
-interface MesData {
+export interface MesData {
     mes_numero: number;
     mes_nombre: string;
 }
 
+export interface PeriodoData {
+    anio: number;
+    meses: MesData[];
+}
 
 export const usePeriodos = (selectedAnio?: string | number) => {
-    const [anios, setAnios] = useState<AnioData[]>([]);
-    const [meses, setMeses] = useState<MesData[]>([]);
+    const [periodos, setPeriodos] = useState<PeriodoData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const getAnios = async () => {
+        const getAllPeriodos = async () => {
             setLoading(true);
             try {
-                const data = await fetchAnios(); // Tu fetch ya retorna response.data.anios
-                setAnios(data);
+                const data = await fetchAllPeriodos();
+                setPeriodos(data);
             } catch (err) {
-                setError('Error al cargar los años');
+                setError('Error al cargar los periodos');
             } finally {
                 setLoading(false);
             }
         };
-        getAnios();
+        getAllPeriodos();
     }, []);
 
-    useEffect(() => {
-        if (!selectedAnio) return;
+    const anios = useMemo(() => {
+        return periodos.map(p => ({ anio: p.anio }));
+    }, [periodos]);
 
-        const getMeses = async () => {
-            setLoading(true);
-            setMeses([]); // Clear previous months to avoid stale data while loading
-            try {
-                const data = await fetchMesesByAnio(Number(selectedAnio));
-                setMeses(data);
-            } catch (err) {
-                setError('Error al cargar los meses');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const meses = useMemo(() => {
+        if (!selectedAnio) return [];
+        const anioNum = Number(selectedAnio);
+        const p = periodos.find(p => p.anio === anioNum);
+        return p ? p.meses : [];
+    }, [periodos, selectedAnio]);
 
-        getMeses();
-    }, [selectedAnio]);
-
-    return { anios, meses, loading, error };
-};
+    return { periodos, anios, meses, loading, error };
+};

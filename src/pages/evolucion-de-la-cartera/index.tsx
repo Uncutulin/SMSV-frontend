@@ -15,8 +15,8 @@ import {
 
 const initialFilterState = {
   compania: 'TODOS',
-  anio: '2025',
-  mes: '10',
+  anio: '',
+  mes: '',
   tipo_filtro: 'CANAL'
 };
 
@@ -33,10 +33,10 @@ export default function EvolucionCartera() {
   const [rankingFilter, setRankingFilter] = useState<'con-art' | 'sin-art'>('con-art');
 
   // Estados para el filtro (Used for internal logic in original file)
-  const [selectedYear1, setSelectedYear1] = useState('2024');
-  const [selectedYear2, setSelectedYear2] = useState('2025');
-  const [selectedMonth1, setSelectedMonth1] = useState('01');
-  const [selectedMonth2, setSelectedMonth2] = useState('01');
+  const [selectedYear1, setSelectedYear1] = useState('');
+  const [selectedYear2, setSelectedYear2] = useState('');
+  const [selectedMonth1, setSelectedMonth1] = useState('');
+  const [selectedMonth2, setSelectedMonth2] = useState('');
 
   const [tipoVista, setTipoVista] = useState('TOTAL X CÍA');
   const [filtroProductor, setFiltroProductor] = useState('TODOS');
@@ -52,8 +52,44 @@ export default function EvolucionCartera() {
   });
 
   // En la sección de Hooks
-  const { anios: aniosInicio, meses: mesesInicio, loading: loadingInicio } = usePeriodos(allFilters.inicio.anio);
-  const { anios: aniosFin, meses: mesesFin, loading: loadingFin } = usePeriodos(allFilters.fin.anio);
+  const { periodos, anios: aniosComunes, loading: loadingPeriodos } = usePeriodos();
+
+  const mesesInicio = useMemo(() => {
+    if (!allFilters.inicio.anio) return [];
+    const anioNum = Number(allFilters.inicio.anio);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, allFilters.inicio.anio]);
+
+  const mesesFin = useMemo(() => {
+    if (!allFilters.fin.anio) return [];
+    const anioNum = Number(allFilters.fin.anio);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, allFilters.fin.anio]);
+
+  const loadingInicio = loadingPeriodos;
+  const loadingFin = loadingPeriodos;
+  const aniosInicio = aniosComunes;
+  const aniosFin = aniosComunes;
+
+  // Auto-seleccionar el último año si no está seleccionado
+  useEffect(() => {
+    if (periodos.length > 0 && allFilters.inicio.anio === '') {
+      const maxAnio = Math.max(...periodos.map(p => p.anio)).toString();
+      
+      setAllFilters(prev => ({
+        ...prev,
+        inicio: { ...prev.inicio, anio: maxAnio },
+        fin: { ...prev.fin, anio: maxAnio },
+        productores: { ...prev.productores, anio: maxAnio },
+        ejecutivos: { ...prev.ejecutivos, anio: maxAnio }
+      }));
+
+      if (selectedYear1 === '') setSelectedYear1(maxAnio);
+      if (selectedYear2 === '') setSelectedYear2(maxAnio);
+    }
+  }, [periodos, allFilters.inicio.anio, selectedYear1, selectedYear2]);
 
   // Auto-select last available month if current selection is invalid
   useEffect(() => {
@@ -205,8 +241,19 @@ export default function EvolucionCartera() {
   }, [listaComparativa, configOrden]);
 
   // Hooks para obtener periodos dinámicos (Legacy/Unused logic for 'selectedYear' variables)
-  const { meses: meses1 } = usePeriodos(Number(selectedYear1));
-  const { meses: meses2 } = usePeriodos(Number(selectedYear2));
+  const meses1 = useMemo(() => {
+    if (!selectedYear1) return [];
+    const anioNum = Number(selectedYear1);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, selectedYear1]);
+
+  const meses2 = useMemo(() => {
+    if (!selectedYear2) return [];
+    const anioNum = Number(selectedYear2);
+    const p = periodos.find(p => p.anio === anioNum);
+    return p ? p.meses : [];
+  }, [periodos, selectedYear2]);
 
   // Efecto para actualizar mes1 cuando cambian los meses disponibles
   useEffect(() => {
