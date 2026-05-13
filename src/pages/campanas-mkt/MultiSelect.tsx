@@ -27,10 +27,26 @@ export function MultiSelect({ options, value, onChange, placeholder = "Seleccion
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const getOptionValue = (option: SelectOption) => typeof option === 'string' ? option : String(option.id);
-    const getOptionLabel = (option: SelectOption) => typeof option === 'string' ? option : option.nombre;
+    const getOptionValue = (option: any) => {
+        if (typeof option === 'string') return option;
+        if (option.IDCanal !== undefined) return String(option.IDCanal);
+        if (option.id !== undefined) return String(option.id);
+        if (option.IDProducto !== undefined) return String(option.IDProducto);
+        return JSON.stringify(option);
+    };
 
-    const handleToggleOption = (option: SelectOption) => {
+    const getOptionLabel = (option: any) => {
+        if (typeof option === 'string') return option;
+        if (option.nombre !== undefined) return String(option.nombre);
+        if (option.producto_nombre !== undefined) return String(option.producto_nombre);
+        if (option.descripcion !== undefined) return String(option.descripcion);
+        
+        const values = Object.values(option);
+        const strVal = values.find(v => typeof v === 'string');
+        return strVal ? String(strVal) : 'Sin nombre';
+    };
+
+    const handleToggleOption = (option: any) => {
         const val = getOptionValue(option);
         const newValue = value.includes(val)
             ? value.filter(v => v !== val)
@@ -42,9 +58,10 @@ export function MultiSelect({ options, value, onChange, placeholder = "Seleccion
         onChange(options.map(getOptionValue));
     };
 
-    const filteredOptions = options.filter(option =>
-        getOptionLabel(option).toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredOptions = options.filter(option => {
+        const label = getOptionLabel(option) || '';
+        return label.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
     return (
         <div className="relative" ref={dropdownRef}>

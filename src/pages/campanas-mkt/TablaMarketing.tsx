@@ -37,7 +37,7 @@ export function TablaMarketing({
         const term = localSearch.toLowerCase();
         return result.filter((c: any) =>
             c.nombre?.toLowerCase().includes(term) ||
-            c.nro_documento?.toString().includes(term) ||
+            (c.nro_documento || c.cuit)?.toString().includes(term) ||
             c.ramo_nombre?.toLowerCase().includes(term)
         );
     }, [result, localSearch]);
@@ -154,10 +154,10 @@ export function TablaMarketing({
                             filteredResult.map((item: any, idx: number) => (
                                 <tr key={idx} className="hover:bg-blue-50 transition-colors">
                                     <td className="px-3 py-3 font-semibold text-gray-900 border-r border-gray-50">{item.nombre}</td>
-                                    <td className="px-3 py-3 font-mono border-r border-gray-50">{item.nro_documento}</td>
+                                    <td className="px-3 py-3 font-mono border-r border-gray-50">{item.nro_documento || item.cuit}</td>
                                     <td className="px-3 py-3 text-center border-r border-gray-50">{item.edad || '—'}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.productor_lugar || item.localidad}</td>
-                                    <td className="px-3 py-3 border-r border-gray-50">{item.productor_segmento}</td>
+                                    <td className="px-3 py-3 border-r border-gray-50">{item.productor_canal}</td>
                                     <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.ramo_nombre}</td>
                                     <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.producto_nombre}</td>
                                     <td className="px-3 py-3 text-gray-600 border-r border-gray-50">{item.compania_nombre}</td>
