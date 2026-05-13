@@ -194,7 +194,7 @@ export default function EvolucionFilters({
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                             <option value="TODOS">TODOS</option>
-                            {companias.map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
+                            {companias.map(c => <option key={c.id} value={c.id.toString()}>{c.nombre}</option>)}
                         </select>
                     </div>
                     <div>
@@ -206,7 +206,7 @@ export default function EvolucionFilters({
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                             <option value="TODOS">TODOS</option>
-                            {ramos.map(r => <option key={r.id} value={r.nombre}>{r.nombre}</option>)}
+                            {ramos.map(r => <option key={r.id} value={r.id.toString()}>{r.nombre}</option>)}
                         </select>
                     </div>
                 </div>

@@ -22,6 +22,7 @@ export interface EvolucionRequest {
     tipo_vista: string;
     canal: string;
     compania: string;
+    id_compania?: string;
     ramo: string;
 }
 
@@ -170,6 +171,25 @@ export const fetchRamos = async (serverToken?: string): Promise<Ramo[]> => {
         return await response.json();
     } catch (error) {
         console.error("Error fetching ramos:", error);
+        return [];
+    }
+};
+
+export interface FiltroDependiente {
+    IDCompania: number;
+    nombre_compania: string;
+    id_ramo: number;
+    nombre_ramo: string;
+    fuente: string;
+}
+
+export const fetchFiltrosDependientes = async (serverToken?: string): Promise<FiltroDependiente[]> => {
+    try {
+        const response = await fetch(`${API_URL}/api/evolucion-tipo-operacion/filtros-dependientes`, { cache: 'no-store', headers: getAuthHeaders(serverToken) });
+        if (!response.ok) throw new Error('Error fetching filtros dependientes');
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching filtros dependientes:", error);
         return [];
     }
 };
