@@ -85,15 +85,23 @@ export default function EvolucionPorTipoOperacion() {
         };
       }
 
-      // Mutual exclusivity for canal, cia, ramo
+      // Mutual exclusivity for canal and (cia, ramo)
       if (grupo === 'canal' && value !== 'TODOS') {
         return { ...prev, canal: value, cia: 'TODOS', ramo: 'TODOS' };
       }
-      if (grupo === 'cia' && value !== 'TODOS') {
-        return { ...prev, cia: value, canal: 'TODOS', ramo: 'TODOS' };
+      
+      // Hierarchy: If CIA changes, reset RAMO
+      if (grupo === 'cia') {
+          return { ...prev, canal: 'TODOS', cia: value, ramo: 'TODOS' };
       }
+
       if (grupo === 'ramo' && value !== 'TODOS') {
-        return { ...prev, ramo: value, canal: 'TODOS', cia: 'TODOS' };
+        return { ...prev, canal: 'TODOS', ramo: value };
+      }
+
+      // Si cambia el tipoVista, reseteamos cia y ramo para evitar estados inconsistentes
+      if (grupo === 'tipoVista') {
+          return { ...prev, tipoVista: value, cia: 'TODOS', ramo: 'TODOS' };
       }
 
       // Si es un filtro general (tipoVista u otros que no requieren exclusividad)
@@ -158,6 +166,25 @@ export default function EvolucionPorTipoOperacion() {
     filtroCia: allFilters.cia,
     filtroRamo: allFilters.ramo
   });
+
+  // Reset invalid dependent filters
+  useEffect(() => {
+      if (!loadingFilters) {
+          setAllFilters(prev => {
+              let changed = false;
+              let newFilters = { ...prev };
+              if (prev.cia !== 'TODOS' && !companias.some(c => c.id.toString() === prev.cia)) {
+                  newFilters.cia = 'TODOS';
+                  changed = true;
+              }
+              if (prev.ramo !== 'TODOS' && !ramos.some(r => r.id.toString() === prev.ramo)) {
+                  newFilters.ramo = 'TODOS';
+                  changed = true;
+              }
+              return changed ? newFilters : prev;
+          });
+      }
+  }, [companias, ramos, loadingFilters]);
 
 
   // Transformación de datos para el gráfico de barras R12

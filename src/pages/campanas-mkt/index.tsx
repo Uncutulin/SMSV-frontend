@@ -87,7 +87,7 @@ export default function CampanasMKTPage() {
       allRecords.forEach(c => {
         const row = [
           `"${(c.nombre || '').replace(/"/g, '""')}"`,
-          c.nro_documento || '',
+          c.nro_documento || c.cuit || '',
           c.edad || '',
           `"${(c.productor_lugar || c.localidad || '').replace(/"/g, '""')}"`,
           `"${(c.productor_segmento || '').replace(/"/g, '""')}"`,
