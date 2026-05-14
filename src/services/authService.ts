@@ -2,14 +2,14 @@ import { getAuthHeaders } from '@/utils/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const login = async (credentials: any) => {
+export const login = async (credentials: any, device_id?: string) => {
     const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify({ ...credentials, device_id }),
     });
 
     const data = await response.json();
@@ -32,14 +32,11 @@ export const logout = async () => {
     }
 };
 
-export const twoFactorChallenge = async (code: string) => {
+export const twoFactorChallenge = async (code: string, tempToken?: string, device_id?: string) => {
     const response = await fetch(`${API_URL}/api/two-factor-challenge`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ code }),
+        headers: getAuthHeaders(tempToken),
+        body: JSON.stringify({ code, device_id }),
     });
 
     const data = await response.json();
@@ -70,20 +67,22 @@ export const getTwoFactorQrCode = async (tempToken?: string) => {
     return await response.json();
 };
 
-export const confirmTwoFactor = async (code: string, tempToken?: string) => {
-    const response = await fetch(`${API_URL}/user/confirmed-two-factor-authentication`, {
+export const confirmTwoFactor = async (code: string, tempToken?: string, device_id?: string) => {
+    const response = await fetch(`${API_URL}/api/confirm-two-factor-and-login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             ...getAuthHeaders(tempToken)
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, device_id }),
     });
+
+    const data = await response.json();
     if (!response.ok) {
-        throw new Error('El código ingresado es incorrecto');
+        throw new Error(data.message || 'El código ingresado es incorrecto');
     }
-    return response;
+    return data;
 };
 
 export const disableTwoFactor = async () => {
@@ -105,4 +104,21 @@ export const getRecoveryCodes = async () => {
         throw new Error('Error al obtener códigos de recuperación');
     }
     return await response.json();
+};
+
+export const forgotPassword = async (email: string) => {
+    const response = await fetch(`${API_URL}/api/forgot-password`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'No se pudo procesar la solicitud');
+    }
+    return data;
 };
