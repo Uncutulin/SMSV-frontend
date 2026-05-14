@@ -6,7 +6,8 @@ import {
     twoFactorChallenge, 
     enableTwoFactor, 
     getTwoFactorQrCode, 
-    confirmTwoFactor 
+    confirmTwoFactor,
+    forgotPassword
 } from '@/services/authService';
 
 export default function Login() {
@@ -25,6 +26,15 @@ export default function Login() {
 
   const [qrCodeSvg, setQrCodeSvg] = useState<string>('');
 
+  const getDeviceId = () => {
+    let deviceId = localStorage.getItem('device_id');
+    if (!deviceId) {
+      deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      localStorage.setItem('device_id', deviceId);
+    }
+    return deviceId;
+  };
+
   const handleNextStep = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!credentials.email || !credentials.password) return;
@@ -33,9 +43,11 @@ export default function Login() {
     setError('');
 
     try {
-      const data = await login(credentials);
+      const deviceId = getDeviceId();
+      const data = await login(credentials, deviceId);
 
       if (data.two_factor) {
+        setTempSetupToken(data.access_token);
         setStep(2);
       } else if (data.requires_2fa_setup) {
         setTempSetupToken(data.access_token);
@@ -52,6 +64,46 @@ export default function Login() {
       setError(error.message || 'Error al intentar contactar con el servidor.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const { value: email } = await Swal.fire({
+      title: 'Recuperar Contraseña',
+      input: 'email',
+      inputLabel: 'Ingresa tu correo electrónico',
+      inputPlaceholder: 'tu@email.com',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#003366',
+      inputValidator: (value) => {
+        if (!value) {
+          return '¡Por favor ingresa tu email!';
+        }
+      }
+    });
+
+    if (email) {
+      setLoading(true);
+      try {
+        await forgotPassword(email);
+        Swal.fire({
+          icon: 'success',
+          title: '¡Email enviado!',
+          text: 'Se ha enviado una nueva contraseña a tu correo electrónico.',
+          confirmButtonColor: '#003366',
+        });
+      } catch (error: any) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message || 'No se pudo procesar la solicitud.',
+          confirmButtonColor: '#003366',
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -79,19 +131,31 @@ export default function Login() {
     setError('');
 
     try {
-      await confirmTwoFactor(fullCode, tempSetupToken);
+      const deviceId = getDeviceId();
+      const data = await confirmTwoFactor(fullCode, tempSetupToken, deviceId);
+
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
+        }
+      }
 
       setTempSetupToken('');
       setCode(['', '', '', '', '', '']);
-      setStep(1);
-      setCredentials({ email: '', password: '' });
       
       Swal.fire({
         icon: 'success',
         title: '¡Configuración exitosa!',
-        text: 'El segundo factor de autenticación ha sido configurado correctamente. Por favor, inicie sesión nuevamente.',
-        confirmButtonColor: '#003366'
+        text: 'El segundo factor de autenticación ha sido configurado y has iniciado sesión correctamente.',
+        confirmButtonColor: '#003366',
+        timer: 2000,
+        showConfirmButton: false
       });
+
+      setTimeout(() => {
+        navigate('/cartera-vigente');
+      }, 2000);
     } catch (error: any) {
       setError(error.message || 'Error al verificar el código. Inténtalo de nuevo.');
     } finally {
@@ -141,7 +205,8 @@ export default function Login() {
     setError('');
 
     try {
-      const data = await twoFactorChallenge(fullCode);
+      const deviceId = getDeviceId();
+      const data = await twoFactorChallenge(fullCode, tempSetupToken, deviceId);
 
       if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user));
@@ -228,7 +293,23 @@ export default function Login() {
                       {loading ? 'Iniciando...' : 'Siguiente'}
                     </button>
                   </div>
+                  
+                  <div className="text-center mt-4">
+                    <button
+                      type="button"
+                      onClick={handleForgotPassword}
+                      className="text-xs text-gray-500 hover:text-[#003366] transition-colors"
+                    >
+                      ¿Olvidaste tu contraseña?
+                    </button>
+                  </div>
                 </form>
+
+                {error && (
+                  <div className="mt-4 p-3 bg-red-100 text-center text-sm border-l-4 border-red-500 text-red-700 rounded-md">
+                    {error}
+                  </div>
+                )}
               </div>
             </div>
             <footer className="w-full text-center text-gray-500 text-xs py-2">
@@ -237,20 +318,17 @@ export default function Login() {
           </div>
         </>
       ) : step === 2 ? (
-        <div className="flex-1 flex flex-col justify-center items-center px-4 z-10 w-full backdrop-blur-xs">
-          <form className="w-full max-w-lg space-y-6 rounded-lg p-8" onSubmit={handleSubmit}>
-            <div className="bg-[#e9ecef] text-center p-6 border border-gray-300">
-              <p className="text-[#333] font-medium mb-3">
-                Ingrese su segundo factor de autenticación.
+        <div className="flex-1 flex flex-col justify-center items-center px-4 z-10 w-full backdrop-blur-md">
+          <form className="w-full max-w-lg space-y-6 bg-white rounded-xl shadow-2xl p-8" onSubmit={handleSubmit}>
+            <div className="text-center border-b pb-4">
+              <h2 className="text-xl font-bold text-[#003366]">Autenticación de Dos Factores</h2>
+              <p className="text-sm text-gray-600 mt-2">
+                Ingresa el código de 6 dígitos de tu aplicación de autenticación para continuar.
               </p>
-              <a href="#" className="text-[#0d6efd] hover:underline font-medium text-sm">
-                Instructivo
-              </a>
             </div>
 
-            <div className="flex items-center justify-center gap-3 my-8">
-              <div className="flex gap-2">
-                {code.slice(0, 3).map((digit, index) => (
+            <div className="flex items-center justify-center gap-2 my-8">
+                {code.slice(0, 6).map((digit, index) => (
                   <input
                     key={index}
                     ref={(el) => { inputRefs.current[index] = el; }}
@@ -260,30 +338,13 @@ export default function Login() {
                     value={digit}
                     onChange={(e) => handleCodeChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
-                    className="w-14 h-16 text-center text-3xl font-bold bg-white text-gray-800 rounded shadow-md border-none focus:ring-2 focus:ring-[#198754] outline-none"
+                    className="w-10 h-12 text-center text-2xl font-bold bg-gray-50 text-gray-800 rounded border border-gray-300 focus:ring-2 focus:ring-[#003366] outline-none"
                   />
                 ))}
-              </div>
-              <span className="text-white text-3xl mx-1">-</span>
-              <div className="flex gap-2">
-                {code.slice(3, 6).map((digit, index) => (
-                  <input
-                    key={index + 3}
-                    ref={(el) => { inputRefs.current[index + 3] = el; }}
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => handleCodeChange(index + 3, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index + 3, e)}
-                    className="w-14 h-16 text-center text-3xl font-bold bg-white text-gray-800 rounded shadow-md border-none focus:ring-2 focus:ring-[#198754] outline-none"
-                  />
-                ))}
-              </div>
             </div>
 
             {error && (
-              <div className="mt-4 p-3 bg-red-100 text-center border-l-4 border-red-500 text-red-700 rounded-md">
+              <div className="mt-2 p-3 bg-red-100 text-center text-sm border-l-4 border-red-500 text-red-700 rounded-md">
                 {error}
               </div>
             )}
@@ -292,27 +353,22 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-4 px-4 border shadow-md text-lg font-bold rounded text-white bg-[#198754] hover:bg-[#157347] focus:outline-none transition-colors"
-                style={{ borderRadius: '6px' }}
+                className="w-full flex justify-center py-3 px-4 text-sm font-bold rounded text-white bg-[#003366] hover:bg-[#002244] focus:outline-none transition-colors disabled:opacity-50"
               >
-                {loading ? 'Verificando...' : 'Ingresar'}
+                {loading ? 'Verificando...' : 'Verificar e Ingresar'}
               </button>
             </div>
             
-            <div className="text-center mt-6">
+            <div className="text-center mt-4">
               <button 
                 type="button" 
                 onClick={() => setStep(1)}
-                className="text-white hover:text-gray-300 font-medium transition-colors border-b border-transparent hover:border-white"
+                className="text-xs text-gray-500 hover:text-[#003366] transition-colors"
               >
-                Volver atrás
+                Volver al inicio
               </button>
             </div>
           </form>
-          <div className="absolute bottom-6 w-full px-8 md:px-24 flex justify-between tracking-wide font-bold text-lg text-white drop-shadow-md">
-            <a href="#" className="hover:text-gray-200 transition-colors">Nuevo usuario</a>
-            <a href="#" className="hover:text-gray-200 transition-colors">Olvidé mi contraseña</a>
-          </div>
         </div>
       ) : (
         /* UI Paso 3: Configurar 2FA Obligatorio */
