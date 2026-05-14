@@ -29,7 +29,11 @@ export default function Login() {
   const getDeviceId = () => {
     let deviceId = localStorage.getItem('device_id');
     if (!deviceId) {
-      deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      // Generamos un hash básico del navegador para mayor estabilidad
+      const nav = window.navigator;
+      const screen = window.screen;
+      const fingerprint = btoa(nav.userAgent + nav.language + screen.width + screen.height).substring(0, 32);
+      deviceId = fingerprint;
       localStorage.setItem('device_id', deviceId);
     }
     return deviceId;
