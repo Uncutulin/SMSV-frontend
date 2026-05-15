@@ -35,8 +35,8 @@ export default function ProfilePage() {
                     password: '',
                     password_confirmation: ''
                 });
-                if (parsedUser.avatar) {
-                    setAvatarPreview(`${import.meta.env.VITE_API_URL}/storage/${parsedUser.avatar}`);
+                if (parsedUser.avatar_url) {
+                    setAvatarPreview(parsedUser.avatar_url);
                 }
             } catch (error) {
                 console.error('Error parsing user data:', error);
@@ -77,11 +77,13 @@ export default function ProfilePage() {
         try {
             // 1. Update Avatar if changed
             let newAvatarPath = user.avatar;
+            let newAvatarUrl = user.avatar_url;
             if (avatarFile) {
                 const avatarFormData = new FormData();
                 avatarFormData.append('avatar', avatarFile);
                 const avatarResponse = await updateAvatar(user.id, avatarFormData);
                 newAvatarPath = avatarResponse.avatar;
+                newAvatarUrl = avatarResponse.avatar_url;
             }
 
             // 2. Update other data
@@ -107,7 +109,8 @@ export default function ProfilePage() {
                 apellido: formData.apellido,
                 dni: formData.dni,
                 email: formData.email,
-                avatar: newAvatarPath
+                avatar: newAvatarPath,
+                avatar_url: newAvatarUrl
             };
 
             delete (updatedUser as any).password;

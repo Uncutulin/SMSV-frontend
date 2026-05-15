@@ -25,4 +25,5 @@ export interface Usuario {
     two_factor_confirmed_at?: string | null;
     deleted_at?: string | null;
     avatar?: string | null;
+    avatar_url?: string | null;
 }
