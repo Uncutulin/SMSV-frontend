@@ -26,7 +26,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           name: `${user.name} ${user.apellido || ''}`,
           email: user.email,
           role: role,
-          avatar: user.profile_photo_url || user.avatar_url || user.photo_url || null
+          avatar: user.avatar ? `${import.meta.env.VITE_API_URL}/storage/${user.avatar}` : null
         });
       } catch (e) {
         console.error('Error parsing user data', e);

@@ -1,8 +1,11 @@
-export const getAuthHeaders = (serverToken?: string): Record<string, string> => {
+export const getAuthHeaders = (serverToken?: string, isFormData: boolean = false): Record<string, string> => {
     const headers: Record<string, string> = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
     };
+
+    if (!isFormData) {
+        headers['Content-Type'] = 'application/json';
+    }
 
     if (serverToken) {
         headers['Authorization'] = `Bearer ${serverToken}`;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Usuario } from '@/types/user';
 import { fetchUsers, createUser, updateUser, deleteUser, toggleUserForce2FA } from '@/services/userService';
@@ -132,23 +132,51 @@ export default function UsuariosPage() {
     }
   };
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const filteredUsers = useMemo(() => {
+    if (!searchTerm) return usuarios;
+    const lowerSearch = searchTerm.toLowerCase();
+    return usuarios.filter(u => 
+      (u.name?.toLowerCase().includes(lowerSearch)) || 
+      (u.apellido?.toLowerCase().includes(lowerSearch)) ||
+      (u.dni?.toLowerCase().includes(lowerSearch)) ||
+      (u.email?.toLowerCase().includes(lowerSearch))
+    );
+  }, [usuarios, searchTerm]);
+
   return (
     <DashboardLayout>
       <div className="p-3">
-        <div className="flex justify-between items-center mt-10 mb-6 px-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-10 mb-6 px-2 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Administración de Usuarios</h1>
             <p className="text-gray-600 mt-1">Gestión de usuarios y sus roles.</p>
           </div>
-          <button
-            onClick={handleOpenNew}
-            className="px-4 py-2 bg-green-600 text-white cursor-pointer rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm flex items-center"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            Nuevo Usuario
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Buscar usuario..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full sm:w-64"
+              />
+              <div className="absolute left-3 top-2.5 text-gray-400">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+            <button
+              onClick={handleOpenNew}
+              className="px-4 py-2 bg-green-600 text-white cursor-pointer rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm flex items-center justify-center"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Nuevo Usuario
+            </button>
+          </div>
         </div>
 
         {/* Tabla */}
@@ -183,26 +211,39 @@ export default function UsuariosPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
                       Cargando usuarios...
                     </td>
                   </tr>
-                ) : usuarios.length === 0 ? (
+                ) : filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
                       <div className="flex flex-col items-center justify-center">
                         <svg className="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                        <p>No hay usuarios registrados.</p>
+                        <p>{searchTerm ? 'No se encontraron usuarios que coincidan con la búsqueda.' : 'No hay usuarios registrados.'}</p>
                       </div>
                     </td>
                   </tr>
                 ) : (
-                  usuarios.map((usuario) => (
+                  filteredUsers.map((usuario: Usuario) => (
                     <tr key={usuario.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{usuario.name} {usuario.apellido}</div>
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10">
+                            {usuario.avatar ? (
+                              <img className="h-10 w-10 rounded-full object-cover border border-gray-200" src={`${import.meta.env.VITE_API_URL}/storage/${usuario.avatar}`} alt="" />
+                            ) : (
+                              <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">
+                                {usuario.name?.charAt(0)}{usuario.apellido?.charAt(0)}
+                              </div>
+                            )}
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">{usuario.name} {usuario.apellido}</div>
+                          </div>
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {usuario.dni}
@@ -212,7 +253,7 @@ export default function UsuariosPage() {
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
                         <div className="flex flex-wrap gap-1">
-                          {usuario.roles && usuario.roles.map(role => (
+                          {usuario.roles && usuario.roles.map((role: any) => (
                             <span key={role.id} className={`px-2 py-0.5 inline-flex text-xs leading-4 font-semibold rounded-full ${role.name === 'admin' ? 'bg-red-100 text-red-800' :
                               role.name === 'usuario' ? 'bg-blue-100 text-blue-800' :
                                 'bg-green-100 text-green-800'
