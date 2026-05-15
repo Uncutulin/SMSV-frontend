@@ -185,7 +185,6 @@ export default function EvolucionFilters({
                         disabled={loadingDropdowns}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                        <option value="TODOS">TODOS</option>
                         {listaEjecutivos.map((ejecutivo) => (
                             <option key={ejecutivo.nombre} value={ejecutivo.nombre}>
                                 {ejecutivo.nombre}
@@ -202,12 +201,10 @@ export default function EvolucionFilters({
                         value={filtroProductor}
                         onChange={(e) => {
                             setFiltroProductor(e.target.value);
-                            if (e.target.value !== 'TODOS') setFiltroEjecutivo('TODOS');
                         }}
                         disabled={loadingDropdowns}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                        <option value="TODOS">TODOS</option>
                         {listaProductores.map((productor) => (
                             <option key={productor.nombre} value={productor.nombre}>
                                 {productor.nombre}

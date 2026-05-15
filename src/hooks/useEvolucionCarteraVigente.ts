@@ -21,20 +21,29 @@ export const useEvolucionCarteraVigente = (
     const [loadingComparativa, setLoadingComparativa] = useState(false);
 
     useEffect(() => {
-        // Evitamos peticiones innecesarias si la vista está vacía
         if (!tipoVista) return;
 
-        const loadData = async () => {
+        const loadDropdowns = async () => {
             setLoadingDropdowns(true);
             try {
-                const params = new URLSearchParams({
+                // 1. Cargar Ejecutivos (solo dependen de tipoVista)
+                const paramsEjecutivos = new URLSearchParams({
                     tipo_vista: tipoVista
                 }).toString();
-
-                const { productores, ejecutivos } = await fetchEvolucionCarteraData(params);
-
-                if (productores.status === 'success') setListaProductores(productores.data);
+                
+                const { ejecutivos } = await fetchEvolucionCarteraData(paramsEjecutivos);
                 if (ejecutivos.status === 'success') setListaEjecutivos(ejecutivos.data);
+
+                // 2. Cargar Productores (dependen de tipoVista y filtroEjecutivo)
+                const paramsObj: any = { tipo_vista: tipoVista };
+                if (filtroEjecutivo && filtroEjecutivo !== 'TODOS') {
+                    paramsObj.ejecutivo = filtroEjecutivo;
+                }
+                const paramsProductores = new URLSearchParams(paramsObj).toString();
+                
+                const { productores } = await fetchEvolucionCarteraData(paramsProductores);
+                if (productores.status === 'success') setListaProductores(productores.data);
+
             } catch (error) {
                 console.error("Error cargando selectores:", error);
             } finally {
@@ -42,8 +51,8 @@ export const useEvolucionCarteraVigente = (
             }
         };
 
-        loadData();
-    }, [tipoVista]);
+        loadDropdowns();
+    }, [tipoVista, filtroEjecutivo]);
 
     // Nuevo efecto para cargar los datos comparativos (podría unificarse, pero lo separo por claridad y porque podría depender de otros filtros a futuro)
     useEffect(() => {

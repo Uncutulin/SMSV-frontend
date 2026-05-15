@@ -40,31 +40,30 @@ export default function Sidebar() {
       icon: 'fa-solid fa-chart-line',
       active: pathname === '/evolucion-por-tipo-operacion'
     },
+    {
+      name: 'Presupuesto Comercial',
+      icon: 'fa-solid fa-coins',
+      active: pathname.startsWith('/dashboard/presupuesto-comercial'),
+      submenu: [
+        {
+          name: 'Presupuesto',
+          href: '/dashboard/presupuesto-comercial',
+          active: pathname === '/dashboard/presupuesto-comercial'
+        },
+        {
+          name: 'IPC',
+          href: '/admin/ipc',
+          active: pathname === '/admin/ipc'
+        }
+      ]
+    },
     /*
-    {
-      name: 'Ranking de Compañías / Productores',
-      href: '/dashboard/ranking',
-      icon: 'fa-solid fa-chart-simple',
-      active: pathname === '/dashboard/ranking'
-    },
-    {
-      name: 'Producción de Compañías Estratégicas',
-      href: '/dashboard/produccion',
-      icon: 'fa-solid fa-building',
-      active: pathname === '/dashboard/produccion'
-    },
-    {
-      name: 'Campañas Comerciales y Oportunidades de Venta',
-      href: '/dashboard/campanias',
-      icon: 'fa-solid fa-bullhorn',
-      active: pathname === '/dashboard/campanias'
-    },*/
     {
       name: 'Presupuesto Comercial',
       href: '/dashboard/presupuesto-comercial',
       icon: 'fa-solid fa-coins',
       active: pathname === '/dashboard/presupuesto-comercial'
-    },
+    },*/
     {
       name: 'Campañas de Marketing',
       href: '/campanas-mkt',
@@ -76,20 +75,16 @@ export default function Sidebar() {
       icon: 'fa-solid fa-cog',
       active: pathname.startsWith('/admin'),
       submenu: [
+        /*
         {
           name: 'IPC',
           href: '/admin/ipc',
           active: pathname === '/admin/ipc'
-        },
+        },*/
         {
           name: 'Usuarios',
           href: '/admin/usuarios',
           active: pathname === '/admin/usuarios'
-        },
-        {
-          name: 'Seguridad',
-          href: '/admin/seguridad',
-          active: pathname === '/admin/seguridad'
         }
       ]
     },
@@ -300,7 +295,7 @@ export default function Sidebar() {
               <div className="space-y-1">
                 {filteredMenuItems.flatMap((item, index) => {
                   const renderedItem = renderMenuItem(item);
-                  if (item.name === 'Administración') {
+                  if (item.name === 'Campañas de Marketing') {
                     return [renderedItem, <hr key={`sep-mobile-${index}`} className="my-2 border-white/10" />];
                   }
                   return renderedItem;

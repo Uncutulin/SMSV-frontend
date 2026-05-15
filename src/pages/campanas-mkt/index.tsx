@@ -55,7 +55,7 @@ export default function CampanasMKTPage() {
       // 1. Obtenemos el total de registros y la paginación real del servidor
       const initialRes = await fetchMarketingData({ ...filters, per_page: 1000 }, 1);
       const totalRecords = initialRes.total || 0;
-      
+
       if (totalRecords === 0) {
         alert("No hay registros para exportar.");
         setIsExporting(false);
@@ -65,9 +65,9 @@ export default function CampanasMKTPage() {
       // El servidor puede limitar el per_page (ej: máximo 100)
       const actualPerPage = initialRes.per_page || 1000;
       const totalPages = initialRes.last_page || Math.ceil(totalRecords / actualPerPage);
-      
+
       console.log(`Iniciando exportación: ${totalRecords} registros, ${totalPages} páginas (Lote: ${actualPerPage})`);
-      
+
       let allRecords: any[] = [];
       // Agregamos la primera página que ya pedimos
       if (initialRes.data) allRecords = [...initialRes.data];
@@ -189,9 +189,10 @@ export default function CampanasMKTPage() {
               <label className="block font-bold mb-1 uppercase text-gray-700">Canal</label>
               <MultiSelect options={filtersData.canal} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} placeholder="Seleccionar Canal" />
             </div>
+
             <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Estado Civil</label>
-              <MultiSelect options={["SOLTERO/A", "CASADO/A", "DIVORCIADO/A", "VIUDO/A", "CONCUBINATO"]} value={filters.estadoCivil} onChange={(v) => handleFilterChange("estadoCivil", v)} placeholder="Seleccionar Estado Civil" />
+              <label className="block font-bold mb-1 uppercase text-gray-700">Compañía</label>
+              <MultiSelect options={filtersData.compania} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} placeholder="Seleccionar Compañía" />
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Producto Vigente</label>
@@ -203,9 +204,10 @@ export default function CampanasMKTPage() {
             </div>
 
             {/* Fila 3 */}
+
             <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Compañía</label>
-              <MultiSelect options={filtersData.compania} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} placeholder="Seleccionar Compañía" />
+              <label className="block font-bold mb-1 uppercase text-gray-700">Estado Civil</label>
+              <MultiSelect options={["SOLTERO/A", "CASADO/A", "DIVORCIADO/A", "VIUDO/A", "CONCUBINATO"]} value={filters.estadoCivil} onChange={(v) => handleFilterChange("estadoCivil", v)} placeholder="Seleccionar Estado Civil" />
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Socio Mutual</label>
@@ -251,11 +253,11 @@ export default function CampanasMKTPage() {
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">FUERZA/Empresa</label>
-              <MultiSelect options={["EJERCITO", "ARMADA", "PREFECTURA", "GENDARMERIA", "FUERZA AEREA", "POLICIA"]} value={filters.fuerzaEmpresa} onChange={(v) => handleFilterChange("fuerzaEmpresa", v)} placeholder="Seleccionar Fuerza" />
+              <MultiSelect disabled={true} options={["EJERCITO", "ARMADA", "PREFECTURA", "GENDARMERIA", "FUERZA AEREA", "POLICIA"]} value={filters.fuerzaEmpresa} onChange={(v) => handleFilterChange("fuerzaEmpresa", v)} placeholder="Seleccionar Fuerza" />
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Sit. Revista</label>
-              <MultiSelect options={["EN ACTIVIDAD", "RETIRADO", "PENSIONADO", "NO APLICA"]} value={filters.situacionRevista} onChange={(v) => handleFilterChange("situacionRevista", v)} placeholder="Seleccionar Situación" />
+              <MultiSelect disabled={true} options={["EN ACTIVIDAD", "RETIRADO", "PENSIONADO", "NO APLICA"]} value={filters.situacionRevista} onChange={(v) => handleFilterChange("situacionRevista", v)} placeholder="Seleccionar Situación" />
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Origen Dato</label>
