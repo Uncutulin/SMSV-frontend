@@ -232,8 +232,8 @@ export default function UsuariosPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            {usuario.avatar ? (
-                              <img className="h-10 w-10 rounded-full object-cover border border-gray-200" src={`${import.meta.env.VITE_API_URL}/storage/${usuario.avatar}`} alt="" />
+                            {usuario.avatar_url ? (
+                              <img className="h-10 w-10 rounded-full object-cover border border-gray-200" src={usuario.avatar_url} alt="" />
                             ) : (
                               <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">
                                 {usuario.name?.charAt(0)}{usuario.apellido?.charAt(0)}
