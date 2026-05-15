@@ -68,6 +68,29 @@ export const updateUser = async (id: number, userData: any): Promise<boolean> =>
     }
 };
 
+export const updateAvatar = async (id: number, formData: FormData): Promise<any> => {
+    try {
+        const response = await fetch(`${API_URL}/api/users/${id}/avatar`, {
+            method: 'POST',
+            headers: getAuthHeaders(undefined, true), // Passing true to exclude Content-Type for FormData
+            body: formData,
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            const error = new Error(errorData.message || 'Error al actualizar avatar');
+            (error as any).errors = errorData.errors;
+            throw error;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error updating avatar:", error);
+        throw error;
+    }
+};
+
 export const deleteUser = async (id: number): Promise<boolean> => {
     try {
         const response = await fetch(`${API_URL}/api/users/${id}`, {

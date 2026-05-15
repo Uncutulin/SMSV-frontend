@@ -24,4 +24,5 @@ export interface Usuario {
     force_2fa?: boolean;
     two_factor_confirmed_at?: string | null;
     deleted_at?: string | null;
+    avatar?: string | null;
 }
