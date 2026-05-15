@@ -9,6 +9,7 @@ interface MultiSelectProps {
     value: string[];
     onChange: (value: string[]) => void;
     placeholder?: string;
+    disabled?: boolean;
 }
 
 export function MultiSelect({ options, value, onChange, placeholder = "Seleccionar..." }: MultiSelectProps) {
@@ -40,7 +41,7 @@ export function MultiSelect({ options, value, onChange, placeholder = "Seleccion
         if (option.nombre !== undefined) return String(option.nombre);
         if (option.producto_nombre !== undefined) return String(option.producto_nombre);
         if (option.descripcion !== undefined) return String(option.descripcion);
-        
+
         const values = Object.values(option);
         const strVal = values.find(v => typeof v === 'string');
         return strVal ? String(strVal) : 'Sin nombre';
