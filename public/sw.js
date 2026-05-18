@@ -3,8 +3,7 @@ const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/logo.png',
-  '/logo-192.png',
-  '/logo-512.png',
+  '/Logo-smsv-blanco.png',
   '/Logo-smsv-solo.png',
   '/favicon.ico'
 ];
