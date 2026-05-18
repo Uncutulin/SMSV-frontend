@@ -18,12 +18,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-row">
       {/* Sidebar a la izquierda, ocupa toda la altura */}
-      <Sidebar />
-      <div className="flex flex-col flex-1 min-h-screen ml-0 lg:ml-64">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex flex-col flex-1 min-h-screen ml-0 lg:ml-64 min-w-0">
         {/* Header arriba de todo, a la derecha del sidebar */}
         <Header onMenuClick={() => setSidebarOpen(true)} />
         {/* Contenido principal */}
-        <main className="flex-1 pb-6 px-4 w-full h-full">
+        <main className="flex-1 pb-6 px-4 w-full h-full min-w-0">
           {children}
         </main>
       </div>

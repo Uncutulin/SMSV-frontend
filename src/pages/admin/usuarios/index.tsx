@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Usuario } from '@/types/user';
 import { fetchUsers, createUser, updateUser, deleteUser, toggleUserForce2FA } from '@/services/userService';
+import { getAvatarUrl } from '@/utils/avatar';
 import UserFormModal, { UserFormData } from './UserFormModal';
 import Swal from 'sweetalert2';
 
@@ -233,7 +234,7 @@ export default function UsuariosPage() {
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
                             {usuario.avatar_url ? (
-                              <img className="h-10 w-10 rounded-full object-cover border border-gray-200" src={usuario.avatar_url} alt="" />
+                              <img className="h-10 w-10 rounded-full object-cover border border-gray-200" src={getAvatarUrl(usuario.avatar_url) || ''} alt="" />
                             ) : (
                               <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">
                                 {usuario.name?.charAt(0)}{usuario.apellido?.charAt(0)}

@@ -11,6 +11,7 @@ export const useEvolucionCarteraVigente = (
     mesFin: string,
     filtroProductor: string,
     filtroEjecutivo: string,
+    vinculo: string,
     shouldFetch: boolean = true
 ) => {
     const [listaProductores, setListaProductores] = useState<ProductorEjecutivo[]>([]);
@@ -75,6 +76,9 @@ export const useEvolucionCarteraVigente = (
                 if (filtroEjecutivo && filtroEjecutivo !== 'TODOS') {
                     paramsObj.ejecutivo = filtroEjecutivo;
                 }
+                if (vinculo) {
+                    paramsObj.vinculo = vinculo;
+                }
 
                 const params = new URLSearchParams(paramsObj).toString();
 
@@ -94,7 +98,7 @@ export const useEvolucionCarteraVigente = (
         };
 
         loadComparativo();
-    }, [tipoVista, anioInicio, mesInicio, anioFin, mesFin, filtroProductor, filtroEjecutivo, shouldFetch]);
+    }, [tipoVista, anioInicio, mesInicio, anioFin, mesFin, filtroProductor, filtroEjecutivo, vinculo, shouldFetch]);
 
     return { listaProductores, listaEjecutivos, loadingDropdowns, listaComparativa, comparativaLabels, loadingComparativa };
 };

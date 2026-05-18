@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/services/authService';
+import { getAvatarUrl } from '@/utils/avatar';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -26,7 +27,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           name: `${user.name} ${user.apellido || ''}`,
           email: user.email,
           role: role,
-          avatar: user.avatar_url || null
+          avatar: getAvatarUrl(user.avatar_url || user.avatar)
         });
       } catch (e) {
         console.error('Error parsing user data', e);
@@ -65,8 +66,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
         {/* Título de la página (solo móvil) */}
         <div className="lg:hidden flex items-center">
-          <img src="/logo.svg" alt="SMSV Logo" width="32" height="32" className="h-8 w-8 mr-3" />
-          <h1 className="text-lg font-semibold text-gray-900">SMSV</h1>
+          <img src="/logo.png" alt="SMSV Logo" className="h-8 w-auto mr-3" />
+          {/*<h1 className="text-lg font-semibold text-gray-900">SMSV</h1>*/}
         </div>
 
         {/* Espaciador para centrar en desktop */}

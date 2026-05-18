@@ -18,7 +18,8 @@ export default function EvolucionPorTipoOperacion() {
     tipoVista: 'TODOS',
     canal: 'TODOS',
     cia: 'TODOS',
-    ramo: 'TODOS'
+    ramo: 'TODOS',
+    vinculo: 'desvinculado'
   });
 
   const handleSearch = (filters: any) => {
@@ -164,7 +165,8 @@ export default function EvolucionPorTipoOperacion() {
     tipoVista: allFilters.tipoVista,
     filtroCanal: allFilters.canal,
     filtroCia: allFilters.cia,
-    filtroRamo: allFilters.ramo
+    filtroRamo: allFilters.ramo,
+    vinculo: allFilters.vinculo
   });
 
   // Reset invalid dependent filters

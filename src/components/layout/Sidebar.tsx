@@ -15,8 +15,21 @@ interface MenuItem {
   submenu?: SubMenuItem[];
 }
 
-export default function Sidebar() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps = {}) {
+  const [localOpen, setLocalOpen] = useState(false);
+  const sidebarOpen = isOpen !== undefined ? isOpen : localOpen;
+  const setSidebarOpen = (open: boolean) => {
+    if (onClose && !open) {
+      onClose();
+    } else {
+      setLocalOpen(open);
+    }
+  };
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const location = useLocation();
   const pathname = location.pathname;

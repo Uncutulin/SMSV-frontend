@@ -41,6 +41,7 @@ export default function EvolucionCartera() {
   const [tipoVista, setTipoVista] = useState('TOTAL X CÍA');
   const [filtroProductor, setFiltroProductor] = useState('TODOS');
   const [filtroEjecutivo, setFiltroEjecutivo] = useState('TODOS');
+  const [vinculo, setVinculo] = useState<'vinculado' | 'desvinculado'>('desvinculado');
   const [filterApplied, setFilterApplied] = useState(false);
 
   // Un solo estado para todos los grupos (Used for UI binding)
@@ -157,6 +158,7 @@ export default function EvolucionCartera() {
     allFilters.fin.mes,
     filtroProductor,
     filtroEjecutivo,
+    vinculo,
     // Solo permitir fetch si los periodos NO están cargando Y meses inicio y fin están cargados Y el mes seleccionado es válido
     (!loadingInicio && !loadingFin &&
       mesesInicio.length > 0 &&
@@ -353,6 +355,8 @@ export default function EvolucionCartera() {
           listaProductores={listaProductores}
           loadingDropdowns={loadingDropdowns}
           setFilterApplied={setFilterApplied}
+          vinculo={vinculo}
+          setVinculo={setVinculo}
         />
 
 

@@ -42,7 +42,7 @@ export const useCarteraVigente = (filters: any) => {
         };
 
         getData();
-    }, [filters.anio, filters.mes, filters.compania, filters.tipo_filtro]);
+    }, [filters.anio, filters.mes, filters.compania, filters.tipo_filtro, filters.vinculo]);
 
     return { listadoData, totalesData, loading, error };
 };

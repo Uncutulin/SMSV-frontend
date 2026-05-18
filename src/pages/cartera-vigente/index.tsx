@@ -18,7 +18,8 @@ export default function CarteraPage() {
     compania: 'TODOS',
     anio: '',
     mes: '',
-    tipo_filtro: 'CANAL'
+    tipo_filtro: 'CANAL',
+    vinculo: 'desvinculado'
   });
 
   const [busquedaGrupo, setBusquedaGrupo] = useState('');
