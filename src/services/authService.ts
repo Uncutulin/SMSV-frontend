@@ -132,3 +132,21 @@ export const forgotPassword = async (email: string) => {
     }
     return data;
 };
+
+export const changeRequiredPassword = async (password: string, password_confirmation: string, tempToken?: string) => {
+    const response = await fetch(`${API_URL}/api/change-password`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...getAuthHeaders(tempToken)
+        },
+        body: JSON.stringify({ password, password_confirmation }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'No se pudo actualizar la contraseña');
+    }
+    return data;
+};

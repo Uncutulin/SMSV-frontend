@@ -8,11 +8,12 @@ import {
   getTwoFactorQrCode,
   getTwoFactorSecretKey,
   confirmTwoFactor,
-  forgotPassword
+  forgotPassword,
+  changeRequiredPassword
 } from '@/services/authService';
 
 export default function Login() {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
@@ -22,6 +23,8 @@ export default function Login() {
   const isPastingRef = useRef(false);
 
   const [tempSetupToken, setTempSetupToken] = useState<string>('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -53,7 +56,10 @@ export default function Login() {
       const deviceId = getDeviceId();
       const data = await login(credentials, deviceId);
 
-      if (data.two_factor) {
+      if (data.requires_password_change) {
+        setTempSetupToken(data.access_token);
+        setStep(4);
+      } else if (data.two_factor) {
         setTempSetupToken(data.access_token);
         setStep(2);
       } else if (data.requires_2fa_setup) {
@@ -324,6 +330,49 @@ export default function Login() {
     }
   };
 
+  const handleChangePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPassword || !newPasswordConfirm) {
+      setError('Por favor complete todos los campos.');
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setError('La contraseña debe tener al menos 8 caracteres.');
+      return;
+    }
+
+    if (newPassword !== newPasswordConfirm) {
+      setError('Las contraseñas no coinciden.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      await changeRequiredPassword(newPassword, newPasswordConfirm, tempSetupToken);
+      
+      Swal.fire({
+        icon: 'success',
+        title: '¡Contraseña actualizada!',
+        text: 'Tu contraseña ha sido cambiada exitosamente. Por favor, inicia sesión con tu nueva contraseña.',
+        confirmButtonColor: '#003366',
+      });
+
+      // Reset step and states to login clean
+      setStep(1);
+      setNewPassword('');
+      setNewPasswordConfirm('');
+      setCredentials({ email: credentials.email, password: '' });
+      setTempSetupToken('');
+    } catch (err: any) {
+      setError(err.message || 'Error al intentar cambiar la contraseña.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col md:flex-row overflow-hidden relative bg-[#0f172a]">
       <div className="absolute inset-0 z-0 hidden md:flex" style={{ backgroundColor: '#003295f5' }}>
@@ -467,7 +516,7 @@ export default function Login() {
             </div>
           </form>
         </div>
-      ) : (
+      ) : step === 3 ? (
         /* UI Paso 3: Configurar 2FA Obligatorio */
         <div className="flex-1 flex flex-col justify-center items-center px-4 z-10 w-full backdrop-blur-md">
           <form className="w-full max-w-lg space-y-6 bg-white rounded-xl shadow-2xl p-8" onSubmit={handleConfirm2FA}>
@@ -554,6 +603,76 @@ export default function Login() {
 
             <div className="text-center mt-4 text-xs">
               Si tienes problemas, contacta al administrador.
+            </div>
+          </form>
+        </div>
+      ) : (
+        /* UI Paso 4: Cambiar Contraseña Obligatorio */
+        <div className="flex-1 flex flex-col justify-center items-center px-4 z-10 w-full backdrop-blur-md">
+          <form className="w-full max-w-lg space-y-6 bg-white rounded-xl shadow-2xl p-8" onSubmit={handleChangePasswordSubmit}>
+            <div className="text-center border-b pb-4">
+              <h2 className="text-xl font-bold text-[#003366]">Cambio de Contraseña Obligatorio</h2>
+              <p className="text-sm text-gray-600 mt-2">
+                Por razones de seguridad, debes cambiar tu contraseña temporal antes de continuar.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 text-left">Nueva Contraseña</label>
+                <input
+                  type="password"
+                  required
+                  placeholder="Mínimo 8 caracteres"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 text-left">Confirmar Nueva Contraseña</label>
+                <input
+                  type="password"
+                  required
+                  placeholder="Repite la contraseña"
+                  value={newPasswordConfirm}
+                  onChange={(e) => setNewPasswordConfirm(e.target.value)}
+                  className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="mt-2 p-3 bg-red-100 text-center text-sm border-l-4 border-red-500 text-red-700 rounded-md">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center py-3 px-4 text-sm font-bold rounded text-white bg-[#003366] hover:bg-[#002244] focus:outline-none transition-colors disabled:opacity-50"
+              >
+                {loading ? 'Guardando...' : 'Cambiar Contraseña'}
+              </button>
+            </div>
+
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setStep(1);
+                  setNewPassword('');
+                  setNewPasswordConfirm('');
+                  setTempSetupToken('');
+                  setError('');
+                }}
+                className="text-xs text-gray-500 hover:text-[#003366] transition-colors"
+              >
+                Cancelar y Volver
+              </button>
             </div>
           </form>
         </div>
