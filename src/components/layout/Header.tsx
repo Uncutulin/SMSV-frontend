@@ -17,6 +17,48 @@ export default function Header({ onMenuClick }: HeaderProps) {
     avatar: null as string | null
   });
 
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      // Prevenir el banner por defecto del navegador
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    const handleAppInstalled = () => {
+      console.log('PWA: La aplicación se instaló correctamente.');
+      setShowInstallBtn(false);
+      setDeferredPrompt(null);
+    };
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    // Verificar si ya está en modo standalone
+    if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
+      setShowInstallBtn(false);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`PWA: El usuario eligió: ${outcome}`);
+    
+    setDeferredPrompt(null);
+    setShowInstallBtn(false);
+  };
+
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
@@ -83,6 +125,19 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <i className="fa-solid fa-bell h-5 w-5"></i>
           </button>*/}
 
+          {/* Botón de Instalar PWA */}
+          {showInstallBtn && (
+            <button
+              onClick={handleInstallClick}
+              className="flex items-center space-x-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-lg text-xs font-semibold hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer animate-pulse shrink-0 border border-transparent"
+              title="Instalar como Aplicación de Escritorio/Móvil"
+            >
+              <i className="fa-solid fa-circle-down"></i>
+              <span className="hidden sm:inline">Instalar App</span>
+              <span className="sm:hidden">Instalar</span>
+            </button>
+          )}
+
           {/* Perfil de usuario */}
           <div className="relative">
             <button
@@ -133,6 +188,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <i className="fa-solid fa-user mr-3"></i>
                   Perfil
                 </button>
+
+                {showInstallBtn && (
+                  <button
+                    onClick={handleInstallClick}
+                    className="w-full text-left px-4 py-2 text-sm text-blue-700 hover:bg-blue-50 flex items-center font-medium border-t border-gray-100"
+                  >
+                    <i className="fa-solid fa-circle-down mr-3 text-blue-600"></i>
+                    Instalar App
+                  </button>
+                )}
 
                 {/*
                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">

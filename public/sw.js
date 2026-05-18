@@ -3,6 +3,9 @@ const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/logo.png',
+  '/logo-192.png',
+  '/logo-512.png',
+  '/Logo-smsv-solo.png',
   '/favicon.ico'
 ];
 
@@ -36,6 +39,18 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Solo interceptar peticiones GET dentro de nuestra app
   if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
+  // Evitar interceptar/cachear llamadas a API, autenticación y utilidades del servidor
+  const url = new URL(event.request.url);
+  if (
+    url.pathname.startsWith('/api/') || 
+    url.pathname.startsWith('/user/') || 
+    url.pathname.startsWith('/sanctum/') ||
+    url.pathname.includes('check-2fa') ||
+    url.pathname.includes('check-storage')
+  ) {
     return;
   }
 
