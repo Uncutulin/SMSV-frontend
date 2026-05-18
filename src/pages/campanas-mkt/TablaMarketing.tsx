@@ -139,7 +139,6 @@ export function TablaMarketing({
                             <th className="px-3 py-3 text-left font-bold uppercase border-r border-white/10">Edad</th>
                             <HeaderWithInfo label="Provincia" field="productor_lugar" />
                             <HeaderWithInfo label="Canal" field="productor_segmento" />
-                            <HeaderWithInfo label="Ramo" field="ramo_nombre" />
                             <HeaderWithInfo label="Producto" field="producto_nombre" />
                             <HeaderWithInfo label="Compañía" field="compania_nombre" />
                             <th className="px-3 py-3 text-left font-bold uppercase border-r border-white/10">Teléfono</th>
@@ -158,8 +157,7 @@ export function TablaMarketing({
                                     <td className="px-3 py-3 text-center border-r border-gray-50">{item.edad || '—'}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.productor_lugar || item.localidad}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.productor_canal}</td>
-                                    <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.ramo_nombre}</td>
-                                    <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.producto_nombre}</td>
+                                    <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.producto_unificado_nombre}</td>
                                     <td className="px-3 py-3 text-gray-600 border-r border-gray-50">{item.compania_nombre}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.telefono || '—'}</td>
                                     <td className="px-3 py-3 text-blue-600 underline border-r border-gray-50">{item.mail || '—'}</td>
