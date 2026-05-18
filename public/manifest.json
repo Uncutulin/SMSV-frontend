@@ -1,0 +1,24 @@
+{
+  "short_name": "SMSV",
+  "name": "SMSV Seguros - Dashboard",
+  "description": "Tablero Comercial e Integral de SMSV Seguros.",
+  "icons": [
+    {
+      "src": "logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#003366",
+  "theme_color": "#003366",
+  "display": "standalone",
+  "orientation": "portrait"
+}
