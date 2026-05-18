@@ -134,9 +134,9 @@ export default function Login() {
       }
   };
 
-  const handleConfirm2FA = async (e?: React.FormEvent) => {
+  const handleConfirm2FA = async (e?: React.FormEvent, codeOverride?: string[]) => {
     if (e) e.preventDefault();
-    const fullCode = code.join('');
+    const fullCode = codeOverride ? codeOverride.join('') : code.join('');
     if (fullCode.length < 6) {
       setError('Por favor, ingrese los 6 dígitos.');
       return;
@@ -183,9 +183,9 @@ export default function Login() {
     if (fullCode.length === 6) {
       setTimeout(() => {
         if (step === 2) {
-          handleSubmit();
+          handleSubmit(undefined, codeArray);
         } else if (step === 3) {
-          handleConfirm2FA();
+          handleConfirm2FA(undefined, codeArray);
         }
       }, 50);
     }
@@ -227,26 +227,52 @@ export default function Login() {
     // If we are currently pasting, do not let standard input events clobber our state
     if (isPastingRef.current) return;
 
-    if (value && !/^\d+$/.test(value)) return;
-
-    if (value.length > 1) {
-      const pastedCode = value.replace(/\D/g, '').slice(0, 6).split('');
+    // Clean non-digits
+    const cleanValue = value.replace(/\D/g, '');
+    if (!cleanValue) {
       const newCode = [...code];
-      pastedCode.forEach((char, i) => {
-        if (index + i < 6) newCode[index + i] = char;
-      });
+      newCode[index] = '';
       setCode(newCode);
-      const nextIndex = Math.min(index + pastedCode.length, 5);
-      inputRefs.current[nextIndex]?.focus();
-      triggerAutoSubmit(newCode);
       return;
     }
 
+    // If it's a mobile autocomplete paste or a fast paste (length > 1)
+    if (cleanValue.length > 1) {
+      if (cleanValue.length >= 6 || (index === 0 && cleanValue.length >= 5)) {
+        const pastedCode = cleanValue.slice(0, 6).split('');
+        const newCode = [...code];
+        pastedCode.forEach((char, i) => {
+          if (index + i < 6) newCode[index + i] = char;
+        });
+        setCode(newCode);
+        const nextIndex = Math.min(index + pastedCode.length - 1, 5);
+        
+        setTimeout(() => {
+          inputRefs.current[nextIndex]?.focus();
+        }, 0);
+
+        triggerAutoSubmit(newCode);
+        return;
+      } else {
+        // Typing over an existing digit (e.g. '69' in a box) -> take the newest digit
+        const lastChar = cleanValue.slice(-1);
+        const newCode = [...code];
+        newCode[index] = lastChar;
+        setCode(newCode);
+        if (index < 5) {
+          inputRefs.current[index + 1]?.focus();
+        }
+        triggerAutoSubmit(newCode);
+        return;
+      }
+    }
+
+    // Normal single character typing
     const newCode = [...code];
-    newCode[index] = value;
+    newCode[index] = cleanValue;
     setCode(newCode);
 
-    if (value && index < 5) {
+    if (cleanValue && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
     triggerAutoSubmit(newCode);
@@ -258,9 +284,9 @@ export default function Login() {
     }
   };
 
-  const handleSubmit = async (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent, codeOverride?: string[]) => {
     if (e) e.preventDefault();
-    const fullCode = code.join('');
+    const fullCode = codeOverride ? codeOverride.join('') : code.join('');
     if (fullCode.length < 6) {
       setError('Por favor, ingrese los 6 dígitos.');
       return;
@@ -399,7 +425,6 @@ export default function Login() {
                     ref={(el) => { inputRefs.current[index] = el; }}
                     type="text"
                     inputMode="numeric"
-                    maxLength={1}
                     value={digit}
                     onChange={(e) => handleCodeChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
@@ -496,7 +521,6 @@ export default function Login() {
                     ref={(el) => { inputRefs.current[index] = el; }}
                     type="text"
                     inputMode="numeric"
-                    maxLength={1}
                     value={digit}
                     onChange={(e) => handleCodeChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
