@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { useMarketing } from '@/hooks/useMarketing';
 import { MultiSelect } from './MultiSelect';
 import { TablaMarketing } from './TablaMarketing';
 import { fetchMarketingCombos, fetchMarketingData } from '@/services/marketingService';
+import { fetchFiltrosDependientes, FiltroDependiente } from '@/services/evolucionTipoOperacionService';
 import * as XLSX from 'xlsx';
 
 export default function CampanasMKTPage() {
@@ -130,6 +131,7 @@ export default function CampanasMKTPage() {
     setFiltersApplied(false);
   };
 
+  const [filtrosRaw, setFiltrosRaw] = useState<FiltroDependiente[]>([]);
   const [filtersData, setFiltersData] = useState({
     sexo: [], edadDesde: [], edadHasta: [], localidad: [], canal: [],
     estadoCivil: [], productoVigente: [], productoNoTiene: [], compania: [],
@@ -139,8 +141,12 @@ export default function CampanasMKTPage() {
 
   const getFiltersData = async () => {
     try {
-      const dataItems = await fetchMarketingCombos();
+      const [dataItems, rawFiltros] = await Promise.all([
+        fetchMarketingCombos(),
+        fetchFiltrosDependientes()
+      ]);
       setFiltersData(dataItems);
+      setFiltrosRaw(rawFiltros);
     } catch (err) {
       console.error("Error fetching filters data:", err);
     }
@@ -149,6 +155,120 @@ export default function CampanasMKTPage() {
   useEffect(() => {
     getFiltersData();
   }, []);
+
+  // 0. Opciones de Origen Dato disponibles (extraídas de la matriz relacional filtrosRaw)
+  const origenDatoOptions = useMemo(() => {
+    const uniqueFuentes = new Set<string>();
+    filtrosRaw.forEach(f => {
+      if (f.fuente) uniqueFuentes.add(f.fuente);
+    });
+
+    if (uniqueFuentes.size === 0) {
+      return filtersData.origenDato || [];
+    }
+
+    return Array.from(uniqueFuentes).sort();
+  }, [filtrosRaw, filtersData.origenDato]);
+
+  // 1. Filtrar lista base por Origen de Datos (fuente)
+  const filteredRawByOrigen = useMemo(() => {
+    if (filters.origenDato.length === 0) return filtrosRaw;
+    return filtrosRaw.filter(f => filters.origenDato.includes(f.fuente));
+  }, [filtrosRaw, filters.origenDato]);
+
+  // 2. Opciones de Compañía disponibles (filtradas por Origen y Productos seleccionados)
+  const companiaOptions = useMemo(() => {
+    let filtered = filteredRawByOrigen;
+    
+    // Si hay algún producto seleccionado, filtrar compañías que ofrezcan ese producto
+    const hasProductFilter = filters.productoVigente.length > 0 || filters.productoNoTiene.length > 0;
+    if (hasProductFilter) {
+      filtered = filtered.filter(f => 
+        filters.productoVigente.includes(String(f.id_ramo)) || 
+        filters.productoNoTiene.includes(String(f.id_ramo))
+      );
+    }
+
+    const uniqueCompanias = new Map();
+    filtered.forEach(d => {
+      if (!uniqueCompanias.has(d.IDCompania)) {
+        uniqueCompanias.set(d.IDCompania, { id: String(d.IDCompania), nombre: d.nombre_compania });
+      }
+    });
+
+    // Si no hay datos de dependencias cargados aún, usar la lista por defecto del backend
+    if (filtrosRaw.length === 0) {
+      return filtersData.compania || [];
+    }
+
+    return Array.from(uniqueCompanias.values()).sort((a, b) => a.nombre.localeCompare(b.nombre));
+  }, [filteredRawByOrigen, filters.productoVigente, filters.productoNoTiene, filtersData.compania, filtrosRaw]);
+
+  // 3. Opciones de Productos Vigentes / Faltantes (Ramos) disponibles (filtradas por Origen y Compañía seleccionadas)
+  const productoOptions = useMemo(() => {
+    let filtered = filteredRawByOrigen;
+
+    // Si hay alguna compañía seleccionada, filtrar productos por esa compañía
+    if (filters.compania.length > 0) {
+      filtered = filtered.filter(f => filters.compania.includes(String(f.IDCompania)));
+    }
+
+    const uniqueRamos = new Map();
+    filtered.forEach(d => {
+      if (!uniqueRamos.has(d.id_ramo)) {
+        uniqueRamos.set(d.id_ramo, { id: String(d.id_ramo), nombre: d.nombre_ramo });
+      }
+    });
+
+    // Si no hay datos de dependencias cargados aún, usar la lista por defecto del backend
+    if (filtrosRaw.length === 0) {
+      return filtersData.productoVigente || [];
+    }
+
+    return Array.from(uniqueRamos.values()).sort((a, b) => a.nombre.localeCompare(b.nombre));
+  }, [filteredRawByOrigen, filters.compania, filtersData.productoVigente, filtrosRaw]);
+
+  // 4. Auto-limpiar selecciones dependientes que queden obsoletas al cambiar sus filtros padres
+  useEffect(() => {
+    if (filtrosRaw.length === 0) return;
+
+    setFilters(prev => {
+      let changed = false;
+      const nextFilters = { ...prev };
+
+      // Limpiar Compañías seleccionadas si ya no figuran en las opciones válidas
+      if (prev.compania.length > 0) {
+        const validIds = companiaOptions.map(o => o.id);
+        const newComp = prev.compania.filter(cId => validIds.includes(cId));
+        if (newComp.length !== prev.compania.length) {
+          nextFilters.compania = newComp;
+          changed = true;
+        }
+      }
+
+      // Limpiar Productos Vigentes seleccionados si ya no figuran en las opciones válidas
+      if (prev.productoVigente.length > 0) {
+        const validIds = productoOptions.map(o => o.id);
+        const newProd = prev.productoVigente.filter(pId => validIds.includes(pId));
+        if (newProd.length !== prev.productoVigente.length) {
+          nextFilters.productoVigente = newProd;
+          changed = true;
+        }
+      }
+
+      // Limpiar Productos Faltantes (Sin el Producto) seleccionados si ya no figuran en las opciones válidas
+      if (prev.productoNoTiene.length > 0) {
+        const validIds = productoOptions.map(o => o.id);
+        const newProdNo = prev.productoNoTiene.filter(pId => validIds.includes(pId));
+        if (newProdNo.length !== prev.productoNoTiene.length) {
+          nextFilters.productoNoTiene = newProdNo;
+          changed = true;
+        }
+      }
+
+      return changed ? nextFilters : prev;
+    });
+  }, [companiaOptions, productoOptions, filtrosRaw]);
 
   return (
     <DashboardLayout>
@@ -186,21 +306,21 @@ export default function CampanasMKTPage() {
 
             {/* Fila 2 */}
             <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Canal</label>
-              <MultiSelect options={filtersData.canal} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} placeholder="Seleccionar Canal" />
+              <label className="block font-bold mb-1 uppercase text-gray-700">Origen Dato</label>
+              <MultiSelect options={origenDatoOptions} value={filters.origenDato} onChange={(v) => handleFilterChange("origenDato", v)} placeholder="Seleccionar Origen" />
             </div>
 
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Compañía</label>
-              <MultiSelect options={filtersData.compania} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} placeholder="Seleccionar Compañía" />
+              <MultiSelect options={companiaOptions} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} placeholder="Seleccionar Compañía" />
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Producto Vigente</label>
-              <MultiSelect options={filtersData.productoVigente} value={filters.productoVigente} onChange={(v) => handleFilterChange("productoVigente", v)} placeholder="Seleccionar Producto" />
+              <MultiSelect options={productoOptions} value={filters.productoVigente} onChange={(v) => handleFilterChange("productoVigente", v)} placeholder="Seleccionar Producto" />
             </div>
             <div>
               <label className="block font-bold mb-1 uppercase text-gray-700">Sin el Producto</label>
-              <MultiSelect options={filtersData.productoVigente} value={filters.productoNoTiene} onChange={(v) => handleFilterChange("productoNoTiene", v)} placeholder="Seleccionar Producto Faltante" />
+              <MultiSelect options={productoOptions} value={filters.productoNoTiene} onChange={(v) => handleFilterChange("productoNoTiene", v)} placeholder="Seleccionar Producto Faltante" />
             </div>
 
             {/* Fila 3 */}
@@ -260,8 +380,8 @@ export default function CampanasMKTPage() {
               <MultiSelect disabled={true} options={["EN ACTIVIDAD", "RETIRADO", "PENSIONADO", "NO APLICA"]} value={filters.situacionRevista} onChange={(v) => handleFilterChange("situacionRevista", v)} placeholder="Seleccionar Situación" />
             </div>
             <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Origen Dato</label>
-              <MultiSelect options={filtersData.origenDato} value={filters.origenDato} onChange={(v) => handleFilterChange("origenDato", v)} placeholder="Seleccionar Origen" />
+              <label className="block font-bold mb-1 uppercase text-gray-700">Canal</label>
+              <MultiSelect options={filtersData.canal} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} placeholder="Seleccionar Canal" />
             </div>
           </div>
 
