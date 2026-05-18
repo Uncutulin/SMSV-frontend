@@ -65,8 +65,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
         {/* Título de la página (solo móvil) */}
         <div className="lg:hidden flex items-center">
-          <img src="/logo.svg" alt="SMSV Logo" width="32" height="32" className="h-8 w-8 mr-3" />
-          <h1 className="text-lg font-semibold text-gray-900">SMSV</h1>
+          <img src="/logo.png" alt="SMSV Logo" className="h-8 w-auto mr-3" />
+          {/*<h1 className="text-lg font-semibold text-gray-900">SMSV</h1>*/}
         </div>
 
         {/* Espaciador para centrar en desktop */}
