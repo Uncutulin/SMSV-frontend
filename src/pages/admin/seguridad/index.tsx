@@ -86,8 +86,8 @@ export default function SeguridadAdmin() {
         }
     };
 
-    const confirm2FA = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const confirm2FA = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
         setError('');
         if (!setupCode) return;
 
@@ -233,7 +233,15 @@ export default function SeguridadAdmin() {
                                     <input
                                         type="text"
                                         value={setupCode}
-                                        onChange={(e) => setSetupCode(e.target.value)}
+                                        onChange={(e) => {
+                                            const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                                            setSetupCode(val);
+                                            if (val.length === 6) {
+                                                setTimeout(() => {
+                                                    confirm2FA();
+                                                }, 50);
+                                            }
+                                        }}
                                         className="w-full px-3 py-2 border rounded-md focus:ring-[#003366] focus:border-[#003366]"
                                         placeholder="Ej. 123456"
                                         maxLength={6}
