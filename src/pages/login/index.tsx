@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { 
-    login, 
-    twoFactorChallenge, 
-    enableTwoFactor, 
-    getTwoFactorQrCode, 
-    getTwoFactorSecretKey,
-    confirmTwoFactor,
-    forgotPassword
+import {
+  login,
+  twoFactorChallenge,
+  enableTwoFactor,
+  getTwoFactorQrCode,
+  getTwoFactorSecretKey,
+  confirmTwoFactor,
+  forgotPassword
 } from '@/services/authService';
 
 export default function Login() {
@@ -63,7 +63,7 @@ export default function Login() {
       } else if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user));
         if (data.access_token) {
-            localStorage.setItem('token', data.access_token);
+          localStorage.setItem('token', data.access_token);
         }
         navigate('/cartera-vigente');
       }
@@ -115,23 +115,34 @@ export default function Login() {
   };
 
   const setup2FAForNewUser = async (token: string) => {
-      try {
-          // Primero habilitamos la generación del hash secreto si no existe
-          await enableTwoFactor(token);
-          // Luego obtenemos el QR
-          const data = await getTwoFactorQrCode(token);
-          if (data.svg) setQrCodeSvg(data.svg);
-          try {
-              const secretData = await getTwoFactorSecretKey(token);
-              if (secretData.secretKey) {
-                  setSecretKey(secretData.secretKey);
-              }
-          } catch (secError) {
-              console.error('Failed to fetch secret key', secError);
-          }
-      } catch (e) {
-          console.error('Error generando QR', e);
+    try {
+      // Primero habilitamos la generación del hash secreto si no existe
+      await enableTwoFactor(token);
+
+      // Obtenemos el QR y la clave secreta en paralelo para mejorar el tiempo de carga
+      // y mostrarlos exactamente al mismo tiempo sin saltos visuales.
+      const [qrData, secretData] = await Promise.all([
+        getTwoFactorQrCode(token).catch(err => {
+          console.error('Error fetching QR', err);
+          return { svg: null };
+        }),
+        getTwoFactorSecretKey(token).catch(err => {
+          console.error('Error fetching secret key', err);
+          return { secretKey: null };
+        })
+      ]);
+
+      if (qrData.svg && secretData.secretKey) {
+        // Se setean juntos para que React actualice la pantalla al mismo tiempo
+        setQrCodeSvg(qrData.svg);
+        setSecretKey(secretData.secretKey);
+      } else {
+        if (qrData.svg) setQrCodeSvg(qrData.svg);
+        if (secretData.secretKey) setSecretKey(secretData.secretKey);
       }
+    } catch (e) {
+      console.error('Error en configuración de 2FA', e);
+    }
   };
 
   const handleConfirm2FA = async (e?: React.FormEvent, codeOverride?: string[]) => {
@@ -158,7 +169,7 @@ export default function Login() {
 
       setTempSetupToken('');
       setCode(['', '', '', '', '', '']);
-      
+
       Swal.fire({
         icon: 'success',
         title: '¡Configuración exitosa!',
@@ -246,7 +257,7 @@ export default function Login() {
         });
         setCode(newCode);
         const nextIndex = Math.min(index + pastedCode.length - 1, 5);
-        
+
         setTimeout(() => {
           inputRefs.current[nextIndex]?.focus();
         }, 0);
@@ -315,13 +326,8 @@ export default function Login() {
 
   return (
     <div className="h-screen flex flex-col md:flex-row overflow-hidden relative bg-[#0f172a]">
-      <div className="absolute inset-0 z-0 hidden md:flex" style={{ backgroundColor: '#111' }}>
-        <img
-          src="/SMSV.png"
-          alt="Background"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          className="opacity-30 blur-sm absolute inset-0"
-        />
+      <div className="absolute inset-0 z-0 hidden md:flex" style={{ backgroundColor: '#003295f5' }}>
+
       </div>
 
       {step === 1 ? (
@@ -384,7 +390,7 @@ export default function Login() {
                       {loading ? 'Iniciando...' : 'Siguiente'}
                     </button>
                   </div>
-                  
+
                   <div className="text-center mt-4">
                     <button
                       type="button"
@@ -419,19 +425,19 @@ export default function Login() {
             </div>
 
             <div className="flex items-center justify-center gap-2 my-8">
-                {code.slice(0, 6).map((digit, index) => (
-                  <input
-                    key={index}
-                    ref={(el) => { inputRefs.current[index] = el; }}
-                    type="text"
-                    inputMode="numeric"
-                    value={digit}
-                    onChange={(e) => handleCodeChange(index, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index, e)}
-                    onPaste={handlePaste}
-                    className="w-10 h-12 text-center text-2xl font-bold bg-gray-50 text-gray-800 rounded border border-gray-300 focus:ring-2 focus:ring-[#003366] outline-none"
-                  />
-                ))}
+              {code.slice(0, 6).map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => { inputRefs.current[index] = el; }}
+                  type="text"
+                  inputMode="numeric"
+                  value={digit}
+                  onChange={(e) => handleCodeChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  onPaste={handlePaste}
+                  className="w-10 h-12 text-center text-2xl font-bold bg-gray-50 text-gray-800 rounded border border-gray-300 focus:ring-2 focus:ring-[#003366] outline-none"
+                />
+              ))}
             </div>
 
             {error && (
@@ -449,10 +455,10 @@ export default function Login() {
                 {loading ? 'Verificando...' : 'Verificar e Ingresar'}
               </button>
             </div>
-            
+
             <div className="text-center mt-4">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => setStep(1)}
                 className="text-xs text-gray-500 hover:text-[#003366] transition-colors"
               >
@@ -474,40 +480,40 @@ export default function Login() {
 
             <div className="flex flex-col items-center justify-center my-4 space-y-4">
               {qrCodeSvg ? (
-                  <div className="flex flex-col items-center space-y-3">
-                      <div className="p-4 bg-gray-50 border rounded-lg" dangerouslySetInnerHTML={{ __html: qrCodeSvg }} />
-                      {secretKey && (
-                          <div className="w-full max-w-[230px]">
-                              <p className="text-xs text-gray-500 mb-1 font-semibold text-center">¿No puedes escanear el código QR?</p>
-                              <button
-                                  type="button"
-                                  onClick={() => {
-                                      navigator.clipboard.writeText(secretKey);
-                                      const Toast = Swal.mixin({
-                                          toast: true,
-                                          position: 'top-end',
-                                          showConfirmButton: false,
-                                          timer: 2000,
-                                          timerProgressBar: true,
-                                      });
-                                      Toast.fire({
-                                          icon: 'success',
-                                          title: 'Clave copiada al portapapeles'
-                                      });
-                                  }}
-                                  className="w-full flex items-center justify-between bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded px-3 py-2 text-xs font-mono text-gray-700 transition-colors shadow-sm select-all active:scale-[0.98] cursor-pointer"
-                                  title="Hacer clic para copiar clave secreta"
-                              >
-                                  <span className="truncate mr-2 font-bold tracking-wider">{secretKey}</span>
-                                  <i className="fa-regular fa-copy text-gray-400 hover:text-gray-600"></i>
-                              </button>
-                          </div>
-                      )}
-                  </div>
+                <div className="flex flex-col items-center space-y-3">
+                  <div className="p-4 bg-gray-50 border rounded-lg" dangerouslySetInnerHTML={{ __html: qrCodeSvg }} />
+                  {secretKey && (
+                    <div className="w-full max-w-[230px]">
+                      <p className="text-xs text-gray-500 mb-1 font-semibold text-center">¿No puedes escanear el código QR?</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(secretKey);
+                          const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                          });
+                          Toast.fire({
+                            icon: 'success',
+                            title: 'Clave copiada al portapapeles'
+                          });
+                        }}
+                        className="w-full flex items-center justify-between bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded px-3 py-2 text-xs font-mono text-gray-700 transition-colors shadow-sm select-all active:scale-[0.98] cursor-pointer"
+                        title="Hacer clic para copiar clave secreta"
+                      >
+                        <span className="truncate mr-2 font-bold tracking-wider">{secretKey}</span>
+                        <i className="fa-regular fa-copy text-gray-400 hover:text-gray-600"></i>
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
-                  <div className="w-48 h-48 bg-gray-100 animate-pulse rounded-lg flex items-center justify-center text-gray-400">
-                    Generando QR...
-                  </div>
+                <div className="w-48 h-48 bg-gray-100 animate-pulse rounded-lg flex items-center justify-center text-gray-400">
+                  Generando QR...
+                </div>
               )}
               <p className="text-xs text-gray-500 text-center max-w-xs">
                 Escanea el código con tu aplicación de Google Authenticator e ingresa el código generado abajo.
@@ -515,19 +521,19 @@ export default function Login() {
             </div>
 
             <div className="flex items-center justify-center gap-2 mb-6">
-                {code.slice(0, 6).map((digit, index) => (
-                  <input
-                    key={index}
-                    ref={(el) => { inputRefs.current[index] = el; }}
-                    type="text"
-                    inputMode="numeric"
-                    value={digit}
-                    onChange={(e) => handleCodeChange(index, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index, e)}
-                    onPaste={handlePaste}
-                    className="w-10 h-12 text-center text-2xl font-bold bg-gray-50 text-gray-800 rounded border border-gray-300 focus:ring-2 focus:ring-[#003366] outline-none"
-                  />
-                ))}
+              {code.slice(0, 6).map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => { inputRefs.current[index] = el; }}
+                  type="text"
+                  inputMode="numeric"
+                  value={digit}
+                  onChange={(e) => handleCodeChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  onPaste={handlePaste}
+                  className="w-10 h-12 text-center text-2xl font-bold bg-gray-50 text-gray-800 rounded border border-gray-300 focus:ring-2 focus:ring-[#003366] outline-none"
+                />
+              ))}
             </div>
 
             {error && (
@@ -545,9 +551,9 @@ export default function Login() {
                 {loading ? 'Confirmando...' : 'Confirmar y Continuar'}
               </button>
             </div>
-            
+
             <div className="text-center mt-4 text-xs">
-               Si tienes problemas, contacta al administrador.
+              Si tienes problemas, contacta al administrador.
             </div>
           </form>
         </div>

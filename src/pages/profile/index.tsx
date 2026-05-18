@@ -45,11 +45,62 @@ export default function ProfilePage() {
         }
     }, []);
 
-    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0] && user) {
             const file = e.target.files[0];
-            setAvatarFile(file);
-            setAvatarPreview(URL.createObjectURL(file));
+            
+            Swal.fire({
+                title: 'Subiendo imagen...',
+                text: 'Por favor, espera un momento.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                const avatarFormData = new FormData();
+                avatarFormData.append('avatar', file);
+                
+                const avatarResponse = await updateAvatar(user.id, avatarFormData);
+                
+                // Update local storage
+                const updatedUser = {
+                    ...user,
+                    avatar: avatarResponse.avatar,
+                    avatar_url: avatarResponse.avatar_url
+                };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+                
+                // Update local states
+                setUser(updatedUser);
+                setAvatarPreview(getAvatarUrl(avatarResponse.avatar_url));
+                setAvatarFile(null);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Foto actualizada!',
+                    text: 'Tu foto de perfil se ha guardado correctamente.',
+                    confirmButtonColor: '#003366',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                // Dispatch event to notify other components (e.g., Header)
+                window.dispatchEvent(new Event('storage'));
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+
+            } catch (error: any) {
+                console.error('Error al subir el avatar:', error);
+                if (error.errors && error.errors.avatar) {
+                    Swal.fire('Error', error.errors.avatar.join(', '), 'error');
+                } else {
+                    Swal.fire('Error', error.message || 'No se pudo subir la imagen de perfil.', 'error');
+                }
+            }
         }
     };
 

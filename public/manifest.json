@@ -4,13 +4,13 @@
   "description": "Tablero Comercial e Integral de SMSV Seguros.",
   "icons": [
     {
-      "src": "Logo-smsv-solo.png",
+      "src": "Logo-smsv-blanco.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "Logo-smsv-solo.png",
+      "src": "Logo-smsv-blanco.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
