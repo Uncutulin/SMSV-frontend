@@ -42,7 +42,42 @@ if (typeof window !== 'undefined') {
       handleChunkError();
     }
   });
+
+  // Interceptor global para respuestas 401 (No autorizado / Sesión revocada por otro dispositivo)
+  const originalFetch = window.fetch;
+  window.fetch = async (...args) => {
+    try {
+      const response = await originalFetch(...args);
+      
+      if (response.status === 401) {
+        // Obtener la URL solicitada de forma segura
+        const url = typeof args[0] === 'string' 
+          ? args[0] 
+          : (args[0] instanceof Request ? args[0].url : '');
+        
+        // Evitar bucles de redirección al fallar las credenciales en el login o desafíos de 2FA
+        const isAuthRoute = url.includes('/api/login') || 
+                            url.includes('/api/two-factor-challenge') || 
+                            url.includes('/api/confirm-two-factor-and-login') ||
+                            url.includes('/user/two-factor-authentication') ||
+                            url.includes('/user/two-factor-qr-code') ||
+                            url.includes('/user/two-factor-secret-key');
+
+        if (!isAuthRoute) {
+          console.warn('Sesión inválida o revocada (401). Redirigiendo al login...');
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+        }
+      }
+      return response;
+    } catch (error) {
+      // Re-lanzar el error para no romper el flujo asíncrono natural de la aplicación
+      throw error;
+    }
+  };
 }
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
