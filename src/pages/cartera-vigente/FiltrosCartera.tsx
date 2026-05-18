@@ -61,11 +61,23 @@ export function FiltrosCartera({ filters, anios, meses, onFilterChange, loading 
             >
               {meses.map(m => (
                 <option key={m.mes_numero} value={m.mes_numero.toString().padStart(2, '0')}>
-                  {m.mes_nombre}
+                   {m.mes_nombre}
                 </option>
               ))}
             </select>
           </div>
+        </div>
+
+        <div className="flex-1 p-4 bg-orange-50 rounded-lg border border-orange-200">
+          <h4 className="text-md font-medium text-orange-800 mb-3">Incluye Desvinculado</h4>
+          <select 
+            value={filters.vinculo} 
+            onChange={(e) => onFilterChange('vinculo', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          >
+            <option value="desvinculado">Sí</option>
+            <option value="vinculado">No</option>
+          </select>
         </div>
       </div>
     </div>

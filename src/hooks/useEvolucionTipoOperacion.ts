@@ -22,6 +22,7 @@ interface Props {
     filtroCanal: string;
     filtroCia: string;
     filtroRamo: string;
+    vinculo: string;
 }
 
 export const useEvolucionTipoOperacion = ({
@@ -29,7 +30,8 @@ export const useEvolucionTipoOperacion = ({
     tipoVista,
     filtroCanal,
     filtroCia,
-    filtroRamo
+    filtroRamo,
+    vinculo
 }: Props) => {
     const [r12Data, setR12Data] = useState<EvolucionData[]>([]);
     const [qpolData, setQpolData] = useState<EvolucionData[]>([]);
@@ -133,7 +135,8 @@ export const useEvolucionTipoOperacion = ({
                     canal: filtroCanal || 'TODOS',
                     compania: 'TODOS', // El backend ya ignora esto si usa id_compania
                     id_compania: idCompaniaToPass,
-                    ramo: ramoToPass
+                    ramo: ramoToPass,
+                    vinculo: vinculo
                 };
 
                 const [r12Res, qpolRes] = await Promise.all([
@@ -161,7 +164,7 @@ export const useEvolucionTipoOperacion = ({
         if (anio1 && mes1 && anio2 && mes2 && anio3 && mes3 && tipoVista) {
             loadData();
         }
-    }, [anio1, mes1, anio2, mes2, anio3, mes3, tipoVista, filtroCanal, filtroCia, filtroRamo]);
+    }, [anio1, mes1, anio2, mes2, anio3, mes3, tipoVista, filtroCanal, filtroCia, filtroRamo, vinculo]);
 
     return {
         r12Data,

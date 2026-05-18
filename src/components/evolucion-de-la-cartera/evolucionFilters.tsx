@@ -44,6 +44,8 @@ interface Props {
     listaEjecutivos: { nombre: string }[];
     loadingDropdowns: boolean;
     setFilterApplied: Dispatch<SetStateAction<boolean>>;
+    vinculo: 'vinculado' | 'desvinculado';
+    setVinculo: Dispatch<SetStateAction<'vinculado' | 'desvinculado'>>;
 }
 
 export default function EvolucionFilters({
@@ -64,7 +66,9 @@ export default function EvolucionFilters({
     setFiltroProductor,
     listaProductores,
     loadingDropdowns,
-    setFilterApplied
+    setFilterApplied,
+    vinculo,
+    setVinculo
 }: Props) {
     return (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 text-xs">
@@ -144,7 +148,7 @@ export default function EvolucionFilters({
             </div>
 
             {/* Filtros en fila horizontal */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
                 {/* Tipo de Vista */}
                 <div className="bg-white rounded-lg border border-gray-200 p-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
@@ -213,7 +217,18 @@ export default function EvolucionFilters({
                     </select>
                 </div>
 
-
+                {/* Filtro Vínculo */}
+                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Incluye Desvinculado</label>
+                    <select
+                        value={vinculo}
+                        onChange={(e) => setVinculo(e.target.value as 'vinculado' | 'desvinculado')}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                        <option value="desvinculado">Sí</option>
+                        <option value="vinculado">No</option>
+                    </select>
+                </div>
             </div>
 
             {/* Botón Aplicar Filtros */}

@@ -24,6 +24,7 @@ export interface EvolucionRequest {
     compania: string;
     id_compania?: string;
     ramo: string;
+    vinculo?: string;
 }
 
 export interface EvolucionResponse {

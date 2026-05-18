@@ -18,6 +18,7 @@ interface AllFilters {
     canal: string;
     cia: string;
     ramo: string;
+    vinculo: string;
 }
 
 interface Props {
@@ -158,7 +159,7 @@ export default function EvolucionFilters({
             {/* Filtros - Tipo de Vista, Canal, CIA y Ramo inline */}
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                 <h4 className="text-md font-medium text-gray-800 mb-3">Dimensiones</h4>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Vista</label>
                         <select
@@ -207,6 +208,17 @@ export default function EvolucionFilters({
                         >
                             <option value="TODOS">TODOS</option>
                             {ramos.map(r => <option key={r.id} value={r.id.toString()}>{r.nombre}</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Incluye Desvinculado</label>
+                        <select
+                            value={allFilters.vinculo}
+                            onChange={(e) => handleFilterChange('vinculo', '', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        >
+                            <option value="desvinculado">Sí</option>
+                            <option value="vinculado">No</option>
                         </select>
                     </div>
                 </div>
