@@ -6,6 +6,7 @@ import {
     twoFactorChallenge, 
     enableTwoFactor, 
     getTwoFactorQrCode, 
+    getTwoFactorSecretKey,
     confirmTwoFactor,
     forgotPassword
 } from '@/services/authService';
@@ -25,6 +26,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [qrCodeSvg, setQrCodeSvg] = useState<string>('');
+  const [secretKey, setSecretKey] = useState<string>('');
 
   const getDeviceId = () => {
     let deviceId = localStorage.getItem('device_id');
@@ -118,6 +120,14 @@ export default function Login() {
           // Luego obtenemos el QR
           const data = await getTwoFactorQrCode(token);
           if (data.svg) setQrCodeSvg(data.svg);
+          try {
+              const secretData = await getTwoFactorSecretKey(token);
+              if (secretData.secretKey) {
+                  setSecretKey(secretData.secretKey);
+              }
+          } catch (secError) {
+              console.error('Failed to fetch secret key', secError);
+          }
       } catch (e) {
           console.error('Error generando QR', e);
       }
@@ -387,7 +397,36 @@ export default function Login() {
 
             <div className="flex flex-col items-center justify-center my-4 space-y-4">
               {qrCodeSvg ? (
-                  <div className="p-4 bg-gray-50 border rounded-lg" dangerouslySetInnerHTML={{ __html: qrCodeSvg }} />
+                  <div className="flex flex-col items-center space-y-3">
+                      <div className="p-4 bg-gray-50 border rounded-lg" dangerouslySetInnerHTML={{ __html: qrCodeSvg }} />
+                      {secretKey && (
+                          <div className="w-full max-w-[230px]">
+                              <p className="text-xs text-gray-500 mb-1 font-semibold text-center">¿No puedes escanear el código QR?</p>
+                              <button
+                                  type="button"
+                                  onClick={() => {
+                                      navigator.clipboard.writeText(secretKey);
+                                      const Toast = Swal.mixin({
+                                          toast: true,
+                                          position: 'top-end',
+                                          showConfirmButton: false,
+                                          timer: 2000,
+                                          timerProgressBar: true,
+                                      });
+                                      Toast.fire({
+                                          icon: 'success',
+                                          title: 'Clave copiada al portapapeles'
+                                      });
+                                  }}
+                                  className="w-full flex items-center justify-between bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded px-3 py-2 text-xs font-mono text-gray-700 transition-colors shadow-sm select-all active:scale-[0.98] cursor-pointer"
+                                  title="Hacer clic para copiar clave secreta"
+                              >
+                                  <span className="truncate mr-2 font-bold tracking-wider">{secretKey}</span>
+                                  <i className="fa-regular fa-copy text-gray-400 hover:text-gray-600"></i>
+                              </button>
+                          </div>
+                      )}
+                  </div>
               ) : (
                   <div className="w-48 h-48 bg-gray-100 animate-pulse rounded-lg flex items-center justify-center text-gray-400">
                     Generando QR...
