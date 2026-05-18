@@ -67,6 +67,16 @@ export const getTwoFactorQrCode = async (tempToken?: string) => {
     return await response.json();
 };
 
+export const getTwoFactorSecretKey = async (tempToken?: string) => {
+    const response = await fetch(`${API_URL}/user/two-factor-secret-key`, {
+        headers: getAuthHeaders(tempToken)
+    });
+    if (!response.ok) {
+        throw new Error('Error al obtener la clave secreta de 2FA');
+    }
+    return await response.json();
+};
+
 export const confirmTwoFactor = async (code: string, tempToken?: string, device_id?: string) => {
     const response = await fetch(`${API_URL}/api/confirm-two-factor-and-login`, {
         method: 'POST',

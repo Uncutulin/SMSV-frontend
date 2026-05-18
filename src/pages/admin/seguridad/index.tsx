@@ -5,14 +5,17 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import { 
     enableTwoFactor, 
     getTwoFactorQrCode, 
+    getTwoFactorSecretKey,
     confirmTwoFactor, 
     getRecoveryCodes, 
     disableTwoFactor 
 } from '@/services/authService';
+import Swal from 'sweetalert2';
 
 export default function SeguridadAdmin() {
     const [status, setStatus] = useState<'loading' | 'disabled' | 'pending' | 'enabled'>('loading');
     const [qrCodeSvg, setQrCodeSvg] = useState<string>('');
+    const [secretKey, setSecretKey] = useState<string>('');
     const [setupCode, setSetupCode] = useState('');
     const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
     const [error, setError] = useState('');
@@ -70,6 +73,14 @@ export default function SeguridadAdmin() {
             if (data.svg) {
                 setQrCodeSvg(data.svg);
             }
+            try {
+                const secretData = await getTwoFactorSecretKey();
+                if (secretData.secretKey) {
+                    setSecretKey(secretData.secretKey);
+                }
+            } catch (secError) {
+                console.error('Failed to fetch secret key', secError);
+            }
         } catch (e) {
             console.error('Failed to fetch QR code', e);
         }
@@ -119,6 +130,7 @@ export default function SeguridadAdmin() {
             setSuccess('Autenticación de dos factores desactivada.');
             setStatus('disabled');
             setQrCodeSvg('');
+            setSecretKey('');
             setRecoveryCodes([]);
 
             // Update local user
@@ -181,7 +193,36 @@ export default function SeguridadAdmin() {
                             </div>
                             
                             {qrCodeSvg ? (
-                                <div className="p-4 bg-white inline-block border rounded-lg shadow-sm" dangerouslySetInnerHTML={{ __html: qrCodeSvg }} />
+                                <div className="flex flex-col items-start space-y-3">
+                                    <div className="p-4 bg-white inline-block border rounded-lg shadow-sm" dangerouslySetInnerHTML={{ __html: qrCodeSvg }} />
+                                    {secretKey && (
+                                        <div className="w-full max-w-[230px]">
+                                            <p className="text-xs text-gray-500 mb-1 font-semibold">¿No puedes escanear el código QR?</p>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    navigator.clipboard.writeText(secretKey);
+                                                    const Toast = Swal.mixin({
+                                                        toast: true,
+                                                        position: 'top-end',
+                                                        showConfirmButton: false,
+                                                        timer: 2000,
+                                                        timerProgressBar: true,
+                                                    });
+                                                    Toast.fire({
+                                                        icon: 'success',
+                                                        title: 'Clave copiada al portapapeles'
+                                                    });
+                                                }}
+                                                className="w-full flex items-center justify-between bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded px-3 py-2 text-xs font-mono text-gray-700 transition-colors shadow-sm select-all active:scale-[0.98] cursor-pointer"
+                                                title="Hacer clic para copiar clave secreta"
+                                            >
+                                                <span className="truncate mr-2 font-bold tracking-wider">{secretKey}</span>
+                                                <i className="fa-regular fa-copy text-gray-400 hover:text-gray-600"></i>
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             ) : (
                                 <div className="p-8 bg-gray-100 animate-pulse inline-block rounded-lg">Cargando QR...</div>
                             )}
