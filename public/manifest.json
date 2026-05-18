@@ -4,25 +4,25 @@
   "description": "Tablero Comercial e Integral de SMSV Seguros.",
   "icons": [
     {
-      "src": "Logo-smsv-blanco.png",
+      "src": "logo-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "Logo-smsv-blanco.png",
+      "src": "logo-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "maskable"
     },
     {
-      "src": "Logo-smsv-blanco.png",
+      "src": "logo-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "Logo-smsv-blanco.png",
+      "src": "logo-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
