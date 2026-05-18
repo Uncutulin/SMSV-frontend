@@ -8,6 +8,7 @@ import { TablaMarketing } from './TablaMarketing';
 import { fetchMarketingCombos, fetchMarketingData } from '@/services/marketingService';
 import { fetchFiltrosDependientes, FiltroDependiente } from '@/services/evolucionTipoOperacionService';
 import * as XLSX from 'xlsx';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function CampanasMKTPage() {
   // 1. Estado de los 16 filtros originales
@@ -131,6 +132,7 @@ export default function CampanasMKTPage() {
     setFiltersApplied(false);
   };
 
+  const [loadingFilters, setLoadingFilters] = useState(true);
   const [filtrosRaw, setFiltrosRaw] = useState<FiltroDependiente[]>([]);
   const [filtersData, setFiltersData] = useState({
     sexo: [], edadDesde: [], edadHasta: [], localidad: [], canal: [],
@@ -140,6 +142,7 @@ export default function CampanasMKTPage() {
   });
 
   const getFiltersData = async () => {
+    setLoadingFilters(true);
     try {
       const [dataItems, rawFiltros] = await Promise.all([
         fetchMarketingCombos(),
@@ -149,6 +152,8 @@ export default function CampanasMKTPage() {
       setFiltrosRaw(rawFiltros);
     } catch (err) {
       console.error("Error fetching filters data:", err);
+    } finally {
+      setLoadingFilters(false);
     }
   };
 
@@ -285,122 +290,131 @@ export default function CampanasMKTPage() {
             <i className="fa-solid fa-circle-info mr-1"></i>
             Haga clic en cada filtro para desplegar las opciones y seleccionar múltiples valores
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Fila 1 */}
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Sexo</label>
-              <MultiSelect options={filtersData.sexo} value={filters.sexo} onChange={(v) => handleFilterChange("sexo", v)} placeholder="Seleccionar Sexo" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Edad Desde</label>
-              <input type="number" placeholder="Ej: 25" className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" value={filters.edadDesde[0] || ''} onChange={(e) => handleFilterChange("edadDesde", [e.target.value])} />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Edad Hasta</label>
-              <input type="number" placeholder="Ej: 65" className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" value={filters.edadHasta[0] || ''} onChange={(e) => handleFilterChange("edadHasta", [e.target.value])} />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Provincia</label>
-              <MultiSelect options={filtersData.localidad} value={filters.provincia} onChange={(v) => handleFilterChange("provincia", v)} placeholder="Seleccionar Localidad" />
-            </div>
 
-            {/* Fila 2 */}
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Origen Dato</label>
-              <MultiSelect options={origenDatoOptions} value={filters.origenDato} onChange={(v) => handleFilterChange("origenDato", v)} placeholder="Seleccionar Origen" />
+          {loadingFilters ? (
+            <div className="py-12">
+              <LoadingSpinner message="Cargando filtros y configuraciones de campaña..." />
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Fila 1 */}
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Sexo</label>
+                  <MultiSelect options={filtersData.sexo} value={filters.sexo} onChange={(v) => handleFilterChange("sexo", v)} placeholder="Seleccionar Sexo" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Edad Desde</label>
+                  <input type="number" placeholder="Ej: 25" className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" value={filters.edadDesde[0] || ''} onChange={(e) => handleFilterChange("edadDesde", [e.target.value])} />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Edad Hasta</label>
+                  <input type="number" placeholder="Ej: 65" className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" value={filters.edadHasta[0] || ''} onChange={(e) => handleFilterChange("edadHasta", [e.target.value])} />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Provincia</label>
+                  <MultiSelect options={filtersData.localidad} value={filters.provincia} onChange={(v) => handleFilterChange("provincia", v)} placeholder="Seleccionar Localidad" />
+                </div>
 
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Compañía</label>
-              <MultiSelect options={companiaOptions} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} placeholder="Seleccionar Compañía" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Producto Vigente</label>
-              <MultiSelect options={productoOptions} value={filters.productoVigente} onChange={(v) => handleFilterChange("productoVigente", v)} placeholder="Seleccionar Producto" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Sin el Producto</label>
-              <MultiSelect options={productoOptions} value={filters.productoNoTiene} onChange={(v) => handleFilterChange("productoNoTiene", v)} placeholder="Seleccionar Producto Faltante" />
-            </div>
+                {/* Fila 2 */}
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Origen Dato</label>
+                  <MultiSelect options={origenDatoOptions} value={filters.origenDato} onChange={(v) => handleFilterChange("origenDato", v)} placeholder="Seleccionar Origen" />
+                </div>
 
-            {/* Fila 3 */}
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Compañía</label>
+                  <MultiSelect options={companiaOptions} value={filters.compania} onChange={(v) => handleFilterChange("compania", v)} placeholder="Seleccionar Compañía" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Producto Vigente</label>
+                  <MultiSelect options={productoOptions} value={filters.productoVigente} onChange={(v) => handleFilterChange("productoVigente", v)} placeholder="Seleccionar Producto" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Sin el Producto</label>
+                  <MultiSelect options={productoOptions} value={filters.productoNoTiene} onChange={(v) => handleFilterChange("productoNoTiene", v)} placeholder="Seleccionar Producto Faltante" />
+                </div>
 
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Estado Civil</label>
-              <MultiSelect options={["SOLTERO/A", "CASADO/A", "DIVORCIADO/A", "VIUDO/A", "CONCUBINATO"]} value={filters.estadoCivil} onChange={(v) => handleFilterChange("estadoCivil", v)} placeholder="Seleccionar Estado Civil" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Socio Mutual</label>
-              <select
-                value={filters.socioMutual[0] || ''}
-                onChange={(e) => handleFilterChange("socioMutual", e.target.value ? [e.target.value] : [])}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white h-[38px] cursor-pointer"
-              >
-                <option value="">Seleccionar...</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
-              </select>
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Antigüedad (ASSA/CAS)</label>
-              <MultiSelect options={["0 a 2 AÑOS", "2 a 5 AÑOS", "5 o más AÑOS"]} value={filters.antiguedad} onChange={(v) => handleFilterChange("antiguedad", v)} placeholder="Seleccionar Rango" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Tiene Mail</label>
-              <select
-                value={filters.tieneMail[0] || ''}
-                onChange={(e) => handleFilterChange("tieneMail", e.target.value ? [e.target.value] : [])}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white h-[38px] cursor-pointer"
-              >
-                <option value="">Seleccionar...</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
-              </select>
-            </div>
+                {/* Fila 3 */}
 
-            {/* Fila 4 */}
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Tiene Teléfono</label>
-              <select
-                value={filters.tieneTelefono[0] || ''}
-                onChange={(e) => handleFilterChange("tieneTelefono", e.target.value ? [e.target.value] : [])}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white h-[38px] cursor-pointer"
-              >
-                <option value="">Seleccionar...</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
-              </select>
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">FUERZA/Empresa</label>
-              <MultiSelect disabled={true} options={["EJERCITO", "ARMADA", "PREFECTURA", "GENDARMERIA", "FUERZA AEREA", "POLICIA"]} value={filters.fuerzaEmpresa} onChange={(v) => handleFilterChange("fuerzaEmpresa", v)} placeholder="Seleccionar Fuerza" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Sit. Revista</label>
-              <MultiSelect disabled={true} options={["EN ACTIVIDAD", "RETIRADO", "PENSIONADO", "NO APLICA"]} value={filters.situacionRevista} onChange={(v) => handleFilterChange("situacionRevista", v)} placeholder="Seleccionar Situación" />
-            </div>
-            <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Canal</label>
-              <MultiSelect options={filtersData.canal} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} placeholder="Seleccionar Canal" />
-            </div>
-          </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Estado Civil</label>
+                  <MultiSelect options={["SOLTERO/A", "CASADO/A", "DIVORCIADO/A", "VIUDO/A", "CONCUBINATO"]} value={filters.estadoCivil} onChange={(v) => handleFilterChange("estadoCivil", v)} placeholder="Seleccionar Estado Civil" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Socio Mutual</label>
+                  <select
+                    value={filters.socioMutual[0] || ''}
+                    onChange={(e) => handleFilterChange("socioMutual", e.target.value ? [e.target.value] : [])}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white h-[38px] cursor-pointer"
+                  >
+                    <option value="">Seleccionar...</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Antigüedad (ASSA/CAS)</label>
+                  <MultiSelect options={["0 a 2 AÑOS", "2 a 5 AÑOS", "5 o más AÑOS"]} value={filters.antiguedad} onChange={(v) => handleFilterChange("antiguedad", v)} placeholder="Seleccionar Rango" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Tiene Mail</label>
+                  <select
+                    value={filters.tieneMail[0] || ''}
+                    onChange={(e) => handleFilterChange("tieneMail", e.target.value ? [e.target.value] : [])}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white h-[38px] cursor-pointer"
+                  >
+                    <option value="">Seleccionar...</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
 
-          <div className="mt-6 flex justify-end gap-3">
-            <button
-              onClick={clearFilters}
-              className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
-            >
-              <i className="fa-solid fa-xmark mr-2"></i>Limpiar Filtros
-            </button>
-            <button
-              onClick={() => applyFilters(1)}
-              disabled={loading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 transition-colors text-sm font-bold flex items-center shadow-md"
-            >
-              <i className={`fa-solid ${loading ? 'fa-spinner fa-spin' : 'fa-magnifying-glass'} mr-2`}></i>
-              {loading ? 'Buscando...' : 'Buscar'}
-            </button>
-          </div>
+                {/* Fila 4 */}
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Tiene Teléfono</label>
+                  <select
+                    value={filters.tieneTelefono[0] || ''}
+                    onChange={(e) => handleFilterChange("tieneTelefono", e.target.value ? [e.target.value] : [])}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white h-[38px] cursor-pointer"
+                  >
+                    <option value="">Seleccionar...</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">FUERZA/Empresa</label>
+                  <MultiSelect disabled={true} options={["EJERCITO", "ARMADA", "PREFECTURA", "GENDARMERIA", "FUERZA AEREA", "POLICIA"]} value={filters.fuerzaEmpresa} onChange={(v) => handleFilterChange("fuerzaEmpresa", v)} placeholder="Seleccionar Fuerza" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Sit. Revista</label>
+                  <MultiSelect disabled={true} options={["EN ACTIVIDAD", "RETIRADO", "PENSIONADO", "NO APLICA"]} value={filters.situacionRevista} onChange={(v) => handleFilterChange("situacionRevista", v)} placeholder="Seleccionar Situación" />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1 uppercase text-gray-700">Canal</label>
+                  <MultiSelect options={filtersData.canal} value={filters.canal} onChange={(v) => handleFilterChange("canal", v)} placeholder="Seleccionar Canal" />
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-3">
+                <button
+                  onClick={clearFilters}
+                  className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
+                >
+                  <i className="fa-solid fa-xmark mr-2"></i>Limpiar Filtros
+                </button>
+                <button
+                  onClick={() => applyFilters(1)}
+                  disabled={loading}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 transition-colors text-sm font-bold flex items-center shadow-md"
+                >
+                  <i className={`fa-solid ${loading ? 'fa-spinner fa-spin' : 'fa-magnifying-glass'} mr-2`}></i>
+                  {loading ? 'Buscando...' : 'Buscar'}
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         {/* RESULTADOS Y GRÁFICOS */}
