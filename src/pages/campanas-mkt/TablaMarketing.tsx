@@ -158,7 +158,7 @@ export function TablaMarketing({
                                     <td className="px-3 py-3 font-semibold text-gray-900 border-r border-gray-50">{item.nombre}</td>
                                     <td className="px-3 py-3 font-mono border-r border-gray-50">{item.nro_documento || item.cuit}</td>
                                     <td className="px-3 py-3 text-center border-r border-gray-50">{item.edad || '—'}</td>
-                                    <td className="px-3 py-3 border-r border-gray-50">{item.productor_lugar || item.localidad}</td>
+                                    <td className="px-3 py-3 border-r border-gray-50">{item.nombre_provincia}</td>
                                     <td className="px-3 py-3 border-r border-gray-50">{item.productor_canal}</td>
                                     <td className="px-3 py-3 font-medium text-blue-800 border-r border-gray-50">{item.producto_unificado_nombre}</td>
                                     <td className="px-3 py-3 text-gray-600 border-r border-gray-50">{item.compania_nombre}</td>

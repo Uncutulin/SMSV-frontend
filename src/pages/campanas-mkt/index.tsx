@@ -179,12 +179,12 @@ export default function CampanasMKTPage() {
   // 2. Opciones de Compañía disponibles (filtradas por Origen y Productos seleccionados)
   const companiaOptions = useMemo(() => {
     let filtered = filteredRawByOrigen;
-    
+
     // Si hay algún producto seleccionado, filtrar compañías que ofrezcan ese producto
     const hasProductFilter = filters.productoVigente.length > 0 || filters.productoNoTiene.length > 0;
     if (hasProductFilter) {
-      filtered = filtered.filter(f => 
-        filters.productoVigente.includes(String(f.id_ramo)) || 
+      filtered = filtered.filter(f =>
+        filters.productoVigente.includes(String(f.id_ramo)) ||
         filters.productoNoTiene.includes(String(f.id_ramo))
       );
     }
@@ -300,7 +300,7 @@ export default function CampanasMKTPage() {
               <input type="number" placeholder="Ej: 65" className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" value={filters.edadHasta[0] || ''} onChange={(e) => handleFilterChange("edadHasta", [e.target.value])} />
             </div>
             <div>
-              <label className="block font-bold mb-1 uppercase text-gray-700">Provincia/Localidad</label>
+              <label className="block font-bold mb-1 uppercase text-gray-700">Provincia</label>
               <MultiSelect options={filtersData.localidad} value={filters.provincia} onChange={(v) => handleFilterChange("provincia", v)} placeholder="Seleccionar Localidad" />
             </div>
 
