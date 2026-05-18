@@ -19,6 +19,7 @@ export default function Login() {
   });
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const isPastingRef = useRef(false);
 
   const [tempSetupToken, setTempSetupToken] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -195,6 +196,9 @@ export default function Login() {
     const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
     if (!pastedData) return;
 
+    // Set pasting flag to prevent onChange clobbering
+    isPastingRef.current = true;
+
     const newCode = [...code];
     for (let i = 0; i < 6; i++) {
       if (i < pastedData.length) {
@@ -203,15 +207,26 @@ export default function Login() {
     }
     setCode(newCode);
 
-    const focusIndex = Math.min(pastedData.length, 5);
-    inputRefs.current[focusIndex]?.focus();
+    const focusIndex = Math.min(pastedData.length - 1, 5);
+    // Focus the last filled box
+    setTimeout(() => {
+      inputRefs.current[focusIndex]?.focus();
+    }, 0);
 
     if (pastedData.length === 6) {
       triggerAutoSubmit(newCode);
     }
+
+    // Reset pasting flag after events have finished processing
+    setTimeout(() => {
+      isPastingRef.current = false;
+    }, 100);
   };
 
   const handleCodeChange = (index: number, value: string) => {
+    // If we are currently pasting, do not let standard input events clobber our state
+    if (isPastingRef.current) return;
+
     if (value && !/^\d+$/.test(value)) return;
 
     if (value.length > 1) {
