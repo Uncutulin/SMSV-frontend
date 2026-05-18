@@ -5,6 +5,7 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import Swal from 'sweetalert2';
 import { updateUser, updateAvatar } from '@/services/userService';
 import { Usuario } from '@/types/user';
+import { getAvatarUrl } from '@/utils/avatar';
 
 export default function ProfilePage() {
     const [user, setUser] = useState<Usuario | null>(null);
@@ -36,7 +37,7 @@ export default function ProfilePage() {
                     password_confirmation: ''
                 });
                 if (parsedUser.avatar_url) {
-                    setAvatarPreview(parsedUser.avatar_url);
+                    setAvatarPreview(getAvatarUrl(parsedUser.avatar_url));
                 }
             } catch (error) {
                 console.error('Error parsing user data:', error);

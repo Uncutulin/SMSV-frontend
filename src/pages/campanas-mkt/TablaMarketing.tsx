@@ -121,17 +121,20 @@ export function TablaMarketing({
                     <button
                         onClick={onExportAll}
                         disabled={isExporting}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-xs font-bold flex items-center transition-all shadow-md active:scale-95 disabled:opacity-50 min-w-[140px] justify-center"
+                        className="bg-green-600 hover:bg-green-700 text-white px-3 md:px-4 py-2 rounded text-xs font-bold flex items-center transition-all shadow-md active:scale-95 disabled:opacity-50 md:min-w-[140px] justify-center"
+                        title={isExporting ? `Exportando ${exportProgress}%` : 'Exportar a Excel'}
                     >
-                        <i className={`fa-solid ${isExporting ? 'fa-spinner fa-spin' : 'fa-file-excel'} mr-2`}></i>
-                        {isExporting ? `EXPORTANDO ${exportProgress}%` : 'EXPORTAR'}
+                        <i className={`fa-solid ${isExporting ? 'fa-spinner fa-spin' : 'fa-file-excel'} ${isExporting ? 'mr-0 md:mr-2' : 'mr-0 md:mr-2'}`}></i>
+                        <span className="hidden md:inline">
+                            {isExporting ? `EXPORTANDO ${exportProgress}%` : 'EXPORTAR'}
+                        </span>
                     </button>
                 </div>
             </div>
 
             {/* TABLA DE DATOS */}
-            <div className="overflow-x-auto min-h-[400px]">
-                <table className="min-w-full divide-y divide-gray-200 text-[11px]">
+            <div className="overflow-x-auto min-h-[400px] w-full">
+                <table className="min-w-[1200px] w-full divide-y divide-gray-200 text-[11px]">
                     <thead className="bg-[#003871] text-white sticky top-0 z-10">
                         <tr>
                             <th className="px-3 py-3 text-left font-bold uppercase border-r border-white/10">Nombre</th>

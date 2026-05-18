@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/services/authService';
+import { getAvatarUrl } from '@/utils/avatar';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -26,7 +27,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           name: `${user.name} ${user.apellido || ''}`,
           email: user.email,
           role: role,
-          avatar: user.avatar_url || null
+          avatar: getAvatarUrl(user.avatar_url || user.avatar)
         });
       } catch (e) {
         console.error('Error parsing user data', e);
